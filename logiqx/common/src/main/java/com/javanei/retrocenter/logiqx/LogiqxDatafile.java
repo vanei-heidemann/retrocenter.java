@@ -7,7 +7,7 @@ import java.util.Set;
 /**
  * <!ELEMENT datafile (header?, game+)>
  */
-public class Datafile implements Serializable {
+public class LogiqxDatafile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -20,9 +20,9 @@ public class Datafile implements Serializable {
      */
     private String debug = "no";
 
-    private Header header;
+    private LogiqxHeader header;
 
-    private Set<Game> games = new HashSet<>();
+    private Set<LogiqxGame> games = new HashSet<>();
 
     public String getBuild() {
         return build;
@@ -40,23 +40,23 @@ public class Datafile implements Serializable {
         this.debug = debug;
     }
 
-    public Header getHeader() {
+    public LogiqxHeader getHeader() {
         return header;
     }
 
-    public void setHeader(Header header) {
+    public void setHeader(LogiqxHeader header) {
         this.header = header;
     }
 
-    public Set<Game> getGames() {
+    public Set<LogiqxGame> getGames() {
         return games;
     }
 
-    public void setGames(Set<Game> games) {
+    public void setGames(Set<LogiqxGame> games) {
         this.games = games;
     }
 
-    public void addGame(Game game) {
+    public void addGame(LogiqxGame game) {
         this.games.add(game);
     }
 }

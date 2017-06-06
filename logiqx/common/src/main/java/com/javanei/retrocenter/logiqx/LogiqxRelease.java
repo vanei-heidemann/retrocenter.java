@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * <!ELEMENT release EMPTY>
  */
-public class Release implements Serializable {
+public class LogiqxRelease implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -78,7 +78,7 @@ public class Release implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Release release = (Release) o;
+        LogiqxRelease release = (LogiqxRelease) o;
         return Objects.equals(name, release.name) &&
                 Objects.equals(region, release.region) &&
                 Objects.equals(language, release.language) &&

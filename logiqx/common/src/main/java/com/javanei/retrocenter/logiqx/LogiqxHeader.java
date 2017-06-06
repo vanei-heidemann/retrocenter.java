@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * <!ELEMENT header (name, description, category?, version, date?, author, email?, homepage?, url?, comment?, clrmamepro?, romcenter?)>
  */
-public class Header implements Serializable {
+public class LogiqxHeader implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**

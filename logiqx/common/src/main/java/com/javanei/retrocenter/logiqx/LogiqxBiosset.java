@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * <!ELEMENT biosset EMPTY>
  */
-public class Biosset implements Serializable {
+public class LogiqxBiosset implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -52,7 +52,7 @@ public class Biosset implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Biosset biosset = (Biosset) o;
+        LogiqxBiosset biosset = (LogiqxBiosset) o;
         return Objects.equals(name, biosset.name);
     }
 

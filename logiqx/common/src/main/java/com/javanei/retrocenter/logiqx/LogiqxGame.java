@@ -8,7 +8,7 @@ import java.util.Set;
 /**
  * <!ELEMENT game (comment*, description, year?, manufacturer?, release*, biosset*, rom*, disk*, sample*, archive*)>
  */
-public class Game implements Serializable {
+public class LogiqxGame implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // ////////// ATTLIST
@@ -77,17 +77,17 @@ public class Game implements Serializable {
 
     //
 
-    private Set<Release> releases = new HashSet<>();
+    private Set<LogiqxRelease> releases = new HashSet<>();
 
-    private Set<Biosset> biossets = new HashSet<>();
+    private Set<LogiqxBiosset> biossets = new HashSet<>();
 
-    private Set<Rom> roms = new HashSet<>();
+    private Set<LogiqxRom> roms = new HashSet<>();
 
-    private Set<Disk> disks = new HashSet<>();
+    private Set<LogiqxDisk> disks = new HashSet<>();
 
-    private Set<Sample> samples = new HashSet<>();
+    private Set<LogiqxSample> samples = new HashSet<>();
 
-    private Set<Archive> archives = new HashSet<>();
+    private Set<LogiqxArchive> archives = new HashSet<>();
 
     public String getName() {
         return name;
@@ -185,75 +185,75 @@ public class Game implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public Set<Release> getReleases() {
+    public Set<LogiqxRelease> getReleases() {
         return releases;
     }
 
-    public void setReleases(Set<Release> releases) {
+    public void setReleases(Set<LogiqxRelease> releases) {
         this.releases = releases;
     }
 
-    public void addRelease(Release release) {
+    public void addRelease(LogiqxRelease release) {
         this.releases.add(release);
     }
 
-    public Set<Biosset> getBiossets() {
+    public Set<LogiqxBiosset> getBiossets() {
         return biossets;
     }
 
-    public void setBiossets(Set<Biosset> biossets) {
+    public void setBiossets(Set<LogiqxBiosset> biossets) {
         this.biossets = biossets;
     }
 
-    public void addBiosset(Biosset biosset) {
+    public void addBiosset(LogiqxBiosset biosset) {
         this.biossets.add(biosset);
     }
 
-    public Set<Rom> getRoms() {
+    public Set<LogiqxRom> getRoms() {
         return roms;
     }
 
-    public void setRoms(Set<Rom> roms) {
+    public void setRoms(Set<LogiqxRom> roms) {
         this.roms = roms;
     }
 
-    public void addRom(Rom rom) {
+    public void addRom(LogiqxRom rom) {
         this.roms.add(rom);
     }
 
-    public Set<Disk> getDisks() {
+    public Set<LogiqxDisk> getDisks() {
         return disks;
     }
 
-    public void setDisks(Set<Disk> disks) {
+    public void setDisks(Set<LogiqxDisk> disks) {
         this.disks = disks;
     }
 
-    public void addDisk(Disk disk) {
+    public void addDisk(LogiqxDisk disk) {
         this.disks.add(disk);
     }
 
-    public Set<Sample> getSamples() {
+    public Set<LogiqxSample> getSamples() {
         return samples;
     }
 
-    public void setSamples(Set<Sample> samples) {
+    public void setSamples(Set<LogiqxSample> samples) {
         this.samples = samples;
     }
 
-    public void addSample(Sample sample) {
+    public void addSample(LogiqxSample sample) {
         this.samples.add(sample);
     }
 
-    public Set<Archive> getArchives() {
+    public Set<LogiqxArchive> getArchives() {
         return archives;
     }
 
-    public void setArchives(Set<Archive> archives) {
+    public void setArchives(Set<LogiqxArchive> archives) {
         this.archives = archives;
     }
 
-    public void addArchive(Archive archive) {
+    public void addArchive(LogiqxArchive archive) {
         this.archives.add(archive);
     }
 
@@ -261,7 +261,7 @@ public class Game implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Game game = (Game) o;
+        LogiqxGame game = (LogiqxGame) o;
         return Objects.equals(name, game.name);
     }
 

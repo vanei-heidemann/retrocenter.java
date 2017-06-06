@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * <!ELEMENT archive EMPTY>
+ * <!ELEMENT sample EMPTY>
  */
-public class Archive implements Serializable {
+public class LogiqxSample implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * <!ATTLIST archive name CDATA #REQUIRED>
+     * <!ATTLIST sample name CDATA #REQUIRED>
      */
     private String name;
 
@@ -26,8 +26,8 @@ public class Archive implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Archive archive = (Archive) o;
-        return Objects.equals(name, archive.name);
+        LogiqxSample sample = (LogiqxSample) o;
+        return Objects.equals(name, sample.name);
     }
 
     @Override

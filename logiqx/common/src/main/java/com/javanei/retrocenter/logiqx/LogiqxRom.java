@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * <!ELEMENT rom EMPTY>
  */
-public class Rom implements Serializable {
+public class LogiqxRom implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -53,7 +53,7 @@ public class Rom implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Rom rom = (Rom) o;
+        LogiqxRom rom = (LogiqxRom) o;
         return Objects.equals(name, rom.name) &&
                 Objects.equals(size, rom.size) &&
                 Objects.equals(crc, rom.crc) &&

@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * <!ELEMENT disk EMPTY>
  */
-public class Disk implements Serializable {
+public class LogiqxDisk implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -78,7 +78,7 @@ public class Disk implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Disk disk = (Disk) o;
+        LogiqxDisk disk = (LogiqxDisk) o;
         return Objects.equals(name, disk.name) &&
                 Objects.equals(sha1, disk.sha1) &&
                 Objects.equals(md5, disk.md5);
