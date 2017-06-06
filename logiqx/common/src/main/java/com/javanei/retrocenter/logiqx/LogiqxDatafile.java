@@ -24,6 +24,13 @@ public class LogiqxDatafile implements Serializable {
 
     private Set<LogiqxGame> games = new HashSet<>();
 
+    public LogiqxDatafile() {
+    }
+
+    public LogiqxDatafile(LogiqxHeader header) {
+        this.header = header;
+    }
+
     public String getBuild() {
         return build;
     }
