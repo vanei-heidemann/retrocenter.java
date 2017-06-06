@@ -108,6 +108,16 @@ public class LogiqxHeader implements Serializable {
      */
     private String locksamplemode;
 
+    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -274,5 +284,46 @@ public class LogiqxHeader implements Serializable {
 
     public void setLocksamplemode(String locksamplemode) {
         this.locksamplemode = locksamplemode;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<header>\n");
+        appendTagIfNotNull(sb, "name", this.name);
+        appendTagIfNotNull(sb, "description", this.description);
+        appendTagIfNotNull(sb, "category", this.category);
+        appendTagIfNotNull(sb, "version", this.version);
+        appendTagIfNotNull(sb, "date", this.date);
+        appendTagIfNotNull(sb, "author", this.author);
+        appendTagIfNotNull(sb, "email", this.email);
+        appendTagIfNotNull(sb, "homepage", this.homepage);
+        appendTagIfNotNull(sb, "url", this.url);
+        appendTagIfNotNull(sb, "comment", this.comment);
+
+        if (this.header != null || this.forcemerging != null || this.forcenodump != null || this.forcepacking != null) {
+            sb.append("\t\t<clrmamepro");
+            appendAttributeIfNotNull(sb, "header", this.header);
+            appendAttributeIfNotNull(sb, "forcemerging", this.forcemerging);
+            appendAttributeIfNotNull(sb, "forcenodump", this.forcenodump);
+            appendAttributeIfNotNull(sb, "forcepacking", this.forcepacking);
+            sb.append(" />\n");
+        }
+
+        if (this.plugin != null || this.rommode != null || this.biosmode != null || this.samplemode != null
+                || this.lockrommode != null || this.lockbiosmode != null || this.locksamplemode != null) {
+            sb.append("\t\t<romcenter");
+            appendAttributeIfNotNull(sb, "plugin", this.plugin);
+            appendAttributeIfNotNull(sb, "rommode", this.rommode);
+            appendAttributeIfNotNull(sb, "biosmode", this.biosmode);
+            appendAttributeIfNotNull(sb, "samplemode", this.samplemode);
+            appendAttributeIfNotNull(sb, "lockrommode", this.lockrommode);
+            appendAttributeIfNotNull(sb, "lockbiosmode", this.lockbiosmode);
+            appendAttributeIfNotNull(sb, "locksamplemode", this.locksamplemode);
+            sb.append(" />\n");
+        }
+
+        sb.append("\t</header>\n");
+        return sb.toString();
     }
 }

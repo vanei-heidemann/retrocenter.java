@@ -259,8 +259,10 @@ public class LogiqxGame implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         LogiqxGame game = (LogiqxGame) o;
         return Objects.equals(name, game.name);
     }
@@ -268,5 +270,93 @@ public class LogiqxGame implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<game");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "sourcefile", this.sourcefile);
+        appendAttributeIfNotNull(sb, "isbios", this.isbios);
+        appendAttributeIfNotNull(sb, "cloneof", this.cloneof);
+        appendAttributeIfNotNull(sb, "romof", this.romof);
+        appendAttributeIfNotNull(sb, "sampleof", this.sampleof);
+        appendAttributeIfNotNull(sb, "board", this.board);
+        appendAttributeIfNotNull(sb, "rebuildto", this.rebuildto);
+        sb.append(">\n");
+        appendTagIfNotNull(sb, "comment", comment);
+        appendTagIfNotNull(sb, "description", description);
+        appendTagIfNotNull(sb, "year", year);
+        appendTagIfNotNull(sb, "manufacturer", manufacturer);
+        for (LogiqxRelease release : this.releases) {
+            sb.append(release.toString());
+        }
+        for (LogiqxBiosset biosset : this.biossets) {
+            sb.append(biosset.toString());
+        }
+        for (LogiqxRom rom : this.roms) {
+            sb.append(rom.toString());
+        }
+        for (LogiqxDisk disk : this.disks) {
+            sb.append(disk.toString());
+        }
+        for (LogiqxSample sample : this.samples) {
+            sb.append(sample.toString());
+        }
+        for (LogiqxArchive archive : this.archives) {
+            sb.append(archive.toString());
+        }
+        sb.append("\t</game>\n");
+        return sb.toString();
+    }
+
+    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<game");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "sourcefile", this.sourcefile);
+        appendAttributeIfNotNull(sb, "isbios", this.isbios);
+        appendAttributeIfNotNull(sb, "cloneof", this.cloneof);
+        appendAttributeIfNotNull(sb, "romof", this.romof);
+        appendAttributeIfNotNull(sb, "sampleof", this.sampleof);
+        appendAttributeIfNotNull(sb, "board", this.board);
+        appendAttributeIfNotNull(sb, "rebuildto", this.rebuildto);
+        sb.append(">\n");
+        appendTagIfNotNull(sb, "comment", comment);
+        appendTagIfNotNull(sb, "description", description);
+        appendTagIfNotNull(sb, "year", year);
+        appendTagIfNotNull(sb, "manufacturer", manufacturer);
+        for (LogiqxRelease release : this.releases) {
+            sb.append(release.toString());
+        }
+        for (LogiqxBiosset biosset : this.biossets) {
+            sb.append(biosset.toString());
+        }
+        for (LogiqxRom rom : this.roms) {
+            sb.append(rom.toString());
+        }
+        for (LogiqxDisk disk : this.disks) {
+            sb.append(disk.toString());
+        }
+        for (LogiqxSample sample : this.samples) {
+            sb.append(sample.toString());
+        }
+        for (LogiqxArchive archive : this.archives) {
+            sb.append(archive.toString());
+        }
+        sb.append("\t</game>\n");
+        return sb.toString();
+    }
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 }

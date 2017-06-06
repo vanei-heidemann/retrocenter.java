@@ -24,6 +24,11 @@ public class LogiqxBiosset implements Serializable {
      */
     private String _default =  "no";
 
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -59,5 +64,16 @@ public class LogiqxBiosset implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<biosset");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "description", this.description);
+        appendAttributeIfNotNull(sb, "default", this._default);
+        sb.append(" />\n");
+        return sb.toString();
     }
 }

@@ -49,6 +49,11 @@ public class LogiqxRom implements Serializable {
      */
     private String date;
 
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,5 +69,23 @@ public class LogiqxRom implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, size, crc, sha1, md5);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<rom");
+
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "size", this.size);
+        appendAttributeIfNotNull(sb, "crc", this.crc);
+        appendAttributeIfNotNull(sb, "sha1", this.sha1);
+        appendAttributeIfNotNull(sb, "md5", this.md5);
+        appendAttributeIfNotNull(sb, "merge", this.merge);
+        appendAttributeIfNotNull(sb, "status", this.status);
+        appendAttributeIfNotNull(sb, "date", this.date);
+
+        sb.append(" />\n");
+        return sb.toString();
     }
 }

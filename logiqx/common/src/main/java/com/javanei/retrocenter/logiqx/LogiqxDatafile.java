@@ -59,4 +59,28 @@ public class LogiqxDatafile implements Serializable {
     public void addGame(LogiqxGame game) {
         this.games.add(game);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                .append("<!DOCTYPE datafile PUBLIC \"-//Logiqx//DTD ROM Management Datafile//EN\" \"http://www.logiqx.com/Dats/datafile.dtd\">\n\n")
+                .append("<datafile");
+        if (this.build != null)
+            sb.append(" build=\"").append(this.build).append("\"");
+        if (this.debug != null && !this.debug.equals("no"))
+            sb.append(" debug=\"").append(this.debug).append("\"");
+        sb.append(">\n");
+
+        if (this.header != null) {
+            sb.append(this.header.toString());
+        }
+
+        for (LogiqxGame game : this.games) {
+            sb.append(game.toString());
+        }
+
+        sb.append("<datafile>\n");
+        return sb.toString();
+    }
 }

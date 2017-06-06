@@ -34,4 +34,11 @@ public class LogiqxSample implements Serializable {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<sample name=\"").append(this.name).append(" />\n");
+        return sb.toString();
+    }
 }

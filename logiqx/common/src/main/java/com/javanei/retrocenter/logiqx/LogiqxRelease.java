@@ -34,6 +34,11 @@ public class LogiqxRelease implements Serializable {
      */
     private String _default = "no";
 
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -76,8 +81,10 @@ public class LogiqxRelease implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         LogiqxRelease release = (LogiqxRelease) o;
         return Objects.equals(name, release.name) &&
                 Objects.equals(region, release.region) &&
@@ -89,5 +96,18 @@ public class LogiqxRelease implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, region, language, date, _default);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<release");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "region", this.region);
+        appendAttributeIfNotNull(sb, "language", this.language);
+        appendAttributeIfNotNull(sb, "date", this.date);
+        appendAttributeIfNotNull(sb, "default", this._default);
+        sb.append(" />\n");
+        return sb.toString();
     }
 }

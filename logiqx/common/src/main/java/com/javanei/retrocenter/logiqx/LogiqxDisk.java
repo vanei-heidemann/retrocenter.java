@@ -34,6 +34,11 @@ public class LogiqxDisk implements Serializable {
      */
     private String status = "good";
 
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -76,8 +81,10 @@ public class LogiqxDisk implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         LogiqxDisk disk = (LogiqxDisk) o;
         return Objects.equals(name, disk.name) &&
                 Objects.equals(sha1, disk.sha1) &&
@@ -87,5 +94,20 @@ public class LogiqxDisk implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, sha1, md5);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<disk");
+
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "sha1", this.sha1);
+        appendAttributeIfNotNull(sb, "md5", this.md5);
+        appendAttributeIfNotNull(sb, "merge", this.merge);
+        appendAttributeIfNotNull(sb, "status", this.status);
+
+        sb.append(" />\n");
+        return sb.toString();
     }
 }

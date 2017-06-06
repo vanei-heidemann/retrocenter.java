@@ -24,8 +24,10 @@ public class LogiqxArchive implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         LogiqxArchive archive = (LogiqxArchive) o;
         return Objects.equals(name, archive.name);
     }
@@ -33,5 +35,12 @@ public class LogiqxArchive implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<archive name=\"").append(this.name).append(" />\n");
+        return sb.toString();
     }
 }
