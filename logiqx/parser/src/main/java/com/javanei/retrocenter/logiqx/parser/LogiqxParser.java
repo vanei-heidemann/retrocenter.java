@@ -14,9 +14,15 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.javanei.retrocenter.logiqx.LogiqxArchive;
+import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxDisk;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
 import com.javanei.retrocenter.logiqx.LogiqxHeader;
+import com.javanei.retrocenter.logiqx.LogiqxRelease;
+import com.javanei.retrocenter.logiqx.LogiqxRom;
+import com.javanei.retrocenter.logiqx.LogiqxSample;
 
 public class LogiqxParser {
     private static void setValueByReflection(Object to, String attr, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -94,22 +100,34 @@ public class LogiqxParser {
                                 case "#text":
                                     break;
                                 case "release":
-                                    //TODO:
+                                    LogiqxRelease release = new LogiqxRelease();
+                                    setValueByAttributes(release, n1.getAttributes());
+                                    game.addRelease(release);
                                     break;
                                 case "biosset":
-                                    //TODO:
+                                    LogiqxBiosset biosset = new LogiqxBiosset();
+                                    setValueByAttributes(biosset, n1.getAttributes());
+                                    game.addBiosset(biosset);
                                     break;
                                 case "rom":
-                                    //TODO:
+                                    LogiqxRom rom = new LogiqxRom();
+                                    setValueByAttributes(rom, n1.getAttributes());
+                                    game.addRom(rom);
                                     break;
                                 case "disk":
-                                    //TODO:
+                                    LogiqxDisk disk = new LogiqxDisk();
+                                    setValueByAttributes(disk, n1.getAttributes());
+                                    game.addDisk(disk);
                                     break;
                                 case "sample":
-                                    //TODO:
+                                    LogiqxSample sample = new LogiqxSample();
+                                    setValueByAttributes(sample, n1.getAttributes());
+                                    game.addSample(sample);
                                     break;
                                 case "archive":
-                                    //TODO:
+                                    LogiqxArchive archive = new LogiqxArchive();
+                                    setValueByAttributes(archive, n1.getAttributes());
+                                    game.addArchive(archive);
                                     break;
                                 default:
                                     setValueByReflection(game, n1.getNodeName().trim(), n1.getTextContent().trim());

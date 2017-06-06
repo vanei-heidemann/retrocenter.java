@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -54,10 +55,81 @@ public class LogiqxRom implements Serializable {
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    @Transient
+    public void setSize(String size) {
+        this.size = Long.parseLong(size);
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public String getCrc() {
+        return crc;
+    }
+
+    public void setCrc(String crc) {
+        this.crc = crc;
+    }
+
+    public String getSha1() {
+        return sha1;
+    }
+
+    public void setSha1(String sha1) {
+        this.sha1 = sha1;
+    }
+
+    public String getMd5() {
+        return md5;
+    }
+
+    public void setMd5(String md5) {
+        this.md5 = md5;
+    }
+
+    public String getMerge() {
+        return merge;
+    }
+
+    public void setMerge(String merge) {
+        this.merge = merge;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         LogiqxRom rom = (LogiqxRom) o;
         return Objects.equals(name, rom.name) &&
                 Objects.equals(size, rom.size) &&
