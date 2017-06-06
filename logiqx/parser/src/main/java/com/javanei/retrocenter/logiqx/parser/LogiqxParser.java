@@ -34,7 +34,11 @@ public class LogiqxParser {
     private static void setValueByAttribute(Object to, Node attr) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         String aName = attr.getNodeName();
         String value = attr.getTextContent().trim();
-        setValueByReflection(to, aName, value);
+        try {
+            setValueByReflection(to, aName, value);
+        } catch (NoSuchMethodException ex) {
+            throw new IllegalArgumentException("Unknown Attribute: " + attr.getNodeName());
+        }
     }
 
     private static void setValueByAttributes(Object to, NamedNodeMap attrs) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -87,7 +91,11 @@ public class LogiqxParser {
                                     setValueByAttributes(header, n1.getAttributes());
                                     break;
                                 default:
-                                    setValueByReflection(header, n1.getNodeName().trim(), n1.getTextContent().trim());
+                                    try {
+                                        setValueByReflection(header, n1.getNodeName().trim(), n1.getTextContent().trim());
+                                    } catch (NoSuchMethodException ex) {
+                                        throw new IllegalArgumentException("Invalid tag: " + n1.getNodeName());
+                                    }
                             }
                         }
                     } else if (n.getNodeName().equals("game")) {
@@ -130,7 +138,11 @@ public class LogiqxParser {
                                     game.addArchive(archive);
                                     break;
                                 default:
-                                    setValueByReflection(game, n1.getNodeName().trim(), n1.getTextContent().trim());
+                                    try {
+                                        setValueByReflection(game, n1.getNodeName().trim(), n1.getTextContent().trim());
+                                    } catch (NoSuchMethodException ex) {
+                                        throw new IllegalArgumentException("Invalid tag: " + n1.getNodeName());
+                                    }
                             }
                         }
                         r.addGame(game);
