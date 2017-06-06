@@ -1,0 +1,93 @@
+package com.javanei.retrocenter.logiqx;
+
+import java.io.Serializable;
+import java.util.Objects;
+
+/**
+ * <!ELEMENT release EMPTY>
+ */
+public class Release implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * <!ATTLIST release name CDATA #REQUIRED>
+     */
+    private String name;
+
+    /**
+     * <!ATTLIST release region CDATA #REQUIRED>
+     */
+    private String region;
+
+    /**
+     * <!ATTLIST release language CDATA #IMPLIED>
+     */
+    private String language;
+
+    /**
+     * <!ATTLIST release date CDATA #IMPLIED>
+     */
+    private String date;
+
+    /**
+     * <!ATTLIST release default (yes|no) "no">
+     */
+    private String _default = "no";
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getDefault() {
+        return _default;
+    }
+
+    public void setDefault(String _default) {
+        this._default = _default;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Release release = (Release) o;
+        return Objects.equals(name, release.name) &&
+                Objects.equals(region, release.region) &&
+                Objects.equals(language, release.language) &&
+                Objects.equals(date, release.date) &&
+                Objects.equals(_default, release._default);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, region, language, date, _default);
+    }
+}
