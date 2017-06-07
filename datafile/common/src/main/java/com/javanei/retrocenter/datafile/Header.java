@@ -36,11 +36,11 @@ public class Header implements Serializable {
      */
     private String email;
     /**
-     * logiqx.homepage
+     * clrmamepro.homepage, logiqx.homepage
      */
     private String homepage;
     /**
-     * logiqx.url
+     * clrmamepro.url, logiqx.url
      */
     private String url;
     /**

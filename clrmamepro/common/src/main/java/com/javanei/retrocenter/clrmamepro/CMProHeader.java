@@ -14,8 +14,10 @@ public class CMProHeader implements Serializable {
     private String category; // General comment about the emulator (e.g. the systems or game types it supports).
     private String version; // Vsersion number of the data file. I would recommend using something like a date encoded version number (YYYYMMDD is preferable to DDMMYYYY as it can be sorted and is unambiguous).
     private String author; // Your name and e-mail/web address.
-    //private String forcemerging; // To force CMPro to use a particular merging format (none/split/full).
-    //private String forcezipping; // To force CMPro to use ZIPs (yes) or directories (no).
+    private String homepage;
+    private String url;
+    private String forcemerging; // To force CMPro to use a particular merging format (none/split/full).
+    private String forcezipping; // To force CMPro to use ZIPs (yes) or directories (no).
     //
     /**
      * Custom fields, used in some managers
@@ -76,6 +78,38 @@ public class CMProHeader implements Serializable {
         this.customFields = customFields;
     }
 
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getForcemerging() {
+        return forcemerging;
+    }
+
+    public void setForcemerging(String forcemerging) {
+        this.forcemerging = forcemerging;
+    }
+
+    public String getForcezipping() {
+        return forcezipping;
+    }
+
+    public void setForcezipping(String forcezipping) {
+        this.forcezipping = forcezipping;
+    }
+
     public void addCustomField(String key, String value) {
         this.customFields.put(key, value);
     }
@@ -110,6 +144,14 @@ public class CMProHeader implements Serializable {
         if (this.category != null) sb.append("\t").append("category \"").append(this.category).append("\"\n");
         if (this.version != null) sb.append("\t").append("version \"").append(this.version).append("\"\n");
         if (this.author != null) sb.append("\t").append("author \"").append(this.author).append("\"\n");
+        if (this.homepage != null)
+            sb.append("\t").append("homepage \"").append(this.homepage).append("\"\n");
+        if (this.url != null)
+            sb.append("\t").append("url \"").append(this.url).append("\"\n");
+        if (this.forcemerging != null)
+            sb.append("\t").append("forcemerging \"").append(this.forcemerging).append("\"\n");
+        if (this.forcezipping != null)
+            sb.append("\t").append("forcezipping \"").append(this.forcezipping).append("\"\n");
         if (this.customFields != null && !this.customFields.isEmpty()) {
             for (String key : this.customFields.keySet()) {
                 sb.append("\t").append(key).append(" \"").append(this.customFields.get(key)).append("\"\n");
