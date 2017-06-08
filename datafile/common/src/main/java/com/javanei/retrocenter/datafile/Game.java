@@ -58,6 +58,7 @@ public class Game implements Serializable {
      */
     private String rebuildto;
 
+    private Set<Release> releases = new HashSet<>();
     private Set<Rom> roms = new HashSet<>();
     private Set<Disk> disks = new HashSet<>();
 
@@ -189,6 +190,23 @@ public class Game implements Serializable {
         if (this.disks.contains(disk))
             throw new IllegalArgumentException("Duplicated disk: " + disk.toString());
         this.disks.add(disk);
+    }
+
+    public Set<Release> getReleases() {
+        return releases;
+    }
+
+    public void setReleases(Set<Release> releases) {
+        if (releases != null)
+            this.releases = releases;
+        else
+            this.releases = new HashSet<>();
+    }
+
+    public void addRelease(Release release) {
+        if (this.releases.contains(release))
+            throw new IllegalArgumentException("Duplicated release: " + release.toString());
+        this.releases.add(release);
     }
 
     @Override
