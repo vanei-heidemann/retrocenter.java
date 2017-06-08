@@ -1,60 +1,64 @@
 package com.javanei.retrocenter.datafile;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * logiqx.name, clrmamepro.name
+     * logiqx.game.name, clrmamepro.game.name
      */
     private String name;
     /**
-     * logiqx.description, clrmamepro.description
+     * logiqx.game.description, clrmamepro.game.description
      */
     private String description;
     /**
-     * logiqx.year, clrmamepro.year
+     * logiqx.game.year, clrmamepro.game.year
      */
     private String year;
     /**
-     * logiqx.manufacturer, clrmamepro.manufacturer
+     * logiqx.game.manufacturer, clrmamepro.game.manufacturer
      */
     private String manufacturer;
     /**
-     * logiqx.cloneof, clrmamepro.cloneof
+     * logiqx.game.cloneof, clrmamepro.game.cloneof
      */
     private String cloneof;
     /**
-     * logiqx.romof, clrmamepro.romof
+     * logiqx.game.romof, clrmamepro.game.romof
      */
     private String romof;
     /**
-     * logiqx.isbios
+     * logiqx.game.isbios
      */
     private String isbios = "no";
 
     /**
-     * logiqx.comment
+     * logiqx.game.comment
      */
     private String comment;
     /**
-     * logiqx.sourcefile
+     * logiqx.game.sourcefile
      */
     private String sourcefile;
     /**
-     * logiqx.sampleof
+     * logiqx.game.sampleof
      */
     private String sampleof;
     /**
-     * logiqx.board
+     * logiqx.game.board
      */
     private String board;
     /**
-     * logiqx.rebuildto
+     * logiqx.game.rebuildto
      */
     private String rebuildto;
+
+    private Set<Rom> roms = new HashSet<>();
 
     public String getName() {
         return name;
@@ -167,6 +171,23 @@ public class Game implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, year, manufacturer);
+    }
+
+    public Set<Rom> getRoms() {
+        return roms;
+    }
+
+    public void setRoms(Set<Rom> roms) {
+        if (roms != null)
+            this.roms = roms;
+        else
+            this.roms = new HashSet<>();
+    }
+
+    public void addRom(Rom rom) {
+        if (this.roms.contains(rom))
+            throw new IllegalArgumentException("Duplicated rom: " + rom.toString());
+        this.roms.add(rom);
     }
 
     @Override

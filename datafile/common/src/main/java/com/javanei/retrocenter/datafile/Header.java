@@ -8,43 +8,43 @@ public class Header implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * clrmamepro.name, logiqx.name
+     * clrmamepro.header.name, logiqx.header.name
      */
     private String name;
     /**
-     * clrmamepro.description, logiqx.description
+     * clrmamepro.header.description, logiqx.header.description
      */
     private String description;
     /**
-     * clrmamepro.category, logiqx.category
+     * clrmamepro.header.category, logiqx.header.category
      */
     private String category;
     /**
-     * clrmamepro.version, logiqx.version
+     * clrmamepro.header.version, logiqx.header.version
      */
     private String version;
     /**
-     * clrmamepro.author, logiqx.author
+     * clrmamepro.header.author, logiqx.header.author
      */
     private String author;
     /**
-     * logiqx.date
+     * logiqx.header.date
      */
     private String date;
     /**
-     * logiqx.email
+     * logiqx.header.email
      */
     private String email;
     /**
-     * clrmamepro.homepage, logiqx.homepage
+     * clrmamepro.header.homepage, logiqx.header.homepage
      */
     private String homepage;
     /**
-     * clrmamepro.url, logiqx.url
+     * clrmamepro.header.url, logiqx.header.url
      */
     private String url;
     /**
-     * logiqx.comment
+     * logiqx.header.comment
      */
     private String comment;
     /**
