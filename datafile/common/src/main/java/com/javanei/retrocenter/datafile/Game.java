@@ -59,8 +59,11 @@ public class Game implements Serializable {
     private String rebuildto;
 
     private Set<Release> releases = new HashSet<>();
+    private Set<Biosset> biossets = new HashSet<>();
     private Set<Rom> roms = new HashSet<>();
     private Set<Disk> disks = new HashSet<>();
+    private Set<Sample> samples = new HashSet<>();
+    private Set<Archive> archives = new HashSet<>();
 
     public String getName() {
         return name;
@@ -171,7 +174,7 @@ public class Game implements Serializable {
 
     public void addRom(Rom rom) {
         if (this.roms.contains(rom))
-            throw new IllegalArgumentException("Duplicated rom: " + rom.toString());
+            throw new IllegalArgumentException("Duplicated rom: " + rom.getName());
         this.roms.add(rom);
     }
 
@@ -188,7 +191,7 @@ public class Game implements Serializable {
 
     public void addDisk(Disk disk) {
         if (this.disks.contains(disk))
-            throw new IllegalArgumentException("Duplicated disk: " + disk.toString());
+            throw new IllegalArgumentException("Duplicated disk: " + disk.getName());
         this.disks.add(disk);
     }
 
@@ -205,8 +208,58 @@ public class Game implements Serializable {
 
     public void addRelease(Release release) {
         if (this.releases.contains(release))
-            throw new IllegalArgumentException("Duplicated release: " + release.toString());
+            throw new IllegalArgumentException("Duplicated release: " + release.getName() + "/" + release.getDate()
+                    + "/" + release.getLanguage() + "/" + release.getRegion());
         this.releases.add(release);
+    }
+
+    public Set<Biosset> getBiossets() {
+        return biossets;
+    }
+
+    public void setBiossets(Set<Biosset> biossets) {
+        if (biossets != null)
+            this.biossets = biossets;
+        else
+            this.biossets = new HashSet<>();
+    }
+
+    public void addBiosset(Biosset biosset) {
+        if (this.biossets.contains(biosset))
+            throw new IllegalArgumentException("Duplicated biosset: " + biosset.getName());
+    }
+
+    public Set<Sample> getSamples() {
+        return samples;
+    }
+
+    public void setSamples(Set<Sample> samples) {
+        if (samples != null)
+            this.samples = samples;
+        else
+            this.samples = new HashSet<>();
+    }
+
+    public void addSample(Sample sample) {
+        if (this.samples.contains(sample))
+            throw new IllegalArgumentException("Duplicated sample: " + sample.getName());
+    }
+
+    public Set<Archive> getArchives() {
+        return archives;
+    }
+
+    public void setArchives(Set<Archive> archives) {
+        if (archives != null)
+            this.archives = archives;
+        else
+            this.archives = new HashSet<>();
+    }
+
+    public void addArchive(Archive archive) {
+        if (this.archives.contains(archive))
+            throw new IllegalArgumentException("Duplicated archive: " + archive.getName());
+        this.archives.add(archive);
     }
 
     @Override

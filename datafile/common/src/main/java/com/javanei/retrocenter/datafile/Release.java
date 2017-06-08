@@ -94,4 +94,15 @@ public class Release implements Serializable {
     public int hashCode() {
         return Objects.hash(name, region, language, date, _default);
     }
+
+    @Override
+    public String toString() {
+        return "Release{" +
+                "name='" + name + '\'' +
+                ", region='" + region + '\'' +
+                ", language='" + language + '\'' +
+                ", date='" + date + '\'' +
+                ", default='" + _default + '\'' +
+                '}';
+    }
 }
