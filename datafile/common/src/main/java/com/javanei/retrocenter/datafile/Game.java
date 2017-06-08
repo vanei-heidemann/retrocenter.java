@@ -59,6 +59,7 @@ public class Game implements Serializable {
     private String rebuildto;
 
     private Set<Rom> roms = new HashSet<>();
+    private Set<Disk> disks = new HashSet<>();
 
     public String getName() {
         return name;
@@ -156,23 +157,6 @@ public class Game implements Serializable {
         this.rebuildto = rebuildto;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        Game game = (Game) o;
-        return Objects.equals(name, game.name) &&
-                Objects.equals(year, game.year) &&
-                Objects.equals(manufacturer, game.manufacturer);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name, year, manufacturer);
-    }
-
     public Set<Rom> getRoms() {
         return roms;
     }
@@ -188,6 +172,40 @@ public class Game implements Serializable {
         if (this.roms.contains(rom))
             throw new IllegalArgumentException("Duplicated rom: " + rom.toString());
         this.roms.add(rom);
+    }
+
+    public Set<Disk> getDisks() {
+        return disks;
+    }
+
+    public void setDisks(Set<Disk> disks) {
+        if (disks != null)
+            this.disks = disks;
+        else
+            this.disks = new HashSet<>();
+    }
+
+    public void addDisk(Disk disk) {
+        if (this.disks.contains(disk))
+            throw new IllegalArgumentException("Duplicated disk: " + disk.toString());
+        this.disks.add(disk);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Game game = (Game) o;
+        return Objects.equals(name, game.name) &&
+                Objects.equals(year, game.year) &&
+                Objects.equals(manufacturer, game.manufacturer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, year, manufacturer);
     }
 
     @Override
