@@ -1,12 +1,19 @@
 package com.javanei.retrocenter.datafile;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Datafile implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    /**
+     * logiqx.build
+     * logiqx.debug
+     */
+    private Map<String, String> customAttributes = new HashMap<>();
     private Header header;
     private Set<Game> games = new HashSet<>();
     private Set<Resource> resources = new HashSet<>();
@@ -51,19 +58,29 @@ public class Datafile implements Serializable {
         this.resources.add(resource);
     }
 
+    public Map<String, String> getCustomAttributes() {
+        return customAttributes;
+    }
+
+    public void setCustomAttributes(Map<String, String> customAttributes) {
+        this.customAttributes = customAttributes;
+    }
+
+    public void addCustomAttribute(String key, String value) {
+        if (this.customAttributes.containsKey(key))
+            throw new IllegalArgumentException("Duplicated custom attribute: " + key);
+        this.customAttributes.put(key, value);
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
                 .append("<!DOCTYPE datafile PUBLIC \"-//Logiqx//DTD ROM Management Datafile//EN\" \"http://www.logiqx.com/Dats/datafile.dtd\">\n\n")
                 .append("<datafile");
-        //TODO: Atributos
-        /*
-        if (this.build != null)
-            sb.append(" build=\"").append(this.build).append("\"");
-        if (this.debug != null && !this.debug.equals("no"))
-            sb.append(" debug=\"").append(this.debug).append("\"");
-        */
+        for (String key : this.customAttributes.keySet()) {
+            sb.append(" ").append(key).append("=\"").append(this.customAttributes.get(key)).append("\"");
+        }
         sb.append(">\n");
 
         if (this.header != null) {
