@@ -3,6 +3,8 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.logiqx.LogiqxRelease;
+
 public class Release implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +32,21 @@ public class Release implements Serializable {
      * logiqx.game.default
      */
     private String _default = "no";
+
+    public Release() {
+    }
+
+    public Release(String name, String region, String language, String date, String _default) {
+        this.name = name;
+        this.region = region;
+        this.language = language;
+        this.date = date;
+        this._default = _default;
+    }
+
+    public static Release fromLogiqx(LogiqxRelease p) {
+        return new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault());
+    }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)

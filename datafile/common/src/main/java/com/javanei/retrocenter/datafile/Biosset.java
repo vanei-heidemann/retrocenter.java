@@ -3,6 +3,8 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.logiqx.LogiqxBiosset;
+
 public class Biosset implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +22,19 @@ public class Biosset implements Serializable {
      * logiqx.biosset.default
      */
     private String _default = "no";
+
+    public Biosset() {
+    }
+
+    public Biosset(String name, String description, String _default) {
+        this.name = name;
+        this.description = description;
+        this._default = _default;
+    }
+
+    public static Biosset fromLogiqx(LogiqxBiosset p) {
+        return new Biosset(p.getName(), p.getDescription(), p.getDefault());
+    }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)

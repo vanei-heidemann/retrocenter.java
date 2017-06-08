@@ -3,6 +3,9 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.clrmamepro.CMProRom;
+import com.javanei.retrocenter.logiqx.LogiqxRom;
+
 public class Rom implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -45,6 +48,61 @@ public class Rom implements Serializable {
      * clrmamepro.rom.region
      */
     private String region;
+
+    public Rom() {
+    }
+
+    /**
+     * Construtor para o Logiqx
+     *
+     * @param name
+     * @param size
+     * @param crc
+     * @param sha1
+     * @param md5
+     * @param status
+     * @param date
+     * @param merge
+     */
+    public Rom(String name, Long size, String crc, String sha1, String md5, String status, String date, String merge) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.status = status;
+        this.date = date;
+        this.merge = merge;
+    }
+
+    /**
+     * Construtor para o clrmamepro.
+     *
+     * @param name
+     * @param size
+     * @param crc
+     * @param sha1
+     * @param md5
+     * @param status
+     * @param region
+     */
+    public Rom(String name, Long size, String crc, String sha1, String md5, String status, String region) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.status = status;
+        this.region = region;
+    }
+
+    public static Rom fromLogiqx(LogiqxRom p) {
+        return new Rom(p.getName(), p.getSize(), p.getCrc(), p.getSha1(), p.getMd5(), p.getStatus(), p.getDate(), p.getMerge());
+    }
+
+    public static Rom fromClrmamepro(CMProRom p) {
+        return new Rom(p.getName(), p.getSize(), p.getCrc(), p.getSha1(), p.getMd5(), p.getFlags(), p.getRegion());
+    }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)

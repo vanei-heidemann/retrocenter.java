@@ -3,6 +3,9 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.clrmamepro.CMProDisk;
+import com.javanei.retrocenter.logiqx.LogiqxDisk;
+
 public class Disk implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +29,31 @@ public class Disk implements Serializable {
      * logiqx.disk.status [(baddump|nodump|good|verified) "good"]
      */
     private String status;
+
+    public Disk() {
+    }
+
+    public Disk(String name, String sha1, String md5) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+    }
+
+    public Disk(String name, String sha1, String md5, String merge, String status) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.status = status;
+    }
+
+    public static Disk fromLogiqx(LogiqxDisk p) {
+        return new Disk(p.getName(), p.getSha1(), p.getMd5(), p.getMerge(), p.getStatus());
+    }
+
+    public static Disk fromClrmamepro(CMProDisk p) {
+        return new Disk(p.getName(), p.getSha1(), p.getMd5());
+    }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)

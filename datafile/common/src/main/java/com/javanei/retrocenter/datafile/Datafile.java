@@ -6,6 +6,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.javanei.retrocenter.clrmamepro.CMPro;
+import com.javanei.retrocenter.clrmamepro.CMProGame;
+import com.javanei.retrocenter.clrmamepro.CMProResource;
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxGame;
+
 public class Datafile implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -17,6 +23,34 @@ public class Datafile implements Serializable {
     private Header header;
     private Set<Game> games = new HashSet<>();
     private Set<Resource> resources = new HashSet<>();
+
+    public Datafile() {
+    }
+
+    public static Datafile fromLogiqx(LogiqxDatafile p) {
+        Datafile r = new Datafile();
+        r.setHeader(Header.fromLogiqx(p.getHeader()));
+        for (LogiqxGame game : p.getGames()) {
+            r.addGame(Game.fromLogiqx(game));
+        }
+        if (p.getBuild() != null)
+            r.addCustomAttribute("build", p.getBuild());
+        if (p.getDebug() != null)
+            r.addCustomAttribute("debug", p.getDebug());
+        return r;
+    }
+
+    public static Datafile fromClrmamepro(CMPro p) {
+        Datafile r = new Datafile();
+        r.setHeader(Header.fromClrmamepro(p.getHeader()));
+        for (CMProGame game : p.getGames()) {
+            r.addGame(Game.fromClrmamepro(game));
+        }
+        for (CMProResource resource : p.getResources()) {
+            r.addResource(Resource.fromClrmamepro(resource));
+        }
+        return r;
+    }
 
     public Header getHeader() {
         return header;

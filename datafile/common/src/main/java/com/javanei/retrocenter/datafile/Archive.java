@@ -3,13 +3,25 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.logiqx.LogiqxArchive;
+
 public class Archive implements Serializable {
     private static final long serialVersionUID = 1L;
-
     /**
      * logiqx.archive.name
      */
     private String name;
+
+    public Archive() {
+    }
+
+    public Archive(String name) {
+        this.name = name;
+    }
+
+    public static Archive fromLogiqx(LogiqxArchive p) {
+        return new Archive(p.getName());
+    }
 
     public String getName() {
         return name;

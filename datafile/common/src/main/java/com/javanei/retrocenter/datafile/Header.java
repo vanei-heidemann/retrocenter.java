@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.javanei.retrocenter.clrmamepro.CMProHeader;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
+
 public class Header implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -53,24 +56,75 @@ public class Header implements Serializable {
      * logiqx.header.clrmamepro.forcemerging
      * logiqx.header.clrmamepro.forcenodump
      * logiqx.header.clrmamepro.forcepacking
-     * logiqx.header.,romcenter.plugin
-     * logiqx.header.,romcenter.rommode
-     * logiqx.header.,romcenter.biosmode
-     * logiqx.header.,romcenter.samplemode
-     * logiqx.header.,romcenter.lockrommode
-     * logiqx.header.,romcenter.lockbiosmode
-     * logiqx.header.,romcenter.locksamplemode
+     * logiqx.header.romcenter.plugin
+     * logiqx.header.romcenter.rommode
+     * logiqx.header.romcenter.biosmode
+     * logiqx.header.romcenter.samplemode
+     * logiqx.header.romcenter.lockrommode
+     * logiqx.header.romcenter.lockbiosmode
+     * logiqx.header.romcenter.locksamplemode
      */
     private Map<String, String> customFields = new HashMap<>();
+
+    public Header() {
+    }
+
+    public Header(String name, String description, String category, String version, String author, String homepage, String url) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.version = version;
+        this.author = author;
+        this.homepage = homepage;
+        this.url = url;
+    }
+
+    public Header(String name, String description, String category, String version, String author, String date, String email, String homepage, String url, String comment) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.version = version;
+        this.author = author;
+        this.date = date;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
+    }
+
+    public static Header fromClrmamepro(CMProHeader p) {
+        Header r = new Header(p.getName(), p.getDescription(), p.getCategory(), p.getVersion(), p.getAuthor(),
+                p.getHomepage(), p.getUrl());
+        if (p.getForcemerging() != null)
+            r.addCustomField("forcemerging", p.getForcemerging());
+        if (p.getForcezipping() != null)
+            r.addCustomField("forcezipping", p.getForcezipping());
+        return r;
+    }
+
+    public static Header fromLogiqx(LogiqxHeader p) {
+        Header r = new Header(p.getName(), p.getDescription(), p.getCategory(), p.getVersion(), p.getAuthor(),
+                p.getDate(), p.getEmail(), p.getHomepage(), p.getUrl(), p.getComment());
+        if (p.getPlugin() != null)
+            r.addCustomField("plugin", p.getPlugin());
+        if (p.getRommode() != null)
+            r.addCustomField("rommode", p.getRommode());
+        if (p.getBiosmode() != null)
+            r.addCustomField("biosmode", p.getBiosmode());
+        if (p.getSamplemode() != null)
+            r.addCustomField("samplemode", p.getSamplemode());
+        if (p.getLockrommode() != null)
+            r.addCustomField("lockrommode", p.getLockrommode());
+        if (p.getLockbiosmode() != null)
+            r.addCustomField("lockbiosmode", p.getLockbiosmode());
+        if (p.getLocksamplemode() != null)
+            r.addCustomField("locksamplemode", p.getLocksamplemode());
+        return r;
+    }
 
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
-    }
-
-    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
-        if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 
     public String getName() {

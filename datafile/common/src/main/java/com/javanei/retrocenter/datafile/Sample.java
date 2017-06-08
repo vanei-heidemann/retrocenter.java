@@ -3,6 +3,8 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
+import com.javanei.retrocenter.logiqx.LogiqxSample;
+
 public class Sample implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -10,6 +12,17 @@ public class Sample implements Serializable {
      * logiqx.sample.name
      */
     private String name;
+
+    public Sample() {
+    }
+
+    public Sample(String name) {
+        this.name = name;
+    }
+
+    public static Sample fromLogiqx(LogiqxSample p) {
+        return new Sample(p.getName());
+    }
 
     public String getName() {
         return name;

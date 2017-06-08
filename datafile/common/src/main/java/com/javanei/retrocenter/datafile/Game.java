@@ -5,6 +5,17 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.javanei.retrocenter.clrmamepro.CMProDisk;
+import com.javanei.retrocenter.clrmamepro.CMProGame;
+import com.javanei.retrocenter.clrmamepro.CMProRom;
+import com.javanei.retrocenter.logiqx.LogiqxArchive;
+import com.javanei.retrocenter.logiqx.LogiqxBiosset;
+import com.javanei.retrocenter.logiqx.LogiqxDisk;
+import com.javanei.retrocenter.logiqx.LogiqxGame;
+import com.javanei.retrocenter.logiqx.LogiqxRelease;
+import com.javanei.retrocenter.logiqx.LogiqxRom;
+import com.javanei.retrocenter.logiqx.LogiqxSample;
+
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +75,80 @@ public class Game implements Serializable {
     private Set<Disk> disks = new HashSet<>();
     private Set<Sample> samples = new HashSet<>();
     private Set<Archive> archives = new HashSet<>();
+
+    public Game() {
+    }
+
+    public Game(String name, String description, String year, String manufacturer, String cloneof, String romof,
+            String isbios, String comment, String sourcefile, String sampleof, String board, String rebuildto) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.isbios = isbios;
+        this.comment = comment;
+        this.sourcefile = sourcefile;
+        this.sampleof = sampleof;
+        this.board = board;
+        this.rebuildto = rebuildto;
+    }
+
+    public Game(String name, String description, String year, String manufacturer, String cloneof, String romof) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+        this.cloneof = cloneof;
+        this.romof = romof;
+    }
+
+    public static Game fromLogiqx(LogiqxGame p) {
+        Game r = new Game(p.getName(), p.getDescription(), p.getYear(), p.getManufacturer(), p.getCloneof(), p.getRomof(), p.getIsbios(), p.getComment(), p.getSourcefile(), p.getSampleof(), p.getBoard(), p.getRebuildto());
+        for (LogiqxRelease release : p.getReleases()) {
+            r.addRelease(Release.fromLogiqx(release));
+        }
+        for (LogiqxBiosset biosset : p.getBiossets()) {
+            r.addBiosset(Biosset.fromLogiqx(biosset));
+        }
+        for (LogiqxRom rom : p.getRoms()) {
+            r.addRom(Rom.fromLogiqx(rom));
+        }
+        for (LogiqxDisk disk : p.getDisks()) {
+            r.addDisk(Disk.fromLogiqx(disk));
+        }
+        for (LogiqxSample sample : p.getSamples()) {
+            r.addSample(Sample.fromLogiqx(sample));
+        }
+        for (LogiqxArchive archive : p.getArchives()) {
+            r.addArchive(Archive.fromLogiqx(archive));
+        }
+        return r;
+    }
+
+    public static Game fromClrmamepro(CMProGame p) {
+        Game r = new Game(p.getName(), p.getDescription(), p.getYear(), p.getManufacturer(), p.getCloneof(), p.getRomof());
+        for (CMProRom rom : p.getRoms()) {
+            r.addRom(Rom.fromClrmamepro(rom));
+        }
+        for (CMProDisk disk : p.getDisks()) {
+            r.addDisk(Disk.fromClrmamepro(disk));
+        }
+        for (String sample : p.getSamples()) {
+            r.addSample(new Sample(sample));
+        }
+        if (p.getSampleof() != null) {
+            StringBuilder sb = new StringBuilder();
+            for (String s : p.getSampleof()) {
+                if (sb.length() > 0)
+                    sb.append(",");
+                sb.append(s);
+            }
+            r.setSampleof(sb.toString());
+        }
+        return r;
+    }
 
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)

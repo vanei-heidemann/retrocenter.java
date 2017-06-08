@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.javanei.retrocenter.clrmamepro.CMProResource;
+import com.javanei.retrocenter.clrmamepro.CMProRom;
+
 public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -12,9 +15,25 @@ public class Resource implements Serializable {
     private String description;
     private String year;
     private String manufacturer;
-
     private Set<Rom> roms = new HashSet<>();
 
+    public Resource() {
+    }
+
+    public Resource(String name, String description, String year, String manufacturer) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
+    public static Resource fromClrmamepro(CMProResource p) {
+        Resource r = new Resource(p.getName(), p.getDescription(), p.getYear(), p.getManufacturer());
+        for (CMProRom rom : p.getRoms()) {
+            r.addRom(Rom.fromClrmamepro(rom));
+        }
+        return r;
+    }
     public String getName() {
         return name;
     }
