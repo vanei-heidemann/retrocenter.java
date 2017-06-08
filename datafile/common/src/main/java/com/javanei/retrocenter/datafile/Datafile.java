@@ -9,6 +9,7 @@ public class Datafile implements Serializable {
 
     private Header header;
     private Set<Game> games = new HashSet<>();
+    private Set<Resource> resources = new HashSet<>();
 
     public Header getHeader() {
         return header;
@@ -36,11 +37,47 @@ public class Datafile implements Serializable {
         this.games.add(game);
     }
 
+    public Set<Resource> getResources() {
+        return resources;
+    }
+
+    public void setResources(Set<Resource> resources) {
+        this.resources = resources;
+    }
+
+    public void addResource(Resource resource) {
+        if (this.resources.contains(resource))
+            throw new IllegalArgumentException("Duplicated resource: " + resource.getName());
+        this.resources.add(resource);
+    }
+
     @Override
     public String toString() {
-        return "Datafile{" +
-                "header=" + header +
-                ", games=" + games +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
+                .append("<!DOCTYPE datafile PUBLIC \"-//Logiqx//DTD ROM Management Datafile//EN\" \"http://www.logiqx.com/Dats/datafile.dtd\">\n\n")
+                .append("<datafile");
+        //TODO: Atributos
+        /*
+        if (this.build != null)
+            sb.append(" build=\"").append(this.build).append("\"");
+        if (this.debug != null && !this.debug.equals("no"))
+            sb.append(" debug=\"").append(this.debug).append("\"");
+        */
+        sb.append(">\n");
+
+        if (this.header != null) {
+            sb.append(this.header.toString());
+        }
+
+        for (Game game : this.games) {
+            sb.append(game.toString());
+        }
+        for (Resource resource : this.resources) {
+            sb.append(resource.toString());
+        }
+
+        sb.append("<datafile>\n");
+        return sb.toString();
     }
 }

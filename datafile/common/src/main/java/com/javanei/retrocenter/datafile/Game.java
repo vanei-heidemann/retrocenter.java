@@ -65,6 +65,16 @@ public class Game implements Serializable {
     private Set<Sample> samples = new HashSet<>();
     private Set<Archive> archives = new HashSet<>();
 
+    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -281,19 +291,40 @@ public class Game implements Serializable {
 
     @Override
     public String toString() {
-        return "Game{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", year='" + year + '\'' +
-                ", manufacturer='" + manufacturer + '\'' +
-                ", cloneof='" + cloneof + '\'' +
-                ", romof='" + romof + '\'' +
-                ", isbios='" + isbios + '\'' +
-                ", comment='" + comment + '\'' +
-                ", sourcefile='" + sourcefile + '\'' +
-                ", sampleof='" + sampleof + '\'' +
-                ", board='" + board + '\'' +
-                ", rebuildto='" + rebuildto + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<game");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "sourcefile", this.sourcefile);
+        appendAttributeIfNotNull(sb, "isbios", this.isbios);
+        appendAttributeIfNotNull(sb, "cloneof", this.cloneof);
+        appendAttributeIfNotNull(sb, "romof", this.romof);
+        appendAttributeIfNotNull(sb, "sampleof", this.sampleof);
+        appendAttributeIfNotNull(sb, "board", this.board);
+        appendAttributeIfNotNull(sb, "rebuildto", this.rebuildto);
+        sb.append(">\n");
+        appendTagIfNotNull(sb, "comment", comment);
+        appendTagIfNotNull(sb, "description", description);
+        appendTagIfNotNull(sb, "year", year);
+        appendTagIfNotNull(sb, "manufacturer", manufacturer);
+        for (Release release : this.releases) {
+            sb.append(release.toString());
+        }
+        for (Biosset biosset : this.biossets) {
+            sb.append(biosset.toString());
+        }
+        for (Rom rom : this.roms) {
+            sb.append(rom.toString());
+        }
+        for (Disk disk : this.disks) {
+            sb.append(disk.toString());
+        }
+        for (Sample sample : this.samples) {
+            sb.append(sample.toString());
+        }
+        for (Archive archive : this.archives) {
+            sb.append(archive.toString());
+        }
+        sb.append("\t</game>\n");
+        return sb.toString();
     }
 }
