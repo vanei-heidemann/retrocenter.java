@@ -97,12 +97,14 @@ public class Release implements Serializable {
 
     @Override
     public String toString() {
-        return "Release{" +
-                "name='" + name + '\'' +
-                ", region='" + region + '\'' +
-                ", language='" + language + '\'' +
-                ", date='" + date + '\'' +
-                ", default='" + _default + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<release");
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "region", this.region);
+        appendAttributeIfNotNull(sb, "language", this.language);
+        appendAttributeIfNotNull(sb, "date", this.date);
+        appendAttributeIfNotNull(sb, "default", this._default);
+        sb.append(" />\n");
+        return sb.toString();
     }
 }

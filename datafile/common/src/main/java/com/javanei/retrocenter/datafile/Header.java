@@ -49,8 +49,29 @@ public class Header implements Serializable {
     private String comment;
     /**
      * Adicional not standard fields
+     * logiqx.header.clrmamepro.header
+     * logiqx.header.clrmamepro.forcemerging
+     * logiqx.header.clrmamepro.forcenodump
+     * logiqx.header.clrmamepro.forcepacking
+     * logiqx.header.,romcenter.plugin
+     * logiqx.header.,romcenter.rommode
+     * logiqx.header.,romcenter.biosmode
+     * logiqx.header.,romcenter.samplemode
+     * logiqx.header.,romcenter.lockrommode
+     * logiqx.header.,romcenter.lockbiosmode
+     * logiqx.header.,romcenter.locksamplemode
      */
     private Map<String, String> customFields = new HashMap<>();
+
+    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
 
     public String getName() {
         return name;
@@ -151,18 +172,24 @@ public class Header implements Serializable {
 
     @Override
     public String toString() {
-        return "Header{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", category='" + category + '\'' +
-                ", version='" + version + '\'' +
-                ", author='" + author + '\'' +
-                ", date='" + date + '\'' +
-                ", email='" + email + '\'' +
-                ", homepage='" + homepage + '\'' +
-                ", url='" + url + '\'' +
-                ", comment='" + comment + '\'' +
-                ", customFields=" + customFields +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t<header>\n");
+        appendTagIfNotNull(sb, "name", this.name);
+        appendTagIfNotNull(sb, "description", this.description);
+        appendTagIfNotNull(sb, "category", this.category);
+        appendTagIfNotNull(sb, "version", this.version);
+        appendTagIfNotNull(sb, "author", this.author);
+        appendTagIfNotNull(sb, "date", this.date);
+        appendTagIfNotNull(sb, "email", this.email);
+        appendTagIfNotNull(sb, "homepage", this.homepage);
+        appendTagIfNotNull(sb, "url", this.url);
+        appendTagIfNotNull(sb, "comment", this.comment);
+
+        for (String key : this.customFields.keySet()) {
+            appendTagIfNotNull(sb, key, this.customFields.get(key));
+        }
+
+        sb.append("\t</header>\n");
+        return sb.toString();
     }
 }
