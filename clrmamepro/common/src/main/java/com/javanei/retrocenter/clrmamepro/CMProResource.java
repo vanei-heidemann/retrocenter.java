@@ -15,6 +15,16 @@ public class CMProResource implements Serializable {
     //
     private Set<CMProRom> roms = new HashSet<>();
 
+    public CMProResource() {
+    }
+
+    public CMProResource(String name, String description, String year, String manufacturer) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
     public String getName() {
         return name;
     }

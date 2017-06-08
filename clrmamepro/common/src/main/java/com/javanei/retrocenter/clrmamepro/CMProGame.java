@@ -21,6 +21,18 @@ public class CMProGame implements Serializable {
     private Set<String> sampleof = new HashSet<>();
     private Set<String> samples = new HashSet<>();
 
+    public CMProGame() {
+    }
+
+    public CMProGame(String name, String description, String year, String manufacturer, String cloneof, String romof) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+        this.cloneof = cloneof;
+        this.romof = romof;
+    }
+
     public String getName() {
         return name;
     }
@@ -81,16 +93,16 @@ public class CMProGame implements Serializable {
         return disks;
     }
 
+    public void setDisks(Set<CMProDisk> disks) {
+        this.disks = disks;
+    }
+
     public Set<String> getSamples() {
         return samples;
     }
 
     public void setSamples(Set<String> samples) {
         this.samples = samples;
-    }
-
-    public void setDisks(Set<CMProDisk> disks) {
-        this.disks = disks;
     }
 
     public Set<String> getSampleof() {

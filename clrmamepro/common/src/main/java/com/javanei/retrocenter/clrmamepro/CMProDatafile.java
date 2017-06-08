@@ -7,19 +7,18 @@ import java.util.Set;
 /**
  * http://www.logiqx.com/DatFAQs/CMPro.php
  */
-public class CMPro implements Serializable {
+public class CMProDatafile implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    public CMPro() {
-    }
-
-    public CMPro(CMProHeader header) {
-        this.header = header;
-    }
-
     private CMProHeader header;
     private Set<CMProGame> games = new HashSet<>();
     private Set<CMProResource> resources = new HashSet<>();
+
+    public CMProDatafile() {
+    }
+
+    public CMProDatafile(CMProHeader header) {
+        this.header = header;
+    }
 
     public CMProHeader getHeader() {
         return header;

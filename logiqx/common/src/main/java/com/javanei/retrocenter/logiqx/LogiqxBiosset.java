@@ -24,6 +24,20 @@ public class LogiqxBiosset implements Serializable {
      */
     private String _default =  "no";
 
+    public LogiqxBiosset() {
+    }
+
+    public LogiqxBiosset(String name, String description, String _default) {
+        this.name = name;
+        this.description = description;
+        this._default = _default;
+    }
+
+    public LogiqxBiosset(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");

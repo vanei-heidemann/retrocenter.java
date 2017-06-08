@@ -27,6 +27,15 @@ public class LogiqxDatafile implements Serializable {
     public LogiqxDatafile() {
     }
 
+    public LogiqxDatafile(String build) {
+        this.build = build;
+    }
+
+    public LogiqxDatafile(String build, String debug) {
+        this.build = build;
+        this.debug = debug;
+    }
+
     public LogiqxDatafile(LogiqxHeader header) {
         this.header = header;
     }

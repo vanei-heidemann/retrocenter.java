@@ -105,6 +105,8 @@ public class Header implements Serializable {
     public static Header fromLogiqx(LogiqxHeader p) {
         Header r = new Header(p.getName(), p.getDescription(), p.getCategory(), p.getVersion(), p.getAuthor(),
                 p.getDate(), p.getEmail(), p.getHomepage(), p.getUrl(), p.getComment());
+        if (p.getHeader() != null)
+            r.addCustomField("header", p.getHeader());
         if (p.getPlugin() != null)
             r.addCustomField("plugin", p.getPlugin());
         if (p.getRommode() != null)
@@ -125,6 +127,22 @@ public class Header implements Serializable {
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    public CMProHeader toClrmamepro() {
+        return new CMProHeader(this.name, this.description, this.category, this.version, this.author, this.homepage,
+                this.url, this.customFields.get("forcemerging"), this.customFields.get("forcezipping"));
+    }
+
+    public LogiqxHeader toLogiqx() {
+        return new LogiqxHeader(this.name, this.description, this.category, this.version, this.date, this.author,
+                this.email, this.homepage, this.url, this.comment, this.customFields.get("header"),
+                this.customFields.get("forcemerging"), this.customFields.get("forcenodump"),
+                this.customFields.get("forcepacking"), this.customFields.get("plugin"),
+                this.customFields.get("rommode"), this.customFields.get("biosmode"),
+                this.customFields.get("samplemode"), this.customFields.get("lockrommode"),
+                this.customFields.get("lockbiosmode"), this.customFields.get("locksamplemode")
+        );
     }
 
     public String getName() {

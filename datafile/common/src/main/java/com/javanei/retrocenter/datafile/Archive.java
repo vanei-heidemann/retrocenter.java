@@ -23,6 +23,10 @@ public class Archive implements Serializable {
         return new Archive(p.getName());
     }
 
+    public LogiqxArchive toLogiqx() {
+        return new LogiqxArchive(this.name);
+    }
+
     public String getName() {
         return name;
     }

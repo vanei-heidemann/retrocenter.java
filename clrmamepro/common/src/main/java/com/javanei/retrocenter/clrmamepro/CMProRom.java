@@ -29,6 +29,19 @@ public class CMProRom implements Serializable {
      */
     private String flags;
 
+    public CMProRom() {
+    }
+
+    public CMProRom(String name, Long size, String crc, String sha1, String md5, String region, String flags) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.region = region;
+        this.flags = flags;
+    }
+
     public String getName() {
         return name;
     }

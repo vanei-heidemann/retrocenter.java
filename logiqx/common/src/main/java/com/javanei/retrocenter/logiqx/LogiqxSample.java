@@ -14,6 +14,13 @@ public class LogiqxSample implements Serializable {
      */
     private String name;
 
+    public LogiqxSample() {
+    }
+
+    public LogiqxSample(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

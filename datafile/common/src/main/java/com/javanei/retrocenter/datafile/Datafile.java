@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.javanei.retrocenter.clrmamepro.CMPro;
+import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
@@ -40,7 +40,7 @@ public class Datafile implements Serializable {
         return r;
     }
 
-    public static Datafile fromClrmamepro(CMPro p) {
+    public static Datafile fromClrmamepro(CMProDatafile p) {
         Datafile r = new Datafile();
         r.setHeader(Header.fromClrmamepro(p.getHeader()));
         for (CMProGame game : p.getGames()) {
@@ -48,6 +48,31 @@ public class Datafile implements Serializable {
         }
         for (CMProResource resource : p.getResources()) {
             r.addResource(Resource.fromClrmamepro(resource));
+        }
+        return r;
+    }
+
+    public LogiqxDatafile toLogiqx() {
+        LogiqxDatafile r = new LogiqxDatafile(this.customAttributes.get("build"));
+        if (this.customAttributes.get("debug") != null)
+            r.setDebug(this.customAttributes.get("debug"));
+        if (this.header != null)
+            r.setHeader(this.header.toLogiqx());
+        for (Game game : this.games) {
+            r.addGame(game.toLogiqx());
+        }
+        return r;
+    }
+
+    public CMProDatafile toClrmamepro() {
+        CMProDatafile r = new CMProDatafile();
+        if (this.header != null)
+            r.setHeader(this.header.toClrmamepro());
+        for (Game game : this.games) {
+            r.addGame(game.toClrmamepro());
+        }
+        for (Resource resource : this.resources) {
+            r.addResource(resource.toClrmamepro());
         }
         return r;
     }

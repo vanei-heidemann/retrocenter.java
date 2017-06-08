@@ -34,6 +34,25 @@ public class LogiqxDisk implements Serializable {
      */
     private String status = "good";
 
+    public LogiqxDisk(String name) {
+        this.name = name;
+    }
+
+    public LogiqxDisk(String name, String sha1, String md5, String merge) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+    }
+
+    public LogiqxDisk(String name, String sha1, String md5, String merge, String status) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.status = status;
+    }
+
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");

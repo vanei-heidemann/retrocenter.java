@@ -108,6 +108,36 @@ public class LogiqxHeader implements Serializable {
      */
     private String locksamplemode;
 
+    public LogiqxHeader() {
+    }
+
+    public LogiqxHeader(String name, String description, String category, String version, String date, String author,
+            String email, String homepage, String url, String comment, String header, String forcemerging,
+            String forcenodump, String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
+            String lockrommode, String lockbiosmode, String locksamplemode) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.version = version;
+        this.date = date;
+        this.author = author;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
+        this.header = header;
+        this.forcemerging = forcemerging;
+        this.forcenodump = forcenodump;
+        this.forcepacking = forcepacking;
+        this.plugin = plugin;
+        this.rommode = rommode;
+        this.biosmode = biosmode;
+        this.samplemode = samplemode;
+        this.lockrommode = lockrommode;
+        this.lockbiosmode = lockbiosmode;
+        this.locksamplemode = locksamplemode;
+    }
+
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");

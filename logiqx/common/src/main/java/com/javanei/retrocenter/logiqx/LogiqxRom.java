@@ -41,14 +41,38 @@ public class LogiqxRom implements Serializable {
     private String merge;
 
     /**
+     * <!ATTLIST rom date CDATA #IMPLIED>
+     */
+    private String date;
+
+    /**
      * <!ATTLIST rom status (baddump|nodump|good|verified) "good">
      */
     private String status = "good";
 
-    /**
-     * <!ATTLIST rom date CDATA #IMPLIED>
-     */
-    private String date;
+    public LogiqxRom() {
+    }
+
+    public LogiqxRom(String name, Long size, String crc, String sha1, String md5, String merge, String date) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.date = date;
+    }
+
+    public LogiqxRom(String name, Long size, String crc, String sha1, String md5, String merge, String date, String status) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.date = date;
+        this.status = status;
+    }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
@@ -67,13 +91,13 @@ public class LogiqxRom implements Serializable {
         return size;
     }
 
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
     @Transient
     public void setSize(String size) {
         this.size = Long.parseLong(size);
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
     }
 
     public String getCrc() {

@@ -1,26 +1,101 @@
 package com.javanei.retrocenter.clrmamepro.parser;
 
-import com.javanei.retrocenter.clrmamepro.CMPro;
-import com.javanei.retrocenter.clrmamepro.CMProDisk;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
-import com.javanei.retrocenter.clrmamepro.CMProHeader;
-import com.javanei.retrocenter.clrmamepro.CMProResource;
-import com.javanei.retrocenter.clrmamepro.CMProRom;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.javanei.retrocenter.clrmamepro.CMProDatafile;
+import com.javanei.retrocenter.clrmamepro.CMProDisk;
+import com.javanei.retrocenter.clrmamepro.CMProGame;
+import com.javanei.retrocenter.clrmamepro.CMProHeader;
+import com.javanei.retrocenter.clrmamepro.CMProResource;
+import com.javanei.retrocenter.clrmamepro.CMProRom;
+
 public class CMProParser {
-    public CMPro parse(File file) throws Exception {
+    private static CMProDisk parseDisk(String line) throws Exception {
+        String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
+        CMProDisk r = new CMProDisk();
+
+        int pos = romLine.indexOf("\"") + 1;
+        int endpos = romLine.indexOf("\"", pos + 1);
+        r.setName(romLine.substring(pos, endpos));
+        String[] ss = romLine.substring(endpos + 2).trim().split(" ");
+        for (int i = 0; i < ss.length; i++) {
+            switch (ss[i]) {
+                case "md5":
+                    r.setMd5(ss[++i]);
+                    break;
+                case "sha1":
+                    r.setSha1(ss[++i]);
+                    break;
+                default:
+                    //TODO: Criar exception
+                    throw new Exception("Unknown tag value: " + ss[i]);
+            }
+        }
+        return r;
+    }
+
+    private static CMProRom parseRom(String line) throws Exception {
+        String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
+        CMProRom r = new CMProRom();
+
+        int pos = romLine.indexOf("\"") + 1;
+        int endpos = romLine.indexOf("\"", pos + 1);
+        r.setName(romLine.substring(pos, endpos));
+        String[] ss = romLine.substring(endpos + 2).trim().split(" ");
+        for (int i = 0; i < ss.length; i++) {
+            switch (ss[i]) {
+                case "size":
+                    r.setSize(Long.parseLong(ss[++i]));
+                    break;
+                case "crc":
+                    r.setCrc(ss[++i]);
+                    break;
+                case "md5":
+                    r.setMd5(ss[++i]);
+                    break;
+                case "sha1":
+                    r.setSha1(ss[++i]);
+                    break;
+                case "region":
+                    r.setRegion(ss[++i]);
+                    break;
+                case "flags":
+                    r.setFlags(ss[++i]);
+                    break;
+                case "nodump":
+                    // There is no dump info
+                    break;
+                default:
+                    //TODO: Criar exception
+                    throw new Exception("Unknown tag value: " + ss[i]);
+            }
+        }
+        return r;
+    }
+
+    private static String extractLineValue(String key, String line) {
+        return normalizeString(line.substring(key.length()).trim());
+    }
+
+    private static String normalizeString(String s) {
+        if (s.startsWith("\"") && s.endsWith("\"")) {
+            return s.substring(1, s.length() - 1).trim();
+        }
+        return s.trim();
+    }
+
+    public CMProDatafile parse(File file) throws Exception {
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
     }
 
-    public CMPro parse(InputStream is) throws Exception {
-        CMPro r = null;
+    public CMProDatafile parse(InputStream is) throws Exception {
+        CMProDatafile r = null;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String line = reader.readLine().trim();
             String[] ss = line.split(" ");
@@ -30,7 +105,7 @@ public class CMProParser {
             }
 
             CMProHeader header = new CMProHeader();
-            r = new CMPro(header);
+            r = new CMProDatafile(header);
             line = reader.readLine().trim();
             while (!line.equals(")")) {
                 if (line.startsWith("name")) {
@@ -113,79 +188,5 @@ public class CMProParser {
         }
 
         return r;
-    }
-
-    private static CMProDisk parseDisk(String line) throws Exception {
-        String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
-        CMProDisk r = new CMProDisk();
-
-        int pos = romLine.indexOf("\"") + 1;
-        int endpos = romLine.indexOf("\"", pos + 1);
-        r.setName(romLine.substring(pos, endpos));
-        String[] ss = romLine.substring(endpos + 2).trim().split(" ");
-        for (int i = 0; i < ss.length; i++) {
-            switch (ss[i]) {
-                case "md5":
-                    r.setMd5(ss[++i]);
-                    break;
-                case "sha1":
-                    r.setSha1(ss[++i]);
-                    break;
-                default:
-                    //TODO: Criar exception
-                    throw new Exception("Unknown tag value: " + ss[i]);
-            }
-        }
-        return r;
-    }
-
-    private static CMProRom parseRom(String line) throws Exception {
-        String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
-        CMProRom r = new CMProRom();
-
-        int pos = romLine.indexOf("\"") + 1;
-        int endpos = romLine.indexOf("\"", pos + 1);
-        r.setName(romLine.substring(pos, endpos));
-        String[] ss = romLine.substring(endpos + 2).trim().split(" ");
-        for (int i = 0; i < ss.length; i++) {
-            switch (ss[i]) {
-                case "size":
-                    r.setSize(Long.parseLong(ss[++i]));
-                    break;
-                case "crc":
-                    r.setCrc(ss[++i]);
-                    break;
-                case "md5":
-                    r.setMd5(ss[++i]);
-                    break;
-                case "sha1":
-                    r.setSha1(ss[++i]);
-                    break;
-                case "region":
-                    r.setRegion(ss[++i]);
-                    break;
-                case "flags":
-                    r.setFlags(ss[++i]);
-                    break;
-                case "nodump":
-                    // There is no dump info
-                    break;
-                default:
-                    //TODO: Criar exception
-                    throw new Exception("Unknown tag value: " + ss[i]);
-            }
-        }
-        return r;
-    }
-
-    private static String extractLineValue(String key, String line) {
-        return normalizeString(line.substring(key.length()).trim());
-    }
-
-    private static String normalizeString(String s) {
-        if (s.startsWith("\"") && s.endsWith("\"")) {
-            return s.substring(1, s.length() - 1).trim();
-        }
-        return s.trim();
     }
 }

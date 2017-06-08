@@ -34,6 +34,17 @@ public class LogiqxRelease implements Serializable {
      */
     private String _default = "no";
 
+    public LogiqxRelease() {
+    }
+
+    public LogiqxRelease(String name, String region, String language, String date, String _default) {
+        this.name = name;
+        this.region = region;
+        this.language = language;
+        this.date = date;
+        this._default = _default;
+    }
+
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");

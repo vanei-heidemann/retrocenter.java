@@ -60,6 +60,15 @@ public class Disk implements Serializable {
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 
+    public LogiqxDisk toLogiqx() {
+        return this.status == null ? new LogiqxDisk(this.name, this.sha1, this.md5, this.merge)
+                : new LogiqxDisk(this.name, this.sha1, this.md5, this.merge, this.status);
+    }
+
+    public CMProDisk toClrmamepro() {
+        return new CMProDisk(this.name, this.sha1, this.md5);
+    }
+
     public String getName() {
         return name;
     }

@@ -16,6 +16,19 @@ public class CMProDisk implements Serializable {
      */
     private String md5;
 
+    public CMProDisk() {
+    }
+
+    public CMProDisk(String name) {
+        this.name = name;
+    }
+
+    public CMProDisk(String name, String sha1, String md5) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+    }
+
     public String getName() {
         return name;
     }

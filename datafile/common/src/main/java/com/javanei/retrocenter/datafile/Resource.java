@@ -34,6 +34,15 @@ public class Resource implements Serializable {
         }
         return r;
     }
+
+    public CMProResource toClrmamepro() {
+        CMProResource r = new CMProResource(this.name, this.description, this.year, this.manufacturer);
+        for (Rom rom : this.roms) {
+            r.addRom(rom.toClrmamepro());
+        }
+        return r;
+    }
+
     public String getName() {
         return name;
     }

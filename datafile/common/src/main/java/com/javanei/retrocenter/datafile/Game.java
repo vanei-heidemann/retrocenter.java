@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.StringTokenizer;
 
 import com.javanei.retrocenter.clrmamepro.CMProDisk;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
@@ -158,6 +159,53 @@ public class Game implements Serializable {
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
+    public LogiqxGame toLogiqx() {
+        LogiqxGame r = this.isbios != null ? new LogiqxGame(this.name, this.sourcefile, this.isbios, this.cloneof,
+                this.romof, this.sampleof, this.board, this.rebuildto, this.comment, this.description, this.year,
+                this.manufacturer) :
+                new LogiqxGame(this.name, this.sourcefile, this.cloneof, this.romof, this.sampleof,
+                        this.board, this.rebuildto, this.comment, this.description, this.year, this.manufacturer);
+        for (Release release : this.releases) {
+            r.addRelease(release.toLogiqx());
+        }
+        for (Biosset biosset : this.biossets) {
+            r.addBiosset(biosset.toLogiqx());
+        }
+        for (Rom rom : this.roms) {
+            r.addRom(rom.toLogiqx());
+        }
+        for (Disk disk : this.disks) {
+            r.addDisk(disk.toLogiqx());
+        }
+        for (Sample sample : this.samples) {
+            r.addSample(sample.toLogiqx());
+        }
+        for (Archive archive : this.archives) {
+            r.addArchive(archive.toLogiqx());
+        }
+        return r;
+    }
+
+    public CMProGame toClrmamepro() {
+        CMProGame r = new CMProGame(this.name, this.description, this.year, this.manufacturer, this.cloneof, this.romof);
+        for (Rom rom : this.roms) {
+            r.addRom(rom.toClrmamepro());
+        }
+        for (Disk disk : this.disks) {
+            r.addDisk(disk.toClrmamepro());
+        }
+        for (Sample sample : this.samples) {
+            r.addSample(sample.getName());
+        }
+        if (this.sampleof != null) {
+            StringTokenizer st = new StringTokenizer(this.sampleof, ",");
+            while (st.hasMoreTokens()) {
+                r.addSampleOf(st.nextToken());
+            }
+        }
+        return r;
     }
 
     public String getName() {

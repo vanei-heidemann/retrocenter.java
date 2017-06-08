@@ -109,6 +109,15 @@ public class Rom implements Serializable {
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 
+    public LogiqxRom toLogiqx() {
+        return this.status != null ? new LogiqxRom(this.name, this.size, this.crc, this.sha1, this.md5, this.merge, this.date) :
+                new LogiqxRom(this.name, this.size, this.crc, this.sha1, this.md5, this.merge, this.date, this.status);
+    }
+
+    public CMProRom toClrmamepro() {
+        return new CMProRom(this.name, this.size, this.crc, this.sha1, this.md5, this.region, this.status);
+    }
+
     public String getName() {
         return name;
     }

@@ -1,17 +1,19 @@
 package com.javanei.retrocenter.clrmamepro.parser;
 
-import com.javanei.retrocenter.clrmamepro.CMPro;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
 import java.io.InputStream;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
+import com.javanei.retrocenter.clrmamepro.CMProDatafile;
+import com.javanei.retrocenter.clrmamepro.CMProGame;
+
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CMProParserTest {
-    private static CMPro psvita;
+    private static CMProDatafile psvita;
 
     @BeforeClass
     public static void initialize() throws Exception {
@@ -86,7 +88,7 @@ public class CMProParserTest {
         File[] files = new File("F:\\Desenv\\Fontes\\Java\\retrocenter\\resources\\no-intro").listFiles();
         for (File f : files) {
             System.out.println("======== Processing file: " + f.getAbsolutePath());
-            CMPro m = parser.parse(f);
+            CMProDatafile m = parser.parse(f);
             System.out.println(m);
             headerCustomFields.putAll(m.getHeader().getCustomFields());
             for (CMProGame game : m.getGames()) {

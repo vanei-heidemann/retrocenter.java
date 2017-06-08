@@ -40,6 +40,11 @@ public class Biosset implements Serializable {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
+    
+    public LogiqxBiosset toLogiqx() {
+        return this._default != null ? new LogiqxBiosset(this.name, this.description, this._default)
+                : new LogiqxBiosset(this.name, this.description);
+    }
 
     public String getName() {
         return name;

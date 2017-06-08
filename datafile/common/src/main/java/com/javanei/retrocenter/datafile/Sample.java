@@ -24,6 +24,10 @@ public class Sample implements Serializable {
         return new Sample(p.getName());
     }
 
+    public LogiqxSample toLogiqx() {
+        return new LogiqxSample(this.name);
+    }
+
     public String getName() {
         return name;
     }

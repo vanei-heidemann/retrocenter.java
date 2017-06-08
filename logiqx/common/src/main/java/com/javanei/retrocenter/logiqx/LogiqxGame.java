@@ -89,6 +89,50 @@ public class LogiqxGame implements Serializable {
 
     private Set<LogiqxArchive> archives = new HashSet<>();
 
+    public LogiqxGame() {
+    }
+
+    public LogiqxGame(String name, String sourcefile, String isbios, String cloneof, String romof, String sampleof,
+            String board, String rebuildto, String comment, String description, String year, String manufacturer) {
+        this.name = name;
+        this.sourcefile = sourcefile;
+        this.isbios = isbios;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.board = board;
+        this.rebuildto = rebuildto;
+        this.comment = comment;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
+    public LogiqxGame(String name, String sourcefile, String cloneof, String romof, String sampleof, String board,
+            String rebuildto, String comment, String description, String year, String manufacturer) {
+        this.name = name;
+        this.sourcefile = sourcefile;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.board = board;
+        this.rebuildto = rebuildto;
+        this.comment = comment;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
+    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+    }
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
+
     public String getName() {
         return name;
     }
@@ -309,15 +353,5 @@ public class LogiqxGame implements Serializable {
         }
         sb.append("\t</game>\n");
         return sb.toString();
-    }
-
-    private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
-        if (value != null)
-            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
-    }
-
-    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
-        if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 }

@@ -53,6 +53,10 @@ public class Release implements Serializable {
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
     }
 
+    public LogiqxRelease toLogiqx() {
+        return new LogiqxRelease(this.name, this.region, this.language, this.date, this._default);
+    }
+
     public String getName() {
         return name;
     }

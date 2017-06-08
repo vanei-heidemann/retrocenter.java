@@ -16,8 +16,8 @@ public class CMProHeader implements Serializable {
     private String author; // Your name and e-mail/web address.
     private String homepage;
     private String url;
-    private String forcemerging; // To force CMPro to use a particular merging format (none/split/full).
-    private String forcezipping; // To force CMPro to use ZIPs (yes) or directories (no).
+    private String forcemerging; // To force CMProDatafile to use a particular merging format (none/split/full).
+    private String forcezipping; // To force CMProDatafile to use ZIPs (yes) or directories (no).
     //
     /**
      * Custom fields, used in some managers
@@ -29,6 +29,22 @@ public class CMProHeader implements Serializable {
      * - forcenodump
      */
     private Map<String, String> customFields = new HashMap<>();
+
+    public CMProHeader() {
+    }
+
+    public CMProHeader(String name, String description, String category, String version, String author, String homepage,
+            String url, String forcemerging, String forcezipping) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.version = version;
+        this.author = author;
+        this.homepage = homepage;
+        this.url = url;
+        this.forcemerging = forcemerging;
+        this.forcezipping = forcezipping;
+    }
 
     public String getName() {
         return name;
