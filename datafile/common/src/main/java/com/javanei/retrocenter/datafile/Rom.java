@@ -38,9 +38,18 @@ public class Rom implements Serializable {
      */
     private String date;
     /**
+     * logiqx.rom.merge
+     */
+    private String merge;
+    /**
      * clrmamepro.rom.region
      */
     private String region;
+
+    private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null)
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+    }
 
     public String getName() {
         return name;
@@ -106,6 +115,14 @@ public class Rom implements Serializable {
         this.region = region;
     }
 
+    public String getMerge() {
+        return merge;
+    }
+
+    public void setMerge(String merge) {
+        this.merge = merge;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -130,15 +147,20 @@ public class Rom implements Serializable {
 
     @Override
     public String toString() {
-        return "Rom{" +
-                "name='" + name + '\'' +
-                ", size=" + size +
-                ", crc='" + crc + '\'' +
-                ", sha1='" + sha1 + '\'' +
-                ", md5='" + md5 + '\'' +
-                ", status='" + status + '\'' +
-                ", date='" + date + '\'' +
-                ", region='" + region + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("\t\t<rom");
+
+        appendAttributeIfNotNull(sb, "name", this.name);
+        appendAttributeIfNotNull(sb, "size", this.size);
+        appendAttributeIfNotNull(sb, "crc", this.crc);
+        appendAttributeIfNotNull(sb, "sha1", this.sha1);
+        appendAttributeIfNotNull(sb, "md5", this.md5);
+        appendAttributeIfNotNull(sb, "merge", this.merge);
+        appendAttributeIfNotNull(sb, "status", this.status);
+        appendAttributeIfNotNull(sb, "date", this.date);
+        appendAttributeIfNotNull(sb, "region", this.region);
+
+        sb.append(" />\n");
+        return sb.toString();
     }
 }
