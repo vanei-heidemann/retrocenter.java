@@ -23,6 +23,11 @@ public class FromLogiqxTest {
     }
 
     @Test
+    public void testDebug() {
+        Assert.assertEquals("no", datafile.getCustomAttribute("debug"));
+    }
+
+    @Test
     public void testHeaderName() {
         Assert.assertEquals("name 001", datafile.getHeader().getName());
     }

@@ -121,6 +121,14 @@ public class Datafile implements Serializable {
         return customAttributes;
     }
 
+    public String getCustomAttribute(String key) {
+        return this.customAttributes.get(key);
+    }
+
+    public String getCustomAttribute(String key) {
+        return this.customAttributes.get(key);
+    }
+
     public void setCustomAttributes(Map<String, String> customAttributes) {
         this.customAttributes = customAttributes;
     }
