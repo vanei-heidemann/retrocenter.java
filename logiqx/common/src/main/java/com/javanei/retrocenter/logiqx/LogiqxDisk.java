@@ -34,6 +34,9 @@ public class LogiqxDisk implements Serializable {
      */
     private String status = "good";
 
+    public LogiqxDisk() {
+    }
+
     public LogiqxDisk(String name) {
         this.name = name;
     }

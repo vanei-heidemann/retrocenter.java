@@ -105,22 +105,21 @@ public class Header implements Serializable {
     public static Header fromLogiqx(LogiqxHeader p) {
         Header r = new Header(p.getName(), p.getDescription(), p.getCategory(), p.getVersion(), p.getAuthor(),
                 p.getDate(), p.getEmail(), p.getHomepage(), p.getUrl(), p.getComment());
-        if (p.getHeader() != null)
+        if (p.isClrmamepro()) {
             r.addCustomField("header", p.getHeader());
-        if (p.getPlugin() != null)
+            r.addCustomField("forcemerging", p.getForcemerging());
+            r.addCustomField("forcenodump", p.getForcenodump());
+            r.addCustomField("forcepacking", p.getForcepacking());
+        }
+        if (p.isRomcenter()) {
             r.addCustomField("plugin", p.getPlugin());
-        if (p.getRommode() != null)
             r.addCustomField("rommode", p.getRommode());
-        if (p.getBiosmode() != null)
             r.addCustomField("biosmode", p.getBiosmode());
-        if (p.getSamplemode() != null)
             r.addCustomField("samplemode", p.getSamplemode());
-        if (p.getLockrommode() != null)
             r.addCustomField("lockrommode", p.getLockrommode());
-        if (p.getLockbiosmode() != null)
             r.addCustomField("lockbiosmode", p.getLockbiosmode());
-        if (p.getLocksamplemode() != null)
             r.addCustomField("locksamplemode", p.getLocksamplemode());
+        }
         return r;
     }
 

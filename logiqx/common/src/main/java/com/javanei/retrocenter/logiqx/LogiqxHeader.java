@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import java.beans.Transient;
 import java.io.Serializable;
 
 /**
@@ -109,6 +110,20 @@ public class LogiqxHeader implements Serializable {
     private String locksamplemode;
 
     public LogiqxHeader() {
+    }
+
+    public LogiqxHeader(String name, String description, String category, String version, String date, String author,
+            String email, String homepage, String url, String comment) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.version = version;
+        this.date = date;
+        this.author = author;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
     }
 
     public LogiqxHeader(String name, String description, String category, String version, String date, String author,
@@ -237,7 +252,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getForcemerging() {
-        return forcemerging;
+        return isClrmamepro() && forcemerging == null ? "split" : this.forcemerging;
     }
 
     public void setForcemerging(String forcemerging) {
@@ -245,7 +260,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getForcenodump() {
-        return forcenodump;
+        return isClrmamepro() && forcenodump == null ? "obsolete" : this.forcenodump;
     }
 
     public void setForcenodump(String forcenodump) {
@@ -253,7 +268,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getForcepacking() {
-        return forcepacking;
+        return isClrmamepro() && forcepacking == null ? "zip" : this.forcepacking;
     }
 
     public void setForcepacking(String forcepacking) {
@@ -269,7 +284,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getRommode() {
-        return rommode;
+        return isRomcenter() && rommode == null ? "split" : this.rommode;
     }
 
     public void setRommode(String rommode) {
@@ -277,7 +292,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getBiosmode() {
-        return biosmode;
+        return isRomcenter() && biosmode == null ? "split" : this.biosmode;
     }
 
     public void setBiosmode(String biosmode) {
@@ -285,7 +300,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getSamplemode() {
-        return samplemode;
+        return isRomcenter() && samplemode == null ? "merged" : this.samplemode;
     }
 
     public void setSamplemode(String samplemode) {
@@ -293,7 +308,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getLockrommode() {
-        return lockrommode;
+        return isRomcenter() && lockrommode == null ? "no" : this.lockrommode;
     }
 
     public void setLockrommode(String lockrommode) {
@@ -301,7 +316,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getLockbiosmode() {
-        return lockbiosmode;
+        return isRomcenter() && lockbiosmode == null ? "no" : this.lockbiosmode;
     }
 
     public void setLockbiosmode(String lockbiosmode) {
@@ -309,11 +324,22 @@ public class LogiqxHeader implements Serializable {
     }
 
     public String getLocksamplemode() {
-        return locksamplemode;
+        return isRomcenter() && locksamplemode == null ? "no" : this.locksamplemode;
     }
 
     public void setLocksamplemode(String locksamplemode) {
         this.locksamplemode = locksamplemode;
+    }
+
+    @Transient
+    public boolean isClrmamepro() {
+        return this.header != null || this.forcemerging != null || this.forcenodump != null || this.forcepacking != null;
+    }
+
+    @Transient
+    public boolean isRomcenter() {
+        return this.plugin != null || this.rommode != null || this.biosmode != null || this.samplemode != null
+                || this.lockrommode != null || this.lockbiosmode != null || this.locksamplemode != null;
     }
 
     @Override
@@ -331,7 +357,7 @@ public class LogiqxHeader implements Serializable {
         appendTagIfNotNull(sb, "url", this.url);
         appendTagIfNotNull(sb, "comment", this.comment);
 
-        if (this.header != null || this.forcemerging != null || this.forcenodump != null || this.forcepacking != null) {
+        if (isClrmamepro()) {
             sb.append("\t\t<clrmamepro");
             appendAttributeIfNotNull(sb, "header", this.header);
             appendAttributeIfNotNull(sb, "forcemerging", this.forcemerging);
@@ -340,8 +366,7 @@ public class LogiqxHeader implements Serializable {
             sb.append(" />\n");
         }
 
-        if (this.plugin != null || this.rommode != null || this.biosmode != null || this.samplemode != null
-                || this.lockrommode != null || this.lockbiosmode != null || this.locksamplemode != null) {
+        if (isRomcenter()) {
             sb.append("\t\t<romcenter");
             appendAttributeIfNotNull(sb, "plugin", this.plugin);
             appendAttributeIfNotNull(sb, "rommode", this.rommode);
