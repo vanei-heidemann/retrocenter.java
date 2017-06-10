@@ -1,17 +1,16 @@
 package com.javanei.retrocenter.clrmamepro.parser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.CMProDisk;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class CMProParser {
     private static CMProDisk parseDisk(String line) throws Exception {

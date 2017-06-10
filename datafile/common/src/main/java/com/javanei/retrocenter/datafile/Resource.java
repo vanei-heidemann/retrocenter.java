@@ -1,12 +1,11 @@
 package com.javanei.retrocenter.datafile;
 
+import com.javanei.retrocenter.clrmamepro.CMProResource;
+import com.javanei.retrocenter.clrmamepro.CMProRom;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
-import com.javanei.retrocenter.clrmamepro.CMProResource;
-import com.javanei.retrocenter.clrmamepro.CMProRom;
 
 public class Resource implements Serializable {
     private static final long serialVersionUID = 1L;

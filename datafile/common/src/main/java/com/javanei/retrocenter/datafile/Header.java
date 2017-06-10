@@ -1,11 +1,10 @@
 package com.javanei.retrocenter.datafile;
 
+import com.javanei.retrocenter.clrmamepro.CMProHeader;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.javanei.retrocenter.clrmamepro.CMProHeader;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
 
 public class Header implements Serializable {
     private static final long serialVersionUID = 1L;

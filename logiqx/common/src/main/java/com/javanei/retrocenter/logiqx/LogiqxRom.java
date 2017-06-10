@@ -91,13 +91,13 @@ public class LogiqxRom implements Serializable {
         return size;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
     @Transient
     public void setSize(String size) {
         this.size = Long.parseLong(size);
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public String getCrc() {

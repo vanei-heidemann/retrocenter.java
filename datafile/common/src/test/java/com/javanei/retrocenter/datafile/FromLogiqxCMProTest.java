@@ -1,11 +1,10 @@
 package com.javanei.retrocenter.datafile;
 
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
 
 public class FromLogiqxCMProTest {
     private static LogiqxDatafile logiqxCMPro;

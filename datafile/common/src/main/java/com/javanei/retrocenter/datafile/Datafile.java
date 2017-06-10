@@ -1,16 +1,15 @@
 package com.javanei.retrocenter.datafile;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class Datafile implements Serializable {
     private static final long serialVersionUID = 1L;

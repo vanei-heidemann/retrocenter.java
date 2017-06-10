@@ -1,11 +1,5 @@
 package com.javanei.retrocenter.datafile;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-import java.util.StringTokenizer;
-
 import com.javanei.retrocenter.clrmamepro.CMProDisk;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
@@ -16,6 +10,11 @@ import com.javanei.retrocenter.logiqx.LogiqxGame;
 import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+import java.util.StringTokenizer;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;

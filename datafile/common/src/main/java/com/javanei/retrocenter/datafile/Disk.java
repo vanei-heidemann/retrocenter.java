@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.datafile;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.clrmamepro.CMProDisk;
 import com.javanei.retrocenter.logiqx.LogiqxDisk;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class Disk implements Serializable {
     private static final long serialVersionUID = 1L;

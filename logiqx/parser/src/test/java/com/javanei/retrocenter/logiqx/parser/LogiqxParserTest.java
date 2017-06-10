@@ -1,14 +1,12 @@
 package com.javanei.retrocenter.logiqx.parser;
 
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import java.io.InputStream;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LogiqxParserTest {

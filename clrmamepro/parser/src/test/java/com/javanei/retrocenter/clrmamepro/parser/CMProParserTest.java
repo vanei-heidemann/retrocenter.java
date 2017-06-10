@@ -1,15 +1,13 @@
 package com.javanei.retrocenter.clrmamepro.parser;
 
+import com.javanei.retrocenter.clrmamepro.CMProDatafile;
+import com.javanei.retrocenter.clrmamepro.CMProGame;
 import java.io.InputStream;
-
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
-
-import com.javanei.retrocenter.clrmamepro.CMProDatafile;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CMProParserTest {

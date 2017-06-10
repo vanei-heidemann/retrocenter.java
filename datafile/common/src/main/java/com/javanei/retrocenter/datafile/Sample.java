@@ -1,9 +1,8 @@
 package com.javanei.retrocenter.datafile;
 
+import com.javanei.retrocenter.logiqx.LogiqxSample;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.javanei.retrocenter.logiqx.LogiqxSample;
 
 public class Sample implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1,19 +1,5 @@
 package com.javanei.retrocenter.logiqx.parser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import com.javanei.retrocenter.logiqx.LogiqxArchive;
 import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
@@ -23,6 +9,17 @@ import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class LogiqxParser {
     private static void setValueByReflection(Object to, String attr, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
