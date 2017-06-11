@@ -27,7 +27,7 @@ public class Mame implements Serializable {
         return debug;
     }
 
-    public void String(String debug) {
+    public void setDebug(String debug) {
         this.debug = ValidValuesUtil.validateValue(debug, ValidValuesUtil.YES_NO);
     }
 
