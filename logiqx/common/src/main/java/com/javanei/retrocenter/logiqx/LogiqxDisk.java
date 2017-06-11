@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -98,7 +99,7 @@ public class LogiqxDisk implements Serializable {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = ValidValuesUtil.validateValue(status, ValidValuesUtil.BADDUMP_NODUMP_GOOD_VERIFIED);
     }
 
     @Override

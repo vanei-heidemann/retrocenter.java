@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.clrmamepro;
 
+import com.javanei.retrocenter.common.DuplicatedItemException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -114,18 +115,30 @@ public class CMProGame implements Serializable {
     }
 
     public void addRom(CMProRom rom) {
+        if (this.roms.contains(rom)) {
+            throw new DuplicatedItemException("rom (" + rom.getName() + ")");
+        }
         this.roms.add(rom);
     }
 
     public void addDisk(CMProDisk disk) {
+        if (this.disks.contains(disk)) {
+            throw new DuplicatedItemException("disk (" + disk.getName() + ")");
+        }
         this.disks.add(disk);
     }
 
     public void addSample(String sample) {
+        if (this.samples.contains(sample)) {
+            throw new DuplicatedItemException("sample (" + sample + ")");
+        }
         this.samples.add(sample);
     }
 
     public void addSampleOf(String sampleof) {
+        if (this.sampleof.contains(sampleof)) {
+            throw new DuplicatedItemException("sampleof (" + sampleof + ")");
+        }
         this.sampleof.add(sampleof);
     }
 

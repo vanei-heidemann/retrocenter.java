@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.DuplicatedItemException;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -53,7 +55,7 @@ public class LogiqxDatafile implements Serializable {
     }
 
     public void setDebug(String debug) {
-        this.debug = debug;
+        this.debug = ValidValuesUtil.validateValue(debug, ValidValuesUtil.YES_NO);
     }
 
     public LogiqxHeader getHeader() {
@@ -73,6 +75,9 @@ public class LogiqxDatafile implements Serializable {
     }
 
     public void addGame(LogiqxGame game) {
+        if (this.games.contains(game)) {
+            throw new DuplicatedItemException("game (" + game.getName() + ")");
+        }
         this.games.add(game);
     }
 

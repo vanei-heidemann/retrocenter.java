@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.clrmamepro;
 
+import com.javanei.retrocenter.common.DuplicatedItemException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +26,9 @@ public class CMProDatafile implements Serializable {
     }
 
     public void setHeader(CMProHeader header) {
+        if (this.header != null) {
+            throw new DuplicatedItemException("header");
+        }
         this.header = header;
     }
 
@@ -45,10 +49,16 @@ public class CMProDatafile implements Serializable {
     }
 
     public void addGame(CMProGame game) {
+        if (this.games.contains(game)) {
+            throw new DuplicatedItemException("game (" + game.getName() + ")");
+        }
         this.games.add(game);
     }
 
     public void addResource(CMProResource resource) {
+        if (this.resources.contains(resource)) {
+            throw new DuplicatedItemException("resource (" + resource.getName() + ")");
+        }
         this.resources.add(resource);
     }
 

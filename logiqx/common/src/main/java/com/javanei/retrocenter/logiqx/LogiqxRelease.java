@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -87,7 +88,7 @@ public class LogiqxRelease implements Serializable {
     }
 
     public void setDefault(String _default) {
-        this._default = _default;
+        this._default = ValidValuesUtil.validateValue(_default, ValidValuesUtil.YES_NO);
     }
 
     @Override

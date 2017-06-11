@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -93,7 +94,7 @@ public class LogiqxGame implements Serializable {
     }
 
     public LogiqxGame(String name, String sourcefile, String isbios, String cloneof, String romof, String sampleof,
-            String board, String rebuildto, String comment, String description, String year, String manufacturer) {
+                      String board, String rebuildto, String comment, String description, String year, String manufacturer) {
         this.name = name;
         this.sourcefile = sourcefile;
         this.isbios = isbios;
@@ -109,7 +110,7 @@ public class LogiqxGame implements Serializable {
     }
 
     public LogiqxGame(String name, String sourcefile, String cloneof, String romof, String sampleof, String board,
-            String rebuildto, String comment, String description, String year, String manufacturer) {
+                      String rebuildto, String comment, String description, String year, String manufacturer) {
         this.name = name;
         this.sourcefile = sourcefile;
         this.cloneof = cloneof;
@@ -154,7 +155,7 @@ public class LogiqxGame implements Serializable {
     }
 
     public void setIsbios(String isbios) {
-        this.isbios = isbios;
+        this.isbios = ValidValuesUtil.validateValue(isbios, ValidValuesUtil.YES_NO);
     }
 
     public String getCloneof() {

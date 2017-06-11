@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
@@ -91,13 +92,13 @@ public class LogiqxRom implements Serializable {
         return size;
     }
 
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
     @Transient
     public void setSize(String size) {
         this.size = Long.parseLong(size);
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
     }
 
     public String getCrc() {
@@ -137,7 +138,7 @@ public class LogiqxRom implements Serializable {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = ValidValuesUtil.validateValue(status, ValidValuesUtil.BADDUMP_NODUMP_GOOD_VERIFIED);
     }
 
     public String getDate() {

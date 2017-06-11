@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.beans.Transient;
 import java.io.Serializable;
 
@@ -113,7 +114,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public LogiqxHeader(String name, String description, String category, String version, String date, String author,
-            String email, String homepage, String url, String comment) {
+                        String email, String homepage, String url, String comment) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -127,9 +128,9 @@ public class LogiqxHeader implements Serializable {
     }
 
     public LogiqxHeader(String name, String description, String category, String version, String date, String author,
-            String email, String homepage, String url, String comment, String header, String forcemerging,
-            String forcenodump, String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
-            String lockrommode, String lockbiosmode, String locksamplemode) {
+                        String email, String homepage, String url, String comment, String header, String forcemerging,
+                        String forcenodump, String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
+                        String lockrommode, String lockbiosmode, String locksamplemode) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -256,7 +257,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setForcemerging(String forcemerging) {
-        this.forcemerging = forcemerging;
+        this.forcemerging = ValidValuesUtil.validateValue(forcemerging, ValidValuesUtil.NONE_SPLIT_FULL);
     }
 
     public String getForcenodump() {
@@ -264,7 +265,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setForcenodump(String forcenodump) {
-        this.forcenodump = forcenodump;
+        this.forcenodump = ValidValuesUtil.validateValue(forcenodump, ValidValuesUtil.OBSOLETE_REQUIRED_IGNORE);
     }
 
     public String getForcepacking() {
@@ -272,7 +273,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setForcepacking(String forcepacking) {
-        this.forcepacking = forcepacking;
+        this.forcepacking = ValidValuesUtil.validateValue(forcepacking, ValidValuesUtil.ZIP_UNZIP);
     }
 
     public String getPlugin() {
@@ -288,7 +289,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setRommode(String rommode) {
-        this.rommode = rommode;
+        this.rommode = ValidValuesUtil.validateValue(rommode, ValidValuesUtil.MERGED_SPLIT_UNMERGED);
     }
 
     public String getBiosmode() {
@@ -296,7 +297,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setBiosmode(String biosmode) {
-        this.biosmode = biosmode;
+        this.biosmode = ValidValuesUtil.validateValue(biosmode, ValidValuesUtil.MERGED_SPLIT_UNMERGED);
     }
 
     public String getSamplemode() {
@@ -304,7 +305,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setSamplemode(String samplemode) {
-        this.samplemode = samplemode;
+        this.samplemode = ValidValuesUtil.validateValue(samplemode, ValidValuesUtil.MERGED_UNMERGED);
     }
 
     public String getLockrommode() {
@@ -312,7 +313,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setLockrommode(String lockrommode) {
-        this.lockrommode = lockrommode;
+        this.lockrommode = ValidValuesUtil.validateValue(lockrommode, ValidValuesUtil.YES_NO);
     }
 
     public String getLockbiosmode() {
@@ -320,7 +321,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setLockbiosmode(String lockbiosmode) {
-        this.lockbiosmode = lockbiosmode;
+        this.lockbiosmode = ValidValuesUtil.validateValue(lockbiosmode, ValidValuesUtil.YES_NO);
     }
 
     public String getLocksamplemode() {
@@ -328,7 +329,7 @@ public class LogiqxHeader implements Serializable {
     }
 
     public void setLocksamplemode(String locksamplemode) {
-        this.locksamplemode = locksamplemode;
+        this.locksamplemode = ValidValuesUtil.validateValue(locksamplemode, ValidValuesUtil.YES_NO);
     }
 
     @Transient
