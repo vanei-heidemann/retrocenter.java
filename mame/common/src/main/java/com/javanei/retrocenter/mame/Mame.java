@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;

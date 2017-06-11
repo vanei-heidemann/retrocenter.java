@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.mame.util;
+package com.javanei.retrocenter.common.util;
 
 public final class ValidValuesUtil {
     public static final String[] YES_NO = new String[]{"yes", "no"};

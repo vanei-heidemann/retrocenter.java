@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 
 public class MameAnalog implements Serializable {
@@ -12,12 +12,12 @@ public class MameAnalog implements Serializable {
         return mask;
     }
 
-    public void setMask(Integer mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Integer(mask);
+    }
+
+    public void setMask(Integer mask) {
+        this.mask = mask;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 
 public class MameDipvalue implements Serializable {
@@ -23,12 +23,12 @@ public class MameDipvalue implements Serializable {
         return value;
     }
 
-    public void setValue(Long value) {
-        this.value = value;
-    }
-
     public void setValue(String value) {
         this.value = new Long(value);
+    }
+
+    public void setValue(Long value) {
+        this.value = value;
     }
 
     public String getDefault() {

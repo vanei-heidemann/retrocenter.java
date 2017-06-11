@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 
 public class MameConfsetting implements Serializable {
@@ -23,12 +23,12 @@ public class MameConfsetting implements Serializable {
         return value;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
     public void setValue(String value) {
         this.value = new Integer(value);
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public String getDefault() {

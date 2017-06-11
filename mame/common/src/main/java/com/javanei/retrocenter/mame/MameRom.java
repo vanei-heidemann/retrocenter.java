@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 
 public class MameRom implements Serializable {
@@ -38,12 +38,12 @@ public class MameRom implements Serializable {
         return size;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-
     public void setSize(String size) {
         this.size = new Integer(size);
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
     public String getCrc() {

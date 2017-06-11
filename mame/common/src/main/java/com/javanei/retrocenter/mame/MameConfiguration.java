@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,12 +34,12 @@ public class MameConfiguration implements Serializable {
         return mask;
     }
 
-    public void setMask(Integer mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Integer(mask);
+    }
+
+    public void setMask(Integer mask) {
+        this.mask = mask;
     }
 
     public List<MameConfsetting> getConfsettings() {

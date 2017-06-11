@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 
 public class MameDeviceInstance implements Serializable {

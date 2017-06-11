@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 
 public class MameInputControl implements Serializable {
@@ -31,72 +31,72 @@ public class MameInputControl implements Serializable {
         return player;
     }
 
-    public void setPlayer(Integer player) {
-        this.player = player;
-    }
-
     public void setPlayer(String player) {
         this.player = new Integer(player);
+    }
+
+    public void setPlayer(Integer player) {
+        this.player = player;
     }
 
     public Integer getButtons() {
         return buttons;
     }
 
-    public void setButtons(Integer buttons) {
-        this.buttons = buttons;
-    }
-
     public void setButtons(String buttons) {
         this.buttons = new Integer(buttons);
+    }
+
+    public void setButtons(Integer buttons) {
+        this.buttons = buttons;
     }
 
     public Integer getMinimum() {
         return minimum;
     }
 
-    public void setMinimum(Integer minimum) {
-        this.minimum = minimum;
-    }
-
     public void setMinimum(String minimum) {
         this.minimum = new Integer(minimum);
+    }
+
+    public void setMinimum(Integer minimum) {
+        this.minimum = minimum;
     }
 
     public Integer getMaximum() {
         return maximum;
     }
 
-    public void setMaximum(Integer maximum) {
-        this.maximum = maximum;
-    }
-
     public void setMaximum(String maximum) {
         this.maximum = new Integer(maximum);
+    }
+
+    public void setMaximum(Integer maximum) {
+        this.maximum = maximum;
     }
 
     public Integer getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(Integer sensitivity) {
-        this.sensitivity = sensitivity;
-    }
-
     public void setSensitivity(String sensitivity) {
         this.sensitivity = new Integer(sensitivity);
+    }
+
+    public void setSensitivity(Integer sensitivity) {
+        this.sensitivity = sensitivity;
     }
 
     public Integer getKeydelta() {
         return keydelta;
     }
 
-    public void setKeydelta(Integer keydelta) {
-        this.keydelta = keydelta;
-    }
-
     public void setKeydelta(String keydelta) {
         this.keydelta = new Integer(keydelta);
+    }
+
+    public void setKeydelta(Integer keydelta) {
+        this.keydelta = keydelta;
     }
 
     public String getReverse() {

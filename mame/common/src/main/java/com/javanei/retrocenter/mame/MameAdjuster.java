@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 
 public class MameAdjuster implements Serializable {
@@ -21,12 +21,12 @@ public class MameAdjuster implements Serializable {
         return _default;
     }
 
-    public void setDefault(Integer _default) {
-        this._default = _default;
-    }
-
     public void setDefault(String _default) {
         this._default = new Integer(_default);
+    }
+
+    public void setDefault(Integer _default) {
+        this._default = _default;
     }
 
     @Override

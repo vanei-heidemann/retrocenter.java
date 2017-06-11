@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.mame.util;
+package com.javanei.retrocenter.common.util;
 
 public class StringUtil {
     private static final char[] hexDigit = {

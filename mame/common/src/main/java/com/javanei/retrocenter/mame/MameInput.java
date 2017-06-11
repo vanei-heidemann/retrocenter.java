@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,24 +36,24 @@ public class MameInput implements Serializable {
         return players;
     }
 
-    public void setPlayers(Integer players) {
-        this.players = players;
-    }
-
     public void setPlayers(String players) {
         this.players = new Integer(players);
+    }
+
+    public void setPlayers(Integer players) {
+        this.players = players;
     }
 
     public Integer getCoins() {
         return coins;
     }
 
-    public void setCoins(Integer coins) {
-        this.coins = coins;
-    }
-
     public void setCoins(String coins) {
         this.coins = new Integer(coins);
+    }
+
+    public void setCoins(Integer coins) {
+        this.coins = coins;
     }
 
     public List<MameInputControl> getControls() {

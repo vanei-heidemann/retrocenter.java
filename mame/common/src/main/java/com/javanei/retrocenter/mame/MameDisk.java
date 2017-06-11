@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.util.StringUtil;
-import com.javanei.retrocenter.mame.util.ValidValuesUtil;
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 
 public class MameDisk implements Serializable {
@@ -52,13 +52,13 @@ public class MameDisk implements Serializable {
         return index;
     }
 
-    public void setIndex(Integer index) {
-        this.index = index;
-    }
-
     public void setIndex(String index) {
         if (index != null)
             this.index = new Integer(index);
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public String getWritable() {
