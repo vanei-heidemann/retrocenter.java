@@ -1,9 +1,11 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MamePort implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,6 +32,21 @@ public class MamePort implements Serializable {
 
     public void addAnalog(MameAnalog analog) {
         this.analogs.add(analog);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MamePort mamePort = (MamePort) o;
+        return Objects.equals(tag, mamePort.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag);
     }
 
     @Override

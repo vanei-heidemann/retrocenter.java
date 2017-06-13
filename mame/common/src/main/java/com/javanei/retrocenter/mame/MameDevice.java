@@ -1,9 +1,11 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameDevice implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -37,26 +39,26 @@ public class MameDevice implements Serializable {
         return fixed_image;
     }
 
+    public void setFixed_image(Integer fixed_image) {
+        this.fixed_image = fixed_image;
+    }
+
     public void setFixed_image(String fixed_image) {
         if (fixed_image != null)
             this.fixed_image = new Integer(fixed_image);
-    }
-
-    public void setFixed_image(Integer fixed_image) {
-        this.fixed_image = fixed_image;
     }
 
     public Integer getMandatory() {
         return mandatory;
     }
 
+    public void setMandatory(Integer mandatory) {
+        this.mandatory = mandatory;
+    }
+
     public void setMandatory(String mandatory) {
         if (mandatory != null)
             this.mandatory = new Integer(mandatory);
-    }
-
-    public void setMandatory(Integer mandatory) {
-        this.mandatory = mandatory;
     }
 
     public String getInterface() {
@@ -89,6 +91,22 @@ public class MameDevice implements Serializable {
 
     public void addExtension(MameDeviceExtension extension) {
         this.extensions.add(extension);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameDevice that = (MameDevice) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(tag, that.tag);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, tag);
     }
 
     @Override

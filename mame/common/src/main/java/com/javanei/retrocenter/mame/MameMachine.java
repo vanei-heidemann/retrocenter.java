@@ -3,6 +3,7 @@ package com.javanei.retrocenter.mame;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
@@ -341,6 +342,21 @@ public class MameMachine implements Serializable {
 
     public void addRamoption(MameRamoption ramoption) {
         this.ramoptions.add(ramoption);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameMachine that = (MameMachine) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

@@ -1,10 +1,12 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
-import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 
 public class Mame implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,6 +51,21 @@ public class Mame implements Serializable {
 
     public void addMachine(MameMachine machine) {
         this.machines.add(machine);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Mame mame = (Mame) o;
+        return Objects.equals(build, mame.build);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(build);
     }
 
     @Override

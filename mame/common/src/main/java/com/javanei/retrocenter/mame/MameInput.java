@@ -1,10 +1,12 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
-import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 
 public class MameInput implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,24 +38,24 @@ public class MameInput implements Serializable {
         return players;
     }
 
-    public void setPlayers(String players) {
-        this.players = new Integer(players);
-    }
-
     public void setPlayers(Integer players) {
         this.players = players;
+    }
+
+    public void setPlayers(String players) {
+        this.players = new Integer(players);
     }
 
     public Integer getCoins() {
         return coins;
     }
 
-    public void setCoins(String coins) {
-        this.coins = new Integer(coins);
-    }
-
     public void setCoins(Integer coins) {
         this.coins = coins;
+    }
+
+    public void setCoins(String coins) {
+        this.coins = new Integer(coins);
     }
 
     public List<MameInputControl> getControls() {
@@ -66,6 +68,21 @@ public class MameInput implements Serializable {
 
     public void addControl(MameInputControl control) {
         this.controls.add(control);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameInput mameInput = (MameInput) o;
+        return Objects.equals(players, mameInput.players);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(players);
     }
 
     @Override

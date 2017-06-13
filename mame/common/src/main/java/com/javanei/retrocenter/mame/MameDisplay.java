@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameDisplay implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -58,24 +60,24 @@ public class MameDisplay implements Serializable {
         return width;
     }
 
-    public void setWidth(String width) {
-        this.width = new Integer(width);
-    }
-
     public void setWidth(Integer width) {
         this.width = width;
+    }
+
+    public void setWidth(String width) {
+        this.width = new Integer(width);
     }
 
     public Integer getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
-        this.height = new Integer(height);
-    }
-
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    public void setHeight(String height) {
+        this.height = new Integer(height);
     }
 
     public String getRefresh() {
@@ -90,84 +92,100 @@ public class MameDisplay implements Serializable {
         return pixclock;
     }
 
-    public void setPixclock(String pixclock) {
-        this.pixclock = new Integer(pixclock);
-    }
-
     public void setPixclock(Integer pixclock) {
         this.pixclock = pixclock;
+    }
+
+    public void setPixclock(String pixclock) {
+        this.pixclock = new Integer(pixclock);
     }
 
     public Integer getHtotal() {
         return htotal;
     }
 
-    public void setHtotal(String htotal) {
-        this.htotal = new Integer(htotal);
-    }
-
     public void setHtotal(Integer htotal) {
         this.htotal = htotal;
+    }
+
+    public void setHtotal(String htotal) {
+        this.htotal = new Integer(htotal);
     }
 
     public Integer getHbend() {
         return hbend;
     }
 
-    public void setHbend(String hbend) {
-        this.hbend = new Integer(hbend);
-    }
-
     public void setHbend(Integer hbend) {
         this.hbend = hbend;
+    }
+
+    public void setHbend(String hbend) {
+        this.hbend = new Integer(hbend);
     }
 
     public Integer getHbstart() {
         return hbstart;
     }
 
-    public void setHbstart(String hbstart) {
-        this.hbstart = new Integer(hbstart);
-    }
-
     public void setHbstart(Integer hbstart) {
         this.hbstart = hbstart;
+    }
+
+    public void setHbstart(String hbstart) {
+        this.hbstart = new Integer(hbstart);
     }
 
     public Integer getVtotal() {
         return vtotal;
     }
 
-    public void setVtotal(String vtotal) {
-        this.vtotal = new Integer(vtotal);
-    }
-
     public void setVtotal(Integer vtotal) {
         this.vtotal = vtotal;
+    }
+
+    public void setVtotal(String vtotal) {
+        this.vtotal = new Integer(vtotal);
     }
 
     public Integer getVbend() {
         return vbend;
     }
 
-    public void setVbend(String vbend) {
-        this.vbend = new Integer(vbend);
-    }
-
     public void setVbend(Integer vbend) {
         this.vbend = vbend;
+    }
+
+    public void setVbend(String vbend) {
+        this.vbend = new Integer(vbend);
     }
 
     public Integer getVbstart() {
         return vbstart;
     }
 
+    public void setVbstart(Integer vbstart) {
+        this.vbstart = vbstart;
+    }
+
     public void setVbstart(String vbstart) {
         this.vbstart = new Integer(vbstart);
     }
 
-    public void setVbstart(Integer vbstart) {
-        this.vbstart = vbstart;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameDisplay that = (MameDisplay) o;
+        return Objects.equals(tag, that.tag) &&
+                Objects.equals(type, that.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tag, type);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameDipvalue implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,12 +25,12 @@ public class MameDipvalue implements Serializable {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = new Long(value);
-    }
-
     public void setValue(Long value) {
         this.value = value;
+    }
+
+    public void setValue(String value) {
+        this.value = new Long(value);
     }
 
     public String getDefault() {
@@ -37,6 +39,23 @@ public class MameDipvalue implements Serializable {
 
     public void setDefault(String _default) {
         this._default = ValidValuesUtil.validateValue(_default, ValidValuesUtil.YES_NO);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameDipvalue that = (MameDipvalue) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(value, that.value) &&
+                Objects.equals(_default, that._default);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, value, _default);
     }
 
     @Override

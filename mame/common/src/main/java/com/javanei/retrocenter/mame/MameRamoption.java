@@ -1,7 +1,9 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameRamoption implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,17 +15,21 @@ public class MameRamoption implements Serializable {
         return _default;
     }
 
+    public void setDefault(Integer _default) {
+        this._default = _default;
+    }
+
     public void setDefault(String _default) {
         if (_default != null)
             this._default = new Integer(_default);
     }
 
-    public void setDefault(Integer _default) {
-        this._default = _default;
-    }
-
     public Long getContent() {
         return content;
+    }
+
+    public void setContent(Long content) {
+        this.content = content;
     }
 
     public void setContent(String content) {
@@ -31,8 +37,20 @@ public class MameRamoption implements Serializable {
             this.content = new Long(content);
     }
 
-    public void setContent(Long content) {
-        this.content = content;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameRamoption that = (MameRamoption) o;
+        return Objects.equals(_default, that._default) &&
+                Objects.equals(content, that.content);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(_default, content);
     }
 
     @Override

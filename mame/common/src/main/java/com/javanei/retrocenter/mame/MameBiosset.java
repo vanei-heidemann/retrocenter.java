@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameBiosset implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -33,6 +35,21 @@ public class MameBiosset implements Serializable {
 
     public void setDefault(String _default) {
         this._default = ValidValuesUtil.validateValue(_default, ValidValuesUtil.YES_NO);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameBiosset that = (MameBiosset) o;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

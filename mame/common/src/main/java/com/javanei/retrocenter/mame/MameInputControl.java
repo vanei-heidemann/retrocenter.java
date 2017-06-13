@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameInputControl implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -31,72 +33,72 @@ public class MameInputControl implements Serializable {
         return player;
     }
 
-    public void setPlayer(String player) {
-        this.player = new Integer(player);
-    }
-
     public void setPlayer(Integer player) {
         this.player = player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = new Integer(player);
     }
 
     public Integer getButtons() {
         return buttons;
     }
 
-    public void setButtons(String buttons) {
-        this.buttons = new Integer(buttons);
-    }
-
     public void setButtons(Integer buttons) {
         this.buttons = buttons;
+    }
+
+    public void setButtons(String buttons) {
+        this.buttons = new Integer(buttons);
     }
 
     public Integer getMinimum() {
         return minimum;
     }
 
-    public void setMinimum(String minimum) {
-        this.minimum = new Integer(minimum);
-    }
-
     public void setMinimum(Integer minimum) {
         this.minimum = minimum;
+    }
+
+    public void setMinimum(String minimum) {
+        this.minimum = new Integer(minimum);
     }
 
     public Integer getMaximum() {
         return maximum;
     }
 
-    public void setMaximum(String maximum) {
-        this.maximum = new Integer(maximum);
-    }
-
     public void setMaximum(Integer maximum) {
         this.maximum = maximum;
+    }
+
+    public void setMaximum(String maximum) {
+        this.maximum = new Integer(maximum);
     }
 
     public Integer getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(String sensitivity) {
-        this.sensitivity = new Integer(sensitivity);
-    }
-
     public void setSensitivity(Integer sensitivity) {
         this.sensitivity = sensitivity;
+    }
+
+    public void setSensitivity(String sensitivity) {
+        this.sensitivity = new Integer(sensitivity);
     }
 
     public Integer getKeydelta() {
         return keydelta;
     }
 
-    public void setKeydelta(String keydelta) {
-        this.keydelta = new Integer(keydelta);
-    }
-
     public void setKeydelta(Integer keydelta) {
         this.keydelta = keydelta;
+    }
+
+    public void setKeydelta(String keydelta) {
+        this.keydelta = new Integer(keydelta);
     }
 
     public String getReverse() {
@@ -129,6 +131,22 @@ public class MameInputControl implements Serializable {
 
     public void setWays3(String ways3) {
         this.ways3 = ways3;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameInputControl that = (MameInputControl) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(player, that.player);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, player);
     }
 
     @Override

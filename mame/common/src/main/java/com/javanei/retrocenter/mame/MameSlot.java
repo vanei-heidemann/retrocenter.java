@@ -1,9 +1,11 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameSlot implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -30,6 +32,21 @@ public class MameSlot implements Serializable {
 
     public void addSlotoption(MameSlotoption slotoption) {
         this.slotoptions.add(slotoption);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameSlot mameSlot = (MameSlot) o;
+        return Objects.equals(name, mameSlot.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

@@ -1,15 +1,17 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameChip implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String tag;
-    private String type; // (cpu|audio);
+    private String type;
     private String clock;
 
     public String getName() {
@@ -42,6 +44,23 @@ public class MameChip implements Serializable {
 
     public void setClock(String clock) {
         this.clock = clock;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameChip mameChip = (MameChip) o;
+        return Objects.equals(name, mameChip.name) &&
+                Objects.equals(tag, mameChip.tag) &&
+                Objects.equals(type, mameChip.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, tag, type);
     }
 
     @Override

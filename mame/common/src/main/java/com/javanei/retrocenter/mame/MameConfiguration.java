@@ -1,9 +1,11 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+
+import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameConfiguration implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,12 +36,12 @@ public class MameConfiguration implements Serializable {
         return mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = new Integer(mask);
-    }
-
     public void setMask(Integer mask) {
         this.mask = mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = new Integer(mask);
     }
 
     public List<MameConfsetting> getConfsettings() {
@@ -52,6 +54,23 @@ public class MameConfiguration implements Serializable {
 
     public void addConfsetting(MameConfsetting confsetting) {
         this.confsettings.add(confsetting);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameConfiguration that = (MameConfiguration) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(tag, that.tag) &&
+                Objects.equals(mask, that.mask);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, tag, mask);
     }
 
     @Override

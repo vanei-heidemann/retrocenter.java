@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameRom implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,12 +40,12 @@ public class MameRom implements Serializable {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = new Integer(size);
-    }
-
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    public void setSize(String size) {
+        this.size = new Integer(size);
     }
 
     public String getCrc() {
@@ -100,6 +102,23 @@ public class MameRom implements Serializable {
 
     public void setOptional(String optional) {
         this.optional = ValidValuesUtil.validateValue(optional, ValidValuesUtil.YES_NO);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameRom mameRom = (MameRom) o;
+        return Objects.equals(name, mameRom.name) &&
+                Objects.equals(bios, mameRom.bios) &&
+                Objects.equals(offset, mameRom.offset);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, bios, offset);
     }
 
     @Override

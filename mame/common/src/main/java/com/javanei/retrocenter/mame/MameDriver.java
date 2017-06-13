@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.mame;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import java.io.Serializable;
 
 public class MameDriver implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -78,6 +80,22 @@ public class MameDriver implements Serializable {
 
     public void setSavestate(String savestate) {
         this.savestate = ValidValuesUtil.validateValue(savestate, ValidValuesUtil.SUPPORTED_UNSUPPORTED);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        MameDriver that = (MameDriver) o;
+        return Objects.equals(status, that.status) &&
+                Objects.equals(emulation, that.emulation);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, emulation);
     }
 
     @Override
