@@ -73,7 +73,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     private List<MameBiossetEntity> biossets = new LinkedList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
-    private Set<MameRomEntity> roms = new LinkedHashSet<>();
+    private List<MameRomEntity> roms = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
     private Set<MameDiskEntity> disks = new LinkedHashSet<>();
@@ -239,11 +239,11 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this.biossets = biossets;
     }
 
-    public Set<MameRomEntity> getRoms() {
+    public List<MameRomEntity> getRoms() {
         return roms;
     }
 
-    public void setRoms(Set<MameRomEntity> roms) {
+    public void setRoms(List<MameRomEntity> roms) {
         this.roms = roms;
     }
 

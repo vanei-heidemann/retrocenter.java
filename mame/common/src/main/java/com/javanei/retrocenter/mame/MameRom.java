@@ -39,12 +39,12 @@ public class MameRom implements Serializable {
         return size;
     }
 
-    public void setSize(String size) {
-        this.size = new Long(size);
-    }
-
     public void setSize(Long size) {
         this.size = size;
+    }
+
+    public void setSize(String size) {
+        this.size = new Long(size);
     }
 
     public String getCrc() {
@@ -105,19 +105,24 @@ public class MameRom implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        MameRom mameRom = (MameRom) o;
-        return Objects.equals(name, mameRom.name) &&
-                Objects.equals(bios, mameRom.bios) &&
-                Objects.equals(offset, mameRom.offset);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MameRom rom = (MameRom) o;
+        return Objects.equals(name, rom.name) &&
+                Objects.equals(bios, rom.bios) &&
+                Objects.equals(size, rom.size) &&
+                Objects.equals(crc, rom.crc) &&
+                Objects.equals(sha1, rom.sha1) &&
+                Objects.equals(merge, rom.merge) &&
+                Objects.equals(region, rom.region) &&
+                Objects.equals(offset, rom.offset) &&
+                Objects.equals(status, rom.status) &&
+                Objects.equals(optional, rom.optional);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, bios, offset);
+        return Objects.hash(name, bios, size, crc, sha1, merge, region, offset, status, optional);
     }
 
     @Override

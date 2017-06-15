@@ -159,20 +159,24 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        MameRomEntity entity = (MameRomEntity) o;
-        return Objects.equals(name, entity.name) &&
-                Objects.equals(bios, entity.bios) &&
-                Objects.equals(offset, entity.offset) &&
-                Objects.equals(id, entity.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MameRomEntity that = (MameRomEntity) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(bios, that.bios) &&
+                Objects.equals(size, that.size) &&
+                Objects.equals(crc, that.crc) &&
+                Objects.equals(sha1, that.sha1) &&
+                Objects.equals(merge, that.merge) &&
+                Objects.equals(region, that.region) &&
+                Objects.equals(offset, that.offset) &&
+                Objects.equals(status, that.status) &&
+                Objects.equals(optional, that.optional);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, bios, offset, id);
+        return Objects.hash(name, bios, size, crc, sha1, merge, region, offset, status, optional);
     }
 
     @Override
