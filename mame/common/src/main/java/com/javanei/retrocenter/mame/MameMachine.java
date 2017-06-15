@@ -38,7 +38,7 @@ public class MameMachine implements Serializable {
     private List<MameDipswitch> dipswitches = new LinkedList<>();
     private List<MameConfiguration> configurations = new LinkedList<>();
     private List<MamePort> ports = new LinkedList<>();
-    private List<MameAdjuster> adjusters = new LinkedList<>();
+    private Set<MameAdjuster> adjusters = new HashSet<>();
     private MameDriver driver;
     private Set<MameDevice> devices = new HashSet<>();
     private Set<MameSlot> slots = new HashSet<>();
@@ -277,16 +277,16 @@ public class MameMachine implements Serializable {
         this.ports.add(port);
     }
 
-    public List<MameAdjuster> getAdjusters() {
+    public Set<MameAdjuster> getAdjusters() {
         return adjusters;
     }
 
-    public void setAdjusters(List<MameAdjuster> adjusters) {
+    public void setAdjusters(Set<MameAdjuster> adjusters) {
         this.adjusters = adjusters;
     }
 
-    public void addAdjuster(MameAdjuster adjuster) {
-        this.adjusters.add(adjuster);
+    public boolean addAdjuster(MameAdjuster adjuster) {
+        return this.adjusters.add(adjuster);
     }
 
     public MameDriver getDriver() {
