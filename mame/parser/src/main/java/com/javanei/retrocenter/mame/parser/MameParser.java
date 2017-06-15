@@ -123,7 +123,7 @@ public class MameParser {
                                 case "dipswitch":
                                     MameDipswitch dipswitch = parseDipswitch(machineChild);
                                     if (!machine.addDipswitch(dipswitch)) {
-                                        System.out.println("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
+                                        System.err.println("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
                                         //throw new DuplicatedItemException("mame.machine.dipswitch: " + dipswitch + " for machine: " + machine.getName());
                                     }
                                     break;
@@ -260,7 +260,11 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("dipvalue")) {
-                    dipswitch.addDipvalue(parseDipvalue(child));
+                    MameDipvalue dipvalue = parseDipvalue(child);
+                    if (!dipswitch.addDipvalue(dipvalue)) {
+                        System.err.println("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
+                        //throw new DuplicatedItemException("mame.machine.dipswitch.dipvalue: " + dipvalue + " for dipswitch: " + dipswitch.getName());
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());

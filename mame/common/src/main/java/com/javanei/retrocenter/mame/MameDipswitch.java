@@ -2,9 +2,9 @@ package com.javanei.retrocenter.mame;
 
 import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 public class MameDipswitch implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -13,7 +13,8 @@ public class MameDipswitch implements Serializable {
     private String tag;
     private Long mask;
 
-    private List<MameDipvalue> dipvalues = new LinkedList<>();
+    // Há duplicados!
+    private Set<MameDipvalue> dipvalues = new HashSet<>();
 
     public String getName() {
         return name;
@@ -35,24 +36,24 @@ public class MameDipswitch implements Serializable {
         return mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = new Long(mask);
-    }
-
     public void setMask(Long mask) {
         this.mask = mask;
     }
 
-    public List<MameDipvalue> getDipvalues() {
+    public void setMask(String mask) {
+        this.mask = new Long(mask);
+    }
+
+    public Set<MameDipvalue> getDipvalues() {
         return dipvalues;
     }
 
-    public void setDipvalues(List<MameDipvalue> dipvalues) {
+    public void setDipvalues(Set<MameDipvalue> dipvalues) {
         this.dipvalues = dipvalues;
     }
 
-    public void addDipvalue(MameDipvalue dipvalue) {
-        this.dipvalues.add(dipvalue);
+    public boolean addDipvalue(MameDipvalue dipvalue) {
+        return this.dipvalues.add(dipvalue);
     }
 
     @Override

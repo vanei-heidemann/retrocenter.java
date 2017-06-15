@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_DIPVALUE", indexes = {
-        @Index(name = "MAME_DIPVALUE_0001", unique = false, columnList = "DIPSWITCH_ID,NAME,VALUE,ISDEFAULT")
+        @Index(name = "MAME_DIPVALUE_0001", unique = true, columnList = "DIPSWITCH_ID,NAME,VALUE,ISDEFAULT")
 })
 public class MameDipvalueEntity implements Serializable, Comparable<MameDipvalueEntity> {
     private static final long serialVersionUID = 1L;
@@ -89,13 +88,12 @@ public class MameDipvalueEntity implements Serializable, Comparable<MameDipvalue
         MameDipvalueEntity entity = (MameDipvalueEntity) o;
         return Objects.equals(name, entity.name) &&
                 Objects.equals(value, entity.value) &&
-                Objects.equals(_default, entity._default) &&
-                Objects.equals(id, entity.id);
+                Objects.equals(_default, entity._default);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, value, _default, id);
+        return Objects.hash(name, value, _default);
     }
 
     @Override
