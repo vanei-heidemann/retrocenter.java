@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -72,19 +71,16 @@ public class MameRamoptionEntity implements Serializable, Comparable<MameRamopti
 
     @Override
     public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        MameRamoptionEntity entity = (MameRamoptionEntity) o;
-        return Objects.equals(_default, entity._default) &&
-                Objects.equals(content, entity.content) &&
-                Objects.equals(id, entity.id);
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MameRamoptionEntity that = (MameRamoptionEntity) o;
+        return Objects.equals(_default, that._default) &&
+                Objects.equals(content, that.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(_default, content, id);
+        return Objects.hash(_default, content);
     }
 
     @Override
@@ -92,15 +88,7 @@ public class MameRamoptionEntity implements Serializable, Comparable<MameRamopti
         if (this == o)
             return 0;
 
-        int i = 0;
-        if (this.id != null && o.id == null)
-            i = 1;
-        else if (this.id == null && o.id != null)
-            i = -1;
-        else if (this.id != null)
-            i = this.id.compareTo(o.id);
-        if (i == 0)
-            i = this.content.compareTo(o.content);
+        int i = this.content.compareTo(o.content);
         if (i == 0) {
             if (this._default != null && o._default == null)
                 i = 1;
