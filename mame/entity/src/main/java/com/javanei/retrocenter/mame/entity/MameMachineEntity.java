@@ -82,7 +82,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     private Set<MameDevicerefEntity> devicerefs = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
-    private Set<MameSampleEntity> samples = new LinkedHashSet<>();
+    private List<MameSampleEntity> samples = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
     private Set<MameChipEntity> chips = new LinkedHashSet<>();
@@ -263,11 +263,11 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this.devicerefs = devicerefs;
     }
 
-    public Set<MameSampleEntity> getSamples() {
+    public List<MameSampleEntity> getSamples() {
         return samples;
     }
 
-    public void setSamples(Set<MameSampleEntity> samples) {
+    public void setSamples(List<MameSampleEntity> samples) {
         this.samples = samples;
     }
 

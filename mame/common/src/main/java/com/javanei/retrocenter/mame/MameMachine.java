@@ -30,6 +30,7 @@ public class MameMachine implements Serializable {
     private List<MameRom> roms = new LinkedList<>();
     private List<MameDisk> disks = new LinkedList<>();
     private List<MameDeviceref> devicerefs = new LinkedList<>();
+    // Há duplicados
     private List<MameSample> samples = new LinkedList<>();
     private Set<MameChip> chips = new HashSet<>();
     private Set<MameDisplay> displays = new HashSet<>();

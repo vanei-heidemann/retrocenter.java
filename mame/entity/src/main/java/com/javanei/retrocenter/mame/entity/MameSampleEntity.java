@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "MAME_SAMPLE", indexes = {
         @Index(name = "MAME_SAMPLE_0001", unique = false, columnList = "MACHINE_ID,NAME")
 })
-//WARN: Ta refetindo o name!!
+//WARN: Ta repetindo o name!!
 public class MameSampleEntity implements Serializable, Comparable<MameSampleEntity> {
     private static final long serialVersionUID = 1L;
 
