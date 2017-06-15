@@ -3,14 +3,11 @@ package com.javanei.retrocenter.mame.parser;
 import com.javanei.retrocenter.mame.Mame;
 import java.io.InputStream;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class MameParserTest {
     private static Mame mame;
 
-
-    @BeforeClass
+    //@BeforeClass
     public static void initialize() throws Exception {
         MameParser parser = new MameParser();
 
@@ -19,7 +16,7 @@ public class MameParserTest {
         //System.out.println(mame);
     }
 
-    @Test
+    //@Test
     public void test() {
         //System.out.println(mame);
         Assert.assertTrue(true);
