@@ -88,7 +88,15 @@ public class MameRamoptionEntity implements Serializable, Comparable<MameRamopti
         if (this == o)
             return 0;
 
-        int i = this.content.compareTo(o.content);
+        int i = 0;
+        if (this.id != null && o.id == null)
+            i = 1;
+        else if (this.id == null && o.id != null)
+            i = -1;
+        else if (this.id != null)
+            i = this.id.compareTo(o.id);
+        if (i == 0)
+            i = this.content.compareTo(o.content);
         if (i == 0) {
             if (this._default != null && o._default == null)
                 i = 1;

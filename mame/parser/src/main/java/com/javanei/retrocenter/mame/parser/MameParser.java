@@ -142,12 +142,15 @@ public class MameParser {
                                     machine.addSlot(parseSlot(machineChild));
                                     break;
                                 case "softwarelist":
-                                    machine.addSoftwarelist(parseSoftwarelist(machineChild));
+                                    MameSoftwarelist softwarelist = parseSoftwarelist(machineChild);
+                                    if (!machine.addSoftwarelist(softwarelist)) {
+                                        throw new DuplicatedItemException("mame.machine.softwarelist: " + softwarelist.getName());
+                                    }
                                     break;
                                 case "ramoption":
                                     MameRamoption ramoption = parseRamoption(machineChild);
                                     if (!machine.addRamoption(ramoption)) {
-                                        System.err.println("Duplicated ramoption: " + ramoption);
+                                        throw new DuplicatedItemException("mame.machine.ramoption: " + ramoption.getContent());
                                     }
                                     break;
                                 case "#text":
