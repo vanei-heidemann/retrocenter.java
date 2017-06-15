@@ -127,7 +127,10 @@ public class MameParser {
                                     machine.addConfiguration(parseConfiguration(machineChild));
                                     break;
                                 case "port":
-                                    machine.addPort(parsePort(machineChild));
+                                    MamePort port = parsePort(machineChild);
+                                    if (!machine.addPort(port)) {
+                                        throw new DuplicatedItemException("mame.machine.adjuster: " + port + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "adjuster":
                                     MameAdjuster adjuster = parseAdjuster(machineChild);
