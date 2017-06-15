@@ -32,7 +32,7 @@ public class MameMachine implements Serializable {
     private List<MameDeviceref> devicerefs = new LinkedList<>();
     private List<MameSample> samples = new LinkedList<>();
     private List<MameChip> chips = new LinkedList<>();
-    private List<MameDisplay> displays = new LinkedList<>();
+    private Set<MameDisplay> displays = new HashSet<>();
     private MameSound sound;
     private MameInput input;
     // Há duplicado. Reduzido o duplicado considerando os dipvalue
@@ -215,16 +215,16 @@ public class MameMachine implements Serializable {
         this.chips.add(chip);
     }
 
-    public List<MameDisplay> getDisplays() {
+    public Set<MameDisplay> getDisplays() {
         return displays;
     }
 
-    public void setDisplays(List<MameDisplay> displays) {
+    public void setDisplays(Set<MameDisplay> displays) {
         this.displays = displays;
     }
 
-    public void addDisplay(MameDisplay display) {
-        this.displays.add(display);
+    public boolean addDisplay(MameDisplay display) {
+        return this.displays.add(display);
     }
 
     public MameSound getSound() {

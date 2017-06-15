@@ -112,7 +112,10 @@ public class MameParser {
                                     machine.addChip(parseChip(machineChild));
                                     break;
                                 case "display":
-                                    machine.addDisplay(parseDisplay(machineChild));
+                                    MameDisplay display = parseDisplay(machineChild);
+                                    if (!machine.addDisplay(display)) {
+                                        throw new DuplicatedItemException("mame.machine.display: " + display + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "sound":
                                     machine.setSound(parseSound(machineChild));
