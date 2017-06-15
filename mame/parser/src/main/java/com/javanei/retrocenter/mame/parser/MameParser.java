@@ -124,7 +124,10 @@ public class MameParser {
                                     machine.addDipswitch(parseDipswitch(machineChild));
                                     break;
                                 case "configuration":
-                                    machine.addConfiguration(parseConfiguration(machineChild));
+                                    MameConfiguration configuration = parseConfiguration(machineChild);
+                                    if (!machine.addConfiguration(configuration)) {
+                                        throw new DuplicatedItemException("mame.machine.configuration: " + configuration + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "port":
                                     MamePort port = parsePort(machineChild);
@@ -277,7 +280,10 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("confsetting")) {
-                    configuration.addConfsetting(parseConfsetting(child));
+                    MameConfsetting confsetting = parseConfsetting(child);
+                    if (!configuration.addConfsetting(confsetting)) {
+                        throw new DuplicatedItemException("mame.machine.configuration.confsetting: " + confsetting + " for configuration: " + configuration.getName());
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());

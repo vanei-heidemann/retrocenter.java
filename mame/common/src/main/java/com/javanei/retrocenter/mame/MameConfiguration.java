@@ -1,11 +1,10 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class MameConfiguration implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,7 +13,7 @@ public class MameConfiguration implements Serializable {
     private String tag;
     private Integer mask;
 
-    private List<MameConfsetting> confsettings = new LinkedList<>();
+    private Set<MameConfsetting> confsettings = new HashSet<>();
 
     public String getName() {
         return name;
@@ -36,24 +35,24 @@ public class MameConfiguration implements Serializable {
         return mask;
     }
 
-    public void setMask(Integer mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Integer(mask);
     }
 
-    public List<MameConfsetting> getConfsettings() {
+    public void setMask(Integer mask) {
+        this.mask = mask;
+    }
+
+    public Set<MameConfsetting> getConfsettings() {
         return confsettings;
     }
 
-    public void setConfsettings(List<MameConfsetting> confsettings) {
+    public void setConfsettings(Set<MameConfsetting> confsettings) {
         this.confsettings = confsettings;
     }
 
-    public void addConfsetting(MameConfsetting confsetting) {
-        this.confsettings.add(confsetting);
+    public boolean addConfsetting(MameConfsetting confsetting) {
+        return this.confsettings.add(confsetting);
     }
 
     @Override
