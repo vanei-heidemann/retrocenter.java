@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +34,7 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
     private String bios;
 
     @Column(name = "SIZE", nullable = true)
-    private Integer size;
+    private Long size;
 
     @Column(name = "CRC", length = 8, nullable = true)
     private String crc;
@@ -86,11 +85,11 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
         this.bios = bios;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(Long size) {
         this.size = size;
     }
 

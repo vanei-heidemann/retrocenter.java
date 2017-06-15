@@ -1,17 +1,16 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class MameRom implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String bios;
-    private Integer size;
+    private Long size;
     private String crc;
     private String sha1;
     private String merge;
@@ -36,16 +35,16 @@ public class MameRom implements Serializable {
         this.bios = bios;
     }
 
-    public Integer getSize() {
+    public Long getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setSize(String size) {
+        this.size = new Long(size);
     }
 
-    public void setSize(String size) {
-        this.size = new Integer(size);
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public String getCrc() {
