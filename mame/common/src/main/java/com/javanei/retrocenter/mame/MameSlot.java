@@ -1,18 +1,17 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class MameSlot implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
 
-    private List<MameSlotoption> slotoptions = new LinkedList<>();
+    private Set<MameSlotoption> slotoptions = new HashSet<>();
 
     public String getName() {
         return name;
@@ -22,16 +21,16 @@ public class MameSlot implements Serializable {
         this.name = name;
     }
 
-    public List<MameSlotoption> getSlotoptions() {
+    public Set<MameSlotoption> getSlotoptions() {
         return slotoptions;
     }
 
-    public void setSlotoptions(List<MameSlotoption> slotoptions) {
+    public void setSlotoptions(Set<MameSlotoption> slotoptions) {
         this.slotoptions = slotoptions;
     }
 
-    public void addSlotoption(MameSlotoption slotoption) {
-        this.slotoptions.add(slotoption);
+    public boolean addSlotoption(MameSlotoption slotoption) {
+        return this.slotoptions.add(slotoption);
     }
 
     @Override

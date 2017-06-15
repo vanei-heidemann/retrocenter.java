@@ -93,7 +93,7 @@ public class MameParser {
                                 case "biosset":
                                     MameBiosset biosset = parseBiosset(machineChild);
                                     if (!machine.addBiosset(biosset)) {
-                                        throw new DuplicatedItemException("mame.machine.biosset: " + biosset.getName());
+                                        throw new DuplicatedItemException("mame.machine.biosset: " + biosset.getName() + " for machine: " + machine.getName());
                                     }
                                     break;
                                 case "rom":
@@ -139,18 +139,21 @@ public class MameParser {
                                     machine.addDevice(parseDevice(machineChild));
                                     break;
                                 case "slot":
-                                    machine.addSlot(parseSlot(machineChild));
+                                    MameSlot slot = parseSlot(machineChild);
+                                    if (!machine.addSlot(slot)) {
+                                        throw new DuplicatedItemException("mame.machine.slot: " + slot + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "softwarelist":
                                     MameSoftwarelist softwarelist = parseSoftwarelist(machineChild);
                                     if (!machine.addSoftwarelist(softwarelist)) {
-                                        throw new DuplicatedItemException("mame.machine.softwarelist: " + softwarelist.getName());
+                                        throw new DuplicatedItemException("mame.machine.softwarelist: " + softwarelist.getName() + " for machine: " + machine.getName());
                                     }
                                     break;
                                 case "ramoption":
                                     MameRamoption ramoption = parseRamoption(machineChild);
                                     if (!machine.addRamoption(ramoption)) {
-                                        throw new DuplicatedItemException("mame.machine.ramoption: " + ramoption.getContent());
+                                        throw new DuplicatedItemException("mame.machine.ramoption: " + ramoption.getContent() + " for machine: " + machine.getName());
                                     }
                                     break;
                                 case "#text":
@@ -357,7 +360,10 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("slotoption")) {
-                    slot.addSlotoption(parseSlotoption(child));
+                    MameSlotoption slotoption = parseSlotoption(child);
+                    if (!slot.addSlotoption(slotoption)) {
+                        throw new DuplicatedItemException("mame.machine.slot.slotoption: " + slotoption);
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());

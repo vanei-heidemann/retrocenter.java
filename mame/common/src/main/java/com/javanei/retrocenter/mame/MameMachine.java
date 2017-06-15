@@ -41,7 +41,7 @@ public class MameMachine implements Serializable {
     private List<MameAdjuster> adjusters = new LinkedList<>();
     private MameDriver driver;
     private List<MameDevice> devices = new LinkedList<>();
-    private List<MameSlot> slots = new LinkedList<>();
+    private Set<MameSlot> slots = new HashSet<>();
     private Set<MameSoftwarelist> softwarelists = new HashSet<>();
     private Set<MameRamoption> ramoptions = new HashSet<>();
 
@@ -309,16 +309,16 @@ public class MameMachine implements Serializable {
         this.devices.add(device);
     }
 
-    public List<MameSlot> getSlots() {
+    public Set<MameSlot> getSlots() {
         return slots;
     }
 
-    public void setSlots(List<MameSlot> slots) {
+    public void setSlots(Set<MameSlot> slots) {
         this.slots = slots;
     }
 
-    public void addSlot(MameSlot slot) {
-        this.slots.add(slot);
+    public boolean addSlot(MameSlot slot) {
+        return this.slots.add(slot);
     }
 
     public Set<MameSoftwarelist> getSoftwarelists() {
