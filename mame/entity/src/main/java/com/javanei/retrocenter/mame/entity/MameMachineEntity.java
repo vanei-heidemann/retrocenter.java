@@ -1,12 +1,12 @@
 package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -97,7 +97,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     private MameInputEntity input;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
-    private Set<MameDipswitchEntity> dipswitches = new LinkedHashSet<>();
+    private List<MameDipswitchEntity> dipswitches = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
     private Set<MameConfigurationEntity> configurations = new LinkedHashSet<>();
@@ -303,11 +303,11 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this.input = input;
     }
 
-    public Set<MameDipswitchEntity> getDipswitches() {
+    public List<MameDipswitchEntity> getDipswitches() {
         return dipswitches;
     }
 
-    public void setDipswitches(Set<MameDipswitchEntity> dipswitches) {
+    public void setDipswitches(List<MameDipswitchEntity> dipswitches) {
         this.dipswitches = dipswitches;
     }
 

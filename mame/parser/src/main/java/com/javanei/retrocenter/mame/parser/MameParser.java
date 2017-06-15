@@ -121,7 +121,11 @@ public class MameParser {
                                     machine.setInput(parseInput(machineChild));
                                     break;
                                 case "dipswitch":
-                                    machine.addDipswitch(parseDipswitch(machineChild));
+                                    MameDipswitch dipswitch = parseDipswitch(machineChild);
+                                    if (!machine.addDipswitch(dipswitch)) {
+                                        System.out.println("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
+                                        //throw new DuplicatedItemException("mame.machine.dipswitch: " + dipswitch + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "configuration":
                                     MameConfiguration configuration = parseConfiguration(machineChild);

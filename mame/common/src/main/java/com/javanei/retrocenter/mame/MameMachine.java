@@ -35,7 +35,8 @@ public class MameMachine implements Serializable {
     private List<MameDisplay> displays = new LinkedList<>();
     private MameSound sound;
     private MameInput input;
-    private List<MameDipswitch> dipswitches = new LinkedList<>();
+    // Há duplicado. Reduzido o duplicado considerando os dipvalue
+    private Set<MameDipswitch> dipswitches = new HashSet<>();
     private Set<MameConfiguration> configurations = new HashSet<>();
     // Há duplicado!
     private Set<MamePort> ports = new HashSet<>();
@@ -242,16 +243,16 @@ public class MameMachine implements Serializable {
         this.input = input;
     }
 
-    public List<MameDipswitch> getDipswitches() {
+    public Set<MameDipswitch> getDipswitches() {
         return dipswitches;
     }
 
-    public void setDipswitches(List<MameDipswitch> dipswitches) {
+    public void setDipswitches(Set<MameDipswitch> dipswitches) {
         this.dipswitches = dipswitches;
     }
 
-    public void addDipswitch(MameDipswitch dipswitch) {
-        this.dipswitches.add(dipswitch);
+    public boolean addDipswitch(MameDipswitch dipswitch) {
+        return this.dipswitches.add(dipswitch);
     }
 
     public Set<MameConfiguration> getConfigurations() {
