@@ -145,7 +145,10 @@ public class MameParser {
                                     machine.addSoftwarelist(parseSoftwarelist(machineChild));
                                     break;
                                 case "ramoption":
-                                    machine.addRamoption(parseRamoption(machineChild));
+                                    MameRamoption ramoption = parseRamoption(machineChild);
+                                    if (!machine.addRamoption(ramoption)) {
+                                        System.err.println("Duplicated ramoption: " + ramoption);
+                                    }
                                     break;
                                 case "#text":
                                     // Espaço em branco no xml

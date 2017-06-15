@@ -43,7 +43,7 @@ public class MameMachine implements Serializable {
     private List<MameDevice> devices = new LinkedList<>();
     private List<MameSlot> slots = new LinkedList<>();
     private List<MameSoftwarelist> softwarelists = new LinkedList<>();
-    private List<MameRamoption> ramoptions = new LinkedList<>();
+    private Set<MameRamoption> ramoptions = new HashSet<>();
 
     public String getName() {
         return name;
@@ -333,16 +333,16 @@ public class MameMachine implements Serializable {
         this.softwarelists.add(softwarelist);
     }
 
-    public List<MameRamoption> getRamoptions() {
+    public Set<MameRamoption> getRamoptions() {
         return ramoptions;
     }
 
-    public void setRamoptions(List<MameRamoption> ramoptions) {
+    public void setRamoptions(Set<MameRamoption> ramoptions) {
         this.ramoptions = ramoptions;
     }
 
-    public void addRamoption(MameRamoption ramoption) {
-        this.ramoptions.add(ramoption);
+    public boolean addRamoption(MameRamoption ramoption) {
+        return this.ramoptions.add(ramoption);
     }
 
     @Override
