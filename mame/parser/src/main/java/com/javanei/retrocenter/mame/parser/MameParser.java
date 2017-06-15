@@ -33,6 +33,7 @@ import com.javanei.retrocenter.mame.MameSound;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -40,6 +41,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class MameParser {
+    Logger log = Logger.getLogger(MameParser.class.getName());
+
     private static MameBiosset parseBiosset(Node node) {
         MameBiosset biosset = new MameBiosset();
         ReflectionUtil.setValueByAttributes(biosset, node.getAttributes());
@@ -100,7 +103,10 @@ public class MameParser {
                                     machine.addRom(parseRom(machineChild));
                                     break;
                                 case "disk":
-                                    machine.addDisk(parseDisk(machineChild));
+                                    MameDisk disk = parseDisk(machineChild);
+                                    if (!machine.addDisk(disk)) {
+                                        throw new DuplicatedItemException("mame.machine.disk: " + disk + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "device_ref":
                                     machine.addDeviceref(parseDeviceref(machineChild));
@@ -129,7 +135,7 @@ public class MameParser {
                                 case "dipswitch":
                                     MameDipswitch dipswitch = parseDipswitch(machineChild);
                                     if (!machine.addDipswitch(dipswitch)) {
-                                        System.err.println("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
+                                        log.finest("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
                                         //throw new DuplicatedItemException("mame.machine.dipswitch: " + dipswitch + " for machine: " + machine.getName());
                                     }
                                     break;
@@ -268,7 +274,7 @@ public class MameParser {
                 if (child.getNodeName().equals("dipvalue")) {
                     MameDipvalue dipvalue = parseDipvalue(child);
                     if (!dipswitch.addDipvalue(dipvalue)) {
-                        //System.err.println("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
+                        //log.finest("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
                         //throw new DuplicatedItemException("mame.machine.dipswitch.dipvalue: " + dipvalue + " for dipswitch: " + dipswitch.getName());
                     }
                 } else if (child.getNodeName().equals("#text")) {
@@ -324,7 +330,7 @@ public class MameParser {
                     MameAnalog analog = parseAnalog(child);
                     if (!port.addAnalog(analog)) {
                         //throw new DuplicatedItemException("mame.machine.port.analog: " + analog + " for port: " + port.getTag());
-                        System.err.println("WWW Duplicated analog " + analog + " for port " + port.getTag());
+                        log.finest("WWW Duplicated analog " + analog + " for port " + port.getTag());
                     }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {

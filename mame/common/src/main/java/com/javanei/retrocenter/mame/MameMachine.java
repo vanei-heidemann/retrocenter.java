@@ -28,7 +28,7 @@ public class MameMachine implements Serializable {
 
     private Set<MameBiosset> biossets = new HashSet<>();
     private List<MameRom> roms = new LinkedList<>();
-    private List<MameDisk> disks = new LinkedList<>();
+    private Set<MameDisk> disks = new HashSet<>();
     // Há duplicados
     private List<MameDeviceref> devicerefs = new LinkedList<>();
     // Há duplicados
@@ -169,16 +169,16 @@ public class MameMachine implements Serializable {
         this.roms.add(rom);
     }
 
-    public List<MameDisk> getDisks() {
+    public Set<MameDisk> getDisks() {
         return disks;
     }
 
-    public void setDisks(List<MameDisk> disks) {
+    public void setDisks(Set<MameDisk> disks) {
         this.disks = disks;
     }
 
-    public void addDisk(MameDisk disk) {
-        this.disks.add(disk);
+    public boolean addDisk(MameDisk disk) {
+        return this.disks.add(disk);
     }
 
     public List<MameDeviceref> getDevicerefs() {
