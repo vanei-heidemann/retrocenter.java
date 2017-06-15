@@ -29,6 +29,7 @@ public class MameMachine implements Serializable {
     private Set<MameBiosset> biossets = new HashSet<>();
     private List<MameRom> roms = new LinkedList<>();
     private List<MameDisk> disks = new LinkedList<>();
+    // Há duplicados
     private List<MameDeviceref> devicerefs = new LinkedList<>();
     // Há duplicados
     private List<MameSample> samples = new LinkedList<>();
