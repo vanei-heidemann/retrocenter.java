@@ -301,7 +301,11 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("analog")) {
-                    port.addAnalog(parseAnalog(child));
+                    MameAnalog analog = parseAnalog(child);
+                    if (!port.addAnalog(analog)) {
+                        //throw new DuplicatedItemException("mame.machine.port.analog: " + analog + " for port: " + port.getTag());
+                        System.err.println("WWW Duplicated analog " + analog + " for port " + port.getTag());
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());

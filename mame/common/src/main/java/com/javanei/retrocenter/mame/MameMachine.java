@@ -37,6 +37,7 @@ public class MameMachine implements Serializable {
     private MameInput input;
     private List<MameDipswitch> dipswitches = new LinkedList<>();
     private List<MameConfiguration> configurations = new LinkedList<>();
+    // Há duplicado!
     private Set<MamePort> ports = new HashSet<>();
     private Set<MameAdjuster> adjusters = new HashSet<>();
     private MameDriver driver;
