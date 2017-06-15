@@ -262,7 +262,7 @@ public class MameParser {
                 if (child.getNodeName().equals("dipvalue")) {
                     MameDipvalue dipvalue = parseDipvalue(child);
                     if (!dipswitch.addDipvalue(dipvalue)) {
-                        System.err.println("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
+                        //System.err.println("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
                         //throw new DuplicatedItemException("mame.machine.dipswitch.dipvalue: " + dipvalue + " for dipswitch: " + dipswitch.getName());
                     }
                 } else if (child.getNodeName().equals("#text")) {
