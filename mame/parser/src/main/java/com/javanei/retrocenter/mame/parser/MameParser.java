@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.parser;
 
+import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.UnknownTagException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
 import com.javanei.retrocenter.mame.Mame;
@@ -70,7 +71,9 @@ public class MameParser {
                 Node machineNode = mameChildList.item(j);
                 if (machineNode.getNodeName().equals("machine")) {
                     MameMachine machine = new MameMachine();
-                    mame.addMachine(machine);
+                    if (!mame.addMachine(machine)) {
+                        throw new DuplicatedItemException("machine: " + machine.getName());
+                    }
                     ReflectionUtil.setValueByAttributes(machine, machineNode.getAttributes());
 
                     NodeList machineChildNodes = machineNode.getChildNodes();
