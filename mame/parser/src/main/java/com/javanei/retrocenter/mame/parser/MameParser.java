@@ -136,7 +136,10 @@ public class MameParser {
                                     machine.setDriver(parseDriver(machineChild));
                                     break;
                                 case "device":
-                                    machine.addDevice(parseDevice(machineChild));
+                                    MameDevice device = parseDevice(machineChild);
+                                    if (!machine.addDevice(device)) {
+                                        throw new DuplicatedItemException("mame.machine.device: " + device + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "slot":
                                     MameSlot slot = parseSlot(machineChild);
