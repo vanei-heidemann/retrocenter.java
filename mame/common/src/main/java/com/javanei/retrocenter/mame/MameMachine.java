@@ -1,12 +1,13 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.util.StringUtil;
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.util.StringUtil;
-import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.util.Set;
 
 public class MameMachine implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,7 +26,7 @@ public class MameMachine implements Serializable {
     private String year;
     private String manufacturer;
 
-    private List<MameBiosset> biossets = new LinkedList<>();
+    private Set<MameBiosset> biossets = new HashSet<>();
     private List<MameRom> roms = new LinkedList<>();
     private List<MameDisk> disks = new LinkedList<>();
     private List<MameDeviceref> devicerefs = new LinkedList<>();
@@ -140,16 +141,16 @@ public class MameMachine implements Serializable {
         this.manufacturer = manufacturer;
     }
 
-    public List<MameBiosset> getBiossets() {
+    public Set<MameBiosset> getBiossets() {
         return biossets;
     }
 
-    public void setBiossets(List<MameBiosset> biossets) {
+    public void setBiossets(Set<MameBiosset> biossets) {
         this.biossets = biossets;
     }
 
-    public void addBiosset(MameBiosset biosset) {
-        this.biossets.add(biosset);
+    public boolean addBiosset(MameBiosset biosset) {
+        return this.biossets.add(biosset);
     }
 
     public List<MameRom> getRoms() {

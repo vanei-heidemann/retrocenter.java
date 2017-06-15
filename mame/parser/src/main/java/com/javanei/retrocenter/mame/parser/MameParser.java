@@ -72,7 +72,7 @@ public class MameParser {
                 if (machineNode.getNodeName().equals("machine")) {
                     MameMachine machine = new MameMachine();
                     if (!mame.addMachine(machine)) {
-                        throw new DuplicatedItemException("machine: " + machine.getName());
+                        throw new DuplicatedItemException("mame.machine: " + machine.getName());
                     }
                     ReflectionUtil.setValueByAttributes(machine, machineNode.getAttributes());
 
@@ -91,7 +91,10 @@ public class MameParser {
                                     machine.setManufacturer(machineChild.getTextContent().trim());
                                     break;
                                 case "biosset":
-                                    machine.addBiosset(parseBiosset(machineChild));
+                                    MameBiosset biosset = parseBiosset(machineChild);
+                                    if (!machine.addBiosset(biosset)) {
+                                        throw new DuplicatedItemException("mame.machine.biosset: " + biosset.getName());
+                                    }
                                     break;
                                 case "rom":
                                     machine.addRom(parseRom(machineChild));
