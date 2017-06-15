@@ -489,6 +489,9 @@ public class MameParser {
                 case "buttons":
                     control.setButtons(value);
                     break;
+                case "reqbuttons":
+                    control.setReqbuttons(value);
+                    break;
                 case "minimum":
                     control.setMinimum(value);
                     break;

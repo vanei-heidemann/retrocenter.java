@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class MameInputControl implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,6 +11,7 @@ public class MameInputControl implements Serializable {
     private String type;
     private Integer player;
     private Integer buttons;
+    private Integer reqbuttons;
     private Integer minimum;
     private Integer maximum;
     private Integer sensitivity;
@@ -51,6 +51,18 @@ public class MameInputControl implements Serializable {
 
     public void setButtons(String buttons) {
         this.buttons = new Integer(buttons);
+    }
+
+    public Integer getReqbuttons() {
+        return reqbuttons;
+    }
+
+    public void setReqbuttons(Integer reqbuttons) {
+        this.reqbuttons = reqbuttons;
+    }
+
+    public void setReqbuttons(String reqbuttons) {
+        this.reqbuttons = new Integer(reqbuttons);
     }
 
     public Integer getMinimum() {
@@ -161,6 +173,9 @@ public class MameInputControl implements Serializable {
         }
         if (this.buttons != null) {
             sb.append(" buttons=\"").append(this.buttons).append("\"");
+        }
+        if (this.reqbuttons != null) {
+            sb.append(" reqbuttons=\"").append(this.reqbuttons).append("\"");
         }
         if (this.minimum != null) {
             sb.append(" minimum=\"").append(this.minimum).append("\"");

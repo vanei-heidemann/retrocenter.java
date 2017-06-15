@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,6 +34,9 @@ public class MameInputControlEntity implements Serializable, Comparable<MameInpu
 
     @Column(name = "BUTTONS", nullable = true)
     private Integer buttons;
+
+    @Column(name = "REQBUTTONS", nullable = true)
+    private Integer reqbuttons;
 
     @Column(name = "MINIMUM", nullable = true)
     private Integer minimum;
@@ -94,6 +96,14 @@ public class MameInputControlEntity implements Serializable, Comparable<MameInpu
 
     public void setButtons(Integer buttons) {
         this.buttons = buttons;
+    }
+
+    public Integer getReqbuttons() {
+        return reqbuttons;
+    }
+
+    public void setReqbuttons(Integer reqbuttons) {
+        this.reqbuttons = reqbuttons;
     }
 
     public Integer getMinimum() {
