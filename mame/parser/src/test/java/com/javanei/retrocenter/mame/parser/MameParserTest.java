@@ -2,6 +2,7 @@ package com.javanei.retrocenter.mame.parser;
 
 import com.javanei.retrocenter.mame.Mame;
 import java.io.InputStream;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -13,13 +14,14 @@ public class MameParserTest {
     public static void initialize() throws Exception {
         MameParser parser = new MameParser();
 
-        InputStream is = MameParserTest.class.getClassLoader().getResourceAsStream("listxml.xml");
+        InputStream is = MameParserTest.class.getClassLoader().getResourceAsStream("mame0186.xml");
         mame = parser.parse(is);
         //System.out.println(mame);
     }
 
     @Test
     public void test() {
-        System.out.println(mame);
+        //System.out.println(mame);
+        Assert.assertTrue(true);
     }
 }
