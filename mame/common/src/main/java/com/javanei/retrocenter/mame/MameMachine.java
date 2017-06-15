@@ -31,7 +31,7 @@ public class MameMachine implements Serializable {
     private List<MameDisk> disks = new LinkedList<>();
     private List<MameDeviceref> devicerefs = new LinkedList<>();
     private List<MameSample> samples = new LinkedList<>();
-    private List<MameChip> chips = new LinkedList<>();
+    private Set<MameChip> chips = new HashSet<>();
     private Set<MameDisplay> displays = new HashSet<>();
     private MameSound sound;
     private MameInput input;
@@ -203,16 +203,16 @@ public class MameMachine implements Serializable {
         this.samples.add(sample);
     }
 
-    public List<MameChip> getChips() {
+    public Set<MameChip> getChips() {
         return chips;
     }
 
-    public void setChips(List<MameChip> chips) {
+    public void setChips(Set<MameChip> chips) {
         this.chips = chips;
     }
 
-    public void addChip(MameChip chip) {
-        this.chips.add(chip);
+    public boolean addChip(MameChip chip) {
+        return this.chips.add(chip);
     }
 
     public Set<MameDisplay> getDisplays() {

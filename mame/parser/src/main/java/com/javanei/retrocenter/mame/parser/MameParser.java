@@ -109,7 +109,10 @@ public class MameParser {
                                     machine.addSample(parseSample(machineChild));
                                     break;
                                 case "chip":
-                                    machine.addChip(parseChip(machineChild));
+                                    MameChip chip = parseChip(machineChild);
+                                    if (!machine.addChip(chip)) {
+                                        throw new DuplicatedItemException("mame.machine.chip: " + chip + " for machine: " + machine.getName());
+                                    }
                                     break;
                                 case "display":
                                     MameDisplay display = parseDisplay(machineChild);
