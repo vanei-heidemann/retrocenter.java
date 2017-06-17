@@ -48,18 +48,12 @@ public class CMProDatafile implements Serializable {
         this.resources = resources;
     }
 
-    public void addGame(CMProGame game) {
-        if (this.games.contains(game)) {
-            throw new DuplicatedItemException("game (" + game.getName() + ")");
-        }
-        this.games.add(game);
+    public boolean addGame(CMProGame game) {
+        return this.games.add(game);
     }
 
-    public void addResource(CMProResource resource) {
-        if (this.resources.contains(resource)) {
-            throw new DuplicatedItemException("resource (" + resource.getName() + ")");
-        }
-        this.resources.add(resource);
+    public boolean addResource(CMProResource resource) {
+        return this.resources.add(resource);
     }
 
     @Override

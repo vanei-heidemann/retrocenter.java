@@ -1,6 +1,5 @@
 package com.javanei.retrocenter.clrmamepro;
 
-import com.javanei.retrocenter.common.DuplicatedItemException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -66,11 +65,8 @@ public class CMProResource implements Serializable {
         this.roms = roms;
     }
 
-    public void addRom(CMProRom rom) {
-        if (this.roms.contains(rom)) {
-            throw new DuplicatedItemException("rom (" + rom.getName() + ")");
-        }
-        this.roms.add(rom);
+    public boolean addRom(CMProRom rom) {
+        return this.roms.add(rom);
     }
 
     @Override
@@ -78,15 +74,12 @@ public class CMProResource implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         CMProResource resource = (CMProResource) o;
-        return Objects.equals(name, resource.name) &&
-                Objects.equals(description, resource.description) &&
-                Objects.equals(year, resource.year) &&
-                Objects.equals(manufacturer, resource.manufacturer);
+        return Objects.equals(name, resource.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, year, manufacturer);
+        return Objects.hash(name);
     }
 
     @Override

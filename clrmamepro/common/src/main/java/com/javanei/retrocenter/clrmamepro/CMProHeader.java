@@ -126,8 +126,12 @@ public class CMProHeader implements Serializable {
         this.forcezipping = forcezipping;
     }
 
-    public void addCustomField(String key, String value) {
-        this.customFields.put(key, value);
+    public boolean addCustomField(String key, String value) {
+        if (!this.customFields.containsKey(key)) {
+            this.customFields.put(key, value);
+            return true;
+        }
+        return false;
     }
 
     public String getCustomField(String key) {

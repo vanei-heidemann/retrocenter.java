@@ -1,6 +1,5 @@
 package com.javanei.retrocenter.clrmamepro;
 
-import com.javanei.retrocenter.common.DuplicatedItemException;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -114,48 +113,33 @@ public class CMProGame implements Serializable {
         this.sampleof = sampleof;
     }
 
-    public void addRom(CMProRom rom) {
-        if (this.roms.contains(rom)) {
-            throw new DuplicatedItemException("rom (" + rom.getName() + ")");
-        }
-        this.roms.add(rom);
+    public boolean addRom(CMProRom rom) {
+        return this.roms.add(rom);
     }
 
-    public void addDisk(CMProDisk disk) {
-        if (this.disks.contains(disk)) {
-            throw new DuplicatedItemException("disk (" + disk.getName() + ")");
-        }
-        this.disks.add(disk);
+    public boolean addDisk(CMProDisk disk) {
+        return this.disks.add(disk);
     }
 
-    public void addSample(String sample) {
-        if (this.samples.contains(sample)) {
-            throw new DuplicatedItemException("sample (" + sample + ")");
-        }
-        this.samples.add(sample);
+    public boolean addSample(String sample) {
+        return this.samples.add(sample);
     }
 
-    public void addSampleOf(String sampleof) {
-        if (this.sampleof.contains(sampleof)) {
-            throw new DuplicatedItemException("sampleof (" + sampleof + ")");
-        }
-        this.sampleof.add(sampleof);
+    public boolean addSampleOf(String sampleof) {
+        return this.sampleof.add(sampleof);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CMProGame game = (CMProGame) o;
-        return Objects.equals(name, game.name) &&
-                Objects.equals(description, game.description) &&
-                Objects.equals(year, game.year) &&
-                Objects.equals(manufacturer, game.manufacturer);
+        CMProGame cmProGame = (CMProGame) o;
+        return Objects.equals(name, cmProGame.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, year, manufacturer);
+        return Objects.hash(name);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
+import com.javanei.retrocenter.common.DuplicatedItemException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -118,12 +119,14 @@ public class CMProParser {
                 } else if (line.startsWith("author")) {
                     header.setAuthor(extractLineValue("author", line));
                 } else if (line.startsWith("forcemerging")) {
-                    //TODO: Ignorando
+                    header.setForcemerging(extractLineValue("forcemerging", line));
                 } else if (line.startsWith("forcezipping")) {
-                    //TODO: Ignorando
+                    header.setForcezipping(extractLineValue("forcezipping", line));
                 } else {
                     String key = line.substring(0, line.indexOf(" ")).trim();
-                    header.addCustomField(key, extractLineValue(key, line));
+                    if (!header.addCustomField(key, extractLineValue(key, line))) {
+                        throw new DuplicatedItemException("customField: " + key);
+                    }
                 }
 
                 line = reader.readLine().trim();
@@ -148,17 +151,31 @@ public class CMProParser {
                         } else if (line.startsWith("romof")) {
                             game.setRomof(extractLineValue("romof", line));
                         } else if (line.startsWith("sampleof")) {
-                            game.addSampleOf(extractLineValue("sampleof", line));
+                            String sampleof = extractLineValue("sampleof", line);
+                            if (!game.addSampleOf(sampleof)) {
+                                throw new DuplicatedItemException("sampleof: " + sampleof + " for game: " + game.getName());
+                            }
                         } else if (line.startsWith("rom")) {
-                            game.addRom(parseRom(line));
+                            CMProRom rom = parseRom(line);
+                            if (!game.addRom(rom)) {
+                                throw new DuplicatedItemException("rom: " + rom + " for game: " + game.getName());
+                            }
                         } else if (line.startsWith("disk")) {
-                            game.addDisk(parseDisk(line));
+                            CMProDisk disk = parseDisk(line);
+                            if (!game.addDisk(disk)) {
+                                throw new DuplicatedItemException("disk: " + disk + " for game: " + game.getName());
+                            }
                         } else if (line.startsWith("sample")) {
-                            game.addSample(extractLineValue("sample", line));
+                            String sample = extractLineValue("sample", line);
+                            if (!game.addSample(sample)) {
+                                throw new DuplicatedItemException("sample: " + sample + " for game: " + game.getName());
+                            }
                         }
                         line = reader.readLine().trim();
                     }
-                    r.addGame(game);
+                    if (!r.addGame(game)) {
+                        throw new DuplicatedItemException("game: " + game.getName());
+                    }
                 } else if (line.startsWith("resource")) {
                     CMProResource resource = new CMProResource();
                     line = reader.readLine().trim();
@@ -172,11 +189,16 @@ public class CMProParser {
                         } else if (line.startsWith("manufacturer")) {
                             resource.setManufacturer(extractLineValue("manufacturer", line));
                         } else if (line.startsWith("rom")) {
-                            resource.addRom(parseRom(line));
+                            CMProRom rom = parseRom(line);
+                            if (!resource.addRom(rom)) {
+                                throw new DuplicatedItemException("rom: " + rom.getName() + " for resource: " + resource.getName());
+                            }
                         }
                         line = reader.readLine().trim();
                     }
-                    r.addResource(resource);
+                    if (!r.addResource(resource)) {
+                        throw new DuplicatedItemException("resource: " + resource.getName());
+                    }
                 } else if (!line.isEmpty()) {
                     throw new Exception("Unknown tag value: " + line);
                 }
