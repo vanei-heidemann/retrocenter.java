@@ -34,7 +34,7 @@ public class CMProHeader implements Serializable {
     }
 
     public CMProHeader(String name, String description, String category, String version, String author, String homepage,
-            String url, String forcemerging, String forcezipping) {
+                       String url, String forcemerging, String forcezipping) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -100,6 +100,9 @@ public class CMProHeader implements Serializable {
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
+        if (homepage.toLowerCase().contains("no-intro") && this.category == null) {
+            this.category = "no-intro";
+        }
     }
 
     public String getUrl() {
@@ -108,6 +111,9 @@ public class CMProHeader implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+        if (url.toLowerCase().contains("no-intro") && this.category == null) {
+            this.category = "no-intro";
+        }
     }
 
     public String getForcemerging() {
