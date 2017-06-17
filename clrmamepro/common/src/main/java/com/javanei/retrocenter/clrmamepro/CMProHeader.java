@@ -101,7 +101,7 @@ public class CMProHeader implements Serializable {
     public void setHomepage(String homepage) {
         this.homepage = homepage;
         if (homepage.toLowerCase().contains("no-intro") && this.category == null) {
-            this.category = "no-intro";
+            this.category = "NO-INTRO";
         }
     }
 
@@ -112,7 +112,7 @@ public class CMProHeader implements Serializable {
     public void setUrl(String url) {
         this.url = url;
         if (url.toLowerCase().contains("no-intro") && this.category == null) {
-            this.category = "no-intro";
+            this.category = "NO-INTRO";
         }
     }
 
