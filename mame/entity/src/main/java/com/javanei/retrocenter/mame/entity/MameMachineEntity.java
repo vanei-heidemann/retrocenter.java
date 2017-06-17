@@ -2,8 +2,8 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -70,7 +70,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     private String manufacturer;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
-    private List<MameBiossetEntity> biossets = new LinkedList<>();
+    private Set<MameBiossetEntity> biossets = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
     private List<MameRomEntity> roms = new ArrayList<>();
@@ -103,7 +103,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     private Set<MameConfigurationEntity> configurations = new LinkedHashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
-    private Set<MamePortEntity> ports = new LinkedHashSet<>();
+    private List<MamePortEntity> ports = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
     private Set<MameAdjusterEntity> adjusters = new LinkedHashSet<>();
@@ -231,11 +231,11 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this.manufacturer = manufacturer;
     }
 
-    public List<MameBiossetEntity> getBiossets() {
+    public Set<MameBiossetEntity> getBiossets() {
         return biossets;
     }
 
-    public void setBiossets(List<MameBiossetEntity> biossets) {
+    public void setBiossets(Set<MameBiossetEntity> biossets) {
         this.biossets = biossets;
     }
 
@@ -319,11 +319,11 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this.configurations = configurations;
     }
 
-    public Set<MamePortEntity> getPorts() {
+    public List<MamePortEntity> getPorts() {
         return ports;
     }
 
-    public void setPorts(Set<MamePortEntity> ports) {
+    public void setPorts(List<MamePortEntity> ports) {
         this.ports = ports;
     }
 

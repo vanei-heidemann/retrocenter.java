@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class MameSoftwarelist implements Serializable {
     private static final long serialVersionUID = 1L;

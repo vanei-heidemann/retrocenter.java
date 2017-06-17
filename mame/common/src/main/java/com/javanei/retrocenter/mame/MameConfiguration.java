@@ -35,12 +35,12 @@ public class MameConfiguration implements Serializable {
         return mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = new Integer(mask);
-    }
-
     public void setMask(Integer mask) {
         this.mask = mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = new Integer(mask);
     }
 
     public Set<MameConfsetting> getConfsettings() {

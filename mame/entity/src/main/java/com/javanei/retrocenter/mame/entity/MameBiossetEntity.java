@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +34,7 @@ public class MameBiossetEntity implements Serializable, Comparable<MameBiossetEn
     private String description;
 
     @Column(name = "ISDEFAULT", length = 3, nullable = true)
-    private String _default; // (yes|no) "no"
+    private String _default;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")

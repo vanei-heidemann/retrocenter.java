@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_DIPVALUE", indexes = {
-        @Index(name = "MAME_DIPVALUE_0001", unique = true, columnList = "DIPSWITCH_ID,NAME,VALUE,ISDEFAULT")
+        @Index(name = "MAME_DIPVALUE_0001", unique = false, columnList = "DIPSWITCH_ID,NAME,VALUE,ISDEFAULT")
 })
 public class MameDipvalueEntity implements Serializable, Comparable<MameDipvalueEntity> {
     private static final long serialVersionUID = 1L;

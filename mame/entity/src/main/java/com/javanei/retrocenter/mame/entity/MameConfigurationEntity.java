@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_CONFIGURATION", indexes = {
-        @Index(name = "MAME_CONFIGURATION_0001", unique = false, columnList = "MACHINE_ID,NAME,MASK,TAG")
+        @Index(name = "MAME_CONFIGURATION_0001", unique = true, columnList = "MACHINE_ID,NAME,MASK,TAG")
 })
 public class MameConfigurationEntity implements Serializable, Comparable<MameConfigurationEntity> {
     private static final long serialVersionUID = 1L;

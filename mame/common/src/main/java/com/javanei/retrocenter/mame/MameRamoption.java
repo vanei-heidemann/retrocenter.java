@@ -1,9 +1,8 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameRamoption implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -15,26 +14,26 @@ public class MameRamoption implements Serializable {
         return _default;
     }
 
-    public void setDefault(Integer _default) {
-        this._default = _default;
-    }
-
     public void setDefault(String _default) {
         if (_default != null)
             this._default = new Integer(_default);
+    }
+
+    public void setDefault(Integer _default) {
+        this._default = _default;
     }
 
     public Long getContent() {
         return content;
     }
 
-    public void setContent(Long content) {
-        this.content = content;
-    }
-
     public void setContent(String content) {
         if (content != null)
             this.content = new Long(content);
+    }
+
+    public void setContent(Long content) {
+        this.content = content;
     }
 
     @Override

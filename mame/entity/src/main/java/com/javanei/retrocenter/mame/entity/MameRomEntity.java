@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_ROM", indexes = {
-        @Index(name = "MAME_ROM_0001", unique = false, columnList = "MACHINE_ID,NAME,BIOS,OFFSET")
+        @Index(name = "MAME_ROM_0001", unique = false, columnList = "MACHINE_ID,NAME,BIOS,REGION,OFFSET")
 })
 //WARN: Parece haver duplicidades no xml
 public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {

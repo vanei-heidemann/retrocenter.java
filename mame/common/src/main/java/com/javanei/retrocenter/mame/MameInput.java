@@ -1,12 +1,11 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class MameInput implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -16,7 +15,7 @@ public class MameInput implements Serializable {
     private Integer players;
     private Integer coins;
 
-    private List<MameInputControl> controls = new LinkedList<>();
+    private Set<MameInputControl> controls = new HashSet<>();
 
     public String getService() {
         return service;
@@ -38,36 +37,36 @@ public class MameInput implements Serializable {
         return players;
     }
 
-    public void setPlayers(Integer players) {
-        this.players = players;
-    }
-
     public void setPlayers(String players) {
         this.players = new Integer(players);
+    }
+
+    public void setPlayers(Integer players) {
+        this.players = players;
     }
 
     public Integer getCoins() {
         return coins;
     }
 
-    public void setCoins(Integer coins) {
-        this.coins = coins;
-    }
-
     public void setCoins(String coins) {
         this.coins = new Integer(coins);
     }
 
-    public List<MameInputControl> getControls() {
+    public void setCoins(Integer coins) {
+        this.coins = coins;
+    }
+
+    public Set<MameInputControl> getControls() {
         return controls;
     }
 
-    public void setControls(List<MameInputControl> controls) {
+    public void setControls(Set<MameInputControl> controls) {
         this.controls = controls;
     }
 
-    public void addControl(MameInputControl control) {
-        this.controls.add(control);
+    public boolean addControl(MameInputControl control) {
+        return this.controls.add(control);
     }
 
     @Override

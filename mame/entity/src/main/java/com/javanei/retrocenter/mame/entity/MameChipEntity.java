@@ -2,7 +2,6 @@ package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -101,13 +100,12 @@ public class MameChipEntity implements Serializable, Comparable<MameChipEntity> 
         MameChipEntity entity = (MameChipEntity) o;
         return Objects.equals(name, entity.name) &&
                 Objects.equals(tag, entity.tag) &&
-                Objects.equals(type, entity.type) &&
-                Objects.equals(id, entity.id);
+                Objects.equals(type, entity.type);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, tag, type, id);
+        return Objects.hash(name, tag, type);
     }
 
     @Override

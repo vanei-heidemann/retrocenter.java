@@ -16,9 +16,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_RAMOPTION", indexes = {
-        @Index(name = "MAME_RAMOPTION_0001", unique = false, columnList = "MACHINE_ID,CONTENT,ISDEFAULT")
+        @Index(name = "MAME_RAMOPTION_0001", unique = true, columnList = "MACHINE_ID,CONTENT,ISDEFAULT")
 })
-//WARN: Parece haver duplicidade!
 public class MameRamoptionEntity implements Serializable, Comparable<MameRamoptionEntity> {
     private static final long serialVersionUID = 1L;
 

@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class MameConfsetting implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,12 +24,12 @@ public class MameConfsetting implements Serializable {
         return value;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
     public void setValue(String value) {
         this.value = new Integer(value);
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
     }
 
     public String getDefault() {

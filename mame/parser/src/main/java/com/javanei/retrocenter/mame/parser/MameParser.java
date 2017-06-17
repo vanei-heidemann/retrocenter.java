@@ -50,6 +50,7 @@ public class MameParser {
     }
 
     public Mame parse(File file) throws Exception {
+        log.finest("Parsing file: " + file.getAbsolutePath());
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
@@ -127,17 +128,19 @@ public class MameParser {
                                     }
                                     break;
                                 case "sound":
+                                    if (machine.getSound() != null) {
+                                        throw new DuplicatedItemException("mame.machine.sound for machine: " + machine.getName());
+                                    }
                                     machine.setSound(parseSound(machineChild));
                                     break;
                                 case "input":
+                                    if (machine.getInput() != null) {
+                                        throw new DuplicatedItemException("mame.machine.input for machine: " + machine.getName());
+                                    }
                                     machine.setInput(parseInput(machineChild));
                                     break;
                                 case "dipswitch":
-                                    MameDipswitch dipswitch = parseDipswitch(machineChild);
-                                    if (!machine.addDipswitch(dipswitch)) {
-                                        log.finest("WWW Duplicated dipswitch " + dipswitch + " for machine " + machine.getName());
-                                        //throw new DuplicatedItemException("mame.machine.dipswitch: " + dipswitch + " for machine: " + machine.getName());
-                                    }
+                                    machine.addDipswitch(parseDipswitch(machineChild));
                                     break;
                                 case "configuration":
                                     MameConfiguration configuration = parseConfiguration(machineChild);
@@ -146,10 +149,7 @@ public class MameParser {
                                     }
                                     break;
                                 case "port":
-                                    MamePort port = parsePort(machineChild);
-                                    if (!machine.addPort(port)) {
-                                        throw new DuplicatedItemException("mame.machine.adjuster: " + port + " for machine: " + machine.getName());
-                                    }
+                                    machine.addPort(parsePort(machineChild));
                                     break;
                                 case "adjuster":
                                     MameAdjuster adjuster = parseAdjuster(machineChild);
@@ -158,6 +158,9 @@ public class MameParser {
                                     }
                                     break;
                                 case "driver":
+                                    if (machine.getDriver() != null) {
+                                        throw new DuplicatedItemException("mame.machine.driver for machine: " + machine.getName());
+                                    }
                                     machine.setDriver(parseDriver(machineChild));
                                     break;
                                 case "device":
@@ -248,7 +251,10 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("control")) {
-                    input.addControl(parseInputControl(child));
+                    MameInputControl control = parseInputControl(child);
+                    if (!input.addControl(control)) {
+                        throw new DuplicatedItemException("mame.machine.input.control: " + control + " for input: " + input.getService());
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());
@@ -272,11 +278,7 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("dipvalue")) {
-                    MameDipvalue dipvalue = parseDipvalue(child);
-                    if (!dipswitch.addDipvalue(dipvalue)) {
-                        //log.finest("WWW Duplicated dipvalue " + dipvalue + " for dipswitch " + dipswitch.getName());
-                        //throw new DuplicatedItemException("mame.machine.dipswitch.dipvalue: " + dipvalue + " for dipswitch: " + dipswitch.getName());
-                    }
+                    dipswitch.addDipvalue(parseDipvalue(child));
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());
@@ -327,11 +329,7 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("analog")) {
-                    MameAnalog analog = parseAnalog(child);
-                    if (!port.addAnalog(analog)) {
-                        //throw new DuplicatedItemException("mame.machine.port.analog: " + analog + " for port: " + port.getTag());
-                        log.finest("WWW Duplicated analog " + analog + " for port " + port.getTag());
-                    }
+                    port.addAnalog(parseAnalog(child));
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());
@@ -367,9 +365,15 @@ public class MameParser {
             Node child = list.item(i);
             if (child.getNodeName() != null) {
                 if (child.getNodeName().equals("instance")) {
-                    device.addInstance(parseDeviceInstance(child));
+                    MameDeviceInstance instance = parseDeviceInstance(child);
+                    if (!device.addInstance(instance)) {
+                        throw new DuplicatedItemException("mame.machine.device.instance: " + instance);
+                    }
                 } else if (child.getNodeName().equals("extension")) {
-                    device.addExtension(parseDeviceExtension(child));
+                    MameDeviceExtension extension = parseDeviceExtension(child);
+                    if (!device.addExtension(extension)) {
+                        throw new DuplicatedItemException("mame.machine.device.extension: " + extension);
+                    }
                 } else if (child.getNodeName().equals("#text")) {
                 } else {
                     throw new UnknownTagException(child.getNodeName());

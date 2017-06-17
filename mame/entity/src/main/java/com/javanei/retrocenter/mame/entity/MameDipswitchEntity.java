@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,7 +40,7 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
     private Long mask;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "dipswitch")
-    private Set<MameDipvalueEntity> dipvalues = new LinkedHashSet<>();
+    private List<MameDipvalueEntity> dipvalues = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
@@ -79,11 +78,11 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
         this.mask = mask;
     }
 
-    public Set<MameDipvalueEntity> getDipvalues() {
+    public List<MameDipvalueEntity> getDipvalues() {
         return dipvalues;
     }
 
-    public void setDipvalues(Set<MameDipvalueEntity> dipvalues) {
+    public void setDipvalues(List<MameDipvalueEntity> dipvalues) {
         this.dipvalues = dipvalues;
     }
 
@@ -104,13 +103,12 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
         MameDipswitchEntity entity = (MameDipswitchEntity) o;
         return Objects.equals(name, entity.name) &&
                 Objects.equals(tag, entity.tag) &&
-                Objects.equals(mask, entity.mask) &&
-                Objects.equals(id, entity.id);
+                Objects.equals(mask, entity.mask);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, tag, mask, id);
+        return Objects.hash(name, tag, mask);
     }
 
     @Override

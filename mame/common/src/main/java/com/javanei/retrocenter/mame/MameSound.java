@@ -1,9 +1,8 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameSound implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,12 +13,12 @@ public class MameSound implements Serializable {
         return channels;
     }
 
-    public void setChannels(Integer channels) {
-        this.channels = channels;
-    }
-
     public void setChannels(String channels) {
         this.channels = new Integer(channels);
+    }
+
+    public void setChannels(Integer channels) {
+        this.channels = channels;
     }
 
     @Override

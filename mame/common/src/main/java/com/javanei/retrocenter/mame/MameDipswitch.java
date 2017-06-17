@@ -2,9 +2,9 @@ package com.javanei.retrocenter.mame;
 
 import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class MameDipswitch implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,7 +14,7 @@ public class MameDipswitch implements Serializable {
     private Long mask;
 
     // Há duplicados!
-    private Set<MameDipvalue> dipvalues = new HashSet<>();
+    private List<MameDipvalue> dipvalues = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -36,24 +36,24 @@ public class MameDipswitch implements Serializable {
         return mask;
     }
 
-    public void setMask(Long mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Long(mask);
     }
 
-    public Set<MameDipvalue> getDipvalues() {
+    public void setMask(Long mask) {
+        this.mask = mask;
+    }
+
+    public List<MameDipvalue> getDipvalues() {
         return dipvalues;
     }
 
-    public void setDipvalues(Set<MameDipvalue> dipvalues) {
+    public void setDipvalues(List<MameDipvalue> dipvalues) {
         this.dipvalues = dipvalues;
     }
 
-    public boolean addDipvalue(MameDipvalue dipvalue) {
-        return this.dipvalues.add(dipvalue);
+    public void addDipvalue(MameDipvalue dipvalue) {
+        this.dipvalues.add(dipvalue);
     }
 
     @Override
@@ -65,13 +65,12 @@ public class MameDipswitch implements Serializable {
         MameDipswitch that = (MameDipswitch) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(tag, that.tag) &&
-                Objects.equals(mask, that.mask) &&
-                Objects.equals(dipvalues, that.dipvalues);
+                Objects.equals(mask, that.mask);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, tag, mask, dipvalues);
+        return Objects.hash(name, tag, mask);
     }
 
     @Override

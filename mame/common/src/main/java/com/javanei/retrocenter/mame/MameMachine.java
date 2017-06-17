@@ -3,6 +3,7 @@ package com.javanei.retrocenter.mame;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -37,11 +38,11 @@ public class MameMachine implements Serializable {
     private Set<MameDisplay> displays = new HashSet<>();
     private MameSound sound;
     private MameInput input;
-    // Há duplicado. Reduzido o duplicado considerando os dipvalue
-    private Set<MameDipswitch> dipswitches = new HashSet<>();
+    // Há duplicado.
+    private List<MameDipswitch> dipswitches = new ArrayList<>();
     private Set<MameConfiguration> configurations = new HashSet<>();
     // Há duplicado!
-    private Set<MamePort> ports = new HashSet<>();
+    private List<MamePort> ports = new ArrayList<>();
     private Set<MameAdjuster> adjusters = new HashSet<>();
     private MameDriver driver;
     private Set<MameDevice> devices = new HashSet<>();
@@ -245,16 +246,16 @@ public class MameMachine implements Serializable {
         this.input = input;
     }
 
-    public Set<MameDipswitch> getDipswitches() {
+    public List<MameDipswitch> getDipswitches() {
         return dipswitches;
     }
 
-    public void setDipswitches(Set<MameDipswitch> dipswitches) {
+    public void setDipswitches(List<MameDipswitch> dipswitches) {
         this.dipswitches = dipswitches;
     }
 
-    public boolean addDipswitch(MameDipswitch dipswitch) {
-        return this.dipswitches.add(dipswitch);
+    public void addDipswitch(MameDipswitch dipswitch) {
+        this.dipswitches.add(dipswitch);
     }
 
     public Set<MameConfiguration> getConfigurations() {
@@ -269,16 +270,16 @@ public class MameMachine implements Serializable {
         return this.configurations.add(configuration);
     }
 
-    public Set<MamePort> getPorts() {
+    public List<MamePort> getPorts() {
         return ports;
     }
 
-    public void setPorts(Set<MamePort> ports) {
+    public void setPorts(List<MamePort> ports) {
         this.ports = ports;
     }
 
-    public boolean addPort(MamePort port) {
-        return this.ports.add(port);
+    public void addPort(MamePort port) {
+        this.ports.add(port);
     }
 
     public Set<MameAdjuster> getAdjusters() {

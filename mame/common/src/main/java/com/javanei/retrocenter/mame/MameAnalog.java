@@ -1,9 +1,8 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameAnalog implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -14,12 +13,12 @@ public class MameAnalog implements Serializable {
         return mask;
     }
 
-    public void setMask(Integer mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Integer(mask);
+    }
+
+    public void setMask(Integer mask) {
+        this.mask = mask;
     }
 
     @Override

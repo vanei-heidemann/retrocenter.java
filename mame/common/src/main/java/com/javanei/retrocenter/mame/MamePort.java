@@ -2,16 +2,16 @@ package com.javanei.retrocenter.mame;
 
 import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class MamePort implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String tag;
 
-    private Set<MameAnalog> analogs = new HashSet<>();
+    private List<MameAnalog> analogs = new ArrayList<>();
 
     public String getTag() {
         return tag;
@@ -21,16 +21,16 @@ public class MamePort implements Serializable {
         this.tag = tag;
     }
 
-    public Set<MameAnalog> getAnalogs() {
+    public List<MameAnalog> getAnalogs() {
         return analogs;
     }
 
-    public void setAnalogs(Set<MameAnalog> analogs) {
+    public void setAnalogs(List<MameAnalog> analogs) {
         this.analogs = analogs;
     }
 
-    public boolean addAnalog(MameAnalog analog) {
-        return this.analogs.add(analog);
+    public void addAnalog(MameAnalog analog) {
+        this.analogs.add(analog);
     }
 
     @Override

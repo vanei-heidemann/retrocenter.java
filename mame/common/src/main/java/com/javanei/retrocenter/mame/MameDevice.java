@@ -1,11 +1,10 @@
 package com.javanei.retrocenter.mame;
 
-import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
 import com.javanei.retrocenter.common.util.StringUtil;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 public class MameDevice implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -16,8 +15,8 @@ public class MameDevice implements Serializable {
     private Integer mandatory;
     private String _interface;
 
-    private List<MameDeviceInstance> instances = new LinkedList<>();
-    private List<MameDeviceExtension> extensions = new LinkedList<>();
+    private Set<MameDeviceInstance> instances = new HashSet<>();
+    private Set<MameDeviceExtension> extensions = new HashSet<>();
 
     public String getType() {
         return type;
@@ -39,26 +38,26 @@ public class MameDevice implements Serializable {
         return fixed_image;
     }
 
-    public void setFixed_image(Integer fixed_image) {
-        this.fixed_image = fixed_image;
-    }
-
     public void setFixed_image(String fixed_image) {
         if (fixed_image != null)
             this.fixed_image = new Integer(fixed_image);
+    }
+
+    public void setFixed_image(Integer fixed_image) {
+        this.fixed_image = fixed_image;
     }
 
     public Integer getMandatory() {
         return mandatory;
     }
 
-    public void setMandatory(Integer mandatory) {
-        this.mandatory = mandatory;
-    }
-
     public void setMandatory(String mandatory) {
         if (mandatory != null)
             this.mandatory = new Integer(mandatory);
+    }
+
+    public void setMandatory(Integer mandatory) {
+        this.mandatory = mandatory;
     }
 
     public String getInterface() {
@@ -69,28 +68,28 @@ public class MameDevice implements Serializable {
         this._interface = _interface;
     }
 
-    public List<MameDeviceInstance> getInstances() {
+    public Set<MameDeviceInstance> getInstances() {
         return instances;
     }
 
-    public void setInstances(List<MameDeviceInstance> instances) {
+    public void setInstances(Set<MameDeviceInstance> instances) {
         this.instances = instances;
     }
 
-    public void addInstance(MameDeviceInstance instance) {
-        this.instances.add(instance);
+    public boolean addInstance(MameDeviceInstance instance) {
+        return this.instances.add(instance);
     }
 
-    public List<MameDeviceExtension> getExtensions() {
+    public Set<MameDeviceExtension> getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(List<MameDeviceExtension> extensions) {
+    public void setExtensions(Set<MameDeviceExtension> extensions) {
         this.extensions = extensions;
     }
 
-    public void addExtension(MameDeviceExtension extension) {
-        this.extensions.add(extension);
+    public boolean addExtension(MameDeviceExtension extension) {
+        return this.extensions.add(extension);
     }
 
     @Override

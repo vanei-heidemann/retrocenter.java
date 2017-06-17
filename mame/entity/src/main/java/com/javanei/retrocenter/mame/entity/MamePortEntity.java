@@ -1,10 +1,9 @@
 package com.javanei.retrocenter.mame.entity;
 
 import java.io.Serializable;
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +19,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME_PORT", indexes = {
-        @Index(name = "MAME_PORT_0001", unique = true, columnList = "MACHINE_ID,TAG")
+        @Index(name = "MAME_PORT_0001", unique = false, columnList = "MACHINE_ID,TAG")
 })
 public class MamePortEntity implements Serializable, Comparable<MamePortEntity> {
     private static final long serialVersionUID = 1L;
@@ -34,7 +33,7 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
     private String tag;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "port")
-    private Set<MameAnalogEntity> analogs = new LinkedHashSet<>();
+    private List<MameAnalogEntity> analogs = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
@@ -56,11 +55,11 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
         this.tag = tag;
     }
 
-    public Set<MameAnalogEntity> getAnalogs() {
+    public List<MameAnalogEntity> getAnalogs() {
         return analogs;
     }
 
-    public void setAnalogs(Set<MameAnalogEntity> analogs) {
+    public void setAnalogs(List<MameAnalogEntity> analogs) {
         this.analogs = analogs;
     }
 
