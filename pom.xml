@@ -22,5 +22,6 @@
         <module>tosec</module>
         <module>logiqx</module>
         <module>mame</module>
+        <module>server</module>
     </modules>
 </project>
