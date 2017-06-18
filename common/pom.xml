@@ -9,7 +9,7 @@
         <artifactId>RetrocenterJava</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>common</artifactId>
+    <artifactId>retrocenter-common</artifactId>
     <packaging>jar</packaging>
 
     <properties>
