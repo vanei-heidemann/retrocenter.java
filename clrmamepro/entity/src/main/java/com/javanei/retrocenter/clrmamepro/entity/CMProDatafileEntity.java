@@ -26,15 +26,31 @@ public class CMProDatafileEntity implements Serializable {
     @Column(name = "CMPRO_DATAFILE_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "NAME", length = 160, nullable = false)
     private String name;
-    private String description;
+
+    @Column(name = "CATEGORY", length = 32, nullable = false)
     private String category;
+
+    @Column(name = "VERSION", length = 64, nullable = false)
     private String version;
+
+    @Column(name = "DESCRIPTION", length = 255, nullable = true)
+    private String description;
+
+    @Column(name = "AUTHOR", length = 128, nullable = true)
     private String author;
+
+    @Column(name = "HOMEPAGE", length = 128, nullable = true)
     private String homepage;
+
+    @Column(name = "URL", length = 128, nullable = true)
     private String url;
+
+    @Column(name = "FORCEMERGING", length = 5, nullable = true)
     private String forcemerging;
+
+    @Column(name = "FORCEZIPPING", length = 3, nullable = true)
     private String forcezipping;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")

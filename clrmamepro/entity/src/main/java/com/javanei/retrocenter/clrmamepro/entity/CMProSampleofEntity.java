@@ -26,7 +26,7 @@ public class CMProSampleofEntity implements Serializable {
     @Column(name = "CMPRO_SAMPLEOF_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "SAMPLEOF", length = 255, nullable = false)
     private String sampleof;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)

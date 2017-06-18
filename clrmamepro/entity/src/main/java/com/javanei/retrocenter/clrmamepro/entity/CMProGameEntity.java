@@ -29,13 +29,22 @@ public class CMProGameEntity implements Serializable {
     @Column(name = "CMPRO_GAME_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "NAME", length = 255, nullable = false)
     private String name;
+
+    @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
+
+    @Column(name = "YEAR", length = 32, nullable = true)
     private String year;
+
+    @Column(name = "MANUFACTURER", length = 255, nullable = true)
     private String manufacturer;
-    //
+
+    @Column(name = "CLONEOF", length = 255, nullable = true)
     private String cloneof;
+
+    @Column(name = "ROMOF", length = 255, nullable = true)
     private String romof;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")

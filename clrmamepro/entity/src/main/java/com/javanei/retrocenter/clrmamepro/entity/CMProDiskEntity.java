@@ -26,9 +26,13 @@ public class CMProDiskEntity implements Serializable {
     @Column(name = "CMPRO_DISK_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "NAME", length = 255, nullable = false)
     private String name;
+
+    @Column(name = "SHA1", length = 40, nullable = true)
     private String sha1;
+
+    @Column(name = "MD5", length = 40, nullable = true)
     private String md5;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)

@@ -26,8 +26,10 @@ public class CMProCustomFieldEntity implements Serializable {
     @Column(name = "CMPRO_CUSTOMFIELD_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "KEY", length = 160, nullable = false)
     private String key;
+
+    @Column(name = "VALUE", length = 255, nullable = false)
     private String value;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)

@@ -26,13 +26,25 @@ public class CMProResourceRomEntity implements Serializable {
     @Column(name = "CMPRO_RESOURCEROM_ID", nullable = false)
     private Long id;
 
-    //TODO:
+    @Column(name = "NAME", length = 255, nullable = false)
     private String name;
+
+    @Column(name = "SIZE", nullable = true)
     private Long size;
+
+    @Column(name = "CRC", length = 8, nullable = true)
     private String crc;
+
+    @Column(name = "SHA1", length = 40, nullable = true)
     private String sha1;
+
+    @Column(name = "MD5", length = 40, nullable = true)
     private String md5;
+
+    @Column(name = "REGION", length = 64, nullable = true)
     private String region;
+
+    @Column(name = "FLAGS", length = 16, nullable = true)
     private String flags;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
