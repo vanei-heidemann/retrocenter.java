@@ -11,12 +11,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CMPRO_DATAFILE", indexes = {
         @Index(name = "CMPRO_DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+})
+@NamedQueries({
+        @NamedQuery(name = "CMProDatafileEntity.findByUniqueFull", query = "SELECT o from CMProDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version"),
+        @NamedQuery(name = "CMProDatafileEntity.findByUnique", query = "SELECT new CMProDatafileEntity(id, name, category, version, description, author, homepage, url, forcemerging, forcezipping) from CMProDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version")
 })
 public class CMProDatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -61,6 +67,23 @@ public class CMProDatafileEntity implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
     private Set<CMProResourceEntity> resources = new HashSet<>();
+
+    public CMProDatafileEntity() {
+    }
+
+    public CMProDatafileEntity(Long id, String name, String category, String version, String description,
+                               String author, String homepage, String url, String forcemerging, String forcezipping) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.version = version;
+        this.description = description;
+        this.author = author;
+        this.homepage = homepage;
+        this.url = url;
+        this.forcemerging = forcemerging;
+        this.forcezipping = forcezipping;
+    }
 
     public Long getId() {
         return id;
