@@ -17,6 +17,8 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,6 +26,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "MAME_MACHINE", indexes = {
         @Index(name = "MAME_MACHINE_0001", unique = true, columnList = "MAME_ID,NAME")
+})
+@NamedQueries({
+        @NamedQuery(name = "MameMachineEntity.findByBuild", query = "SELECT o from MameMachineEntity o WHERE o.mame.build = :build"),
+        @NamedQuery(name = "MameMachineEntity.findByBuildAndName", query = "SELECT o from MameMachineEntity o WHERE o.mame.build = :build AND o.name = :name")
 })
 public class MameMachineEntity implements Serializable, Comparable<MameMachineEntity> {
     private static final long serialVersionUID = 1L;

@@ -12,12 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "MAME", indexes = {
         @Index(name = "MAME_0001", unique = true, columnList = "BUILD")
+})
+@NamedQueries({
+        @NamedQuery(name = "MameEntity.findByBuildFull", query = "SELECT o from MameEntity o WHERE build = :build"),
+        @NamedQuery(name = "MameEntity.findByBuild", query = "SELECT new MameEntity(o.id, o.build, o.debug, o.mameconfig) from MameEntity o WHERE build = :build")
 })
 public class MameEntity implements Serializable, Comparable<MameEntity> {
     private static final long serialVersionUID = 1L;
