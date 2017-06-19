@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameAnalog;
+import com.javanei.retrocenter.mame.MamePort;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,28 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MamePortEntity() {
+    }
+
+    public MamePortEntity(String tag) {
+        this.tag = tag;
+    }
+
+    public MamePortEntity(MamePort port) {
+        this(port.getTag());
+        for (MameAnalog analog : port.getAnalogs()) {
+            this.analogs.add(new MameAnalogEntity(analog));
+        }
+    }
+
+    public MamePort toVO() {
+        MamePort port = new MamePort(this.tag);
+        for (MameAnalogEntity analogEntity : this.analogs) {
+            port.addAnalog(analogEntity.toVO());
+        }
+        return port;
+    }
 
     public Long getId() {
         return id;

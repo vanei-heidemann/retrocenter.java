@@ -17,6 +17,21 @@ public class MameDriver implements Serializable {
     private String protection; // (good|imperfect|preliminary)
     private String savestate; // (supported|unsupported)
 
+    public MameDriver() {
+    }
+
+    public MameDriver(String status, String emulation, String color, String sound, String graphic, String cocktail,
+                      String protection, String savestate) {
+        this.status = status;
+        this.emulation = emulation;
+        this.color = color;
+        this.sound = sound;
+        this.graphic = graphic;
+        this.cocktail = cocktail;
+        this.protection = protection;
+        this.savestate = savestate;
+    }
+
     public String getStatus() {
         return status;
     }

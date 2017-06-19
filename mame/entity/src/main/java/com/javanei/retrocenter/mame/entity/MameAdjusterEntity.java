@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameAdjuster;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -35,6 +36,22 @@ public class MameAdjusterEntity implements Serializable, Comparable<MameAdjuster
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameAdjusterEntity(String name, Integer _default) {
+        this.name = name;
+        this._default = _default;
+    }
+
+    public MameAdjusterEntity() {
+    }
+
+    public MameAdjusterEntity(MameAdjuster adjuster) {
+        this(adjuster.getName(), adjuster.getDefault());
+    }
+
+    public MameAdjuster toVO() {
+        return new MameAdjuster(this.name, this.getDefault());
+    }
 
     public Long getId() {
         return id;

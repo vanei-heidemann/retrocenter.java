@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.Mame;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -67,6 +68,19 @@ public class MameEntity implements Serializable, Comparable<MameEntity> {
         this.build = build;
         this.debug = debug;
         this.mameconfig = mameconfig;
+    }
+
+    public MameEntity(Mame mame) {
+        this(mame.getBuild(), mame.getDebug(), mame.getMameconfig());
+    }
+
+    public Mame toVO() {
+        Mame mame = new Mame(this.build, this.debug, this.mameconfig);
+        for (MameMachineEntity machineEntity : this.machines) {
+            mame.addMachine(machineEntity.toVO());
+        }
+
+        return mame;
     }
 
     public Long getId() {

@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameConfsetting;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,6 +39,23 @@ public class MameConfsettingEntity implements Serializable, Comparable<MameConfs
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "CONFIGURATION_ID")
     private MameConfigurationEntity configuration;
+
+    public MameConfsettingEntity() {
+    }
+
+    public MameConfsettingEntity(String name, Integer value, String _default) {
+        this.name = name;
+        this.value = value;
+        this._default = _default;
+    }
+
+    public MameConfsettingEntity(MameConfsetting confsetting) {
+        this(confsetting.getName(), confsetting.getValue(), confsetting.getDefault());
+    }
+
+    public MameConfsetting toVO() {
+        return new MameConfsetting(this.name, this.value, this._default);
+    }
 
     public Long getId() {
         return id;

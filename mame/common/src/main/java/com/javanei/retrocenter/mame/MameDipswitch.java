@@ -16,6 +16,15 @@ public class MameDipswitch implements Serializable {
     // Há duplicados!
     private List<MameDipvalue> dipvalues = new ArrayList<>();
 
+    public MameDipswitch() {
+    }
+
+    public MameDipswitch(String name, String tag, Long mask) {
+        this.name = name;
+        this.tag = tag;
+        this.mask = mask;
+    }
+
     public String getName() {
         return name;
     }
@@ -36,12 +45,12 @@ public class MameDipswitch implements Serializable {
         return mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = new Long(mask);
-    }
-
     public void setMask(Long mask) {
         this.mask = mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = new Long(mask);
     }
 
     public List<MameDipvalue> getDipvalues() {

@@ -19,6 +19,23 @@ public class MameRom implements Serializable {
     private String status; // (baddump|nodump|good) "good"
     private String optional; // (yes|no) "no"
 
+    public MameRom() {
+    }
+
+    public MameRom(String name, String bios, Long size, String crc, String sha1, String merge, String region,
+                   String offset, String status, String optional) {
+        this.name = name;
+        this.bios = bios;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.merge = merge;
+        this.region = region;
+        this.offset = offset;
+        this.status = status;
+        this.optional = optional;
+    }
+
     public String getName() {
         return name;
     }
@@ -39,12 +56,12 @@ public class MameRom implements Serializable {
         return size;
     }
 
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
     public void setSize(String size) {
         this.size = new Long(size);
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
     }
 
     public String getCrc() {

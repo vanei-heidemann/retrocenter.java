@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameSlot;
+import com.javanei.retrocenter.mame.MameSlotoption;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -38,6 +40,28 @@ public class MameSlotEntity implements Serializable, Comparable<MameSlotEntity> 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameSlotEntity(String name) {
+        this.name = name;
+    }
+
+    public MameSlotEntity() {
+    }
+
+    public MameSlotEntity(MameSlot slot) {
+        this(slot.getName());
+        for (MameSlotoption slotoption : slot.getSlotoptions()) {
+            this.slotoptions.add(new MameSlotoptionEntity(slotoption));
+        }
+    }
+
+    public MameSlot toVO() {
+        MameSlot slot = new MameSlot(this.name);
+        for (MameSlotoptionEntity entity : this.slotoptions) {
+            slot.addSlotoption(entity.toVO());
+        }
+        return slot;
+    }
 
     public Long getId() {
         return id;

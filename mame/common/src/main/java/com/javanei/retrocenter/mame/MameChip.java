@@ -13,6 +13,16 @@ public class MameChip implements Serializable {
     private String type;
     private String clock;
 
+    public MameChip() {
+    }
+
+    public MameChip(String name, String tag, String type, String clock) {
+        this.name = name;
+        this.tag = tag;
+        this.type = type;
+        this.clock = clock;
+    }
+
     public String getName() {
         return name;
     }

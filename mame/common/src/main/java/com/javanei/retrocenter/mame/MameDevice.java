@@ -18,6 +18,17 @@ public class MameDevice implements Serializable {
     private Set<MameDeviceInstance> instances = new HashSet<>();
     private Set<MameDeviceExtension> extensions = new HashSet<>();
 
+    public MameDevice(String type, String tag, Integer fixed_image, Integer mandatory, String _interface) {
+        this.type = type;
+        this.tag = tag;
+        this.fixed_image = fixed_image;
+        this.mandatory = mandatory;
+        this._interface = _interface;
+    }
+
+    public MameDevice() {
+    }
+
     public String getType() {
         return type;
     }
@@ -38,26 +49,26 @@ public class MameDevice implements Serializable {
         return fixed_image;
     }
 
+    public void setFixed_image(Integer fixed_image) {
+        this.fixed_image = fixed_image;
+    }
+
     public void setFixed_image(String fixed_image) {
         if (fixed_image != null)
             this.fixed_image = new Integer(fixed_image);
-    }
-
-    public void setFixed_image(Integer fixed_image) {
-        this.fixed_image = fixed_image;
     }
 
     public Integer getMandatory() {
         return mandatory;
     }
 
+    public void setMandatory(Integer mandatory) {
+        this.mandatory = mandatory;
+    }
+
     public void setMandatory(String mandatory) {
         if (mandatory != null)
             this.mandatory = new Integer(mandatory);
-    }
-
-    public void setMandatory(Integer mandatory) {
-        this.mandatory = mandatory;
     }
 
     public String getInterface() {

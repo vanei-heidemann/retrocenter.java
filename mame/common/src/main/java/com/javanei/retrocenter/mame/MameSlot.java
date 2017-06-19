@@ -10,8 +10,14 @@ public class MameSlot implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
-
     private Set<MameSlotoption> slotoptions = new HashSet<>();
+
+    public MameSlot(String name) {
+        this.name = name;
+    }
+
+    public MameSlot() {
+    }
 
     public String getName() {
         return name;

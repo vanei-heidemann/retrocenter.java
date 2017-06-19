@@ -10,8 +10,20 @@ public class MameRamoption implements Serializable {
     private Integer _default;
     private Long content;
 
+    public MameRamoption(Integer _default, Long content) {
+        this._default = _default;
+        this.content = content;
+    }
+
+    public MameRamoption() {
+    }
+
     public Integer getDefault() {
         return _default;
+    }
+
+    public void setDefault(Integer _default) {
+        this._default = _default;
     }
 
     public void setDefault(String _default) {
@@ -19,21 +31,17 @@ public class MameRamoption implements Serializable {
             this._default = new Integer(_default);
     }
 
-    public void setDefault(Integer _default) {
-        this._default = _default;
-    }
-
     public Long getContent() {
         return content;
+    }
+
+    public void setContent(Long content) {
+        this.content = content;
     }
 
     public void setContent(String content) {
         if (content != null)
             this.content = new Long(content);
-    }
-
-    public void setContent(Long content) {
-        this.content = content;
     }
 
     @Override

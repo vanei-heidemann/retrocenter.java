@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDeviceref;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -33,6 +34,21 @@ public class MameDevicerefEntity implements Serializable, Comparable<MameDevicer
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDevicerefEntity() {
+    }
+
+    public MameDevicerefEntity(String name) {
+        this.name = name;
+    }
+
+    public MameDevicerefEntity(MameDeviceref deviceref) {
+        this(deviceref.getName());
+    }
+
+    public MameDeviceref toVO() {
+        return new MameDeviceref(this.name);
+    }
 
     public Long getId() {
         return id;

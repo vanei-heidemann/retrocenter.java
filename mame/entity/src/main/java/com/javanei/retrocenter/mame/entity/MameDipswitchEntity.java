@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDipswitch;
+import com.javanei.retrocenter.mame.MameDipvalue;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,30 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDipswitchEntity() {
+    }
+
+    public MameDipswitchEntity(String name, String tag, Long mask) {
+        this.name = name;
+        this.tag = tag;
+        this.mask = mask;
+    }
+
+    public MameDipswitchEntity(MameDipswitch dipswitch) {
+        this(dipswitch.getName(), dipswitch.getTag(), dipswitch.getMask());
+        for (MameDipvalue dipvalue : dipswitch.getDipvalues()) {
+            this.dipvalues.add(new MameDipvalueEntity(dipvalue));
+        }
+    }
+
+    public MameDipswitch toVO() {
+        MameDipswitch dipswitch = new MameDipswitch(this.name, this.tag, this.mask);
+        for (MameDipvalueEntity dipvalueEntity : this.dipvalues) {
+            dipswitch.addDipvalue(dipvalueEntity.toVO());
+        }
+        return dipswitch;
+    }
 
     public Long getId() {
         return id;

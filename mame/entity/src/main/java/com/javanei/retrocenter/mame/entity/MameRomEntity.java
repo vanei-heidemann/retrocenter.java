@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameRom;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -60,6 +61,33 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameRomEntity() {
+    }
+
+    public MameRomEntity(String name, String bios, Long size, String crc, String sha1, String merge, String region,
+                         String offset, String status, String optional) {
+        this.name = name;
+        this.bios = bios;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.merge = merge;
+        this.region = region;
+        this.offset = offset;
+        this.status = status;
+        this.optional = optional;
+    }
+
+    public MameRomEntity(MameRom rom) {
+        this(rom.getName(), rom.getBios(), rom.getSize(), rom.getCrc(), rom.getSha1(), rom.getMerge(), rom.getRegion(),
+                rom.getOffset(), rom.getStatus(), rom.getOptional());
+    }
+
+    public MameRom toVO() {
+        return new MameRom(this.name, this.bios, this.size, this.crc, this.sha1, this.merge, this.region, this.offset,
+                this.status, this.optional);
+    }
 
     public Long getId() {
         return id;

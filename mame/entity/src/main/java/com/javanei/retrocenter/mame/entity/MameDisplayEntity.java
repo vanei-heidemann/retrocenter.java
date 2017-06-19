@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDisplay;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -71,6 +72,39 @@ public class MameDisplayEntity implements Serializable, Comparable<MameDisplayEn
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDisplayEntity() {
+    }
+
+    public MameDisplayEntity(String tag, String type, String rotate, String flipx, Integer width, Integer height,
+                             String refresh, Integer pixclock, Integer htotal, Integer hbend, Integer hbstart,
+                             Integer vtotal, Integer vbend, Integer vbstart) {
+        this.tag = tag;
+        this.type = type;
+        this.rotate = rotate;
+        this.flipx = flipx;
+        this.width = width;
+        this.height = height;
+        this.refresh = refresh;
+        this.pixclock = pixclock;
+        this.htotal = htotal;
+        this.hbend = hbend;
+        this.hbstart = hbstart;
+        this.vtotal = vtotal;
+        this.vbend = vbend;
+        this.vbstart = vbstart;
+    }
+
+    public MameDisplayEntity(MameDisplay display) {
+        this(display.getTag(), display.getType(), display.getRotate(), display.getFlipx(), display.getWidth(),
+                display.getHeight(), display.getRefresh(), display.getPixclock(), display.getHtotal(),
+                display.getHbend(), display.getHbstart(), display.getVtotal(), display.getVbend(), display.getVbstart());
+    }
+
+    public MameDisplay toVO() {
+        return new MameDisplay(this.tag, this.type, this.rotate, this.flipx, this.width, this.height, this.refresh,
+                this.pixclock, this.htotal, this.hbend, this.hbstart, this.vtotal, this.vbend, this.vbstart);
+    }
 
     public Long getId() {
         return id;

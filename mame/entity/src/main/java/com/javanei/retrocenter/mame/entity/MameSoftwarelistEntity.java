@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameSoftwarelist;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,6 +39,23 @@ public class MameSoftwarelistEntity implements Serializable, Comparable<MameSoft
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameSoftwarelistEntity(String name, String status, String filter) {
+        this.name = name;
+        this.status = status;
+        this.filter = filter;
+    }
+
+    public MameSoftwarelistEntity() {
+    }
+
+    public MameSoftwarelistEntity(MameSoftwarelist softwarelist) {
+        this(softwarelist.getName(), softwarelist.getStatus(), softwarelist.getFilter());
+    }
+
+    public MameSoftwarelist toVO() {
+        return new MameSoftwarelist(this.name, this.status, this.filter);
+    }
 
     public Long getId() {
         return id;

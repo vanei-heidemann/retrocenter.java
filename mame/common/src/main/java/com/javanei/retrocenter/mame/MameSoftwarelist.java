@@ -12,6 +12,15 @@ public class MameSoftwarelist implements Serializable {
     private String status; // (original|compatible)
     private String filter;
 
+    public MameSoftwarelist(String name, String status, String filter) {
+        this.name = name;
+        this.status = status;
+        this.filter = filter;
+    }
+
+    public MameSoftwarelist() {
+    }
+
     public String getName() {
         return name;
     }

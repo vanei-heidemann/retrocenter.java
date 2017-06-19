@@ -1,15 +1,22 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.util.StringUtil;
 
 public class MameDeviceInstance implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
     private String briefname;
+
+    public MameDeviceInstance(String name, String briefname) {
+        this.name = name;
+        this.briefname = briefname;
+    }
+
+    public MameDeviceInstance() {
+    }
 
     public String getName() {
         return name;

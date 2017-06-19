@@ -9,16 +9,23 @@ public class MameAnalog implements Serializable {
 
     private Integer mask;
 
+    public MameAnalog() {
+    }
+
+    public MameAnalog(Integer mask) {
+        this.mask = mask;
+    }
+
     public Integer getMask() {
         return mask;
     }
 
-    public void setMask(String mask) {
-        this.mask = new Integer(mask);
-    }
-
     public void setMask(Integer mask) {
         this.mask = mask;
+    }
+
+    public void setMask(String mask) {
+        this.mask = new Integer(mask);
     }
 
     @Override

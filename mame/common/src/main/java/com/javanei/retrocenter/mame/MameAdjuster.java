@@ -10,6 +10,14 @@ public class MameAdjuster implements Serializable {
     private String name;
     private Integer _default;
 
+    public MameAdjuster() {
+    }
+
+    public MameAdjuster(String name, Integer _default) {
+        this.name = name;
+        this._default = _default;
+    }
+
     public String getName() {
         return name;
     }
@@ -22,12 +30,12 @@ public class MameAdjuster implements Serializable {
         return _default;
     }
 
-    public void setDefault(String _default) {
-        this._default = new Integer(_default);
-    }
-
     public void setDefault(Integer _default) {
         this._default = _default;
+    }
+
+    public void setDefault(String _default) {
+        this._default = new Integer(_default);
     }
 
     @Override

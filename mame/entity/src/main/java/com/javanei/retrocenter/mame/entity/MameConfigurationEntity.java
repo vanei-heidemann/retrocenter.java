@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameConfiguration;
+import com.javanei.retrocenter.mame.MameConfsetting;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -44,6 +46,30 @@ public class MameConfigurationEntity implements Serializable, Comparable<MameCon
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameConfigurationEntity() {
+    }
+
+    public MameConfigurationEntity(String name, String tag, Integer mask) {
+        this.name = name;
+        this.tag = tag;
+        this.mask = mask;
+    }
+
+    public MameConfigurationEntity(MameConfiguration configuration) {
+        this(configuration.getName(), configuration.getTag(), configuration.getMask());
+        for (MameConfsetting confsetting : configuration.getConfsettings()) {
+            this.confsettings.add(new MameConfsettingEntity(confsetting));
+        }
+    }
+
+    public MameConfiguration toVO() {
+        MameConfiguration configuration = new MameConfiguration(this.name, this.tag, this.mask);
+        for (MameConfsettingEntity confsettingEntity : this.confsettings) {
+            configuration.addConfsetting(confsettingEntity.toVO());
+        }
+        return configuration;
+    }
 
     public Long getId() {
         return id;

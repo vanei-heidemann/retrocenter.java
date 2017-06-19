@@ -12,6 +12,15 @@ public class MameConfsetting implements Serializable {
     private Integer value;
     private String _default; // (yes|no) "no";
 
+    public MameConfsetting() {
+    }
+
+    public MameConfsetting(String name, Integer value, String _default) {
+        this.name = name;
+        this.value = value;
+        this._default = _default;
+    }
+
     public String getName() {
         return name;
     }
@@ -24,12 +33,12 @@ public class MameConfsetting implements Serializable {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = new Integer(value);
-    }
-
     public void setValue(Integer value) {
         this.value = value;
+    }
+
+    public void setValue(String value) {
+        this.value = new Integer(value);
     }
 
     public String getDefault() {

@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameBiosset;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -39,6 +40,23 @@ public class MameBiossetEntity implements Serializable, Comparable<MameBiossetEn
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameBiossetEntity() {
+    }
+
+    public MameBiossetEntity(String name, String description, String _default) {
+        this.name = name;
+        this.description = description;
+        this._default = _default;
+    }
+
+    public MameBiossetEntity(MameBiosset biosset) {
+        this(biosset.getName(), biosset.getDescription(), biosset.getDefault());
+    }
+
+    public MameBiosset toVO() {
+        return new MameBiosset(this.name, this.description, this._default);
+    }
 
     public Long getId() {
         return id;

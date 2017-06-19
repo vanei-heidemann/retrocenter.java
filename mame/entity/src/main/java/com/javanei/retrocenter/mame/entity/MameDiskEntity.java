@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDisk;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -53,6 +54,31 @@ public class MameDiskEntity implements Serializable, Comparable<MameDiskEntity> 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDiskEntity() {
+    }
+
+    public MameDiskEntity(String name, String sha1, String merge, String region, Integer index, String writable,
+                          String status, String optional) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.merge = merge;
+        this.region = region;
+        this.index = index;
+        this.writable = writable;
+        this.status = status;
+        this.optional = optional;
+    }
+
+    public MameDiskEntity(MameDisk disk) {
+        this(disk.getName(), disk.getSha1(), disk.getMerge(), disk.getRegion(), disk.getIndex(), disk.getWritable(),
+                disk.getStatus(), disk.getOptional());
+    }
+
+    public MameDisk toVO() {
+        return new MameDisk(this.name, this.sha1, this.merge, this.region, this.index, this.writable, this.status,
+                this.optional);
+    }
 
     public Long getId() {
         return id;

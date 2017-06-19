@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameSlotoption;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,6 +39,23 @@ public class MameSlotoptionEntity implements Serializable, Comparable<MameSlotop
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "SLOT_ID")
     private MameSlotEntity slot;
+
+    public MameSlotoptionEntity(String name, String devname, String _default) {
+        this.name = name;
+        this.devname = devname;
+        this._default = _default;
+    }
+
+    public MameSlotoptionEntity() {
+    }
+
+    public MameSlotoptionEntity(MameSlotoption slotoption) {
+        this(slotoption.getName(), slotoption.getDevname(), slotoption.getDefault());
+    }
+
+    public MameSlotoption toVO() {
+        return new MameSlotoption(this.name, this.devname, this._default);
+    }
 
     public Long getId() {
         return id;

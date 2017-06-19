@@ -10,8 +10,14 @@ public class MamePort implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String tag;
-
     private List<MameAnalog> analogs = new ArrayList<>();
+
+    public MamePort() {
+    }
+
+    public MamePort(String tag) {
+        this.tag = tag;
+    }
 
     public String getTag() {
         return tag;

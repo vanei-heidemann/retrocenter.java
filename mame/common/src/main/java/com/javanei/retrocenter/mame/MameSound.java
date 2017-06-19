@@ -9,16 +9,23 @@ public class MameSound implements Serializable {
 
     private Integer channels;
 
+    public MameSound() {
+    }
+
+    public MameSound(Integer channels) {
+        this.channels = channels;
+    }
+
     public Integer getChannels() {
         return channels;
     }
 
-    public void setChannels(String channels) {
-        this.channels = new Integer(channels);
-    }
-
     public void setChannels(Integer channels) {
         this.channels = channels;
+    }
+
+    public void setChannels(String channels) {
+        this.channels = new Integer(channels);
     }
 
     @Override

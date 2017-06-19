@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameRamoption;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -35,6 +36,22 @@ public class MameRamoptionEntity implements Serializable, Comparable<MameRamopti
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameRamoptionEntity(Integer _default, Long content) {
+        this._default = _default;
+        this.content = content;
+    }
+
+    public MameRamoptionEntity() {
+    }
+
+    public MameRamoptionEntity(MameRamoption ramoption) {
+        this(ramoption.getDefault(), ramoption.getContent());
+    }
+
+    public MameRamoption toVO() {
+        return new MameRamoption(this._default, this.content);
+    }
 
     public Long getId() {
         return id;

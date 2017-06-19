@@ -1,5 +1,20 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameAdjuster;
+import com.javanei.retrocenter.mame.MameBiosset;
+import com.javanei.retrocenter.mame.MameChip;
+import com.javanei.retrocenter.mame.MameConfiguration;
+import com.javanei.retrocenter.mame.MameDevice;
+import com.javanei.retrocenter.mame.MameDeviceref;
+import com.javanei.retrocenter.mame.MameDipswitch;
+import com.javanei.retrocenter.mame.MameDisk;
+import com.javanei.retrocenter.mame.MameDisplay;
+import com.javanei.retrocenter.mame.MameMachine;
+import com.javanei.retrocenter.mame.MameRamoption;
+import com.javanei.retrocenter.mame.MameRom;
+import com.javanei.retrocenter.mame.MameSample;
+import com.javanei.retrocenter.mame.MameSlot;
+import com.javanei.retrocenter.mame.MameSoftwarelist;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -132,6 +147,142 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MAME_ID")
     private MameEntity mame;
+
+    public MameMachineEntity() {
+    }
+
+    public MameMachineEntity(String name, String sourcefile, String isbios, String isdevice,
+                             String ismechanical, String runnable, String cloneof, String romof, String sampleof,
+                             String description, String year, String manufacturer) {
+        this.id = id;
+        this.name = name;
+        this.sourcefile = sourcefile;
+        this.isbios = isbios;
+        this.isdevice = isdevice;
+        this.ismechanical = ismechanical;
+        this.runnable = runnable;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
+    public MameMachineEntity(MameMachine machine) {
+        this(machine.getName(), machine.getSourcefile(), machine.getIsbios(), machine.getIsdevice(),
+                machine.getIsmechanical(), machine.getRunnable(), machine.getCloneof(), machine.getRomof(),
+                machine.getSampleof(), machine.getDescription(), machine.getYear(), machine.getManufacturer());
+        if (machine.getSound() != null) {
+            this.sound = new MameSoundEntity(machine.getSound());
+        }
+        if (machine.getInput() != null) {
+            this.input = new MameInputEntity(machine.getInput());
+        }
+        if (machine.getDriver() != null) {
+            this.driver = new MameDriverEntity(machine.getDriver());
+        }
+        for (MameBiosset biosset : machine.getBiossets()) {
+            this.biossets.add(new MameBiossetEntity(biosset));
+        }
+        for (MameRom rom : machine.getRoms()) {
+            this.roms.add(new MameRomEntity(rom));
+        }
+        for (MameDisk disk : machine.getDisks()) {
+            this.disks.add(new MameDiskEntity(disk));
+        }
+        for (MameDeviceref deviceref : machine.getDevicerefs()) {
+            this.devicerefs.add(new MameDevicerefEntity(deviceref));
+        }
+        for (MameSample sample : machine.getSamples()) {
+            this.samples.add(new MameSampleEntity(sample.getName()));
+        }
+        for (MameChip chip : machine.getChips()) {
+            this.chips.add(new MameChipEntity(chip));
+        }
+        for (MameDisplay display : machine.getDisplays()) {
+            this.displays.add(new MameDisplayEntity(display));
+        }
+        for (MameDipswitch dipswitch : machine.getDipswitches()) {
+            this.dipswitches.add(new MameDipswitchEntity(dipswitch));
+        }
+        for (MameConfiguration configuration : machine.getConfigurations()) {
+            this.configurations.add(new MameConfigurationEntity(configuration));
+        }
+        for (MameAdjuster adjuster : machine.getAdjusters()) {
+            this.adjusters.add(new MameAdjusterEntity(adjuster));
+        }
+        for (MameDevice device : machine.getDevices()) {
+            this.devices.add(new MameDeviceEntity(device));
+        }
+        for (MameSlot slot : machine.getSlots()) {
+            this.slots.add(new MameSlotEntity(slot));
+        }
+        for (MameSoftwarelist softwarelist : machine.getSoftwarelists()) {
+            this.softwarelists.add(new MameSoftwarelistEntity(softwarelist));
+        }
+        for (MameRamoption ramoption : machine.getRamoptions()) {
+            this.ramoptions.add(new MameRamoptionEntity(ramoption));
+        }
+    }
+
+    public MameMachine toVO() {
+        MameMachine machine = new MameMachine(this.name, this.sourcefile, this.isbios, this.isdevice, this.ismechanical,
+                this.runnable, this.cloneof, this.romof, this.sampleof, this.description, this.year, this.manufacturer);
+        if (this.sound != null) {
+            machine.setSound(this.sound.toVO());
+        }
+        if (this.input != null) {
+            machine.setInput(this.input.toVO());
+        }
+        if (this.driver != null) {
+            machine.setDriver(this.driver.toVO());
+        }
+        for (MameBiossetEntity biossetEntity : this.biossets) {
+            machine.addBiosset(biossetEntity.toVO());
+        }
+        for (MameRomEntity romEntity : this.roms) {
+            machine.addRom(romEntity.toVO());
+        }
+        for (MameDiskEntity diskEntity : this.disks) {
+            machine.addDisk(diskEntity.toVO());
+        }
+        for (MameDevicerefEntity devicerefEntity : this.devicerefs) {
+            machine.addDeviceref(devicerefEntity.toVO());
+        }
+        for (MameSampleEntity sampleEntity : this.samples) {
+            machine.addSample(sampleEntity.toVO());
+        }
+        for (MameChipEntity chipEntity : this.chips) {
+            machine.addChip(chipEntity.toVO());
+        }
+        for (MameDisplayEntity displayEntity : this.displays) {
+            machine.addDisplay(displayEntity.toVO());
+        }
+        for (MameDipswitchEntity dipswitchEntity : this.dipswitches) {
+            machine.addDipswitch(dipswitchEntity.toVO());
+        }
+        for (MameConfigurationEntity configurationEntity : this.configurations) {
+            machine.addConfiguration(configurationEntity.toVO());
+        }
+        for (MameAdjusterEntity adjusterEntity : this.adjusters) {
+            machine.addAdjuster(adjusterEntity.toVO());
+        }
+        for (MameDeviceEntity deviceEntity : this.devices) {
+            machine.addDevice(deviceEntity.toVO());
+        }
+        for (MameSlotEntity entity : this.slots) {
+            machine.addSlot(entity.toVO());
+        }
+        for (MameSoftwarelistEntity entity : this.softwarelists) {
+            machine.addSoftwarelist(entity.toVO());
+        }
+        for (MameRamoptionEntity entity : this.ramoptions) {
+            machine.addRamoption(entity.toVO());
+        }
+
+        return machine;
+    }
 
     public Long getId() {
         return id;

@@ -12,8 +12,16 @@ public class MameConfiguration implements Serializable {
     private String name;
     private String tag;
     private Integer mask;
-
     private Set<MameConfsetting> confsettings = new HashSet<>();
+
+    public MameConfiguration() {
+    }
+
+    public MameConfiguration(String name, String tag, Integer mask) {
+        this.name = name;
+        this.tag = tag;
+        this.mask = mask;
+    }
 
     public String getName() {
         return name;
@@ -35,12 +43,12 @@ public class MameConfiguration implements Serializable {
         return mask;
     }
 
-    public void setMask(Integer mask) {
-        this.mask = mask;
-    }
-
     public void setMask(String mask) {
         this.mask = new Integer(mask);
+    }
+
+    public void setMask(Integer mask) {
+        this.mask = mask;
     }
 
     public Set<MameConfsetting> getConfsettings() {

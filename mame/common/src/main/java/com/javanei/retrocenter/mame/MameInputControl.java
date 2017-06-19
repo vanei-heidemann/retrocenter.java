@@ -21,6 +21,26 @@ public class MameInputControl implements Serializable {
     private String ways2;
     private String ways3;
 
+    public MameInputControl() {
+    }
+
+    public MameInputControl(String type, Integer player, Integer buttons, Integer reqbuttons, Integer minimum,
+                            Integer maximum, Integer sensitivity, Integer keydelta, String reverse, String ways,
+                            String ways2, String ways3) {
+        this.type = type;
+        this.player = player;
+        this.buttons = buttons;
+        this.reqbuttons = reqbuttons;
+        this.minimum = minimum;
+        this.maximum = maximum;
+        this.sensitivity = sensitivity;
+        this.keydelta = keydelta;
+        this.reverse = reverse;
+        this.ways = ways;
+        this.ways2 = ways2;
+        this.ways3 = ways3;
+    }
+
     public String getType() {
         return type;
     }
@@ -33,84 +53,84 @@ public class MameInputControl implements Serializable {
         return player;
     }
 
-    public void setPlayer(String player) {
-        this.player = new Integer(player);
-    }
-
     public void setPlayer(Integer player) {
         this.player = player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = new Integer(player);
     }
 
     public Integer getButtons() {
         return buttons;
     }
 
-    public void setButtons(String buttons) {
-        this.buttons = new Integer(buttons);
-    }
-
     public void setButtons(Integer buttons) {
         this.buttons = buttons;
+    }
+
+    public void setButtons(String buttons) {
+        this.buttons = new Integer(buttons);
     }
 
     public Integer getReqbuttons() {
         return reqbuttons;
     }
 
-    public void setReqbuttons(String reqbuttons) {
-        this.reqbuttons = new Integer(reqbuttons);
-    }
-
     public void setReqbuttons(Integer reqbuttons) {
         this.reqbuttons = reqbuttons;
+    }
+
+    public void setReqbuttons(String reqbuttons) {
+        this.reqbuttons = new Integer(reqbuttons);
     }
 
     public Integer getMinimum() {
         return minimum;
     }
 
-    public void setMinimum(String minimum) {
-        this.minimum = new Integer(minimum);
-    }
-
     public void setMinimum(Integer minimum) {
         this.minimum = minimum;
+    }
+
+    public void setMinimum(String minimum) {
+        this.minimum = new Integer(minimum);
     }
 
     public Integer getMaximum() {
         return maximum;
     }
 
-    public void setMaximum(String maximum) {
-        this.maximum = new Integer(maximum);
-    }
-
     public void setMaximum(Integer maximum) {
         this.maximum = maximum;
+    }
+
+    public void setMaximum(String maximum) {
+        this.maximum = new Integer(maximum);
     }
 
     public Integer getSensitivity() {
         return sensitivity;
     }
 
-    public void setSensitivity(String sensitivity) {
-        this.sensitivity = new Integer(sensitivity);
-    }
-
     public void setSensitivity(Integer sensitivity) {
         this.sensitivity = sensitivity;
+    }
+
+    public void setSensitivity(String sensitivity) {
+        this.sensitivity = new Integer(sensitivity);
     }
 
     public Integer getKeydelta() {
         return keydelta;
     }
 
-    public void setKeydelta(String keydelta) {
-        this.keydelta = new Integer(keydelta);
-    }
-
     public void setKeydelta(Integer keydelta) {
         this.keydelta = keydelta;
+    }
+
+    public void setKeydelta(String keydelta) {
+        this.keydelta = new Integer(keydelta);
     }
 
     public String getReverse() {

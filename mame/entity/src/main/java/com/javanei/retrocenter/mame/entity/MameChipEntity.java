@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameChip;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -42,6 +43,24 @@ public class MameChipEntity implements Serializable, Comparable<MameChipEntity> 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameChipEntity() {
+    }
+
+    public MameChipEntity(String name, String tag, String type, String clock) {
+        this.name = name;
+        this.tag = tag;
+        this.type = type;
+        this.clock = clock;
+    }
+
+    public MameChipEntity(MameChip chip) {
+        this(chip.getName(), chip.getTag(), chip.getType(), chip.getClock());
+    }
+
+    public MameChip toVO() {
+        return new MameChip(this.name, this.tag, this.type, this.clock);
+    }
 
     public Long getId() {
         return id;

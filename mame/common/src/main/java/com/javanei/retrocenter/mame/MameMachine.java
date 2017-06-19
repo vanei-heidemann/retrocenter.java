@@ -50,6 +50,26 @@ public class MameMachine implements Serializable {
     private Set<MameSoftwarelist> softwarelists = new HashSet<>();
     private Set<MameRamoption> ramoptions = new HashSet<>();
 
+    public MameMachine() {
+    }
+
+    public MameMachine(String name, String sourcefile, String isbios, String isdevice, String ismechanical,
+                       String runnable, String cloneof, String romof, String sampleof, String description, String year,
+                       String manufacturer) {
+        this.name = name;
+        this.sourcefile = sourcefile;
+        this.isbios = isbios;
+        this.isdevice = isdevice;
+        this.ismechanical = ismechanical;
+        this.runnable = runnable;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
+
     public String getName() {
         return name;
     }

@@ -17,6 +17,21 @@ public class MameDisk implements Serializable {
     private String status; // (baddump|nodump|good) "good"
     private String optional; // (yes|no) "no"
 
+    public MameDisk() {
+    }
+
+    public MameDisk(String name, String sha1, String merge, String region, Integer index, String writable,
+                    String status, String optional) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.merge = merge;
+        this.region = region;
+        this.index = index;
+        this.writable = writable;
+        this.status = status;
+        this.optional = optional;
+    }
+
     public String getName() {
         return name;
     }
@@ -53,13 +68,13 @@ public class MameDisk implements Serializable {
         return index;
     }
 
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
     public void setIndex(String index) {
         if (index != null)
             this.index = new Integer(index);
-    }
-
-    public void setIndex(Integer index) {
-        this.index = index;
     }
 
     public String getWritable() {

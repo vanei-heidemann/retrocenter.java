@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDriver;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -50,6 +51,32 @@ public class MameDriverEntity implements Serializable, Comparable<MameDriverEnti
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDriverEntity() {
+    }
+
+    public MameDriverEntity(String status, String emulation, String color, String sound, String graphic,
+                            String cocktail, String protection, String savestate) {
+        this.id = id;
+        this.status = status;
+        this.emulation = emulation;
+        this.color = color;
+        this.sound = sound;
+        this.graphic = graphic;
+        this.cocktail = cocktail;
+        this.protection = protection;
+        this.savestate = savestate;
+    }
+
+    public MameDriverEntity(MameDriver driver) {
+        this(driver.getStatus(), driver.getEmulation(), driver.getColor(), driver.getSound(), driver.getGraphic(),
+                driver.getCocktail(), driver.getProtection(), driver.getSavestate());
+    }
+
+    public MameDriver toVO() {
+        return new MameDriver(this.status, this.emulation, this.color, this.sound, this.graphic, this.cocktail,
+                this.protection, this.savestate);
+    }
 
     public Long getId() {
         return id;

@@ -14,8 +14,17 @@ public class MameInput implements Serializable {
     private String tilt; // (yes|no) "no"
     private Integer players;
     private Integer coins;
-
     private Set<MameInputControl> controls = new HashSet<>();
+
+    public MameInput() {
+    }
+
+    public MameInput(String service, String tilt, Integer players, Integer coins) {
+        this.service = service;
+        this.tilt = tilt;
+        this.players = players;
+        this.coins = coins;
+    }
 
     public String getService() {
         return service;
@@ -37,24 +46,24 @@ public class MameInput implements Serializable {
         return players;
     }
 
-    public void setPlayers(String players) {
-        this.players = new Integer(players);
-    }
-
     public void setPlayers(Integer players) {
         this.players = players;
+    }
+
+    public void setPlayers(String players) {
+        this.players = new Integer(players);
     }
 
     public Integer getCoins() {
         return coins;
     }
 
-    public void setCoins(String coins) {
-        this.coins = new Integer(coins);
-    }
-
     public void setCoins(Integer coins) {
         this.coins = coins;
+    }
+
+    public void setCoins(String coins) {
+        this.coins = new Integer(coins);
     }
 
     public Set<MameInputControl> getControls() {

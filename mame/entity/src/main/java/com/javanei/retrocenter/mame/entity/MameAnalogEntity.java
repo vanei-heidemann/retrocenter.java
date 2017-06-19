@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameAnalog;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -33,6 +34,21 @@ public class MameAnalogEntity implements Serializable, Comparable<MameAnalogEnti
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "PORT_ID")
     private MamePortEntity port;
+
+    public MameAnalogEntity() {
+    }
+
+    public MameAnalogEntity(Integer mask) {
+        this.mask = mask;
+    }
+
+    public MameAnalogEntity(MameAnalog analog) {
+        this(analog.getMask());
+    }
+
+    public MameAnalog toVO() {
+        return new MameAnalog(this.mask);
+    }
 
     public Long getId() {
         return id;

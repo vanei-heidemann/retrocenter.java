@@ -9,6 +9,13 @@ public class MameSample implements Serializable {
 
     private String name;
 
+    public MameSample() {
+    }
+
+    public MameSample(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

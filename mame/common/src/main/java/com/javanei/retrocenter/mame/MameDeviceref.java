@@ -9,6 +9,13 @@ public class MameDeviceref implements Serializable {
 
     private String name;
 
+    public MameDeviceref() {
+    }
+
+    public MameDeviceref(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

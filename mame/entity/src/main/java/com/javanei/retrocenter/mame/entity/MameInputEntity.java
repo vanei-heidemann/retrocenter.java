@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameInput;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -44,6 +45,28 @@ public class MameInputEntity implements Serializable, Comparable<MameInputEntity
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameInputEntity() {
+    }
+
+    public MameInputEntity(String service, String tilt, Integer players, Integer coins) {
+        this.service = service;
+        this.tilt = tilt;
+        this.players = players;
+        this.coins = coins;
+    }
+
+    public MameInputEntity(MameInput input) {
+        this(input.getService(), input.getTilt(), input.getPlayers(), input.getCoins());
+    }
+
+    public MameInput toVO() {
+        MameInput input = new MameInput(this.service, this.tilt, this.players, this.coins);
+        for (MameInputControlEntity controlEntity : this.controls) {
+            input.addControl(controlEntity.toVO());
+        }
+        return input;
+    }
 
     public Long getId() {
         return id;

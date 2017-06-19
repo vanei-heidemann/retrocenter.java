@@ -16,6 +16,15 @@ public class Mame implements Serializable {
 
     private Set<MameMachine> machines = new HashSet<>();
 
+    public Mame() {
+    }
+
+    public Mame(String build, String debug, String mameconfig) {
+        this.build = build;
+        this.debug = debug;
+        this.mameconfig = mameconfig;
+    }
+
     public String getBuild() {
         return build;
     }

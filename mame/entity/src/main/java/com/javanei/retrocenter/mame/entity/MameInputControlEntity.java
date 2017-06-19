@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameInputControl;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -61,10 +62,40 @@ public class MameInputControlEntity implements Serializable, Comparable<MameInpu
 
     @Column(name = "WAYS3", length = 16, nullable = true)
     private String ways3;
-
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "INPUT_ID")
     private MameInputEntity input;
+
+    public MameInputControlEntity() {
+    }
+
+    public MameInputControlEntity(String type, Integer player, Integer buttons, Integer reqbuttons, Integer minimum,
+                                  Integer maximum, Integer sensitivity, Integer keydelta, String reverse, String ways,
+                                  String ways2, String ways3) {
+        this.type = type;
+        this.player = player;
+        this.buttons = buttons;
+        this.reqbuttons = reqbuttons;
+        this.minimum = minimum;
+        this.maximum = maximum;
+        this.sensitivity = sensitivity;
+        this.keydelta = keydelta;
+        this.reverse = reverse;
+        this.ways = ways;
+        this.ways2 = ways2;
+        this.ways3 = ways3;
+    }
+
+    public MameInputControlEntity(MameInputControl control) {
+        this(control.getType(), control.getPlayer(), control.getButtons(), control.getReqbuttons(),
+                control.getMinimum(), control.getMaximum(), control.getSensitivity(), control.getKeydelta(),
+                control.getReverse(), control.getWays(), control.getWays2(), control.getWays3());
+    }
+
+    public MameInputControl toVO() {
+        return new MameInputControl(this.type, this.player, this.buttons, this.reqbuttons, this.minimum, this.maximum,
+                this.sensitivity, this.keydelta, this.reverse, this.ways, this.ways2, this.ways3);
+    }
 
     public Long getId() {
         return id;

@@ -1,5 +1,8 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDevice;
+import com.javanei.retrocenter.mame.MameDeviceExtension;
+import com.javanei.retrocenter.mame.MameDeviceInstance;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -53,6 +56,38 @@ public class MameDeviceEntity implements Serializable, Comparable<MameDeviceEnti
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameDeviceEntity(String type, String tag, Integer fixed_image, Integer mandatory, String _interface) {
+        this.type = type;
+        this.tag = tag;
+        this.fixed_image = fixed_image;
+        this.mandatory = mandatory;
+        this._interface = _interface;
+    }
+
+    public MameDeviceEntity() {
+    }
+
+    public MameDeviceEntity(MameDevice device) {
+        this(device.getType(), device.getTag(), device.getFixed_image(), device.getMandatory(), device.getInterface());
+        for (MameDeviceInstance instance : device.getInstances()) {
+            this.instances.add(new MameDeviceInstanceEntity(instance));
+        }
+        for (MameDeviceExtension extension : device.getExtensions()) {
+            this.extensions.add(new MameDeviceExtensionEntity(extension));
+        }
+    }
+
+    public MameDevice toVO() {
+        MameDevice device = new MameDevice(this.type, this.tag, this.fixed_image, this.mandatory, this._interface);
+        for (MameDeviceInstanceEntity instanceEntity : this.instances) {
+            device.addInstance(instanceEntity.toVO());
+        }
+        for (MameDeviceExtensionEntity extensionEntity : this.extensions) {
+            device.addExtension(extensionEntity.toVO());
+        }
+        return device;
+    }
 
     public Long getId() {
         return id;

@@ -12,6 +12,15 @@ public class MameDipvalue implements Serializable {
     private Long value;
     private String _default; // (yes|no) "no"
 
+    public MameDipvalue() {
+    }
+
+    public MameDipvalue(String name, Long value, String _default) {
+        this.name = name;
+        this.value = value;
+        this._default = _default;
+    }
+
     public String getName() {
         return name;
     }
@@ -24,12 +33,12 @@ public class MameDipvalue implements Serializable {
         return value;
     }
 
-    public void setValue(String value) {
-        this.value = new Long(value);
-    }
-
     public void setValue(Long value) {
         this.value = value;
+    }
+
+    public void setValue(String value) {
+        this.value = new Long(value);
     }
 
     public String getDefault() {

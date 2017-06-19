@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameDipvalue;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -38,6 +39,23 @@ public class MameDipvalueEntity implements Serializable, Comparable<MameDipvalue
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DIPSWITCH_ID")
     private MameDipswitchEntity dipswitch;
+
+    public MameDipvalueEntity() {
+    }
+
+    public MameDipvalueEntity(String name, Long value, String _default) {
+        this.name = name;
+        this.value = value;
+        this._default = _default;
+    }
+
+    public MameDipvalueEntity(MameDipvalue dipvalue) {
+        this(dipvalue.getName(), dipvalue.getValue(), dipvalue.getDefault());
+    }
+
+    public MameDipvalue toVO() {
+        return new MameDipvalue(this.name, this.value, this._default);
+    }
 
     public Long getId() {
         return id;

@@ -12,6 +12,15 @@ public class MameSlotoption implements Serializable {
     private String devname;
     private String _default; // (yes|no) "no"
 
+    public MameSlotoption(String name, String devname, String _default) {
+        this.name = name;
+        this.devname = devname;
+        this._default = _default;
+    }
+
+    public MameSlotoption() {
+    }
+
     public String getName() {
         return name;
     }

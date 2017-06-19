@@ -12,6 +12,15 @@ public class MameBiosset implements Serializable {
     private String description;
     private String _default; // (yes|no) "no"
 
+    public MameBiosset() {
+    }
+
+    public MameBiosset(String name, String description, String _default) {
+        this.name = name;
+        this.description = description;
+        this._default = _default;
+    }
+
     public String getName() {
         return name;
     }

@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameSound;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -29,6 +30,21 @@ public class MameSoundEntity implements Serializable, Comparable<MameSoundEntity
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, optional = false)
     @JoinColumn(name = "MACHINE_ID")
     private MameMachineEntity machine;
+
+    public MameSoundEntity() {
+    }
+
+    public MameSoundEntity(Integer channels) {
+        this.channels = channels;
+    }
+
+    public MameSoundEntity(MameSound sound) {
+        this(sound.getChannels());
+    }
+
+    public MameSound toVO() {
+        return new MameSound(this.channels);
+    }
 
     public Long getId() {
         return id;
