@@ -3,6 +3,7 @@ package com.javanei.retrocenter.clrmamepro.entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -69,6 +70,19 @@ public class CMProDatafileEntity implements Serializable {
     private Set<CMProResourceEntity> resources = new HashSet<>();
 
     public CMProDatafileEntity() {
+    }
+
+    public CMProDatafileEntity(String name, String category, String version, String description, String author,
+            String homepage, String url, String forcemerging, String forcezipping) {
+        this.name = name;
+        this.category = category;
+        this.version = version;
+        this.description = description;
+        this.author = author;
+        this.homepage = homepage;
+        this.url = url;
+        this.forcemerging = forcemerging;
+        this.forcezipping = forcezipping;
     }
 
     public CMProDatafileEntity(Long id, String name, String category, String version, String description,

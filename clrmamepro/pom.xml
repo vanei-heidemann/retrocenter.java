@@ -23,5 +23,6 @@
         <module>parser</module>
         <module>entity</module>
         <module>persistence/springjpa</module>
+        <module>service/spring</module>
     </modules>
 </project>

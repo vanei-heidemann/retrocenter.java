@@ -1,5 +1,10 @@
 package com.javanei.retrocenter.mame.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.javanei.retrocenter.mame.Mame;
 import com.javanei.retrocenter.mame.MameAdjuster;
 import com.javanei.retrocenter.mame.MameAnalog;
@@ -78,10 +83,6 @@ import com.javanei.retrocenter.mame.persistence.MameSlotDAO;
 import com.javanei.retrocenter.mame.persistence.MameSlotoptionDAO;
 import com.javanei.retrocenter.mame.persistence.MameSoftwarelistDAO;
 import com.javanei.retrocenter.mame.persistence.MameSoundDAO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
@@ -151,6 +152,7 @@ public class MameService {
         return entity.toVO();
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Mame create(Mame mame) {
         MameEntity entity = mameDAO.saveAndFlush(new MameEntity(mame));
         for (MameMachine machine : mame.getMachines()) {
@@ -160,11 +162,13 @@ public class MameService {
         return mame;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Mame findByBuild(String build) {
         MameEntity entity = mameDAO.findByBuild(build);
-        return entity != null ? entity.toVO() : null;
+        return entity != null ? new Mame(entity.getBuild(), entity.getDebug(), entity.getMameconfig()) : null;
     }
 
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Mame findByBuildFull(String build) {
         MameEntity entity = mameDAO.findByBuildFull(build);
         return entity != null ? entity.toVO() : null;

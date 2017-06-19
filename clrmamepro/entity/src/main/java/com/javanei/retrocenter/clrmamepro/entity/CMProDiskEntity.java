@@ -2,6 +2,7 @@ package com.javanei.retrocenter.clrmamepro.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,6 +39,16 @@ public class CMProDiskEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "CMPRO_GAME_ID")
     private CMProGameEntity game;
+
+    public CMProDiskEntity(Long id) {
+        this.id = id;
+    }
+
+    public CMProDiskEntity(String name, String sha1, String md5) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+    }
 
     public Long getId() {
         return id;

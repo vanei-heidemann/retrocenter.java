@@ -2,6 +2,7 @@ package com.javanei.retrocenter.clrmamepro.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -50,6 +51,20 @@ public class CMProResourceRomEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "CMPRO_RESOURCE_ID")
     private CMProResourceEntity resource;
+
+    public CMProResourceRomEntity(Long id) {
+        this.id = id;
+    }
+
+    public CMProResourceRomEntity(String name, Long size, String crc, String sha1, String md5, String region, String flags) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.region = region;
+        this.flags = flags;
+    }
 
     public Long getId() {
         return id;

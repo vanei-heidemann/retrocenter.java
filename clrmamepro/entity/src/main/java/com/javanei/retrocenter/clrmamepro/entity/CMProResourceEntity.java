@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,6 +48,17 @@ public class CMProResourceEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private CMProDatafileEntity datafile;
+
+    public CMProResourceEntity(Long id) {
+        this.id = id;
+    }
+
+    public CMProResourceEntity(String name, String description, String year, String manufacturer) {
+        this.name = name;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+    }
 
     public Long getId() {
         return id;
