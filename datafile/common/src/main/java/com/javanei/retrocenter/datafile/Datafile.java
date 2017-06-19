@@ -10,6 +10,11 @@ import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
 import com.javanei.retrocenter.logiqx.LogiqxHeader;
+import com.javanei.retrocenter.mame.Mame;
+import com.javanei.retrocenter.mame.MameDisk;
+import com.javanei.retrocenter.mame.MameMachine;
+import com.javanei.retrocenter.mame.MameRom;
+import com.javanei.retrocenter.mame.MameSample;
 
 public class Datafile implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -95,6 +100,32 @@ public class Datafile implements Serializable {
                 null, p.getHeader().getHomepage(), p.getHeader().getUrl(), null);
         for (CMProGame game : p.getGames()) {
             r.addGame(Game.fromCMPro(game));
+        }
+        return r;
+    }
+
+    public static Datafile fromMame(Mame p) {
+        Datafile r = new Datafile();
+        r.setName("MAME");
+        r.setCategory("MAME");
+        r.setVersion(p.getBuild());
+        for (MameMachine machine : p.getMachines()) {
+            Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
+                    machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
+            for (MameRom rom : machine.getRoms()) {
+                GameFile f = new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                        rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion());
+                game.addFile(f);
+            }
+            for (MameDisk disk : machine.getDisks()) {
+                GameFile f = new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                        disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion());
+                game.addFile(f);
+            }
+            for (MameSample sample : machine.getSamples()) {
+                GameFile f = new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName());
+                game.addFile(f);
+            }
         }
         return r;
     }
