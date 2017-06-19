@@ -10,6 +10,7 @@ import com.javanei.retrocenter.mame.MameDipswitch;
 import com.javanei.retrocenter.mame.MameDisk;
 import com.javanei.retrocenter.mame.MameDisplay;
 import com.javanei.retrocenter.mame.MameMachine;
+import com.javanei.retrocenter.mame.MamePort;
 import com.javanei.retrocenter.mame.MameRamoption;
 import com.javanei.retrocenter.mame.MameRom;
 import com.javanei.retrocenter.mame.MameSample;
@@ -209,6 +210,9 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         for (MameConfiguration configuration : machine.getConfigurations()) {
             this.configurations.add(new MameConfigurationEntity(configuration));
         }
+        for (MamePort port : machine.getPorts()) {
+            this.ports.add(new MamePortEntity(port));
+        }
         for (MameAdjuster adjuster : machine.getAdjusters()) {
             this.adjusters.add(new MameAdjusterEntity(adjuster));
         }
@@ -264,6 +268,9 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         }
         for (MameConfigurationEntity configurationEntity : this.configurations) {
             machine.addConfiguration(configurationEntity.toVO());
+        }
+        for (MamePortEntity entity : this.ports) {
+            machine.addPort(entity.toVO());
         }
         for (MameAdjusterEntity adjusterEntity : this.adjusters) {
             machine.addAdjuster(adjusterEntity.toVO());
