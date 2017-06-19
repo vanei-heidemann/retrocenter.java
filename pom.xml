@@ -22,6 +22,6 @@
         <module>tosec</module>
         <module>logiqx</module>
         <module>mame</module>
-        <module>server</module>
+        <module>server/springboot</module>
     </modules>
 </project>

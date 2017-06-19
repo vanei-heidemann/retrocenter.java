@@ -9,7 +9,7 @@
         <artifactId>RetrocenterJava</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-server</artifactId>
+    <artifactId>retrocenter-server-springboot</artifactId>
     <packaging>jar</packaging>
 
     <properties>
