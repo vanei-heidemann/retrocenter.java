@@ -1,10 +1,11 @@
 package com.javanei.retrocenter.logiqx;
 
-import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+
+import com.javanei.retrocenter.common.util.ValidValuesUtil;
 
 /**
  * <!ELEMENT game (comment*, description, year?, manufacturer?, release*, biosset*, rom*, disk*, sample*, archive*)>
@@ -98,21 +99,6 @@ public class LogiqxGame implements Serializable {
         this.name = name;
         this.sourcefile = sourcefile;
         this.isbios = isbios;
-        this.cloneof = cloneof;
-        this.romof = romof;
-        this.sampleof = sampleof;
-        this.board = board;
-        this.rebuildto = rebuildto;
-        this.comment = comment;
-        this.description = description;
-        this.year = year;
-        this.manufacturer = manufacturer;
-    }
-
-    public LogiqxGame(String name, String sourcefile, String cloneof, String romof, String sampleof, String board,
-                      String rebuildto, String comment, String description, String year, String manufacturer) {
-        this.name = name;
-        this.sourcefile = sourcefile;
         this.cloneof = cloneof;
         this.romof = romof;
         this.sampleof = sampleof;

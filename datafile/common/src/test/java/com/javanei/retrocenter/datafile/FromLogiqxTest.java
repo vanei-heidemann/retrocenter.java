@@ -1,10 +1,11 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 
 public class FromLogiqxTest {
     private static LogiqxDatafile logiqx;
@@ -22,57 +23,52 @@ public class FromLogiqxTest {
     }
 
     @Test
-    public void testDebug() {
-        Assert.assertEquals("no", datafile.getCustomAttribute("debug"));
-    }
-
-    @Test
     public void testHeaderName() {
-        Assert.assertEquals("name 001", datafile.getHeader().getName());
+        Assert.assertEquals("name 001", datafile.getName());
     }
 
     @Test
     public void testHeaderDescription() {
-        Assert.assertEquals("description 001", datafile.getHeader().getDescription());
+        Assert.assertEquals("description 001", datafile.getDescription());
     }
 
     @Test
     public void testHeaderCategory() {
-        Assert.assertEquals("category 001", datafile.getHeader().getCategory());
+        Assert.assertEquals("category 001", datafile.getCategory());
     }
 
     @Test
     public void testHeaderVersion() {
-        Assert.assertEquals("version 001", datafile.getHeader().getVersion());
+        Assert.assertEquals("version 001", datafile.getVersion());
     }
 
     @Test
     public void testHeaderDate() {
-        Assert.assertEquals("date 001", datafile.getHeader().getDate());
+        Assert.assertEquals("date 001", datafile.getDate());
     }
 
     @Test
     public void testHeaderAuthor() {
-        Assert.assertEquals("author 001", datafile.getHeader().getAuthor());
+        Assert.assertEquals("author 001", datafile.getAuthor());
     }
 
     @Test
     public void testHeaderEmail() {
-        Assert.assertEquals("email 001", datafile.getHeader().getEmail());
+        Assert.assertEquals("email 001", datafile.getEmail());
     }
 
     @Test
     public void testHeaderHomepage() {
-        Assert.assertEquals("homepage 001", datafile.getHeader().getHomepage());
+        Assert.assertEquals("homepage 001", datafile.getHomepage());
     }
 
     @Test
     public void testHeaderUrl() {
-        Assert.assertEquals("url 001", datafile.getHeader().getUrl());
+        Assert.assertEquals("url 001", datafile.getUrl());
     }
 
     @Test
     public void testHeaderComment() {
-        Assert.assertEquals("comment 001", datafile.getHeader().getComment());
+        Assert.assertEquals("comment 001", datafile.getComment());
     }
 }

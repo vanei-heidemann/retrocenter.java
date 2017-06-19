@@ -1,162 +1,203 @@
 package com.javanei.retrocenter.datafile;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
-import com.javanei.retrocenter.clrmamepro.CMProResource;
+import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 
 public class Datafile implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * logiqx.build
-     * logiqx.debug
+     * clrmamepro.header.name, logiqx.header.name
      */
-    private Map<String, String> customAttributes = new HashMap<>();
-    private Header header;
+    private String name;
+    /**
+     * clrmamepro.header.category, logiqx.header.category
+     */
+    private String category;
+    /**
+     * clrmamepro.header.version, logiqx.header.version
+     */
+    private String version;
+    /**
+     * clrmamepro.header.description, logiqx.header.description
+     */
+    private String description;
+    /**
+     * clrmamepro.header.author, logiqx.header.author
+     */
+    private String author;
+    /**
+     * logiqx.header.date
+     */
+    private String date;
+    /**
+     * logiqx.header.email
+     */
+    private String email;
+    /**
+     * clrmamepro.header.homepage, logiqx.header.homepage
+     */
+    private String homepage;
+    /**
+     * clrmamepro.header.url, logiqx.header.url
+     */
+    private String url;
+    /**
+     * logiqx.header.comment
+     */
+    private String comment;
+
     private Set<Game> games = new HashSet<>();
-    private Set<Resource> resources = new HashSet<>();
 
     public Datafile() {
     }
 
+    public Datafile(String name) {
+        this.name = name;
+    }
+
+    public Datafile(String name, String category, String version, String description, String author, String date,
+            String email, String homepage, String url, String comment) {
+        this.name = name;
+        this.category = category;
+        this.version = version;
+        this.description = description;
+        this.author = author;
+        this.date = date;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
+    }
+
     public static Datafile fromLogiqx(LogiqxDatafile p) {
-        Datafile r = new Datafile();
-        r.setHeader(Header.fromLogiqx(p.getHeader()));
+        Datafile r = p.getHeader() != null ? new Datafile(p.getHeader().getName(), p.getHeader().getCategory(), p.getHeader().getVersion(),
+                p.getHeader().getDescription(), p.getHeader().getAuthor(), p.getHeader().getDate(),
+                p.getHeader().getEmail(), p.getHeader().getHomepage(), p.getHeader().getUrl(),
+                p.getHeader().getComment()) : new Datafile();
         for (LogiqxGame game : p.getGames()) {
             r.addGame(Game.fromLogiqx(game));
         }
-        if (p.getBuild() != null)
-            r.addCustomAttribute("build", p.getBuild());
-        if (p.getDebug() != null)
-            r.addCustomAttribute("debug", p.getDebug());
         return r;
     }
 
-    public static Datafile fromClrmamepro(CMProDatafile p) {
-        Datafile r = new Datafile();
-        r.setHeader(Header.fromClrmamepro(p.getHeader()));
+    public static Datafile fromCMPro(CMProDatafile p) {
+        Datafile r = new Datafile(p.getHeader().getName(), p.getHeader().getCategory(), p.getHeader().getVersion(),
+                p.getHeader().getDescription(), p.getHeader().getAuthor(), null,
+                null, p.getHeader().getHomepage(), p.getHeader().getUrl(), null);
         for (CMProGame game : p.getGames()) {
-            r.addGame(Game.fromClrmamepro(game));
-        }
-        for (CMProResource resource : p.getResources()) {
-            r.addResource(Resource.fromClrmamepro(resource));
+            r.addGame(Game.fromCMPro(game));
         }
         return r;
     }
 
     public LogiqxDatafile toLogiqx() {
-        LogiqxDatafile r = new LogiqxDatafile(this.customAttributes.get("build"));
-        if (this.customAttributes.get("debug") != null)
-            r.setDebug(this.customAttributes.get("debug"));
-        if (this.header != null)
-            r.setHeader(this.header.toLogiqx());
+        LogiqxDatafile r = new LogiqxDatafile(new LogiqxHeader(this.name, this.description, this.category, this.version,
+                this.date, this.author, this.email, this.homepage, this.url, this.comment));
         for (Game game : this.games) {
             r.addGame(game.toLogiqx());
         }
         return r;
     }
 
-    public CMProDatafile toClrmamepro() {
-        CMProDatafile r = new CMProDatafile();
-        if (this.header != null)
-            r.setHeader(this.header.toClrmamepro());
+    public CMProDatafile toCMPro() {
+        CMProDatafile r = new CMProDatafile(new CMProHeader(this.name, this.description, this.category, this.version,
+                this.author, this.homepage, this.url, null, null));
         for (Game game : this.games) {
-            r.addGame(game.toClrmamepro());
-        }
-        for (Resource resource : this.resources) {
-            r.addResource(resource.toClrmamepro());
+            r.addGame(game.toCMPro());
         }
         return r;
     }
 
-    public Header getHeader() {
-        return header;
+    public boolean addGame(Game game) {
+        return this.games.add(game);
     }
 
-    public void setHeader(Header header) {
-        this.header = header;
+    public String getName() {
+        return name;
     }
 
-    public Set<Game> getGames() {
-        return games;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setGames(Set<Game> games) {
-        if (games != null)
-            this.games = games;
-        else
-            games = new HashSet<>();
+    public String getDescription() {
+        return description;
     }
 
-    public void addGame(Game game) {
-        if (this.games.contains(game)) {
-            throw new IllegalArgumentException("Duplicated game: " + game.getName());
-        }
-        this.games.add(game);
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Set<Resource> getResources() {
-        return resources;
+    public String getCategory() {
+        return category;
     }
 
-    public void setResources(Set<Resource> resources) {
-        this.resources = resources;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public void addResource(Resource resource) {
-        if (this.resources.contains(resource))
-            throw new IllegalArgumentException("Duplicated resource: " + resource.getName());
-        this.resources.add(resource);
+    public String getVersion() {
+        return version;
     }
 
-    public Map<String, String> getCustomAttributes() {
-        return customAttributes;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    public void setCustomAttributes(Map<String, String> customAttributes) {
-        this.customAttributes = customAttributes;
+    public String getAuthor() {
+        return author;
     }
 
-    public String getCustomAttribute(String key) {
-        return this.customAttributes.get(key);
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public void addCustomAttribute(String key, String value) {
-        if (this.customAttributes.containsKey(key))
-            throw new IllegalArgumentException("Duplicated custom attribute: " + key);
-        this.customAttributes.put(key, value);
+    public String getDate() {
+        return date;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
-                .append("<!DOCTYPE datafile PUBLIC \"-//Logiqx//DTD ROM Management Datafile//EN\" \"http://www.logiqx.com/Dats/datafile.dtd\">\n\n")
-                .append("<datafile");
-        for (String key : this.customAttributes.keySet()) {
-            sb.append(" ").append(key).append("=\"").append(this.customAttributes.get(key)).append("\"");
-        }
-        sb.append(">\n");
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-        if (this.header != null) {
-            sb.append(this.header.toString());
-        }
+    public String getEmail() {
+        return email;
+    }
 
-        for (Game game : this.games) {
-            sb.append(game.toString());
-        }
-        for (Resource resource : this.resources) {
-            sb.append(resource.toString());
-        }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-        sb.append("<datafile>\n");
-        return sb.toString();
+    public String getHomepage() {
+        return homepage;
+    }
+
+    public void setHomepage(String homepage) {
+        this.homepage = homepage;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 }
