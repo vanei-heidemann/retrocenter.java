@@ -127,6 +127,7 @@ public class Datafile implements Serializable {
                 GameFile f = new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName());
                 game.addFile(f);
             }
+            r.addGame(game);
         }
         return r;
     }
@@ -151,6 +152,14 @@ public class Datafile implements Serializable {
 
     public boolean addGame(Game game) {
         return this.games.add(game);
+    }
+
+    public Set<Game> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<Game> games) {
+        this.games = games;
     }
 
     public String getName() {
