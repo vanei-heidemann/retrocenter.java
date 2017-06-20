@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import com.javanei.retrocenter.common.DatafileCategoryEnum;
+
 public class CMProHeader implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -34,7 +36,7 @@ public class CMProHeader implements Serializable {
     }
 
     public CMProHeader(String name, String description, String category, String version, String author, String homepage,
-                       String url, String forcemerging, String forcezipping) {
+            String url, String forcemerging, String forcezipping) {
         this.name = name;
         this.description = description;
         this.category = category;
@@ -67,7 +69,17 @@ public class CMProHeader implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category == null) {
+            this.category = null;
+        } else if (category.toLowerCase().equals("no-intro") || category.toLowerCase().equals("nointro")) {
+            this.category = DatafileCategoryEnum.NoIntro.name();
+        } else if (category.toLowerCase().equals("logiqx")) {
+            this.category = DatafileCategoryEnum.Logiqx.name();
+        } else if (category.toUpperCase().equals("MAME")) {
+            this.category = DatafileCategoryEnum.MAME.name();
+        } else {
+            throw new IllegalArgumentException("Invalid category value: '" + category + "'");
+        }
     }
 
     public String getVersion() {
@@ -101,7 +113,7 @@ public class CMProHeader implements Serializable {
     public void setHomepage(String homepage) {
         this.homepage = homepage;
         if (homepage.toLowerCase().contains("no-intro") && this.category == null) {
-            this.category = "No-Intro";
+            this.setCategory(DatafileCategoryEnum.NoIntro.name());
         }
     }
 
@@ -112,7 +124,7 @@ public class CMProHeader implements Serializable {
     public void setUrl(String url) {
         this.url = url;
         if (url.toLowerCase().contains("no-intro") && this.category == null) {
-            this.category = "No-Intro";
+            this.setCategory(DatafileCategoryEnum.NoIntro.name());
         }
     }
 
@@ -146,8 +158,10 @@ public class CMProHeader implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
         CMProHeader header = (CMProHeader) o;
         return Objects.equals(name, header.name) &&
                 Objects.equals(description, header.description) &&
@@ -165,11 +179,16 @@ public class CMProHeader implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("clrmamepro (\n");
-        if (this.name != null) sb.append("\t").append("name \"").append(this.name).append("\"\n");
-        if (this.description != null) sb.append("\t").append("description \"").append(this.description).append("\"\n");
-        if (this.category != null) sb.append("\t").append("category \"").append(this.category).append("\"\n");
-        if (this.version != null) sb.append("\t").append("version \"").append(this.version).append("\"\n");
-        if (this.author != null) sb.append("\t").append("author \"").append(this.author).append("\"\n");
+        if (this.name != null)
+            sb.append("\t").append("name \"").append(this.name).append("\"\n");
+        if (this.description != null)
+            sb.append("\t").append("description \"").append(this.description).append("\"\n");
+        if (this.category != null)
+            sb.append("\t").append("category \"").append(this.category).append("\"\n");
+        if (this.version != null)
+            sb.append("\t").append("version \"").append(this.version).append("\"\n");
+        if (this.author != null)
+            sb.append("\t").append("author \"").append(this.author).append("\"\n");
         if (this.homepage != null)
             sb.append("\t").append("homepage \"").append(this.homepage).append("\"\n");
         if (this.url != null)

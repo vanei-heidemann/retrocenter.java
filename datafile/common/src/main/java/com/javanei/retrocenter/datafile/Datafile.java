@@ -7,6 +7,7 @@ import java.util.Set;
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProHeader;
+import com.javanei.retrocenter.common.DatafileCategoryEnum;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
 import com.javanei.retrocenter.logiqx.LogiqxHeader;
@@ -107,7 +108,7 @@ public class Datafile implements Serializable {
     public static Datafile fromMame(Mame p) {
         Datafile r = new Datafile();
         r.setName("MAME");
-        r.setCategory("MAME");
+        r.setCategory(DatafileCategoryEnum.MAME.name());
         r.setVersion(p.getBuild());
         for (MameMachine machine : p.getMachines()) {
             Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
@@ -173,7 +174,17 @@ public class Datafile implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category == null) {
+            this.category = null;
+        } else if (category.toLowerCase().equals("no-intro") || category.toLowerCase().equals("nointro")) {
+            this.category = DatafileCategoryEnum.NoIntro.name();
+        } else if (category.toLowerCase().equals("logiqx")) {
+            this.category = DatafileCategoryEnum.Logiqx.name();
+        } else if (category.toUpperCase().equals("MAME")) {
+            this.category = DatafileCategoryEnum.MAME.name();
+        } else {
+            throw new IllegalArgumentException("Invalid category value: '" + category + "'");
+        }
     }
 
     public String getVersion() {
