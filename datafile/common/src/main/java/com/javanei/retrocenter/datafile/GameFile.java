@@ -61,6 +61,9 @@ public class GameFile implements Serializable {
      */
     private String region;
 
+    public GameFile() {
+    }
+
     public GameFile(String type) {
         this.type = type;
     }

@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.clrmamepro.entity;
+package com.javanei.retrocenter.datafile.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,16 +15,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CMPRO_RESOURCEROM", indexes = {
-        @Index(name = "CMPRO_RESOURCEROM_0001", unique = true, columnList = "RESOURCE_ID,NAME,SIZE,CRC,SHA1,MD5,REGION,FLAGS")
+@Table(name = "DAT_GAMEFILE", indexes = {
+        @Index(name = "DAT_GAMEFILE_0001", unique = true, columnList = "GAME_ID,FILE_TYPE,NAME")
 })
-public class CMProResourceRomEntity implements Serializable {
+public class GameFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "RESOURCEROM_ID", nullable = false)
+    @Column(name = "GAMEFILE_ID", nullable = false)
     private Long id;
+
+    @Column(name = "FILE_TYPE", length = 16, nullable = false)
+    private String type;
 
     @Column(name = "NAME", length = 255, nullable = false)
     private String name;
@@ -41,29 +44,21 @@ public class CMProResourceRomEntity implements Serializable {
     @Column(name = "MD5", length = 40, nullable = true)
     private String md5;
 
-    @Column(name = "REGION", length = 64, nullable = true)
+    @Column(name = "STATUS", length = 16, nullable = true)
+    private String status;
+
+    @Column(name = "DATE", length = 32, nullable = true)
+    private String date;
+
+    @Column(name = "MERGE", length = 32, nullable = true)
+    private String merge;
+
+    @Column(name = "REGION", length = 128, nullable = true)
     private String region;
 
-    @Column(name = "FLAGS", length = 16, nullable = true)
-    private String flags;
-
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "RESOURCE_ID")
-    private CMProResourceEntity resource;
-
-    public CMProResourceRomEntity(Long id) {
-        this.id = id;
-    }
-
-    public CMProResourceRomEntity(String name, Long size, String crc, String sha1, String md5, String region, String flags) {
-        this.name = name;
-        this.size = size;
-        this.crc = crc;
-        this.sha1 = sha1;
-        this.md5 = md5;
-        this.region = region;
-        this.flags = flags;
-    }
+    @JoinColumn(name = "GAME_ID")
+    private GameEntity game;
 
     public Long getId() {
         return id;
@@ -71,6 +66,14 @@ public class CMProResourceRomEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {
@@ -113,6 +116,30 @@ public class CMProResourceRomEntity implements Serializable {
         this.md5 = md5;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getMerge() {
+        return merge;
+    }
+
+    public void setMerge(String merge) {
+        this.merge = merge;
+    }
+
     public String getRegion() {
         return region;
     }
@@ -121,38 +148,25 @@ public class CMProResourceRomEntity implements Serializable {
         this.region = region;
     }
 
-    public String getFlags() {
-        return flags;
+    public GameEntity getGame() {
+        return game;
     }
 
-    public void setFlags(String flags) {
-        this.flags = flags;
-    }
-
-    public CMProResourceEntity getResource() {
-        return resource;
-    }
-
-    public void setResource(CMProResourceEntity resource) {
-        this.resource = resource;
+    public void setGame(GameEntity game) {
+        this.game = game;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CMProResourceRomEntity that = (CMProResourceRomEntity) o;
-        return Objects.equals(name, that.name) &&
-                Objects.equals(size, that.size) &&
-                Objects.equals(crc, that.crc) &&
-                Objects.equals(sha1, that.sha1) &&
-                Objects.equals(md5, that.md5) &&
-                Objects.equals(region, that.region) &&
-                Objects.equals(flags, that.flags);
+        GameFileEntity that = (GameFileEntity) o;
+        return Objects.equals(type, that.type) &&
+                Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, size, crc, sha1, md5, region, flags);
+        return Objects.hash(type, name);
     }
 }

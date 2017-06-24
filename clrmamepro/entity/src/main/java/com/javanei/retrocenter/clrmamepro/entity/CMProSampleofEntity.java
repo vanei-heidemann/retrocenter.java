@@ -16,21 +16,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CMPRO_SAMPLEOF", indexes = {
-        @Index(name = "CMPRO_SAMPLEOF_0001", unique = true, columnList = "CMPRO_GAME_ID,SAMPLEOF")
+        @Index(name = "CMPRO_SAMPLEOF_0001", unique = true, columnList = "GAME_ID,SAMPLEOF")
 })
 public class CMProSampleofEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CMPRO_SAMPLEOF_ID", nullable = false)
+    @Column(name = "SAMPLEOF_ID", nullable = false)
     private Long id;
 
     @Column(name = "SAMPLEOF", length = 255, nullable = false)
     private String sampleof;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "CMPRO_GAME_ID")
+    @JoinColumn(name = "GAME_ID")
     private CMProGameEntity game;
 
     public CMProSampleofEntity() {

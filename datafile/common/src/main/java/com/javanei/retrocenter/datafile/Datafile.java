@@ -11,6 +11,7 @@ import com.javanei.retrocenter.mame.Mame;
 import com.javanei.retrocenter.mame.MameMachine;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class Datafile implements Serializable {
@@ -67,7 +68,7 @@ public class Datafile implements Serializable {
     }
 
     public Datafile(String name, String category, String version, String description, String author, String date,
-            String email, String homepage, String url, String comment) {
+                    String email, String homepage, String url, String comment) {
         this.name = name;
         this.category = category;
         this.version = version;
@@ -231,5 +232,20 @@ public class Datafile implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Datafile datafile = (Datafile) o;
+        return Objects.equals(name, datafile.name) &&
+                Objects.equals(category, datafile.category) &&
+                Objects.equals(version, datafile.version);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, category, version);
     }
 }

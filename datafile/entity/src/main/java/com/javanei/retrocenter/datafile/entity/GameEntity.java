@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.clrmamepro.entity;
+package com.javanei.retrocenter.datafile.entity;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,10 +18,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CMPRO_GAME", indexes = {
-        @Index(name = "CMPRO_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+@Table(name = "DAT_GAME", indexes = {
+        @Index(name = "DAT_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
 })
-public class CMProGameEntity implements Serializable {
+public class GameEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -31,6 +31,9 @@ public class CMProGameEntity implements Serializable {
 
     @Column(name = "NAME", length = 255, nullable = false)
     private String name;
+
+    @Column(name = "ISBIOS", length = 3, nullable = true)
+    private String isbios;
 
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
@@ -47,34 +50,21 @@ public class CMProGameEntity implements Serializable {
     @Column(name = "ROMOF", length = 255, nullable = true)
     private String romof;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
-    private Set<CMProGameRomEntity> roms = new HashSet<>();
+    @Column(name = "SAMPLEOF", length = 255, nullable = true)
+    private String sampleof;
+
+    @Column(name = "COMMENT", length = 255, nullable = true)
+    private String comment;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
-    private Set<CMProDiskEntity> disks = new HashSet<>();
+    private Set<GameFileEntity> files = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
-    private Set<CMProSampleofEntity> sampleof = new HashSet<>();
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
-    private Set<CMProSampleEntity> samples = new HashSet<>();
+    private Set<ReleaseEntity> releases = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
-    private CMProDatafileEntity datafile;
-
-    public CMProGameEntity(String name, String description, String year, String manufacturer, String cloneof, String romof) {
-        this.name = name;
-        this.description = description;
-        this.year = year;
-        this.manufacturer = manufacturer;
-        this.cloneof = cloneof;
-        this.romof = romof;
-    }
-
-    public CMProGameEntity(Long id) {
-        this.id = id;
-    }
+    private DatafileEntity datafile;
 
     public Long getId() {
         return id;
@@ -90,6 +80,14 @@ public class CMProGameEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getIsbios() {
+        return isbios;
+    }
+
+    public void setIsbios(String isbios) {
+        this.isbios = isbios;
     }
 
     public String getDescription() {
@@ -132,43 +130,43 @@ public class CMProGameEntity implements Serializable {
         this.romof = romof;
     }
 
-    public Set<CMProGameRomEntity> getRoms() {
-        return roms;
-    }
-
-    public void setRoms(Set<CMProGameRomEntity> roms) {
-        this.roms = roms;
-    }
-
-    public Set<CMProDiskEntity> getDisks() {
-        return disks;
-    }
-
-    public void setDisks(Set<CMProDiskEntity> disks) {
-        this.disks = disks;
-    }
-
-    public Set<CMProSampleofEntity> getSampleof() {
+    public String getSampleof() {
         return sampleof;
     }
 
-    public void setSampleof(Set<CMProSampleofEntity> sampleof) {
+    public void setSampleof(String sampleof) {
         this.sampleof = sampleof;
     }
 
-    public Set<CMProSampleEntity> getSamples() {
-        return samples;
+    public String getComment() {
+        return comment;
     }
 
-    public void setSamples(Set<CMProSampleEntity> samples) {
-        this.samples = samples;
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
-    public CMProDatafileEntity getDatafile() {
+    public Set<GameFileEntity> getFiles() {
+        return files;
+    }
+
+    public void setFiles(Set<GameFileEntity> files) {
+        this.files = files;
+    }
+
+    public Set<ReleaseEntity> getReleases() {
+        return releases;
+    }
+
+    public void setReleases(Set<ReleaseEntity> releases) {
+        this.releases = releases;
+    }
+
+    public DatafileEntity getDatafile() {
         return datafile;
     }
 
-    public void setDatafile(CMProDatafileEntity datafile) {
+    public void setDatafile(DatafileEntity datafile) {
         this.datafile = datafile;
     }
 
@@ -176,7 +174,7 @@ public class CMProGameEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CMProGameEntity that = (CMProGameEntity) o;
+        GameEntity that = (GameEntity) o;
         return Objects.equals(name, that.name);
     }
 

@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,7 @@ public class CMProResourceEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CMPRO_RESOURCE_ID", nullable = false)
+    @Column(name = "RESOURCE_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false)

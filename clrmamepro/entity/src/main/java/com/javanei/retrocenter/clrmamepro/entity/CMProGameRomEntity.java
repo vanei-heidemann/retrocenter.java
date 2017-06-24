@@ -2,7 +2,6 @@ package com.javanei.retrocenter.clrmamepro.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,14 +16,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CMPRO_GAMEROM", indexes = {
-        @Index(name = "CMPRO_GAMEROM_0001", unique = true, columnList = "CMPRO_GAME_ID,NAME,SIZE,CRC,SHA1,MD5,REGION,FLAGS")
+        @Index(name = "CMPRO_GAMEROM_0001", unique = true, columnList = "GAME_ID,NAME,SIZE,CRC,SHA1,MD5,REGION,FLAGS")
 })
 public class CMProGameRomEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CMPRO_GAMEROM_ID", nullable = false)
+    @Column(name = "GAMEROM_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false)
@@ -49,7 +48,7 @@ public class CMProGameRomEntity implements Serializable {
     private String flags;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "CMPRO_GAME_ID")
+    @JoinColumn(name = "GAME_ID")
     private CMProGameEntity game;
 
     public CMProGameRomEntity(String name, Long size, String crc, String sha1, String md5, String region, String flags) {

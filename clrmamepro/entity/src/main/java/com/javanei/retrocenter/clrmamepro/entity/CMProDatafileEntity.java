@@ -3,7 +3,6 @@ package com.javanei.retrocenter.clrmamepro.entity;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +29,7 @@ public class CMProDatafileEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CMPRO_DATAFILE_ID", nullable = false)
+    @Column(name = "DATAFILE_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 160, nullable = false)

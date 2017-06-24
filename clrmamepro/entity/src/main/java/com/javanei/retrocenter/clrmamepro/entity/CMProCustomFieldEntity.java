@@ -16,14 +16,14 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CMPRO_CUSTOMFIELD", indexes = {
-        @Index(name = "CMPRO_CUSTOMFIELD_0001", unique = true, columnList = "CMPRO_DATAFILE_ID,CUSTOM_KEY")
+        @Index(name = "CMPRO_CUSTOMFIELD_0001", unique = true, columnList = "DATAFILE_ID,CUSTOM_KEY")
 })
 public class CMProCustomFieldEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "CMPRO_CUSTOMFIELD_ID", nullable = false)
+    @Column(name = "CUSTOMFIELD_ID", nullable = false)
     private Long id;
 
     @Column(name = "CUSTOM_KEY", length = 160, nullable = false)
@@ -33,7 +33,7 @@ public class CMProCustomFieldEntity implements Serializable {
     private String value;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "CMPRO_DATAFILE_ID")
+    @JoinColumn(name = "DATAFILE_ID")
     private CMProDatafileEntity datafile;
 
     public CMProCustomFieldEntity() {
