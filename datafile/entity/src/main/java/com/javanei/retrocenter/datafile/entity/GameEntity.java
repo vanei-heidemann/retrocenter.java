@@ -18,8 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DAT_GAME", indexes = {
-        @Index(name = "DAT_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+@Table(name = "DATAFILE_GAME", indexes = {
+        @Index(name = "DATAFILE_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
 })
 public class GameEntity implements Serializable {
     private static final long serialVersionUID = 1L;

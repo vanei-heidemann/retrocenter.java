@@ -15,8 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DAT_RELEASE", indexes = {
-        @Index(name = "DAT_RELEASE_0001", unique = true, columnList = "GAME_ID,NAME,REGION,LANGUAGE,DATE,ISDEFAULT")
+@Table(name = "DATAFILE_RELEASE", indexes = {
+        @Index(name = "DATAFILE_RELEASE_0001", unique = true, columnList = "GAME_ID,NAME,REGION,LANGUAGE,DATE,ISDEFAULT")
 })
 public class ReleaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;

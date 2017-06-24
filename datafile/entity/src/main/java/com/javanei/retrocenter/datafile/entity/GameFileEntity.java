@@ -15,8 +15,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DAT_GAMEFILE", indexes = {
-        @Index(name = "DAT_GAMEFILE_0001", unique = true, columnList = "GAME_ID,FILE_TYPE,NAME")
+@Table(name = "DATAFILE_GAMEFILE", indexes = {
+        @Index(name = "DATAFILE_GAMEFILE_0001", unique = true, columnList = "GAME_ID,FILE_TYPE,NAME")
 })
 public class GameFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;

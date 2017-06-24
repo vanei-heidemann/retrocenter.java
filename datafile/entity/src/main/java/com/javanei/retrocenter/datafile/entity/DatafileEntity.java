@@ -16,8 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DAT_DATAFILE", indexes = {
-        @Index(name = "DAT_DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+@Table(name = "DATAFILE", indexes = {
+        @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
 })
 public class DatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
