@@ -21,5 +21,6 @@
     <modules>
         <module>common</module>
         <module>entity</module>
+        <module>persistence/springjpa</module>
     </modules>
 </project>

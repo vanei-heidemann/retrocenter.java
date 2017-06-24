@@ -12,12 +12,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "DATAFILE", indexes = {
         @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+})
+@NamedQueries({
+        @NamedQuery(name = "DatafileEntity.findByUniqueFull", query = "SELECT o from DatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version"),
+        @NamedQuery(name = "DatafileEntity.findByUnique", query = "SELECT new DatafileEntity(id, name, category, version, description, author, date, email, homepage, url, comment) from DatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version")
 })
 public class DatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -55,10 +55,13 @@ public class GameEntity implements Serializable {
 
     @Column(name = "COMMENT", length = 255, nullable = true)
     private String comment;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<GameFileEntity> files = new HashSet<>();
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<ReleaseEntity> releases = new HashSet<>();
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private DatafileEntity datafile;
