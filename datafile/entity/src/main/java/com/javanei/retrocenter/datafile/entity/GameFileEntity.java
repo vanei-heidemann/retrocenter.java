@@ -60,6 +60,40 @@ public class GameFileEntity implements Serializable {
     @JoinColumn(name = "GAME_ID")
     private GameEntity game;
 
+    public GameFileEntity() {
+    }
+
+    public GameFileEntity(Long id) {
+        this.id = id;
+    }
+
+    public GameFileEntity(String type, String name, Long size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+        this.type = type;
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.status = status;
+        this.date = date;
+        this.merge = merge;
+        this.region = region;
+    }
+
+    public GameFileEntity(Long id, String type, String name, Long size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.status = status;
+        this.date = date;
+        this.merge = merge;
+        this.region = region;
+    }
+
     public Long getId() {
         return id;
     }

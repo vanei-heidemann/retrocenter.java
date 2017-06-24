@@ -45,6 +45,30 @@ public class ReleaseEntity implements Serializable {
     @JoinColumn(name = "GAME_ID")
     private GameEntity game;
 
+    public ReleaseEntity() {
+    }
+
+    public ReleaseEntity(Long id) {
+        this.id = id;
+    }
+
+    public ReleaseEntity(String name, String region, String language, String date, String _default) {
+        this.name = name;
+        this.region = region;
+        this.language = language;
+        this.date = date;
+        this._default = _default;
+    }
+
+    public ReleaseEntity(Long id, String name, String region, String language, String date, String _default) {
+        this.id = id;
+        this.name = name;
+        this.region = region;
+        this.language = language;
+        this.date = date;
+        this._default = _default;
+    }
+
     public Long getId() {
         return id;
     }

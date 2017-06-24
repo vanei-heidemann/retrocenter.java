@@ -60,6 +60,40 @@ public class DatafileEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
     private Set<GameEntity> games = new HashSet<>();
 
+    public DatafileEntity() {
+    }
+
+    public DatafileEntity(Long id) {
+        this.id = id;
+    }
+
+    public DatafileEntity(String name, String category, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
+        this.name = name;
+        this.category = category;
+        this.version = version;
+        this.description = description;
+        this.author = author;
+        this.date = date;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
+    }
+
+    public DatafileEntity(Long id, String name, String category, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.version = version;
+        this.description = description;
+        this.author = author;
+        this.date = date;
+        this.email = email;
+        this.homepage = homepage;
+        this.url = url;
+        this.comment = comment;
+    }
+
     public Long getId() {
         return id;
     }

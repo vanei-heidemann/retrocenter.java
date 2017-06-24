@@ -55,16 +55,45 @@ public class GameEntity implements Serializable {
 
     @Column(name = "COMMENT", length = 255, nullable = true)
     private String comment;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<GameFileEntity> files = new HashSet<>();
-
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<ReleaseEntity> releases = new HashSet<>();
-
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private DatafileEntity datafile;
+
+    public GameEntity() {
+    }
+
+    public GameEntity(Long id) {
+        this.id = id;
+    }
+
+    public GameEntity(String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
+        this.name = name;
+        this.isbios = isbios;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.comment = comment;
+    }
+
+    public GameEntity(Long id, String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
+        this.id = id;
+        this.name = name;
+        this.isbios = isbios;
+        this.description = description;
+        this.year = year;
+        this.manufacturer = manufacturer;
+        this.cloneof = cloneof;
+        this.romof = romof;
+        this.sampleof = sampleof;
+        this.comment = comment;
+    }
 
     public Long getId() {
         return id;
