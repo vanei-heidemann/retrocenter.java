@@ -1,11 +1,10 @@
 package com.javanei.retrocenter.clrmamepro;
 
+import com.javanei.retrocenter.common.DatafileCategoryEnum;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
 
 public class CMProHeader implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,7 +38,7 @@ public class CMProHeader implements Serializable {
             String url, String forcemerging, String forcezipping) {
         this.name = name;
         this.description = description;
-        this.category = category;
+        this.setCategory(category);
         this.version = version;
         this.author = author;
         this.homepage = homepage;
