@@ -8,6 +8,10 @@ import com.javanei.retrocenter.logiqx.LogiqxGame;
 import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
+import com.javanei.retrocenter.mame.MameDisk;
+import com.javanei.retrocenter.mame.MameMachine;
+import com.javanei.retrocenter.mame.MameRom;
+import com.javanei.retrocenter.mame.MameSample;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -62,7 +66,7 @@ public class Game implements Serializable {
     }
 
     public Game(String name, String isbios, String description, String year, String manufacturer, String cloneof,
-            String romof, String sampleof, String comment) {
+                String romof, String sampleof, String comment) {
         this.name = name;
         this.isbios = isbios;
         this.description = description;
@@ -72,6 +76,21 @@ public class Game implements Serializable {
         this.romof = romof;
         this.sampleof = sampleof;
         this.comment = comment;
+    }
+
+    public static Game fromMame(MameMachine machine) {
+        Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
+                machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
+        for (MameRom rom : machine.getRoms()) {
+            game.addFile(GameFile.fromMame(rom));
+        }
+        for (MameDisk disk : machine.getDisks()) {
+            game.addFile(GameFile.fromMame(disk));
+        }
+        for (MameSample sample : machine.getSamples()) {
+            game.addFile(GameFile.fromMame(sample));
+        }
+        return game;
     }
 
     public static Game fromLogiqx(LogiqxGame p) {

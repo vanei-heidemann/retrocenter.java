@@ -1,13 +1,15 @@
 package com.javanei.retrocenter.datafile;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import com.javanei.retrocenter.clrmamepro.CMProDisk;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.logiqx.LogiqxDisk;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
+import com.javanei.retrocenter.mame.MameDisk;
+import com.javanei.retrocenter.mame.MameRom;
+import com.javanei.retrocenter.mame.MameSample;
+import java.io.Serializable;
+import java.util.Objects;
 
 public class GameFile implements Serializable {
     /**
@@ -69,7 +71,7 @@ public class GameFile implements Serializable {
     }
 
     public GameFile(String type, String name, Long size, String crc, String sha1, String md5, String status,
-            String date, String merge, String region) {
+                    String date, String merge, String region) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -104,6 +106,23 @@ public class GameFile implements Serializable {
     public static GameFile fromCMPro(CMProDisk p) {
         return new GameFile(GameFileTypeEnum.DISK.name(), p.getName(), null, null, p.getSha1(), p.getMd5(),
                 null, null, null, null);
+    }
+
+    public static GameFile fromMame(MameRom rom) {
+        GameFile f = new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion());
+        return f;
+    }
+
+    public static GameFile fromMame(MameDisk disk) {
+        GameFile f = new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion());
+        return f;
+    }
+
+    public static GameFile fromMame(MameSample sample) {
+        GameFile f = new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName());
+        return f;
     }
 
     public LogiqxRom toLogiqxRom() {
