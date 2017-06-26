@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxDisk;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -46,6 +47,10 @@ public class LogiqxDiskEntity implements Serializable {
     private LogiqxGameEntity game;
 
     public LogiqxDiskEntity() {
+    }
+
+    public LogiqxDiskEntity(LogiqxDisk disk) {
+        this(disk.getName(), disk.getSha1(), disk.getMd5(), disk.getMerge(), disk.getStatus());
     }
 
     public LogiqxDiskEntity(Long id) {
@@ -133,6 +138,10 @@ public class LogiqxDiskEntity implements Serializable {
 
     public void setGame(LogiqxGameEntity game) {
         this.game = game;
+    }
+
+    public LogiqxDisk toVO() {
+        return new LogiqxDisk(this.name, this.sha1, this.md5, this.merge, this.status);
     }
 
     @Override

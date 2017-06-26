@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxArchive;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -34,6 +35,10 @@ public class LogiqxArchiveEntity implements Serializable {
     private LogiqxGameEntity game;
 
     public LogiqxArchiveEntity() {
+    }
+
+    public LogiqxArchiveEntity(LogiqxArchive archive) {
+        this(archive.getName());
     }
 
     public LogiqxArchiveEntity(Long id) {
@@ -71,6 +76,10 @@ public class LogiqxArchiveEntity implements Serializable {
 
     public void setGame(LogiqxGameEntity game) {
         this.game = game;
+    }
+
+    public LogiqxArchive toVO() {
+        return new LogiqxArchive(this.name);
     }
 
     @Override

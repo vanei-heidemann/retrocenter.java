@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxRom;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -57,6 +58,11 @@ public class LogiqxRomEntity implements Serializable {
     public LogiqxRomEntity() {
     }
 
+    public LogiqxRomEntity(LogiqxRom rom) {
+        this(rom.getName(), rom.getSize(), rom.getCrc(), rom.getSha1(), rom.getMd5(), rom.getMerge(), rom.getDate(),
+                rom.getStatus());
+    }
+
     public LogiqxRomEntity(Long id) {
         this.id = id;
     }
@@ -85,7 +91,8 @@ public class LogiqxRomEntity implements Serializable {
         this.status = status;
     }
 
-    public LogiqxRomEntity(Long id, String name, Long size, String crc, String sha1, String md5, String merge, String date, String status) {
+    public LogiqxRomEntity(Long id, String name, Long size, String crc, String sha1, String md5, String merge,
+                           String date, String status) {
         this.id = id;
         this.name = name;
         this.size = size;
@@ -175,6 +182,10 @@ public class LogiqxRomEntity implements Serializable {
 
     public void setGame(LogiqxGameEntity game) {
         this.game = game;
+    }
+
+    public LogiqxRom toVO() {
+        return new LogiqxRom(this.name, this.size, this.crc, this.sha1, this.md5, this.merge, this.date, this.status);
     }
 
     @Override

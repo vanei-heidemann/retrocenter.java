@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxGame;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -88,6 +89,12 @@ public class LogiqxGameEntity implements Serializable {
     private Set<LogiqxArchiveEntity> archives = new HashSet<>();
 
     public LogiqxGameEntity() {
+    }
+
+    public LogiqxGameEntity(LogiqxGame game) {
+        this(game.getName(), game.getSourcefile(), game.getIsbios(), game.getCloneof(), game.getRomof(),
+                game.getSampleof(), game.getBoard(), game.getRebuildto(), game.getComment(), game.getDescription(),
+                game.getYear(), game.getManufacturer());
     }
 
     public LogiqxGameEntity(Long id) {
@@ -291,6 +298,37 @@ public class LogiqxGameEntity implements Serializable {
 
     public void setArchives(Set<LogiqxArchiveEntity> archives) {
         this.archives = archives;
+    }
+
+    public LogiqxGame toVO() {
+        LogiqxGame game = new LogiqxGame(this.name, this.sourcefile, this.isbios, this.cloneof, this.romof, this.sampleof,
+                this.board, this.rebuildto, this.comment, this.description, this.year, this.manufacturer);
+
+        for (LogiqxReleaseEntity release : this.releases) {
+            game.addRelease(release.toVO());
+        }
+
+        for (LogiqxBiossetEntity biosset : this.biossets) {
+            game.addBiosset(biosset.toVO());
+        }
+
+        for (LogiqxRomEntity rom : this.roms) {
+            game.addRom(rom.toVO());
+        }
+
+        for (LogiqxDiskEntity disk : this.disks) {
+            game.addDisk(disk.toVO());
+        }
+
+        for (LogiqxSampleEntity sample : this.samples) {
+            game.addSample(sample.toVO());
+        }
+
+        for (LogiqxArchiveEntity archive : this.archives) {
+            game.addArchive(archive.toVO());
+        }
+
+        return game;
     }
 
     @Override

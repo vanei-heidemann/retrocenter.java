@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -40,6 +41,10 @@ public class LogiqxBiossetEntity implements Serializable {
     private LogiqxGameEntity game;
 
     public LogiqxBiossetEntity() {
+    }
+
+    public LogiqxBiossetEntity(LogiqxBiosset biosset) {
+        this(biosset.getName(), biosset.getDescription(), biosset.getDefault());
     }
 
     public LogiqxBiossetEntity(Long id) {
@@ -87,11 +92,11 @@ public class LogiqxBiossetEntity implements Serializable {
         this.description = description;
     }
 
-    public String get_default() {
+    public String getDefault() {
         return _default;
     }
 
-    public void set_default(String _default) {
+    public void setDefault(String _default) {
         this._default = _default;
     }
 
@@ -101,6 +106,10 @@ public class LogiqxBiossetEntity implements Serializable {
 
     public void setGame(LogiqxGameEntity game) {
         this.game = game;
+    }
+
+    public LogiqxBiosset toVO() {
+        return new LogiqxBiosset(this.name, this.description, this._default);
     }
 
     @Override

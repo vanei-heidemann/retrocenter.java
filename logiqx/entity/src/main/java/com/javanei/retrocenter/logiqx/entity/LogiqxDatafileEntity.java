@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -112,6 +114,19 @@ public class LogiqxDatafileEntity implements Serializable {
         this.name = name;
         this.category = category;
         this.version = version;
+    }
+
+    public LogiqxDatafileEntity(LogiqxDatafile datafile) {
+        this(datafile.getHeader().getName(), datafile.getHeader().getCategory(), datafile.getHeader().getVersion(),
+                datafile.getHeader().getDescription(), datafile.getBuild(), datafile.getDebug(),
+                datafile.getHeader().getDate(), datafile.getHeader().getAuthor(), datafile.getHeader().getEmail(),
+                datafile.getHeader().getHomepage(), datafile.getHeader().getUrl(), datafile.getHeader().getComment(),
+                datafile.getHeader().getHeader(), datafile.getHeader().getForcemerging(),
+                datafile.getHeader().getForcenodump(), datafile.getHeader().getForcepacking(),
+                datafile.getHeader().getPlugin(), datafile.getHeader().getRommode(),
+                datafile.getHeader().getBiosmode(), datafile.getHeader().getSamplemode(),
+                datafile.getHeader().getLockrommode(), datafile.getHeader().getLockbiosmode(),
+                datafile.getHeader().getLocksamplemode());
     }
 
     public LogiqxDatafileEntity(String name, String category, String version, String description, String build,
@@ -373,6 +388,21 @@ public class LogiqxDatafileEntity implements Serializable {
 
     public void setGames(Set<LogiqxGameEntity> games) {
         this.games = games;
+    }
+
+    public LogiqxDatafile toVO() {
+        LogiqxDatafile datafile = new LogiqxDatafile(this.build, this.debug);
+        LogiqxHeader header = new LogiqxHeader(this.name, this.description, this.category, this.version, this.date,
+                this.author, this.email, this.homepage, this.url, this.comment, this.header, this.forcemerging,
+                this.forcenodump, this.forcepacking, this.plugin, this.rommode, this.biosmode, this.samplemode,
+                this.lockrommode, this.lockbiosmode, this.locksamplemode);
+        datafile.setHeader(header);
+
+        for (LogiqxGameEntity game : this.games) {
+            datafile.addGame(game.toVO());
+        }
+
+        return datafile;
     }
 
     @Override

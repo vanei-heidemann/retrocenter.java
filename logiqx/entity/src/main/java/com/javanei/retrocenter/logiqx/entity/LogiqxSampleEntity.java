@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.entity;
 
+import com.javanei.retrocenter.logiqx.LogiqxSample;
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.CascadeType;
@@ -34,6 +35,10 @@ public class LogiqxSampleEntity implements Serializable {
     private LogiqxGameEntity game;
 
     public LogiqxSampleEntity() {
+    }
+
+    public LogiqxSampleEntity(LogiqxSample sample) {
+        this(sample.getName());
     }
 
     public LogiqxSampleEntity(Long id) {
@@ -71,6 +76,10 @@ public class LogiqxSampleEntity implements Serializable {
 
     public void setGame(LogiqxGameEntity game) {
         this.game = game;
+    }
+
+    public LogiqxSample toVO() {
+        return new LogiqxSample(this.name);
     }
 
     @Override
