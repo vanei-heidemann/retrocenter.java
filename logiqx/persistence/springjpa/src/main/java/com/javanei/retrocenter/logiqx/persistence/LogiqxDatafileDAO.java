@@ -1,0 +1,11 @@
+package com.javanei.retrocenter.logiqx.persistence;
+
+import com.javanei.retrocenter.logiqx.entity.LogiqxDatafileEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.query.Param;
+
+public interface LogiqxDatafileDAO extends JpaRepository<LogiqxDatafileEntity, Long> {
+    LogiqxDatafileEntity findByUniqueFull(@Param("name") String name, @Param("category") String category, @Param("version") String version);
+
+    LogiqxDatafileEntity findByUnique(@Param("name") String name, @Param("category") String category, @Param("version") String version);
+}

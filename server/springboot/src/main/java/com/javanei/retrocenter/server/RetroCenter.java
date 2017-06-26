@@ -8,10 +8,16 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages = "com.javanei.retrocenter")
-@EntityScan(basePackages = {"com.javanei.retrocenter.datafile.entity", "com.javanei.retrocenter.mame.entity",
-        "com.javanei.retrocenter.clrmamepro.entity", "com.javanei.retrocenter.logiqx.entity"})
+@EntityScan(basePackages = {"com.javanei.retrocenter.datafile.entity",
+        "com.javanei.retrocenter.mame.entity",
+        "com.javanei.retrocenter.clrmamepro.entity",
+        "com.javanei.retrocenter.logiqx.entity"
+})
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
-        "com.javanei.retrocenter.clrmamepro.persistence", "com.javanei.retrocenter.datafile.persistence"})
+        "com.javanei.retrocenter.clrmamepro.persistence",
+        "com.javanei.retrocenter.datafile.persistence",
+        "com.javanei.retrocenter.logiqx.persistence"
+})
 @EnableTransactionManagement
 @EnableAsync
 public class RetroCenter {
