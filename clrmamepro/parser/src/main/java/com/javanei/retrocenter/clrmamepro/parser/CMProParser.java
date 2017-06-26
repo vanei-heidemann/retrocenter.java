@@ -7,6 +7,7 @@ import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.common.DuplicatedItemException;
+import com.javanei.retrocenter.common.UnknownTagException;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,8 +32,7 @@ public class CMProParser {
                     r.setSha1(ss[++i]);
                     break;
                 default:
-                    //TODO: Criar exception
-                    throw new Exception("Unknown tag value: " + ss[i]);
+                    throw new UnknownTagException(ss[i]);
             }
         }
         return r;
