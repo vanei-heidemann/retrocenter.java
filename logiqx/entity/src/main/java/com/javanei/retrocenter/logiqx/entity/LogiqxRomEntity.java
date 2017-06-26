@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.clrmamepro.entity;
+package com.javanei.retrocenter.logiqx.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,15 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CMPRO_GAMEROM", indexes = {
-        @Index(name = "CMPRO_GAMEROM_0001", unique = true, columnList = "GAME_ID,NAME,SIZE,CRC,SHA1,MD5,REGION,FLAGS")
+@Table(name = "LOGIQX_ROM", indexes = {
+        @Index(name = "LOGIQX_ROM_0001", unique = true, columnList = "GAME_ID,NAME,SIZE,CRC,SHA1,MD5")
 })
-public class CMProGameRomEntity implements Serializable {
+public class LogiqxRomEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "GAMEROM_ID", nullable = false)
+    @Column(name = "ROM_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false)
@@ -41,28 +41,60 @@ public class CMProGameRomEntity implements Serializable {
     @Column(name = "MD5", length = 32, nullable = true)
     private String md5;
 
-    @Column(name = "REGION", length = 64, nullable = true)
-    private String region;
+    @Column(name = "MERGE", length = 32, nullable = true)
+    private String merge;
 
-    @Column(name = "FLAGS", length = 16, nullable = true)
-    private String flags;
+    @Column(name = "DATE", length = 32, nullable = true)
+    private String date;
+
+    @Column(name = "ROMSTATUS", length = 8, nullable = true)
+    private String status = "good";
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "GAME_ID")
-    private CMProGameEntity game;
+    private LogiqxGameEntity game;
 
-    public CMProGameRomEntity(String name, Long size, String crc, String sha1, String md5, String region, String flags) {
+    public LogiqxRomEntity() {
+    }
+
+    public LogiqxRomEntity(Long id) {
+        this.id = id;
+    }
+
+    public LogiqxRomEntity(String name) {
+        this.name = name;
+    }
+
+    public LogiqxRomEntity(String name, Long size, String crc, String sha1, String md5) {
         this.name = name;
         this.size = size;
         this.crc = crc;
         this.sha1 = sha1;
         this.md5 = md5;
-        this.region = region;
-        this.flags = flags;
     }
 
-    public CMProGameRomEntity(Long id) {
+    public LogiqxRomEntity(String name, Long size, String crc, String sha1, String md5, String merge, String date,
+                           String status) {
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.date = date;
+        this.status = status;
+    }
+
+    public LogiqxRomEntity(Long id, String name, Long size, String crc, String sha1, String md5, String merge, String date, String status) {
         this.id = id;
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.date = date;
+        this.status = status;
     }
 
     public Long getId() {
@@ -113,27 +145,35 @@ public class CMProGameRomEntity implements Serializable {
         this.md5 = md5;
     }
 
-    public String getRegion() {
-        return region;
+    public String getMerge() {
+        return merge;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setMerge(String merge) {
+        this.merge = merge;
     }
 
-    public String getFlags() {
-        return flags;
+    public String getDate() {
+        return date;
     }
 
-    public void setFlags(String flags) {
-        this.flags = flags;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public CMProGameEntity getGame() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LogiqxGameEntity getGame() {
         return game;
     }
 
-    public void setGame(CMProGameEntity game) {
+    public void setGame(LogiqxGameEntity game) {
         this.game = game;
     }
 
@@ -141,18 +181,16 @@ public class CMProGameRomEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CMProGameRomEntity that = (CMProGameRomEntity) o;
+        LogiqxRomEntity that = (LogiqxRomEntity) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(size, that.size) &&
                 Objects.equals(crc, that.crc) &&
                 Objects.equals(sha1, that.sha1) &&
-                Objects.equals(md5, that.md5) &&
-                Objects.equals(region, that.region) &&
-                Objects.equals(flags, that.flags);
+                Objects.equals(md5, that.md5);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, size, crc, sha1, md5, region, flags);
+        return Objects.hash(name, size, crc, sha1, md5);
     }
 }

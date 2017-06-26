@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.clrmamepro.entity;
+package com.javanei.retrocenter.logiqx.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,10 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "CMPRO_DISK", indexes = {
-        @Index(name = "CMPRO_DISK_0001", unique = true, columnList = "GAME_ID,NAME,SHA1,MD5")
+@Table(name = "LOGIQX_DISK", indexes = {
+        @Index(name = "LOGIQX_DISK_0001", unique = true, columnList = "GAME_ID,NAME,SHA1,MD5")
 })
-public class CMProDiskEntity implements Serializable {
+public class LogiqxDiskEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -35,18 +35,48 @@ public class CMProDiskEntity implements Serializable {
     @Column(name = "MD5", length = 32, nullable = true)
     private String md5;
 
+    @Column(name = "MERGE", length = 32, nullable = true)
+    private String merge;
+
+    @Column(name = "DISKSTATUS", length = 8, nullable = true)
+    private String status = "good";
+
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "GAME_ID")
-    private CMProGameEntity game;
+    private LogiqxGameEntity game;
 
-    public CMProDiskEntity(Long id) {
+    public LogiqxDiskEntity() {
+    }
+
+    public LogiqxDiskEntity(Long id) {
         this.id = id;
     }
 
-    public CMProDiskEntity(String name, String sha1, String md5) {
+    public LogiqxDiskEntity(String name) {
+        this.name = name;
+    }
+
+    public LogiqxDiskEntity(String name, String sha1, String md5) {
         this.name = name;
         this.sha1 = sha1;
         this.md5 = md5;
+    }
+
+    public LogiqxDiskEntity(String name, String sha1, String md5, String merge, String status) {
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.status = status;
+    }
+
+    public LogiqxDiskEntity(Long id, String name, String sha1, String md5, String merge, String status) {
+        this.id = id;
+        this.name = name;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.merge = merge;
+        this.status = status;
     }
 
     public Long getId() {
@@ -81,11 +111,27 @@ public class CMProDiskEntity implements Serializable {
         this.md5 = md5;
     }
 
-    public CMProGameEntity getGame() {
+    public String getMerge() {
+        return merge;
+    }
+
+    public void setMerge(String merge) {
+        this.merge = merge;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LogiqxGameEntity getGame() {
         return game;
     }
 
-    public void setGame(CMProGameEntity game) {
+    public void setGame(LogiqxGameEntity game) {
         this.game = game;
     }
 
@@ -93,7 +139,7 @@ public class CMProDiskEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        CMProDiskEntity that = (CMProDiskEntity) o;
+        LogiqxDiskEntity that = (LogiqxDiskEntity) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(sha1, that.sha1) &&
                 Objects.equals(md5, that.md5);

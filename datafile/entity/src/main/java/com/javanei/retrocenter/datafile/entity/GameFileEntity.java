@@ -41,7 +41,7 @@ public class GameFileEntity implements Serializable {
     @Column(name = "SHA1", length = 40, nullable = true)
     private String sha1;
 
-    @Column(name = "MD5", length = 40, nullable = true)
+    @Column(name = "MD5", length = 32, nullable = true)
     private String md5;
 
     @Column(name = "STATUS", length = 16, nullable = true)

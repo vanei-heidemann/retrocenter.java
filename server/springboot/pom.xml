@@ -131,5 +131,10 @@
             <artifactId>datafile-entity</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>logiqx-entity</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

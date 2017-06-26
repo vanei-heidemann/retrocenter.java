@@ -37,7 +37,7 @@ public class MameEntity implements Serializable, Comparable<MameEntity> {
     @Column(name = "BUILD", length = 16, nullable = false)
     private String build;
 
-    @Column(name = "DEBUG", nullable = true)
+    @Column(name = "DEBUG", length = 3, nullable = true)
     private String debug;
 
     @Column(name = "MAMECONFIG", length = 16, nullable = true)
