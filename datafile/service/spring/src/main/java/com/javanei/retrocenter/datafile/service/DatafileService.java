@@ -71,6 +71,7 @@ public class DatafileService {
                     game.getComment());
             gameEntity.setDatafile(entity);
             gameEntity = gameDAO.saveAndFlush(gameEntity);
+            entity.getGames().add(gameEntity);
 
             for (GameFile gameFile : game.getFiles()) {
                 GameFileEntity gameFileEntity = new GameFileEntity(gameFile.getType(), gameFile.getName(),
@@ -78,6 +79,7 @@ public class DatafileService {
                         gameFile.getStatus(), gameFile.getDate(), gameFile.getMerge(), gameFile.getRegion());
                 gameFileEntity.setGame(gameEntity);
                 gameFileDAO.saveAndFlush(gameFileEntity);
+                gameEntity.getFiles().add(gameFileEntity);
             }
 
             for (Release release : game.getReleases()) {
@@ -85,6 +87,7 @@ public class DatafileService {
                         release.getLanguage(), release.getDate(), release.getDefault());
                 releaseEntity.setGame(gameEntity);
                 releaseDAO.saveAndFlush(releaseEntity);
+                gameEntity.getReleases().add(releaseEntity);
             }
         }
 
