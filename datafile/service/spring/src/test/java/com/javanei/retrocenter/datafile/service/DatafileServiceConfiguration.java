@@ -6,6 +6,7 @@ import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
 import com.javanei.retrocenter.datafile.persistence.GameDAO;
 import com.javanei.retrocenter.datafile.persistence.GameFileDAO;
 import com.javanei.retrocenter.datafile.persistence.ReleaseDAO;
+import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
@@ -43,16 +44,22 @@ public class DatafileServiceConfiguration {
 
     @Bean
     public GameDAO gameDAO() {
-        return Mockito.mock(GameDAO.class);
+        GameDAO gameDAO = Mockito.mock(GameDAO.class);
+        Mockito.when(gameDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        return gameDAO;
     }
 
     @Bean
     public GameFileDAO gameFileDAO() {
-        return Mockito.mock(GameFileDAO.class);
+        GameFileDAO gameFileDAO = Mockito.mock(GameFileDAO.class);
+        Mockito.when(gameFileDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        return gameFileDAO;
     }
 
     @Bean
     public ReleaseDAO releaseDAO() {
-        return Mockito.mock(ReleaseDAO.class);
+        ReleaseDAO releaseDAO = Mockito.mock(ReleaseDAO.class);
+        Mockito.when(releaseDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        return releaseDAO;
     }
 }
