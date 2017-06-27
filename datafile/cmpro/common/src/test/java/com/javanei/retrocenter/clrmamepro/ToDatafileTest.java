@@ -1,17 +1,16 @@
-package com.javanei.retrocenter.datafile;
+package com.javanei.retrocenter.clrmamepro;
 
-import com.javanei.retrocenter.clrmamepro.CMProDatafile;
-import com.javanei.retrocenter.clrmamepro.CMProDisk;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
-import com.javanei.retrocenter.clrmamepro.CMProHeader;
-import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.Game;
+import com.javanei.retrocenter.datafile.GameFile;
+import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FromCMProTest {
+public class ToDatafileTest {
     private static CMProDatafile cmpro;
     private static Datafile datafile;
 
@@ -35,7 +34,7 @@ public class FromCMProTest {
         game.addSample("sample 01");
         game.addSampleOf("sampleof 01");
 
-        datafile = Datafile.fromCMPro(cmpro);
+        datafile = cmpro.toDatafile();
     }
 
     @Test

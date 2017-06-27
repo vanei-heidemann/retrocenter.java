@@ -1,22 +1,9 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.clrmamepro.CMProDisk;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
-import com.javanei.retrocenter.clrmamepro.CMProRom;
-import com.javanei.retrocenter.logiqx.LogiqxDisk;
-import com.javanei.retrocenter.logiqx.LogiqxGame;
-import com.javanei.retrocenter.logiqx.LogiqxRelease;
-import com.javanei.retrocenter.logiqx.LogiqxRom;
-import com.javanei.retrocenter.logiqx.LogiqxSample;
-import com.javanei.retrocenter.mame.MameDisk;
-import com.javanei.retrocenter.mame.MameMachine;
-import com.javanei.retrocenter.mame.MameRom;
-import com.javanei.retrocenter.mame.MameSample;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -78,63 +65,7 @@ public class Game implements Serializable {
         this.comment = comment;
     }
 
-    public static Game fromMame(MameMachine machine) {
-        Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
-                machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
-        for (MameRom rom : machine.getRoms()) {
-            game.addFile(GameFile.fromMame(rom));
-        }
-        for (MameDisk disk : machine.getDisks()) {
-            game.addFile(GameFile.fromMame(disk));
-        }
-        for (MameSample sample : machine.getSamples()) {
-            game.addFile(GameFile.fromMame(sample));
-        }
-        return game;
-    }
-
-    public static Game fromLogiqx(LogiqxGame p) {
-        Game r = new Game(p.getName(), p.getIsbios(), p.getDescription(), p.getYear(), p.getManufacturer(),
-                p.getCloneof(), p.getRomof(), p.getSampleof(), p.getComment());
-        for (LogiqxRelease release : p.getReleases()) {
-            r.addRelease(Release.fromLogiqx(release));
-        }
-        for (LogiqxRom rom : p.getRoms()) {
-            r.addFile(GameFile.fromLogiqx(rom));
-        }
-        for (LogiqxDisk disk : p.getDisks()) {
-            r.addFile(GameFile.fromLogiqx(disk));
-        }
-        for (LogiqxSample sample : p.getSamples()) {
-            r.addFile(GameFile.fromLogiqx(sample));
-        }
-        return r;
-    }
-
-    public static Game fromCMPro(CMProGame p) {
-        Game r = new Game(p.getName(), null, p.getDescription(), p.getYear(), p.getManufacturer(), p.getCloneof(),
-                p.getRomof(), null, null);
-        for (CMProRom rom : p.getRoms()) {
-            r.addFile(GameFile.fromCMPro(rom));
-        }
-        for (CMProDisk disk : p.getDisks()) {
-            r.addFile(GameFile.fromCMPro(disk));
-        }
-        for (String sample : p.getSamples()) {
-            r.addFile(new GameFile(GameFileTypeEnum.SAMPLE.name(), sample));
-        }
-        if (p.getSampleof() != null && !p.getSampleof().isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String s : p.getSampleof()) {
-                if (sb.length() > 0)
-                    sb.append(",");
-                sb.append(s);
-            }
-            r.setSampleof(sb.toString());
-        }
-        return r;
-    }
-
+    /*
     public LogiqxGame toLogiqx() {
         LogiqxGame r = new LogiqxGame(name, null, isbios, cloneof, romof, sampleof, null, null, comment, description,
                 year, manufacturer);
@@ -152,7 +83,9 @@ public class Game implements Serializable {
         }
         return r;
     }
+    */
 
+    /*
     public CMProGame toCMPro() {
         CMProGame r = new CMProGame(this.name, this.description, this.year, this.manufacturer, this.cloneof, this.romof);
         for (GameFile file : this.files) {
@@ -170,6 +103,7 @@ public class Game implements Serializable {
         }
         return r;
     }
+    */
 
     public boolean addFile(GameFile file) {
         return this.files.add(file);

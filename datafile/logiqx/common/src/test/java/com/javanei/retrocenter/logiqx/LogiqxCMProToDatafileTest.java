@@ -1,13 +1,11 @@
-package com.javanei.retrocenter.datafile;
+package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.datafile.Datafile;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
-
-public class FromLogiqxCMProTest {
+public class LogiqxCMProToDatafileTest {
     private static LogiqxDatafile logiqxCMPro;
     private static Datafile datafile;
 
@@ -21,7 +19,7 @@ public class FromLogiqxCMProTest {
         header.setForcemerging("none");
         logiqxCMPro.setHeader(header);
 
-        datafile = Datafile.fromLogiqx(logiqxCMPro);
+        datafile = logiqxCMPro.toDatafile();
     }
 
 

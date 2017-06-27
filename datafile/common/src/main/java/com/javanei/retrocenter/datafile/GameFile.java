@@ -1,13 +1,5 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.clrmamepro.CMProDisk;
-import com.javanei.retrocenter.clrmamepro.CMProRom;
-import com.javanei.retrocenter.logiqx.LogiqxDisk;
-import com.javanei.retrocenter.logiqx.LogiqxRom;
-import com.javanei.retrocenter.logiqx.LogiqxSample;
-import com.javanei.retrocenter.mame.MameDisk;
-import com.javanei.retrocenter.mame.MameRom;
-import com.javanei.retrocenter.mame.MameSample;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -85,84 +77,6 @@ public class GameFile implements Serializable {
         this.date = date;
         this.merge = merge;
         this.region = region;
-    }
-
-    public static GameFile fromLogiqx(LogiqxRom p) {
-        return new GameFile(GameFileTypeEnum.ROM.name(), p.getName(), p.getSize(), p.getCrc(), p.getSha1(), p.getMd5(),
-                p.getStatus(), p.getDate(), p.getMerge(), null);
-    }
-
-    public static GameFile fromLogiqx(LogiqxDisk p) {
-        return new GameFile(GameFileTypeEnum.DISK.name(), p.getName(), null, null, p.getSha1(), p.getMd5(),
-                p.getStatus(), null, p.getMerge(), null);
-    }
-
-    public static GameFile fromLogiqx(LogiqxSample p) {
-        return new GameFile(GameFileTypeEnum.SAMPLE.name(), p.getName());
-    }
-
-    public static GameFile fromCMPro(CMProRom p) {
-        return new GameFile(GameFileTypeEnum.ROM.name(), p.getName(), p.getSize(), p.getCrc(), p.getSha1(), p.getMd5(),
-                p.getFlags(), null, null, p.getRegion());
-    }
-
-    public static GameFile fromCMPro(CMProDisk p) {
-        return new GameFile(GameFileTypeEnum.DISK.name(), p.getName(), null, null, p.getSha1(), p.getMd5(),
-                null, null, null, null);
-    }
-
-    public static GameFile fromMame(MameRom rom) {
-        GameFile f = new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
-                rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion());
-        return f;
-    }
-
-    public static GameFile fromMame(MameDisk disk) {
-        GameFile f = new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
-                disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion());
-        return f;
-    }
-
-    public static GameFile fromMame(MameSample sample) {
-        GameFile f = new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName());
-        return f;
-    }
-
-    public LogiqxRom toLogiqxRom() {
-        if (type.equals(GameFileTypeEnum.ROM.name())) {
-            return this.status != null ? new LogiqxRom(this.name, this.size, this.crc, this.sha1, this.md5, this.merge, this.date) :
-                    new LogiqxRom(this.name, this.size, this.crc, this.sha1, this.md5, this.merge, this.date, this.status);
-        }
-        return null;
-    }
-
-    public CMProRom toCMProRom() {
-        if (type.equals(GameFileTypeEnum.ROM.name())) {
-            return new CMProRom(this.name, this.size, this.crc, this.sha1, this.md5, this.region, this.status);
-        }
-        return null;
-    }
-
-    public LogiqxDisk toLogiqxDisk() {
-        if (type.equals(GameFileTypeEnum.DISK.name())) {
-            return this.status == null ? new LogiqxDisk(this.name, this.sha1, this.md5, this.merge)
-                    : new LogiqxDisk(this.name, this.sha1, this.md5, this.merge, this.status);
-        }
-        return null;
-    }
-
-    public CMProDisk toCMProDisk() {
-        if (type.equals(GameFileTypeEnum.DISK.name())) {
-            return new CMProDisk(this.name, this.sha1, this.md5);
-        }
-        return null;
-    }
-
-    public LogiqxSample toLogiqxSample() {
-        if (type.equals(GameFileTypeEnum.SAMPLE.name())) {
-            return new LogiqxSample(this.name);
-        }
-        return null;
     }
 
     public String getType() {

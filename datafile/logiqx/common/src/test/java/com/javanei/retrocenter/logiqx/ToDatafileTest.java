@@ -1,13 +1,11 @@
-package com.javanei.retrocenter.datafile;
+package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.datafile.Datafile;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
-
-public class FromLogiqxTest {
+public class ToDatafileTest {
     private static LogiqxDatafile logiqx;
     private static Datafile datafile;
 
@@ -19,7 +17,7 @@ public class FromLogiqxTest {
                 "date 001", "author 001", "email 001", "homepage 001", "url 001", "comment 001");
         logiqx.setHeader(header);
 
-        datafile = Datafile.fromLogiqx(logiqx);
+        datafile = logiqx.toDatafile();
     }
 
     @Test

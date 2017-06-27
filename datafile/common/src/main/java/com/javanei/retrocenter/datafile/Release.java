@@ -1,6 +1,5 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -43,17 +42,9 @@ public class Release implements Serializable {
         this._default = _default;
     }
 
-    public static Release fromLogiqx(LogiqxRelease p) {
-        return new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault());
-    }
-
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
             sb.append(" ").append(name).append("=\"").append(value).append("\"");
-    }
-
-    public LogiqxRelease toLogiqx() {
-        return new LogiqxRelease(this.name, this.region, this.language, this.date, this._default);
     }
 
     public String getName() {

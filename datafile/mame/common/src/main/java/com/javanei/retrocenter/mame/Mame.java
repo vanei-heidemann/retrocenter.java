@@ -1,13 +1,19 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.DatafileCategoryEnum;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileObject;
+import com.javanei.retrocenter.datafile.Game;
+import com.javanei.retrocenter.datafile.GameFile;
+import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Mame implements Serializable {
+public class Mame implements DatafileObject, Serializable {
     private static final long serialVersionUID = 1L;
 
     private String build;
@@ -97,5 +103,36 @@ public class Mame implements Serializable {
 
         sb.append("</mame>").append(StringUtil.LINE_SEPARATOR);
         return sb.toString();
+    }
+
+    @Override
+    public Datafile toDatafile() {
+        Datafile datafile = new Datafile();
+        datafile.setName("MAME");
+        datafile.setCategory(DatafileCategoryEnum.MAME.name());
+        datafile.setVersion(this.build);
+        for (MameMachine machine : this.machines) {
+            Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
+                    machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
+            for (MameRom rom : machine.getRoms()) {
+                game.addFile(new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                        rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion()));
+            }
+            for (MameDisk disk : machine.getDisks()) {
+                game.addFile(new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                        disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion()));
+            }
+            for (MameSample sample : machine.getSamples()) {
+                game.addFile(new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName()));
+            }
+
+            datafile.addGame(game);
+        }
+        return datafile;
+    }
+
+    @Override
+    public String toFile() {
+        return toString();
     }
 }

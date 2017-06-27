@@ -2,6 +2,12 @@ package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileObject;
+import com.javanei.retrocenter.datafile.Game;
+import com.javanei.retrocenter.datafile.GameFile;
+import com.javanei.retrocenter.datafile.GameFileTypeEnum;
+import com.javanei.retrocenter.datafile.Release;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +15,7 @@ import java.util.Set;
 /**
  * <!ELEMENT datafile (header?, game+)>
  */
-public class LogiqxDatafile implements Serializable {
+public class LogiqxDatafile implements DatafileObject, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -103,5 +109,38 @@ public class LogiqxDatafile implements Serializable {
 
         sb.append("<datafile>\n");
         return sb.toString();
+    }
+
+    @Override
+    public Datafile toDatafile() {
+        Datafile datafile = this.header != null ? new Datafile(this.header.getName(), this.header.getCategory(),
+                this.header.getVersion(), this.header.getDescription(), this.header.getAuthor(), this.header.getDate(),
+                this.header.getEmail(), this.header.getHomepage(), this.header.getUrl(),
+                this.header.getComment()) : new Datafile();
+        for (LogiqxGame game : this.getGames()) {
+            Game rGame = new Game(game.getName(), game.getIsbios(), game.getDescription(), game.getYear(),
+                    game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(), game.getComment());
+            for (LogiqxRelease p : game.getReleases()) {
+                rGame.addRelease(new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault()));
+            }
+            for (LogiqxRom p : game.getRoms()) {
+                rGame.addFile(new GameFile(GameFileTypeEnum.ROM.name(), p.getName(), p.getSize(), p.getCrc(), p.getSha1(), p.getMd5(),
+                        p.getStatus(), p.getDate(), p.getMerge(), null));
+            }
+            for (LogiqxDisk p : game.getDisks()) {
+                rGame.addFile(new GameFile(GameFileTypeEnum.DISK.name(), p.getName(), null, null, p.getSha1(), p.getMd5(),
+                        p.getStatus(), null, p.getMerge(), null));
+            }
+            for (LogiqxSample p : game.getSamples()) {
+                rGame.addFile(new GameFile(GameFileTypeEnum.SAMPLE.name(), p.getName()));
+            }
+            datafile.addGame(rGame);
+        }
+        return datafile;
+    }
+
+    @Override
+    public String toFile() {
+        return toString();
     }
 }

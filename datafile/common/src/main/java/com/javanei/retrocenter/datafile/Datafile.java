@@ -1,20 +1,12 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.clrmamepro.CMProDatafile;
-import com.javanei.retrocenter.clrmamepro.CMProGame;
-import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.common.DatafileCategoryEnum;
-import com.javanei.retrocenter.logiqx.LogiqxDatafile;
-import com.javanei.retrocenter.logiqx.LogiqxGame;
-import com.javanei.retrocenter.logiqx.LogiqxHeader;
-import com.javanei.retrocenter.mame.Mame;
-import com.javanei.retrocenter.mame.MameMachine;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Datafile implements Serializable {
+public class Datafile implements DatafileObject, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -81,55 +73,19 @@ public class Datafile implements Serializable {
         this.comment = comment;
     }
 
-    public static Datafile fromLogiqx(LogiqxDatafile p) {
-        Datafile r = p.getHeader() != null ? new Datafile(p.getHeader().getName(), p.getHeader().getCategory(), p.getHeader().getVersion(),
-                p.getHeader().getDescription(), p.getHeader().getAuthor(), p.getHeader().getDate(),
-                p.getHeader().getEmail(), p.getHeader().getHomepage(), p.getHeader().getUrl(),
-                p.getHeader().getComment()) : new Datafile();
-        for (LogiqxGame game : p.getGames()) {
-            r.addGame(Game.fromLogiqx(game));
+    private static void appendXMLAttributeIfNotNull(StringBuilder sb, String name, Object value) {
+        if (value != null) {
+            sb.append(" ").append(name).append("=\"").append(value).append("\"");
         }
-        return r;
     }
 
-    public static Datafile fromCMPro(CMProDatafile p) {
-        Datafile r = new Datafile(p.getHeader().getName(), p.getHeader().getCategory(), p.getHeader().getVersion(),
-                p.getHeader().getDescription(), p.getHeader().getAuthor(), null,
-                null, p.getHeader().getHomepage(), p.getHeader().getUrl(), null);
-        for (CMProGame game : p.getGames()) {
-            r.addGame(Game.fromCMPro(game));
+    private static void appendXMLTagIfNotNull(StringBuilder sb, String name, Object value, int ident) {
+        if (value != null) {
+            for (int i = 0; i < ident; i++) {
+                sb.append("\t");
+            }
+            sb.append("<").append(name).append(">").append(value).append("</").append(name).append(">\n");
         }
-        return r;
-    }
-
-    public static Datafile fromMame(Mame p) {
-        Datafile r = new Datafile();
-        r.setName("MAME");
-        r.setCategory(DatafileCategoryEnum.MAME.name());
-        r.setVersion(p.getBuild());
-        for (MameMachine machine : p.getMachines()) {
-            Game game = Game.fromMame(machine);
-            r.addGame(game);
-        }
-        return r;
-    }
-
-    public LogiqxDatafile toLogiqx() {
-        LogiqxDatafile r = new LogiqxDatafile(new LogiqxHeader(this.name, this.description, this.category, this.version,
-                this.date, this.author, this.email, this.homepage, this.url, this.comment));
-        for (Game game : this.games) {
-            r.addGame(game.toLogiqx());
-        }
-        return r;
-    }
-
-    public CMProDatafile toCMPro() {
-        CMProDatafile r = new CMProDatafile(new CMProHeader(this.name, this.description, this.category, this.version,
-                this.author, this.homepage, this.url, null, null));
-        for (Game game : this.games) {
-            r.addGame(game.toCMPro());
-        }
-        return r;
     }
 
     public boolean addGame(Game game) {
@@ -247,5 +203,73 @@ public class Datafile implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(name, category, version);
+    }
+
+    @Override
+    public Datafile toDatafile() {
+        return this;
+    }
+
+    @Override
+    public String toFile() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<?xml version=\"1.0\"?>\n");
+        sb.append("<datafile");
+        appendXMLAttributeIfNotNull(sb, "name", name);
+        appendXMLAttributeIfNotNull(sb, "category", category);
+        appendXMLAttributeIfNotNull(sb, "version", version);
+        sb.append(">\n");
+        appendXMLTagIfNotNull(sb, "description", description, 1);
+        appendXMLTagIfNotNull(sb, "author", author, 1);
+        appendXMLTagIfNotNull(sb, "date", date, 1);
+        appendXMLTagIfNotNull(sb, "email", email, 1);
+        appendXMLTagIfNotNull(sb, "homepage", homepage, 1);
+        appendXMLTagIfNotNull(sb, "url", url, 1);
+        appendXMLTagIfNotNull(sb, "comment", comment, 1);
+
+        for (Game game : this.games) {
+            sb.append("\t<game");
+            appendXMLAttributeIfNotNull(sb, "name", game.getName());
+            appendXMLAttributeIfNotNull(sb, "isbios", game.getIsbios());
+            sb.append(">\n");
+            appendXMLTagIfNotNull(sb, "description", game.getDescription(), 2);
+            appendXMLTagIfNotNull(sb, "year", game.getYear(), 2);
+            appendXMLTagIfNotNull(sb, "manufacturer", game.getManufacturer(), 2);
+            appendXMLTagIfNotNull(sb, "cloneof", game.getCloneof(), 2);
+            appendXMLTagIfNotNull(sb, "romof", game.getRomof(), 2);
+            appendXMLTagIfNotNull(sb, "sampleof", game.getSampleof(), 2);
+            appendXMLTagIfNotNull(sb, "comment", game.getComment(), 2);
+
+            for (GameFile file : game.getFiles()) {
+                sb.append("\t\t<file");
+                appendXMLAttributeIfNotNull(sb, "name", file.getName());
+                appendXMLAttributeIfNotNull(sb, "type", file.getType());
+                sb.append(">\n");
+                appendXMLTagIfNotNull(sb, "size", file.getSize(), 3);
+                appendXMLTagIfNotNull(sb, "crc", file.getCrc(), 3);
+                appendXMLTagIfNotNull(sb, "sha1", file.getSha1(), 3);
+                appendXMLTagIfNotNull(sb, "md5", file.getMd5(), 3);
+                appendXMLTagIfNotNull(sb, "status", file.getStatus(), 3);
+                appendXMLTagIfNotNull(sb, "date", file.getDate(), 3);
+                appendXMLTagIfNotNull(sb, "merge", file.getMerge(), 3);
+                appendXMLTagIfNotNull(sb, "region", file.getRegion(), 3);
+                sb.append("</file>\n");
+            }
+
+            for (Release release : game.getReleases()) {
+                sb.append("\t\t<release");
+                appendXMLAttributeIfNotNull(sb, "name", release.getName());
+                appendXMLAttributeIfNotNull(sb, "region", release.getRegion());
+                appendXMLAttributeIfNotNull(sb, "language", release.getLanguage());
+                appendXMLAttributeIfNotNull(sb, "date", release.getDate());
+                appendXMLAttributeIfNotNull(sb, "default", release.getDefault());
+                sb.append("/>\n");
+            }
+
+            sb.append("\t</game>\n");
+        }
+
+        sb.append("</datafile>\n");
+        return sb.toString();
     }
 }

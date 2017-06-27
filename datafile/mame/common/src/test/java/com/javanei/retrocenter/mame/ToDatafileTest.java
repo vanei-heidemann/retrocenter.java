@@ -1,16 +1,15 @@
-package com.javanei.retrocenter.datafile;
+package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.mame.Mame;
-import com.javanei.retrocenter.mame.MameDisk;
-import com.javanei.retrocenter.mame.MameMachine;
-import com.javanei.retrocenter.mame.MameRom;
-import com.javanei.retrocenter.mame.MameSample;
+import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.Game;
+import com.javanei.retrocenter.datafile.GameFile;
+import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class FromMameTest {
+public class ToDatafileTest {
     private static Mame mame;
     private static Datafile datafile;
 
@@ -33,7 +32,7 @@ public class FromMameTest {
         MameSample sample = new MameSample("sample 01");
         machine.addSample(sample);
 
-        datafile = Datafile.fromMame(mame);
+        datafile = mame.toDatafile();
     }
 
     @Test
