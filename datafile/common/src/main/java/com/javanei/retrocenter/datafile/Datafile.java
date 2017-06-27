@@ -62,7 +62,7 @@ public class Datafile implements DatafileObject, Serializable {
     public Datafile(String name, String category, String version, String description, String author, String date,
                     String email, String homepage, String url, String comment) {
         this.name = name;
-        this.category = category;
+        this.setCategory(category);
         this.version = version;
         this.description = description;
         this.author = author;
