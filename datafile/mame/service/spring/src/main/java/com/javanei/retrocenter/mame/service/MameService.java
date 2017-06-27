@@ -177,130 +177,152 @@ public class MameService {
         MameMachineEntity machineEntity = new MameMachineEntity(machine);
         machineEntity.setMame(mame);
         machineEntity = machineDAO.saveAndFlush(machineEntity);
+        mame.getMachines().add(machineEntity);
 
         if (machine.getSound() != null) {
             MameSoundEntity soundEntity = new MameSoundEntity(machine.getSound());
             soundEntity.setMachine(machineEntity);
-            soundDAO.saveAndFlush(soundEntity);
+            soundEntity = soundDAO.saveAndFlush(soundEntity);
+            machineEntity.setSound(soundEntity);
         }
 
         if (machine.getInput() != null) {
             MameInputEntity inputEntity = new MameInputEntity(machine.getInput());
             inputEntity.setMachine(machineEntity);
             inputEntity = inputDAO.saveAndFlush(inputEntity);
+            machineEntity.setInput(inputEntity);
 
             for (MameInputControl control : machine.getInput().getControls()) {
                 MameInputControlEntity controlEntity = new MameInputControlEntity(control);
                 controlEntity.setInput(inputEntity);
-                inputControlDAO.saveAndFlush(controlEntity);
+                controlEntity = inputControlDAO.saveAndFlush(controlEntity);
+                inputEntity.getControls().add(controlEntity);
             }
         }
 
         if (machine.getDriver() != null) {
             MameDriverEntity driverEntity = new MameDriverEntity(machine.getDriver());
             driverEntity.setMachine(machineEntity);
-            driverDAO.saveAndFlush(driverEntity);
+            driverEntity = driverDAO.saveAndFlush(driverEntity);
+            machineEntity.setDriver(driverEntity);
         }
 
         for (MameBiosset biosset : machine.getBiossets()) {
             MameBiossetEntity biossetEntity = new MameBiossetEntity(biosset);
             biossetEntity.setMachine(machineEntity);
-            biossetDAO.saveAndFlush(biossetEntity);
+            biossetEntity = biossetDAO.saveAndFlush(biossetEntity);
+            machineEntity.getBiossets().add(biossetEntity);
         }
 
         for (MameRom rom : machine.getRoms()) {
             MameRomEntity romEntity = new MameRomEntity(rom);
             romEntity.setMachine(machineEntity);
-            romDAO.saveAndFlush(romEntity);
+            romEntity = romDAO.saveAndFlush(romEntity);
+            machineEntity.getRoms().add(romEntity);
         }
 
         for (MameDisk disk : machine.getDisks()) {
             MameDiskEntity diskEntity = new MameDiskEntity(disk);
             diskEntity.setMachine(machineEntity);
-            diskDAO.saveAndFlush(diskEntity);
+            diskEntity = diskDAO.saveAndFlush(diskEntity);
+            machineEntity.getDisks().add(diskEntity);
         }
 
         for (MameDeviceref deviceref : machine.getDevicerefs()) {
             MameDevicerefEntity devicerefEntity = new MameDevicerefEntity(deviceref);
             devicerefEntity.setMachine(machineEntity);
-            devicerefDAO.saveAndFlush(devicerefEntity);
+            devicerefEntity = devicerefDAO.saveAndFlush(devicerefEntity);
+            machineEntity.getDevicerefs().add(devicerefEntity);
         }
 
         for (MameSample sample : machine.getSamples()) {
             MameSampleEntity sampleEntity = new MameSampleEntity(sample);
             sampleEntity.setMachine(machineEntity);
-            sampleDAO.saveAndFlush(sampleEntity);
+            sampleEntity = sampleDAO.saveAndFlush(sampleEntity);
+            machineEntity.getSamples().add(sampleEntity);
         }
 
         for (MameChip chip : machine.getChips()) {
             MameChipEntity chipEntity = new MameChipEntity(chip);
             chipEntity.setMachine(machineEntity);
-            chipDAO.saveAndFlush(chipEntity);
+            chipEntity = chipDAO.saveAndFlush(chipEntity);
+            machineEntity.getChips().add(chipEntity);
         }
 
         for (MameDisplay display : machine.getDisplays()) {
             MameDisplayEntity displayEntity = new MameDisplayEntity(display);
             displayEntity.setMachine(machineEntity);
-            displayDAO.saveAndFlush(displayEntity);
+            displayEntity = displayDAO.saveAndFlush(displayEntity);
+            machineEntity.getDisplays().add(displayEntity);
         }
 
         for (MameDipswitch dipswitch : machine.getDipswitches()) {
             MameDipswitchEntity dipswitchEntity = new MameDipswitchEntity(dipswitch);
             dipswitchEntity.setMachine(machineEntity);
-            dipswitchEntity = dipswitchDAO.saveAndFlush(dipswitchEntity);
+            dipswitchEntity = dipswitchEntity = dipswitchDAO.saveAndFlush(dipswitchEntity);
+            machineEntity.getDipswitches().add(dipswitchEntity);
 
             for (MameDipvalue dipvalue : dipswitch.getDipvalues()) {
                 MameDipvalueEntity dipvalueEntity = new MameDipvalueEntity(dipvalue);
                 dipvalueEntity.setDipswitch(dipswitchEntity);
-                dipvalueDAO.saveAndFlush(dipvalueEntity);
+                dipvalueEntity = dipvalueDAO.saveAndFlush(dipvalueEntity);
+                dipswitchEntity.getDipvalues().add(dipvalueEntity);
             }
         }
 
         for (MameConfiguration configuration : machine.getConfigurations()) {
             MameConfigurationEntity configurationEntity = new MameConfigurationEntity(configuration);
             configurationEntity.setMachine(machineEntity);
-            configurationEntity = configurationDAO.saveAndFlush(configurationEntity);
+            configurationEntity = configurationEntity = configurationDAO.saveAndFlush(configurationEntity);
+            machineEntity.getConfigurations().add(configurationEntity);
 
             for (MameConfsetting confsetting : configuration.getConfsettings()) {
                 MameConfsettingEntity confsettingEntity = new MameConfsettingEntity(confsetting);
                 confsettingEntity.setConfiguration(configurationEntity);
-                confsettingDAO.saveAndFlush(confsettingEntity);
+                confsettingEntity = confsettingDAO.saveAndFlush(confsettingEntity);
+                configurationEntity.getConfsettings().add(confsettingEntity);
             }
         }
 
         for (MamePort port : machine.getPorts()) {
             MamePortEntity portEntity = new MamePortEntity(port);
             portEntity.setMachine(machineEntity);
-            portEntity = portDAO.saveAndFlush(portEntity);
+            portEntity = portEntity = portDAO.saveAndFlush(portEntity);
+            machineEntity.getPorts().add(portEntity);
 
             for (MameAnalog analog : port.getAnalogs()) {
                 MameAnalogEntity analogEntity = new MameAnalogEntity(analog);
                 analogEntity.setPort(portEntity);
-                analogDAO.saveAndFlush(analogEntity);
+                analogEntity = analogDAO.saveAndFlush(analogEntity);
+                portEntity.getAnalogs().add(analogEntity);
             }
         }
 
         for (MameAdjuster adjuster : machine.getAdjusters()) {
             MameAdjusterEntity adjusterEntity = new MameAdjusterEntity(adjuster);
             adjusterEntity.setMachine(machineEntity);
-            adjusterDAO.saveAndFlush(adjusterEntity);
+            adjusterEntity = adjusterDAO.saveAndFlush(adjusterEntity);
+            machineEntity.getAdjusters().add(adjusterEntity);
         }
 
         for (MameDevice device : machine.getDevices()) {
             MameDeviceEntity deviceEntity = new MameDeviceEntity(device);
             deviceEntity.setMachine(machineEntity);
             deviceEntity = deviceDAO.saveAndFlush(deviceEntity);
+            machineEntity.getDevices().add(deviceEntity);
 
             for (MameDeviceInstance instance : device.getInstances()) {
                 MameDeviceInstanceEntity instanceEntity = new MameDeviceInstanceEntity(instance);
                 instanceEntity.setDevice(deviceEntity);
-                instanceDAO.saveAndFlush(instanceEntity);
+                instanceEntity = instanceDAO.saveAndFlush(instanceEntity);
+                deviceEntity.getInstances().add(instanceEntity);
             }
 
             for (MameDeviceExtension extension : device.getExtensions()) {
                 MameDeviceExtensionEntity extensionEntity = new MameDeviceExtensionEntity(extension);
                 extensionEntity.setDevice(deviceEntity);
-                extensionDAO.saveAndFlush(extensionEntity);
+                extensionEntity = extensionDAO.saveAndFlush(extensionEntity);
+                deviceEntity.getExtensions().add(extensionEntity);
             }
         }
 
@@ -308,24 +330,28 @@ public class MameService {
             MameSlotEntity slotEntity = new MameSlotEntity(slot);
             slotEntity.setMachine(machineEntity);
             slotEntity = slotDAO.saveAndFlush(slotEntity);
+            machineEntity.getSlots().add(slotEntity);
 
             for (MameSlotoption slotoption : slot.getSlotoptions()) {
                 MameSlotoptionEntity slotoptionEntity = new MameSlotoptionEntity(slotoption);
                 slotoptionEntity.setSlot(slotEntity);
-                slotoptionDAO.saveAndFlush(slotoptionEntity);
+                slotoptionEntity = slotoptionDAO.saveAndFlush(slotoptionEntity);
+                slotEntity.getSlotoptions().add(slotoptionEntity);
             }
         }
 
         for (MameSoftwarelist softwarelist : machine.getSoftwarelists()) {
             MameSoftwarelistEntity softwarelistEntity = new MameSoftwarelistEntity(softwarelist);
             softwarelistEntity.setMachine(machineEntity);
-            softwarelistDAO.saveAndFlush(softwarelistEntity);
+            softwarelistEntity = softwarelistDAO.saveAndFlush(softwarelistEntity);
+            machineEntity.getSoftwarelists().add(softwarelistEntity);
         }
 
         for (MameRamoption ramoption : machine.getRamoptions()) {
             MameRamoptionEntity ramoptionEntity = new MameRamoptionEntity(ramoption);
             ramoptionEntity.setMachine(machineEntity);
-            ramoptionDAO.saveAndFlush(ramoptionEntity);
+            ramoptionEntity = ramoptionDAO.saveAndFlush(ramoptionEntity);
+            machineEntity.getRamoptions().add(ramoptionEntity);
         }
 
         return machineEntity;
