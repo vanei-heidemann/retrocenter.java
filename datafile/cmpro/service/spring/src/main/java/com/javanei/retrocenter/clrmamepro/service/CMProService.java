@@ -239,7 +239,7 @@ public class CMProService {
             }
         }
 
-        return datafile;
+        return entityToDatafile(entity);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

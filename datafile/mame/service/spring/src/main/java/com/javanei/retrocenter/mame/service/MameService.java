@@ -158,7 +158,7 @@ public class MameService {
             saveMachine(entity, machine);
         }
 
-        return mame;
+        return entity.toVO();
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)

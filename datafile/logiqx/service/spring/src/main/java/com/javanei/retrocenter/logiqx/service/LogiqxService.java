@@ -96,7 +96,7 @@ public class LogiqxService {
             }
         }
 
-        return datafile;
+        return entity.toVO();
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
