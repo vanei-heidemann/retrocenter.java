@@ -6,7 +6,8 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>RetrocenterJava</artifactId>
+        <artifactId>retrocenter</artifactId>
+        <relativePath>../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>retrocenter-server-springboot</artifactId>
@@ -98,48 +99,48 @@
 
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>mame-entity</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-mame-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>mame-persistence-springjpa</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-mame-persistence-springjpa</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>clrmamepro-entity</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-cmpro-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>clrmamepro-persistence-springjpa</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-cmpro-persistence-springjpa</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>mame-service-spring</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-mame-service-spring</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>clrmamepro-service-spring</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-cmpro-service-spring</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>datafile-entity</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>logiqx-entity</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-logiqx-entity</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>logiqx-service-spring</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-datafile-logiqx-service-spring</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

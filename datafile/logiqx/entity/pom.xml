@@ -6,10 +6,10 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>retrocenter-datafile</artifactId>
+        <artifactId>retrocenter-datafile-logiqx</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-datafile-entity</artifactId>
+    <artifactId>retrocenter-datafile-logiqx-entity</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -43,15 +43,8 @@
 
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-common</artifactId>
+            <artifactId>retrocenter-datafile-logiqx-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

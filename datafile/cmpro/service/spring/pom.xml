@@ -6,10 +6,11 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>retrocenter-datafile</artifactId>
+        <artifactId>retrocenter-datafile-cmpro</artifactId>
+        <relativePath>../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-datafile-entity</artifactId>
+    <artifactId>retrocenter-datafile-cmpro-service-spring</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -17,6 +18,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <!-- Import dependency management from Spring Boot -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>1.5.4.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>
@@ -35,23 +49,29 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-common</artifactId>
+            <artifactId>retrocenter-datafile-cmpro-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-datafile-cmpro-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-datafile-cmpro-persistence-springjpa</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

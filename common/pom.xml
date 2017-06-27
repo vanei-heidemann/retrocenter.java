@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>RetrocenterJava</artifactId>
+        <artifactId>retrocenter</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
     <artifactId>retrocenter-common</artifactId>
