@@ -1,6 +1,5 @@
 package com.javanei.retrocenter.datafile.service;
 
-import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
 import com.javanei.retrocenter.datafile.persistence.GameDAO;
@@ -15,12 +14,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DatafileServiceConfiguration {
-
-    public static Datafile datafile = new Datafile("name 01", "no-intro", "1.00",
-            "description 01", "author 01", "2017", "teste@teste.com",
-            "homepage 01", "http://www.teste.com", "comment 01");
-    ;
-
     @Bean
     public DatafileService datafileService() {
         return new DatafileService();
