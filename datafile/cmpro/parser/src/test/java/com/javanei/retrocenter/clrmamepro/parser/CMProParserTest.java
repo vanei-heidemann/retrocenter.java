@@ -43,8 +43,13 @@ public class CMProParserTest {
     }
 
     @Test
-    public void test014CustomField() {
-        Assert.assertTrue("Custom field url: ", psvita.getHeader().getCustomField("url").equals("http://www.no-intro.org"));
+    public void test014HeaderURL() {
+        Assert.assertTrue("URL: ", psvita.getHeader().getUrl().equals("http://www.no-intro.org"));
+    }
+
+    @Test
+    public void test015HeaderHomepage() {
+        Assert.assertTrue("Homepage: ", psvita.getHeader().getHomepage().equals("No-Intro"));
     }
 
     @Test
