@@ -70,8 +70,7 @@ public class CMProParser {
                     // There is no dump info
                     break;
                 default:
-                    //TODO: Criar exception
-                    throw new Exception("Unknown tag value: " + ss[i]);
+                    throw new UnknownTagException(ss[i]);
             }
         }
         return r;
@@ -174,6 +173,8 @@ public class CMProParser {
                             if (!game.addSample(sample)) {
                                 throw new DuplicatedItemException("sample: " + sample + " for game: " + game.getName());
                             }
+                        } else {
+                            throw new UnknownTagException(line.substring(0, line.indexOf(" ")).trim());
                         }
                         line = reader.readLine().trim();
                     }
@@ -197,6 +198,8 @@ public class CMProParser {
                             if (!resource.addRom(rom)) {
                                 throw new DuplicatedItemException("rom: " + rom.getName() + " for resource: " + resource.getName());
                             }
+                        } else {
+                            throw new UnknownTagException(line.substring(0, line.indexOf(" ")).trim());
                         }
                         line = reader.readLine().trim();
                     }
