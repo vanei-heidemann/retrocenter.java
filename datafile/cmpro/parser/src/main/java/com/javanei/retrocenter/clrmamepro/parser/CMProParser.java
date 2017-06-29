@@ -118,6 +118,10 @@ public class CMProParser {
                     header.setVersion(extractLineValue("version", line));
                 } else if (line.startsWith("author")) {
                     header.setAuthor(extractLineValue("author", line));
+                } else if (line.startsWith("url")) {
+                    header.setUrl(extractLineValue("url", line));
+                } else if (line.startsWith("homepage")) {
+                    header.setHomepage(extractLineValue("homepage", line));
                 } else if (line.startsWith("forcemerging")) {
                     header.setForcemerging(extractLineValue("forcemerging", line));
                 } else if (line.startsWith("forcezipping")) {
