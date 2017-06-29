@@ -81,6 +81,18 @@ public class CMProParserTest {
         Assert.assertTrue("baddump", ok);
     }
 
+    @Test
+    public void test032Serial() {
+        String serial = null;
+        for (CMProGame game : psvita.getGames()) {
+            if (game.getName().equals("Amazing Spider-Man, The (USA) [b]")) {
+                serial = game.getSerial();
+                break;
+            }
+        }
+        Assert.assertEquals("serial", "PCSE-00333", serial);
+    }
+
     /*
     @Test
     public void test100ParseAll() throws Exception {

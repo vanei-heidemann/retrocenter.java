@@ -73,7 +73,7 @@ public class CMProService {
 
     private static CMProGameEntity gameToEntity(CMProGame game) {
         CMProGameEntity entity = new CMProGameEntity(game.getName(), game.getDescription(), game.getYear(),
-                game.getManufacturer(), game.getCloneof(), game.getRomof());
+                game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSerial());
 
         for (CMProRom rom : game.getRoms()) {
             entity.getRoms().add(gameromToEntity(rom));
@@ -138,7 +138,7 @@ public class CMProService {
 
     private static CMProGame entityToGame(CMProGameEntity game) {
         CMProGame entity = new CMProGame(game.getName(), game.getDescription(), game.getYear(),
-                game.getManufacturer(), game.getCloneof(), game.getRomof());
+                game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSerial());
 
         for (CMProGameRomEntity rom : game.getRoms()) {
             entity.addRom(entityToGamerom(rom));

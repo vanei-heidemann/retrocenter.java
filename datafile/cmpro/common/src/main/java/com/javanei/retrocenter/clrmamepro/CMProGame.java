@@ -15,6 +15,7 @@ public class CMProGame implements Serializable {
     //
     private String cloneof;
     private String romof;
+    private String serial;
     //
     private Set<CMProRom> roms = new HashSet<>();
     private Set<CMProDisk> disks = new HashSet<>();
@@ -24,13 +25,15 @@ public class CMProGame implements Serializable {
     public CMProGame() {
     }
 
-    public CMProGame(String name, String description, String year, String manufacturer, String cloneof, String romof) {
+    public CMProGame(String name, String description, String year, String manufacturer, String cloneof, String romof,
+                     String serial) {
         this.name = name;
         this.description = description;
         this.year = year;
         this.manufacturer = manufacturer;
         this.cloneof = cloneof;
         this.romof = romof;
+        this.serial = serial;
     }
 
     public String getName() {
@@ -87,6 +90,14 @@ public class CMProGame implements Serializable {
 
     public void setRoms(Set<CMProRom> roms) {
         this.roms = roms;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 
     public Set<CMProDisk> getDisks() {
@@ -153,6 +164,7 @@ public class CMProGame implements Serializable {
             sb.append("\t").append("manufacturer \"").append(this.manufacturer).append("\"\n");
         if (this.cloneof != null) sb.append("\t").append("cloneof \"").append(this.cloneof).append("\"\n");
         if (this.romof != null) sb.append("\t").append("romof \"").append(this.romof).append("\"\n");
+        if (this.serial != null) sb.append("\t").append("serial \"").append(this.serial).append("\"\n");
         if (this.roms != null && !this.roms.isEmpty()) {
             for (CMProRom rom : this.roms) {
                 sb.append(rom.toString());

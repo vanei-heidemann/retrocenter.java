@@ -47,6 +47,9 @@ public class CMProGameEntity implements Serializable {
     @Column(name = "ROMOF", length = 255, nullable = true)
     private String romof;
 
+    @Column(name = "SERIAL", length = 64, nullable = true)
+    private String serial;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<CMProGameRomEntity> roms = new HashSet<>();
 
@@ -63,13 +66,15 @@ public class CMProGameEntity implements Serializable {
     @JoinColumn(name = "DATAFILE_ID")
     private CMProDatafileEntity datafile;
 
-    public CMProGameEntity(String name, String description, String year, String manufacturer, String cloneof, String romof) {
+    public CMProGameEntity(String name, String description, String year, String manufacturer, String cloneof,
+                           String romof, String serial) {
         this.name = name;
         this.description = description;
         this.year = year;
         this.manufacturer = manufacturer;
         this.cloneof = cloneof;
         this.romof = romof;
+        this.serial = serial;
     }
 
     public CMProGameEntity(Long id) {
@@ -130,6 +135,14 @@ public class CMProGameEntity implements Serializable {
 
     public void setRomof(String romof) {
         this.romof = romof;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 
     public Set<CMProGameRomEntity> getRoms() {

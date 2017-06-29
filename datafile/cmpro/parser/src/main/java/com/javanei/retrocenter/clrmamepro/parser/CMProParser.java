@@ -153,6 +153,8 @@ public class CMProParser {
                             game.setCloneof(extractLineValue("cloneof", line));
                         } else if (line.startsWith("romof")) {
                             game.setRomof(extractLineValue("romof", line));
+                        } else if (line.startsWith("serial")) {
+                            game.setSerial(extractLineValue("serial", line));
                         } else if (line.startsWith("sampleof")) {
                             String sampleof = extractLineValue("sampleof", line);
                             if (!game.addSampleOf(sampleof)) {

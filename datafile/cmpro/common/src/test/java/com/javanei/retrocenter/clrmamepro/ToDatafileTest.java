@@ -20,7 +20,7 @@ public class ToDatafileTest {
                 "1.00", "javanei", "javanei.com.br", "www.javanei.com.br",
                 "split", "yes"));
         CMProGame game = new CMProGame("game name 01", "game description 01", "2017",
-                "manufacturer 01", "cloneof 01", "romof 01");
+                "manufacturer 01", "cloneof 01", "romof 01", null);
         cmpro.addGame(game);
 
         CMProRom rom = new CMProRom("rom name 01", Long.valueOf(1l), "12345678", "1234567890123456789012345678901234567890",
