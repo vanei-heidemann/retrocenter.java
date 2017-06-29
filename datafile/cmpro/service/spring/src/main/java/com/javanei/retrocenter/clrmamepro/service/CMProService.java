@@ -120,9 +120,8 @@ public class CMProService {
 
     private static CMProDatafile entityToDatafile(CMProDatafileEntity datafile) {
         CMProDatafile entity = new CMProDatafile(new CMProHeader(datafile.getName(),
-                datafile.getCategory(), datafile.getVersion(),
-                datafile.getDescription(), datafile.getAuthor(),
-                datafile.getHomepage(), datafile.getUrl(),
+                datafile.getDescription(), datafile.getCategory(), datafile.getVersion(),
+                datafile.getAuthor(), datafile.getHomepage(), datafile.getUrl(),
                 datafile.getForcemerging(), datafile.getForcezipping()));
         for (CMProGameEntity game : datafile.getGames()) {
             entity.addGame(entityToGame(game));
