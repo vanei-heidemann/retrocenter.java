@@ -24,37 +24,37 @@ public class CMProParserTest {
 
     @Test
     public void test010HeaderName() throws Exception {
-        Assert.assertTrue("Name", psvita.getHeader().getName().equals("Sony - PlayStation Vita"));
+        Assert.assertEquals("Name", "Sony - PlayStation Vita", psvita.getHeader().getName());
     }
 
     @Test
     public void test011HeaderDescription() {
-        Assert.assertTrue("Description", psvita.getHeader().getDescription().equals("Sony - PlayStation Vita"));
+        Assert.assertEquals("Description", "Sony - PlayStation Vita", psvita.getHeader().getDescription());
     }
 
     @Test
     public void test012HeaderVersion() {
-        Assert.assertTrue("Version", psvita.getHeader().getVersion().equals("20170114-224204"));
+        Assert.assertEquals("Version", "20170114-224204", psvita.getHeader().getVersion());
     }
 
     @Test
     public void test013HeaderAuthor() {
-        Assert.assertTrue("Author", psvita.getHeader().getAuthor().equals("Densetsu, einstein95, Gefflon, Hiccup, jimmsu, Money_114, SonGoku, xuom2, zg"));
+        Assert.assertEquals("Author", "Densetsu, einstein95, Gefflon, Hiccup, jimmsu, Money_114, SonGoku, xuom2, zg", psvita.getHeader().getAuthor());
     }
 
     @Test
     public void test014HeaderURL() {
-        Assert.assertTrue("URL: ", psvita.getHeader().getUrl().equals("http://www.no-intro.org"));
+        Assert.assertEquals("URL", "http://www.no-intro.org", psvita.getHeader().getUrl());
     }
 
     @Test
     public void test015HeaderHomepage() {
-        Assert.assertTrue("Homepage: ", psvita.getHeader().getHomepage().equals("No-Intro"));
+        Assert.assertEquals("Homepage: ", "No-Intro", psvita.getHeader().getHomepage());
     }
 
     @Test
     public void test020QtdGames() {
-        Assert.assertTrue("Games count", psvita.getGames().size() == 235);
+        Assert.assertEquals("Games count", 235, psvita.getGames().size());
     }
 
     @Test
