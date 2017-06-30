@@ -18,7 +18,6 @@ public class LogiqxParserTest {
 
         InputStream is = LogiqxParserTest.class.getClassLoader().getResourceAsStream("Nintendo 64 - Games (TOSEC-v2015-05-27_CM).dat");
         n64 = parser.parse(is);
-        System.out.println(n64);
     }
 
     @Test

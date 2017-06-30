@@ -19,7 +19,6 @@ public class CMProParserTest {
 
         InputStream is = CMProParserTest.class.getClassLoader().getResourceAsStream("Sony - PlayStation Vita (20170114-224204_CM).dat");
         psvita = parser.parse(is);
-        System.out.println(psvita);
     }
 
     @Test

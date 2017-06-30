@@ -1,9 +1,9 @@
 package com.javanei.retrocenter.datafile.service;
 
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
+import com.javanei.retrocenter.datafile.persistence.ArtifactDAO;
+import com.javanei.retrocenter.datafile.persistence.ArtifactFileDAO;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
-import com.javanei.retrocenter.datafile.persistence.GameDAO;
-import com.javanei.retrocenter.datafile.persistence.GameFileDAO;
 import com.javanei.retrocenter.datafile.persistence.ReleaseDAO;
 import org.mockito.AdditionalAnswers;
 import org.mockito.Mockito;
@@ -36,17 +36,17 @@ public class DatafileServiceConfiguration {
     }
 
     @Bean
-    public GameDAO gameDAO() {
-        GameDAO gameDAO = Mockito.mock(GameDAO.class);
-        Mockito.when(gameDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
-        return gameDAO;
+    public ArtifactDAO artifactDAO() {
+        ArtifactDAO artifactDAO = Mockito.mock(ArtifactDAO.class);
+        Mockito.when(artifactDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        return artifactDAO;
     }
 
     @Bean
-    public GameFileDAO gameFileDAO() {
-        GameFileDAO gameFileDAO = Mockito.mock(GameFileDAO.class);
-        Mockito.when(gameFileDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
-        return gameFileDAO;
+    public ArtifactFileDAO artifactFileDAO() {
+        ArtifactFileDAO artifactFileDAO = Mockito.mock(ArtifactFileDAO.class);
+        Mockito.when(artifactFileDAO.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
+        return artifactFileDAO;
     }
 
     @Bean

@@ -8,9 +8,9 @@ import com.javanei.retrocenter.datafile.entity.ArtifactEntity;
 import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
 import com.javanei.retrocenter.datafile.entity.ReleaseEntity;
+import com.javanei.retrocenter.datafile.persistence.ArtifactDAO;
+import com.javanei.retrocenter.datafile.persistence.ArtifactFileDAO;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
-import com.javanei.retrocenter.datafile.persistence.GameDAO;
-import com.javanei.retrocenter.datafile.persistence.GameFileDAO;
 import com.javanei.retrocenter.datafile.persistence.ReleaseDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ public class DatafileService {
     @Autowired
     private DatafileDAO datafileDAO;
     @Autowired
-    private GameDAO gameDAO;
+    private ArtifactDAO artifactDAO;
     @Autowired
-    private GameFileDAO gameFileDAO;
+    private ArtifactFileDAO artifactFileDAO;
     @Autowired
     private ReleaseDAO releaseDAO;
 
@@ -70,7 +70,7 @@ public class DatafileService {
                     game.getYear(), game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(),
                     game.getComment());
             gameEntity.setDatafile(entity);
-            gameEntity = gameDAO.saveAndFlush(gameEntity);
+            gameEntity = artifactDAO.saveAndFlush(gameEntity);
             entity.getArtifacts().add(gameEntity);
 
             for (ArtifactFile gameFile : game.getFiles()) {
@@ -78,7 +78,7 @@ public class DatafileService {
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
                         gameFile.getStatus(), gameFile.getDate(), gameFile.getMerge(), gameFile.getRegion());
                 gameFileEntity.setArtifact(gameEntity);
-                gameFileDAO.saveAndFlush(gameFileEntity);
+                artifactFileDAO.saveAndFlush(gameFileEntity);
                 gameEntity.getFiles().add(gameFileEntity);
             }
 
