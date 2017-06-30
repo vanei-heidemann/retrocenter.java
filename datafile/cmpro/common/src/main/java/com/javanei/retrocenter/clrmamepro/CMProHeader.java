@@ -72,8 +72,8 @@ public class CMProHeader implements Serializable {
             this.category = null;
         } else if (category.toLowerCase().equals("no-intro") || category.toLowerCase().equals("nointro")) {
             this.category = DatafileCategoryEnum.NoIntro.name();
-        } else if (category.toLowerCase().equals("logiqx")) {
-            this.category = DatafileCategoryEnum.Logiqx.name();
+        } else if (category.toLowerCase().equals("tosec")) {
+            this.category = DatafileCategoryEnum.TOSEC.name();
         } else if (category.toUpperCase().equals("MAME")) {
             this.category = DatafileCategoryEnum.MAME.name();
         } else {
