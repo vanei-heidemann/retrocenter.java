@@ -3,11 +3,11 @@ package com.javanei.retrocenter.mame;
 import com.javanei.retrocenter.common.DatafileCategoryEnum;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+import com.javanei.retrocenter.datafile.Artifact;
+import com.javanei.retrocenter.datafile.ArtifactFile;
+import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
-import com.javanei.retrocenter.datafile.Game;
-import com.javanei.retrocenter.datafile.GameFile;
-import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -112,21 +112,21 @@ public class Mame implements DatafileObject, Serializable {
         datafile.setCategory(DatafileCategoryEnum.MAME.name());
         datafile.setVersion(this.build);
         for (MameMachine machine : this.machines) {
-            Game game = new Game(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
+            Artifact game = new Artifact(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
                     machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
             for (MameRom rom : machine.getRoms()) {
-                game.addFile(new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
                         rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion()));
             }
             for (MameDisk disk : machine.getDisks()) {
-                game.addFile(new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
                         disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion()));
             }
             for (MameSample sample : machine.getSamples()) {
-                game.addFile(new GameFile(GameFileTypeEnum.SAMPLE.name(), sample.getName()));
+                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample.getName()));
             }
 
-            datafile.addGame(game);
+            datafile.addArtifact(game);
         }
         return datafile;
     }

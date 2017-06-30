@@ -1,9 +1,9 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.datafile.Artifact;
+import com.javanei.retrocenter.datafile.ArtifactFile;
+import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
-import com.javanei.retrocenter.datafile.Game;
-import com.javanei.retrocenter.datafile.GameFile;
-import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -52,25 +52,25 @@ public class ToDatafileTest {
 
     @Test
     public void testMachine() {
-        Assert.assertEquals("Machines", 1, datafile.getGames().size());
+        Assert.assertEquals("Machines", 1, datafile.getArtifacts().size());
 
-        Game game = datafile.getGames().iterator().next();
-        Assert.assertEquals("Game : Name", "machine 01", game.getName());
-        Assert.assertEquals("Game : cloneof", "cloneof teste", game.getCloneof());
-        Assert.assertEquals("Game : description", "machine 01", game.getDescription());
-        Assert.assertEquals("Game : isbios", "no", game.getIsbios());
-        Assert.assertEquals("Game : manufacturer", "javanei", game.getManufacturer());
-        Assert.assertEquals("Game : romof", "romof teste", game.getRomof());
-        Assert.assertEquals("Game : sampleof", "sampleof teste", game.getSampleof());
-        Assert.assertEquals("Game : year", "2017", game.getYear());
+        Artifact game = datafile.getArtifacts().iterator().next();
+        Assert.assertEquals("Artifact : Name", "machine 01", game.getName());
+        Assert.assertEquals("Artifact : cloneof", "cloneof teste", game.getCloneof());
+        Assert.assertEquals("Artifact : description", "machine 01", game.getDescription());
+        Assert.assertEquals("Artifact : isbios", "no", game.getIsbios());
+        Assert.assertEquals("Artifact : manufacturer", "javanei", game.getManufacturer());
+        Assert.assertEquals("Artifact : romof", "romof teste", game.getRomof());
+        Assert.assertEquals("Artifact : sampleof", "sampleof teste", game.getSampleof());
+        Assert.assertEquals("Artifact : year", "2017", game.getYear());
     }
 
     @Test
     public void testRom() {
-        Game game = datafile.getGames().iterator().next();
-        Iterator<GameFile> it = game.getFiles().iterator();
-        GameFile gameFile = it.next();
-        while (gameFile != null && !gameFile.getType().equals(GameFileTypeEnum.ROM.name()) && it.hasNext()) {
+        Artifact game = datafile.getArtifacts().iterator().next();
+        Iterator<ArtifactFile> it = game.getFiles().iterator();
+        ArtifactFile gameFile = it.next();
+        while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.ROM.name()) && it.hasNext()) {
             gameFile = it.next();
         }
 
@@ -88,10 +88,10 @@ public class ToDatafileTest {
 
     @Test
     public void testDisk() {
-        Game game = datafile.getGames().iterator().next();
-        Iterator<GameFile> it = game.getFiles().iterator();
-        GameFile gameFile = it.next();
-        while (gameFile != null && !gameFile.getType().equals(GameFileTypeEnum.DISK.name()) && it.hasNext()) {
+        Artifact game = datafile.getArtifacts().iterator().next();
+        Iterator<ArtifactFile> it = game.getFiles().iterator();
+        ArtifactFile gameFile = it.next();
+        while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.DISK.name()) && it.hasNext()) {
             gameFile = it.next();
         }
 
@@ -109,10 +109,10 @@ public class ToDatafileTest {
 
     @Test
     public void testSample() {
-        Game game = datafile.getGames().iterator().next();
-        Iterator<GameFile> it = game.getFiles().iterator();
-        GameFile gameFile = it.next();
-        while (gameFile != null && !gameFile.getType().equals(GameFileTypeEnum.SAMPLE.name()) && it.hasNext()) {
+        Artifact game = datafile.getArtifacts().iterator().next();
+        Iterator<ArtifactFile> it = game.getFiles().iterator();
+        ArtifactFile gameFile = it.next();
+        while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.SAMPLE.name()) && it.hasNext()) {
             gameFile = it.next();
         }
 

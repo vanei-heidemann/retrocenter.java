@@ -1,5 +1,8 @@
 package com.javanei.retrocenter.datafile.parser;
 
+import com.javanei.retrocenter.clrmamepro.CMProDatafile;
+import com.javanei.retrocenter.logiqx.LogiqxDatafile;
+import com.javanei.retrocenter.mame.Mame;
 import java.io.InputStream;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,8 +13,9 @@ public class DatafileParserTest {
         DatafileParser parser = new DatafileParser();
         InputStream is = DatafileParserTest.class.getClassLoader().getResourceAsStream("mame.xml");
 
-        Object obj = parser.parse(is);
+        Mame obj = (Mame) parser.parse(is);
         Assert.assertNotNull(obj);
+//System.out.println(":::: " + obj.toDatafile().toFile());
     }
 
     @Test
@@ -19,8 +23,9 @@ public class DatafileParserTest {
         DatafileParser parser = new DatafileParser();
         InputStream is = DatafileParserTest.class.getClassLoader().getResourceAsStream("cmpro.dat");
 
-        Object obj = parser.parse(is);
+        CMProDatafile obj = (CMProDatafile) parser.parse(is);
         Assert.assertNotNull(obj);
+//System.out.println(":::: " + obj.toDatafile().toFile());
     }
 
     @Test
@@ -28,7 +33,8 @@ public class DatafileParserTest {
         DatafileParser parser = new DatafileParser();
         InputStream is = DatafileParserTest.class.getClassLoader().getResourceAsStream("logiqx.xml");
 
-        Object obj = parser.parse(is);
+        LogiqxDatafile obj = (LogiqxDatafile) parser.parse(is);
         Assert.assertNotNull(obj);
+//System.out.println(":::: " + obj.toDatafile().toFile());
     }
 }

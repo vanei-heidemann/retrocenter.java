@@ -50,7 +50,7 @@ public class Datafile implements DatafileObject, Serializable {
      */
     private String comment;
 
-    private Set<Game> games = new HashSet<>();
+    private Set<Artifact> artifacts = new HashSet<>();
 
     public Datafile() {
     }
@@ -88,16 +88,16 @@ public class Datafile implements DatafileObject, Serializable {
         }
     }
 
-    public boolean addGame(Game game) {
-        return this.games.add(game);
+    public boolean addArtifact(Artifact artifact) {
+        return this.artifacts.add(artifact);
     }
 
-    public Set<Game> getGames() {
-        return games;
+    public Set<Artifact> getArtifacts() {
+        return artifacts;
     }
 
-    public void setGames(Set<Game> games) {
-        this.games = games;
+    public void setArtifacts(Set<Artifact> artifacts) {
+        this.artifacts = artifacts;
     }
 
     public String getName() {
@@ -227,8 +227,8 @@ public class Datafile implements DatafileObject, Serializable {
         appendXMLTagIfNotNull(sb, "url", url, 1);
         appendXMLTagIfNotNull(sb, "comment", comment, 1);
 
-        for (Game game : this.games) {
-            sb.append("\t<game");
+        for (Artifact game : this.artifacts) {
+            sb.append("\t<artifact");
             appendXMLAttributeIfNotNull(sb, "name", game.getName());
             appendXMLAttributeIfNotNull(sb, "isbios", game.getIsbios());
             sb.append(">\n");
@@ -240,7 +240,7 @@ public class Datafile implements DatafileObject, Serializable {
             appendXMLTagIfNotNull(sb, "sampleof", game.getSampleof(), 2);
             appendXMLTagIfNotNull(sb, "comment", game.getComment(), 2);
 
-            for (GameFile file : game.getFiles()) {
+            for (ArtifactFile file : game.getFiles()) {
                 sb.append("\t\t<file");
                 appendXMLAttributeIfNotNull(sb, "name", file.getName());
                 appendXMLAttributeIfNotNull(sb, "type", file.getType());
@@ -266,7 +266,7 @@ public class Datafile implements DatafileObject, Serializable {
                 sb.append("/>\n");
             }
 
-            sb.append("\t</game>\n");
+            sb.append("\t</artifact>\n");
         }
 
         sb.append("</datafile>\n");

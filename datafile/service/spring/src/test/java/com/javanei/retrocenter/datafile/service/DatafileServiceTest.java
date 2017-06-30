@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.datafile.service;
 
 import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.datafile.Artifact;
+import com.javanei.retrocenter.datafile.ArtifactFile;
+import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
-import com.javanei.retrocenter.datafile.Game;
-import com.javanei.retrocenter.datafile.GameFile;
-import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import com.javanei.retrocenter.datafile.Release;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -27,25 +27,25 @@ public class DatafileServiceTest {
                 "description 01", "author 01", "2017", "teste@teste.com",
                 "homepage 01", "http://www.teste.com", "comment 01");
 
-        Game game = new Game("game 01", "no", "description 01", "2017",
+        Artifact game = new Artifact("game 01", "no", "description 01", "2017",
                 "manufacturer 01", "cloneof 01", "romof 01", "sampleof 01",
                 "game comment 01");
 
-        GameFile gf = new GameFile(GameFileTypeEnum.ROM.name(), "file 01", 100l, "12345678",
+        ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", 100l, "12345678",
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 "baddump", "2016", "merge 01", "Brazil");
         game.addFile(gf);
-        gf = new GameFile(GameFileTypeEnum.DISK.name(), "file 02", 200l, null,
+        gf = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", 200l, null,
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 null, null, null, null);
         game.addFile(gf);
-        gf = new GameFile(GameFileTypeEnum.SAMPLE.name(), "sample 01");
+        gf = new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), "sample 01");
         game.addFile(gf);
 
         Release release = new Release("release 01", "Brazil", "br", "2016", "yes");
         game.addRelease(release);
 
-        datafile.addGame(game);
+        datafile.addArtifact(game);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class DatafileServiceTest {
     @Test
     public void createGame() {
         Datafile d = datafileService.create(datafile);
-        Game game = d.getGames().iterator().next();
+        Artifact game = d.getArtifacts().iterator().next();
         Assert.assertEquals("name", "game 01", game.getName());
         Assert.assertEquals("isbios", "no", game.getIsbios());
         Assert.assertEquals("description", "description 01", game.getDescription());
@@ -80,17 +80,17 @@ public class DatafileServiceTest {
 
     @Test
     public void createRom() {
-        GameFile gf = null;
+        ArtifactFile gf = null;
         Datafile d = datafileService.create(datafile);
-        Game game = d.getGames().iterator().next();
-        for (GameFile g : game.getFiles()) {
-            if (g.getType().equals(GameFileTypeEnum.ROM.name())) {
+        Artifact game = d.getArtifacts().iterator().next();
+        for (ArtifactFile g : game.getFiles()) {
+            if (g.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 gf = g;
                 break;
             }
         }
 
-        Assert.assertEquals("type", GameFileTypeEnum.ROM.name(), gf.getType());
+        Assert.assertEquals("type", ArtifactFileTypeEnum.ROM.name(), gf.getType());
         Assert.assertEquals("name", "file 01", gf.getName());
         Assert.assertEquals("size", Long.valueOf(100l), gf.getSize());
         Assert.assertEquals("crc", "12345678", gf.getCrc());
@@ -104,17 +104,17 @@ public class DatafileServiceTest {
 
     @Test
     public void createDisk() {
-        GameFile gf = null;
+        ArtifactFile gf = null;
         Datafile d = datafileService.create(datafile);
-        Game game = d.getGames().iterator().next();
-        for (GameFile g : game.getFiles()) {
-            if (g.getType().equals(GameFileTypeEnum.DISK.name())) {
+        Artifact game = d.getArtifacts().iterator().next();
+        for (ArtifactFile g : game.getFiles()) {
+            if (g.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 gf = g;
                 break;
             }
         }
 
-        Assert.assertEquals("type", GameFileTypeEnum.DISK.name(), gf.getType());
+        Assert.assertEquals("type", ArtifactFileTypeEnum.DISK.name(), gf.getType());
         Assert.assertEquals("name", "file 02", gf.getName());
         Assert.assertEquals("size", Long.valueOf(200l), gf.getSize());
         Assert.assertNull("crc", gf.getCrc());
@@ -128,17 +128,17 @@ public class DatafileServiceTest {
 
     @Test
     public void createSample() {
-        GameFile gf = null;
+        ArtifactFile gf = null;
         Datafile d = datafileService.create(datafile);
-        Game game = d.getGames().iterator().next();
-        for (GameFile g : game.getFiles()) {
-            if (g.getType().equals(GameFileTypeEnum.SAMPLE.name())) {
+        Artifact game = d.getArtifacts().iterator().next();
+        for (ArtifactFile g : game.getFiles()) {
+            if (g.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 gf = g;
                 break;
             }
         }
 
-        Assert.assertEquals("type", GameFileTypeEnum.SAMPLE.name(), gf.getType());
+        Assert.assertEquals("type", ArtifactFileTypeEnum.SAMPLE.name(), gf.getType());
         Assert.assertEquals("name", "sample 01", gf.getName());
         Assert.assertNull("size", gf.getSize());
         Assert.assertNull("crc", gf.getCrc());
@@ -153,7 +153,7 @@ public class DatafileServiceTest {
     @Test
     public void createRelease() {
         Datafile d = datafileService.create(datafile);
-        Game game = d.getGames().iterator().next();
+        Artifact game = d.getArtifacts().iterator().next();
         Release release = game.getReleases().iterator().next();
         Assert.assertEquals("name", "release 01", release.getName());
         Assert.assertEquals("region", "Brazil", release.getRegion());

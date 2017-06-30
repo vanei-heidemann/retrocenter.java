@@ -3,7 +3,7 @@ package com.javanei.retrocenter.datafile;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class GameFile implements Serializable {
+public class ArtifactFile implements Serializable {
     /**
      * Valid values: ROM, DISK, SAMPLE
      */
@@ -53,20 +53,20 @@ public class GameFile implements Serializable {
      */
     private String region;
 
-    public GameFile() {
+    public ArtifactFile() {
     }
 
-    public GameFile(String type) {
+    public ArtifactFile(String type) {
         this.type = type;
     }
 
-    public GameFile(String type, String name) {
+    public ArtifactFile(String type, String name) {
         this.type = type;
         this.name = name;
     }
 
-    public GameFile(String type, String name, Long size, String crc, String sha1, String md5, String status,
-                    String date, String merge, String region) {
+    public ArtifactFile(String type, String name, Long size, String crc, String sha1, String md5, String status,
+                        String date, String merge, String region) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -165,7 +165,7 @@ public class GameFile implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        GameFile gameFile = (GameFile) o;
+        ArtifactFile gameFile = (ArtifactFile) o;
         return Objects.equals(type, gameFile.type) &&
                 Objects.equals(name, gameFile.name) &&
                 Objects.equals(size, gameFile.size) &&

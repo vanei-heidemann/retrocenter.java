@@ -1,11 +1,11 @@
 package com.javanei.retrocenter.clrmamepro;
 
 import com.javanei.retrocenter.common.DuplicatedItemException;
+import com.javanei.retrocenter.datafile.Artifact;
+import com.javanei.retrocenter.datafile.ArtifactFile;
+import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
-import com.javanei.retrocenter.datafile.Game;
-import com.javanei.retrocenter.datafile.GameFile;
-import com.javanei.retrocenter.datafile.GameFileTypeEnum;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -84,18 +84,18 @@ public class CMProDatafile implements DatafileObject, Serializable {
                 header.getDescription(), header.getAuthor(), null,
                 null, header.getHomepage(), header.getUrl(), null);
         for (CMProGame game : this.getGames()) {
-            Game rGame = new Game(game.getName(), null, game.getDescription(), game.getYear(),
+            Artifact rGame = new Artifact(game.getName(), null, game.getDescription(), game.getYear(),
                     game.getManufacturer(), game.getCloneof(), game.getRomof(), null, null);
             for (CMProRom rom : game.getRoms()) {
-                rGame.addFile(new GameFile(GameFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
                         rom.getSha1(), rom.getMd5(), rom.getFlags(), null, null, rom.getRegion()));
             }
             for (CMProDisk disk : game.getDisks()) {
-                rGame.addFile(new GameFile(GameFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
                         disk.getSha1(), disk.getMd5(), null, null, null, null));
             }
             for (String sample : game.getSamples()) {
-                rGame.addFile(new GameFile(GameFileTypeEnum.SAMPLE.name(), sample));
+                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample));
             }
             if (game.getSampleof() != null && !game.getSampleof().isEmpty()) {
                 StringBuilder sb = new StringBuilder();
@@ -106,7 +106,7 @@ public class CMProDatafile implements DatafileObject, Serializable {
                 }
                 rGame.setSampleof(sb.toString());
             }
-            r.addGame(rGame);
+            r.addArtifact(rGame);
         }
         return r;
     }

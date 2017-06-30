@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Game implements Serializable {
+public class Artifact implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -45,15 +45,15 @@ public class Game implements Serializable {
      */
     private String comment;
 
-    private Set<GameFile> files = new HashSet<>();
+    private Set<ArtifactFile> files = new HashSet<>();
 
     private Set<Release> releases = new HashSet<>();
 
-    public Game() {
+    public Artifact() {
     }
 
-    public Game(String name, String isbios, String description, String year, String manufacturer, String cloneof,
-                String romof, String sampleof, String comment) {
+    public Artifact(String name, String isbios, String description, String year, String manufacturer, String cloneof,
+                    String romof, String sampleof, String comment) {
         this.name = name;
         this.isbios = isbios;
         this.description = description;
@@ -72,12 +72,12 @@ public class Game implements Serializable {
         for (Release release : this.releases) {
             r.addRelease(release.toLogiqx());
         }
-        for (GameFile file : this.files) {
-            if (file.getType().equals(GameFileTypeEnum.ROM.name())) {
+        for (ArtifactFile file : this.files) {
+            if (file.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 r.addRom(file.toLogiqxRom());
-            } else if (file.getType().equals(GameFileTypeEnum.DISK.name())) {
+            } else if (file.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 r.addDisk(file.toLogiqxDisk());
-            } else if (file.getType().equals(GameFileTypeEnum.SAMPLE.name())) {
+            } else if (file.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 r.addSample(file.toLogiqxSample());
             }
         }
@@ -88,10 +88,10 @@ public class Game implements Serializable {
     /*
     public CMProGame toCMPro() {
         CMProGame r = new CMProGame(this.name, this.description, this.year, this.manufacturer, this.cloneof, this.romof);
-        for (GameFile file : this.files) {
-            if (file.getType().equals(GameFileTypeEnum.ROM.name())) {
+        for (ArtifactFile file : this.files) {
+            if (file.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 r.addRom(file.toCMProRom());
-            } else if (file.getType().equals(GameFileTypeEnum.DISK.name())) {
+            } else if (file.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 r.addDisk(file.toCMProDisk());
             }
         }
@@ -105,7 +105,7 @@ public class Game implements Serializable {
     }
     */
 
-    public boolean addFile(GameFile file) {
+    public boolean addFile(ArtifactFile file) {
         return this.files.add(file);
     }
 
@@ -185,11 +185,11 @@ public class Game implements Serializable {
         this.comment = comment;
     }
 
-    public Set<GameFile> getFiles() {
+    public Set<ArtifactFile> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<GameFile> files) {
+    public void setFiles(Set<ArtifactFile> files) {
         this.files = files;
     }
 
@@ -207,7 +207,7 @@ public class Game implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Game game = (Game) o;
+        Artifact game = (Artifact) o;
         return Objects.equals(name, game.name);
     }
 

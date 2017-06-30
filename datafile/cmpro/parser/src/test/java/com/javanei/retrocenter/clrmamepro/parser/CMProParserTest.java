@@ -106,7 +106,7 @@ public class CMProParserTest {
             CMProDatafile m = parser.parse(f);
             System.out.println(m);
             headerCustomFields.putAll(m.getHeader().getCustomFields());
-            for (CMProGame game : m.getGames()) {
+            for (CMProGame game : m.getArtifacts()) {
                 for (CMProRom rom : game.getRoms()) {
                     if (rom.getFlags() != null) {
                         if (!flags.contains(rom.getFlags())) {
