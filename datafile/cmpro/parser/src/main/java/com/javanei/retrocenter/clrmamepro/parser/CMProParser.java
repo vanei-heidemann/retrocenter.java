@@ -8,13 +8,14 @@ import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.UnknownTagException;
+import com.javanei.retrocenter.datafile.Parser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class CMProParser {
+public class CMProParser implements Parser {
     private static CMProDisk parseDisk(String line) throws Exception {
         String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
         CMProDisk r = new CMProDisk();

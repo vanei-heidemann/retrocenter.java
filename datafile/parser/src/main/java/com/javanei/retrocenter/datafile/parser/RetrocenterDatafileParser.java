@@ -4,6 +4,7 @@ import com.javanei.retrocenter.common.util.ReflectionUtil;
 import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.datafile.Release;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class RetrocenterDatafileParser {
+public class RetrocenterDatafileParser implements Parser {
     Logger log = Logger.getLogger(RetrocenterDatafileParser.class.getName());
 
     public Datafile parse(File file) throws Exception {

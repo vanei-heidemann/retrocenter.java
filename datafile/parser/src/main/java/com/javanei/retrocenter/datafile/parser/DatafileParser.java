@@ -2,6 +2,8 @@ package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.clrmamepro.parser.CMProParser;
 import com.javanei.retrocenter.common.UnknownDatafileFormatException;
+import com.javanei.retrocenter.datafile.DatafileObject;
+import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.logiqx.parser.LogiqxParser;
 import com.javanei.retrocenter.mame.parser.MameParser;
 import java.io.ByteArrayInputStream;
@@ -11,19 +13,19 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 
-public class DatafileParser {
-    public Object parse(File file) throws Exception {
+public class DatafileParser implements Parser {
+    public DatafileObject parse(File file) throws Exception {
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
     }
 
-    public Object parse(InputStream is) throws Exception {
+    public DatafileObject parse(InputStream is) throws Exception {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] b = new byte[8192];
         int size = is.read(b);
         String s = new String(b, 0, size, Charset.forName("UTF-8"));
-        Object parser = null;
+        Parser parser = null;
         while (size > 0) {
             os.write(b, 0, size);
             if (parser == null) {
@@ -43,16 +45,6 @@ public class DatafileParser {
             throw new UnknownDatafileFormatException();
         }
 
-        Object result = null;
-        if (parser instanceof RetrocenterDatafileParser) {
-            result = ((RetrocenterDatafileParser) parser).parse(new ByteArrayInputStream(os.toByteArray()));
-        } else if (parser instanceof MameParser) {
-            result = ((MameParser) parser).parse(new ByteArrayInputStream(os.toByteArray()));
-        } else if (parser instanceof CMProParser) {
-            result = ((CMProParser) parser).parse(new ByteArrayInputStream(os.toByteArray()));
-        } else if (parser instanceof LogiqxParser) {
-            result = ((LogiqxParser) parser).parse(new ByteArrayInputStream(os.toByteArray()));
-        }
-        return result;
+        return parser.parse(new ByteArrayInputStream(os.toByteArray()));
     }
 }

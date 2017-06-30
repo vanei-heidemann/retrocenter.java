@@ -3,6 +3,7 @@ package com.javanei.retrocenter.mame.parser;
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.UnknownTagException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
+import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.mame.Mame;
 import com.javanei.retrocenter.mame.MameAdjuster;
 import com.javanei.retrocenter.mame.MameAnalog;
@@ -40,7 +41,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class MameParser {
+public class MameParser implements Parser {
     Logger log = Logger.getLogger(MameParser.class.getName());
 
     private static MameBiosset parseBiosset(Node node) {

@@ -2,6 +2,7 @@ package com.javanei.retrocenter.logiqx.parser;
 
 import com.javanei.retrocenter.common.UnknownTagException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
+import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.logiqx.LogiqxArchive;
 import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
@@ -20,7 +21,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class LogiqxParser {
+public class LogiqxParser implements Parser {
     public LogiqxDatafile parse(File file) throws Exception {
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
