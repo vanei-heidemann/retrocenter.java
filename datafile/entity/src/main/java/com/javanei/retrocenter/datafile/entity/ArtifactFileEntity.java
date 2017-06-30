@@ -15,15 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DATAFILE_GAMEFILE", indexes = {
-        @Index(name = "DATAFILE_GAMEFILE_0001", unique = true, columnList = "GAME_ID,FILE_TYPE,NAME")
+@Table(name = "DATAFILE_ARTIFACTFILE", indexes = {
+        @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = true, columnList = "ARTIFACT_ID,FILE_TYPE,NAME")
 })
-public class GameFileEntity implements Serializable {
+public class ArtifactFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "GAMEFILE_ID", nullable = false)
+    @Column(name = "ARTIFACTFILE_ID", nullable = false)
     private Long id;
 
     @Column(name = "FILE_TYPE", length = 16, nullable = false)
@@ -57,17 +57,17 @@ public class GameFileEntity implements Serializable {
     private String region;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "GAME_ID")
-    private GameEntity game;
+    @JoinColumn(name = "ARTIFACT_ID")
+    private ArtifactEntity artifact;
 
-    public GameFileEntity() {
+    public ArtifactFileEntity() {
     }
 
-    public GameFileEntity(Long id) {
+    public ArtifactFileEntity(Long id) {
         this.id = id;
     }
 
-    public GameFileEntity(String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -80,7 +80,7 @@ public class GameFileEntity implements Serializable {
         this.region = region;
     }
 
-    public GameFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public ArtifactFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -182,19 +182,19 @@ public class GameFileEntity implements Serializable {
         this.region = region;
     }
 
-    public GameEntity getGame() {
-        return game;
+    public ArtifactEntity getArtifact() {
+        return artifact;
     }
 
-    public void setGame(GameEntity game) {
-        this.game = game;
+    public void setArtifact(ArtifactEntity artifact) {
+        this.artifact = artifact;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GameFileEntity that = (GameFileEntity) o;
+        ArtifactFileEntity that = (ArtifactFileEntity) o;
         return Objects.equals(type, that.type) &&
                 Objects.equals(name, that.name);
     }

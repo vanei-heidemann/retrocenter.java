@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.datafile.persistence;
 
-import com.javanei.retrocenter.datafile.entity.GameFileEntity;
+import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GameFileDAO extends JpaRepository<GameFileEntity, Long> {
+public interface GameFileDAO extends JpaRepository<ArtifactFileEntity, Long> {
 }

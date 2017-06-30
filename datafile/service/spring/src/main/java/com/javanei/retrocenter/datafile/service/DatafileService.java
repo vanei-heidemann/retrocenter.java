@@ -4,9 +4,9 @@ import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.Release;
+import com.javanei.retrocenter.datafile.entity.ArtifactEntity;
+import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
-import com.javanei.retrocenter.datafile.entity.GameEntity;
-import com.javanei.retrocenter.datafile.entity.GameFileEntity;
 import com.javanei.retrocenter.datafile.entity.ReleaseEntity;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
 import com.javanei.retrocenter.datafile.persistence.GameDAO;
@@ -34,13 +34,13 @@ public class DatafileService {
                 entity.getDescription(), entity.getAuthor(), entity.getDate(), entity.getEmail(),
                 entity.getHomepage(), entity.getUrl(), entity.getComment());
 
-        for (GameEntity gameEntity : entity.getGames()) {
+        for (ArtifactEntity gameEntity : entity.getArtifacts()) {
             Artifact g = new Artifact(gameEntity.getName(), gameEntity.getIsbios(), gameEntity.getDescription(),
                     gameEntity.getYear(), gameEntity.getManufacturer(), gameEntity.getCloneof(),
                     gameEntity.getRomof(), gameEntity.getSampleof(), gameEntity.getComment());
             datafile.addArtifact(g);
 
-            for (GameFileEntity gameFileEntity : gameEntity.getFiles()) {
+            for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
                 ArtifactFile gf = new ArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
                         gameFileEntity.getSize(), gameFileEntity.getCrc(), gameFileEntity.getSha1(),
                         gameFileEntity.getMd5(), gameFileEntity.getStatus(), gameFileEntity.getDate(),
@@ -66,18 +66,18 @@ public class DatafileService {
         entity = datafileDAO.saveAndFlush(entity);
 
         for (Artifact game : datafile.getArtifacts()) {
-            GameEntity gameEntity = new GameEntity(game.getName(), game.getIsbios(), game.getDescription(),
+            ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getIsbios(), game.getDescription(),
                     game.getYear(), game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(),
                     game.getComment());
             gameEntity.setDatafile(entity);
             gameEntity = gameDAO.saveAndFlush(gameEntity);
-            entity.getGames().add(gameEntity);
+            entity.getArtifacts().add(gameEntity);
 
             for (ArtifactFile gameFile : game.getFiles()) {
-                GameFileEntity gameFileEntity = new GameFileEntity(gameFile.getType(), gameFile.getName(),
+                ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
                         gameFile.getStatus(), gameFile.getDate(), gameFile.getMerge(), gameFile.getRegion());
-                gameFileEntity.setGame(gameEntity);
+                gameFileEntity.setArtifact(gameEntity);
                 gameFileDAO.saveAndFlush(gameFileEntity);
                 gameEntity.getFiles().add(gameFileEntity);
             }
@@ -85,7 +85,7 @@ public class DatafileService {
             for (Release release : game.getReleases()) {
                 ReleaseEntity releaseEntity = new ReleaseEntity(release.getName(), release.getRegion(),
                         release.getLanguage(), release.getDate(), release.getDefault());
-                releaseEntity.setGame(gameEntity);
+                releaseEntity.setArtifact(gameEntity);
                 releaseDAO.saveAndFlush(releaseEntity);
                 gameEntity.getReleases().add(releaseEntity);
             }

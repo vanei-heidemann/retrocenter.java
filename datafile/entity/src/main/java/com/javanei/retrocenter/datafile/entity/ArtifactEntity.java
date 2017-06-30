@@ -18,15 +18,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "DATAFILE_GAME", indexes = {
-        @Index(name = "DATAFILE_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+@Table(name = "DATAFILE_ARTIFACT", indexes = {
+        @Index(name = "DATAFILE_ARTIFACT_0001", unique = true, columnList = "DATAFILE_ID,NAME")
 })
-public class GameEntity implements Serializable {
+public class ArtifactEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "GAME_ID", nullable = false)
+    @Column(name = "ARTIFACT_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false)
@@ -56,24 +56,24 @@ public class GameEntity implements Serializable {
     @Column(name = "COMMENT", length = 255, nullable = true)
     private String comment;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
-    private Set<GameFileEntity> files = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
+    private Set<ArtifactFileEntity> files = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
     private Set<ReleaseEntity> releases = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private DatafileEntity datafile;
 
-    public GameEntity() {
+    public ArtifactEntity() {
     }
 
-    public GameEntity(Long id) {
+    public ArtifactEntity(Long id) {
         this.id = id;
     }
 
-    public GameEntity(String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
+    public ArtifactEntity(String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
         this.name = name;
         this.isbios = isbios;
         this.description = description;
@@ -85,7 +85,7 @@ public class GameEntity implements Serializable {
         this.comment = comment;
     }
 
-    public GameEntity(Long id, String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
+    public ArtifactEntity(Long id, String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
         this.id = id;
         this.name = name;
         this.isbios = isbios;
@@ -178,11 +178,11 @@ public class GameEntity implements Serializable {
         this.comment = comment;
     }
 
-    public Set<GameFileEntity> getFiles() {
+    public Set<ArtifactFileEntity> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<GameFileEntity> files) {
+    public void setFiles(Set<ArtifactFileEntity> files) {
         this.files = files;
     }
 
@@ -206,7 +206,7 @@ public class GameEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        GameEntity that = (GameEntity) o;
+        ArtifactEntity that = (ArtifactEntity) o;
         return Objects.equals(name, that.name);
     }
 

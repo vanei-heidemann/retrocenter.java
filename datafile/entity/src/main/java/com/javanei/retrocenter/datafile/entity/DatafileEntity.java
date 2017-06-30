@@ -64,7 +64,7 @@ public class DatafileEntity implements Serializable {
     private String comment;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
-    private Set<GameEntity> games = new HashSet<>();
+    private Set<ArtifactEntity> artifacts = new HashSet<>();
 
     public DatafileEntity() {
     }
@@ -188,12 +188,12 @@ public class DatafileEntity implements Serializable {
         this.comment = comment;
     }
 
-    public Set<GameEntity> getGames() {
-        return games;
+    public Set<ArtifactEntity> getArtifacts() {
+        return artifacts;
     }
 
-    public void setGames(Set<GameEntity> games) {
-        this.games = games;
+    public void setArtifacts(Set<ArtifactEntity> artifacts) {
+        this.artifacts = artifacts;
     }
 
     @Override

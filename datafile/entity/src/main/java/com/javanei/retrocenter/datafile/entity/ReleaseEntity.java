@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DATAFILE_RELEASE", indexes = {
-        @Index(name = "DATAFILE_RELEASE_0001", unique = true, columnList = "GAME_ID,NAME,REGION,LANGUAGE,DATE,ISDEFAULT")
+        @Index(name = "DATAFILE_RELEASE_0001", unique = true, columnList = "ARTIFACT_ID,NAME,REGION,LANGUAGE,DATE,ISDEFAULT")
 })
 public class ReleaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -42,8 +42,8 @@ public class ReleaseEntity implements Serializable {
     private String _default;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "GAME_ID")
-    private GameEntity game;
+    @JoinColumn(name = "ARTIFACT_ID")
+    private ArtifactEntity artifact;
 
     public ReleaseEntity() {
     }
@@ -117,12 +117,12 @@ public class ReleaseEntity implements Serializable {
         this._default = _default;
     }
 
-    public GameEntity getGame() {
-        return game;
+    public ArtifactEntity getArtifact() {
+        return artifact;
     }
 
-    public void setGame(GameEntity game) {
-        this.game = game;
+    public void setArtifact(ArtifactEntity artifact) {
+        this.artifact = artifact;
     }
 
     @Override
