@@ -253,7 +253,7 @@ public class Datafile implements DatafileObject, Serializable {
                 appendXMLTagIfNotNull(sb, "date", file.getDate(), 3);
                 appendXMLTagIfNotNull(sb, "merge", file.getMerge(), 3);
                 appendXMLTagIfNotNull(sb, "region", file.getRegion(), 3);
-                sb.append("</file>\n");
+                sb.append("\t\t</file>\n");
             }
 
             for (Release release : game.getReleases()) {
