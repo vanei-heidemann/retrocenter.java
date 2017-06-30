@@ -34,7 +34,6 @@ public class DatafileParser {
                 } else if (s.contains("logiqx")) {
                     parser = LogiqxParser.class.newInstance();
                     //TODO: Se não tiver o cabecalho, nao tem a string, pensar em outra forma
-                } else {
                 }
             }
             size = is.read(b);
