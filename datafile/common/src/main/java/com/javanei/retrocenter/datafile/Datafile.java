@@ -214,7 +214,7 @@ public class Datafile implements DatafileObject, Serializable {
     public String toFile() {
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\"?>\n");
-        sb.append("<datafile");
+        sb.append("<retrocenter");
         appendXMLAttributeIfNotNull(sb, "name", name);
         appendXMLAttributeIfNotNull(sb, "category", category);
         appendXMLAttributeIfNotNull(sb, "version", version);
@@ -269,7 +269,7 @@ public class Datafile implements DatafileObject, Serializable {
             sb.append("\t</artifact>\n");
         }
 
-        sb.append("</datafile>\n");
+        sb.append("</retrocenter>\n");
         return sb.toString();
     }
 }

@@ -31,11 +31,11 @@ public class DatafileServiceTest {
                 "manufacturer 01", "cloneof 01", "romof 01", "sampleof 01",
                 "game comment 01");
 
-        ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", 100l, "12345678",
+        ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", "100", "12345678",
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 "baddump", "2016", "merge 01", "Brazil");
         game.addFile(gf);
-        gf = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", 200l, null,
+        gf = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", "200", null,
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 null, null, null, null);
         game.addFile(gf);
@@ -92,7 +92,7 @@ public class DatafileServiceTest {
 
         Assert.assertEquals("type", ArtifactFileTypeEnum.ROM.name(), gf.getType());
         Assert.assertEquals("name", "file 01", gf.getName());
-        Assert.assertEquals("size", Long.valueOf(100l), gf.getSize());
+        Assert.assertEquals("size", "100", gf.getSize());
         Assert.assertEquals("crc", "12345678", gf.getCrc());
         Assert.assertEquals("sha1", "1234567890123456789012345678901234567890", gf.getSha1());
         Assert.assertEquals("md5", "12345678901234567890123456789012", gf.getMd5());
@@ -116,7 +116,7 @@ public class DatafileServiceTest {
 
         Assert.assertEquals("type", ArtifactFileTypeEnum.DISK.name(), gf.getType());
         Assert.assertEquals("name", "file 02", gf.getName());
-        Assert.assertEquals("size", Long.valueOf(200l), gf.getSize());
+        Assert.assertEquals("size", "200", gf.getSize());
         Assert.assertNull("crc", gf.getCrc());
         Assert.assertEquals("sha1", "1234567890123456789012345678901234567890", gf.getSha1());
         Assert.assertEquals("md5", "12345678901234567890123456789012", gf.getMd5());

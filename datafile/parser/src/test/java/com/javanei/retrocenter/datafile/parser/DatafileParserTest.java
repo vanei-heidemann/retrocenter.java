@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
+import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.mame.Mame;
 import java.io.InputStream;
@@ -15,7 +16,6 @@ public class DatafileParserTest {
 
         Mame obj = (Mame) parser.parse(is);
         Assert.assertNotNull(obj);
-//System.out.println(":::: " + obj.toDatafile().toFile());
     }
 
     @Test
@@ -25,7 +25,6 @@ public class DatafileParserTest {
 
         CMProDatafile obj = (CMProDatafile) parser.parse(is);
         Assert.assertNotNull(obj);
-//System.out.println(":::: " + obj.toDatafile().toFile());
     }
 
     @Test
@@ -35,6 +34,14 @@ public class DatafileParserTest {
 
         LogiqxDatafile obj = (LogiqxDatafile) parser.parse(is);
         Assert.assertNotNull(obj);
-//System.out.println(":::: " + obj.toDatafile().toFile());
+    }
+
+    @Test
+    public void testRetrocenter() throws Exception {
+        DatafileParser parser = new DatafileParser();
+        InputStream is = DatafileParserTest.class.getClassLoader().getResourceAsStream("retrocenter.xml");
+
+        Datafile obj = (Datafile) parser.parse(is);
+        Assert.assertNotNull(obj);
     }
 }

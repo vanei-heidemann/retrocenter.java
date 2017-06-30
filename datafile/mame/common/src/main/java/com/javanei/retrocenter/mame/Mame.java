@@ -115,7 +115,8 @@ public class Mame implements DatafileObject, Serializable {
             Artifact game = new Artifact(machine.getName(), machine.getIsbios(), machine.getDescription(), machine.getYear(),
                     machine.getManufacturer(), machine.getCloneof(), machine.getRomof(), machine.getSampleof(), null);
             for (MameRom rom : machine.getRoms()) {
-                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(), rom.getSize(), rom.getCrc(),
+                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
+                        rom.getSize() != null ? rom.getSize().toString() : null, rom.getCrc(),
                         rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion()));
             }
             for (MameDisk disk : machine.getDisks()) {

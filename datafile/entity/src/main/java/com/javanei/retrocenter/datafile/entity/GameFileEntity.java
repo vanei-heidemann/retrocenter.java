@@ -32,8 +32,8 @@ public class GameFileEntity implements Serializable {
     @Column(name = "NAME", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "SIZE", nullable = true)
-    private Long size;
+    @Column(name = "SIZE", length = 16, nullable = true)
+    private String size;
 
     @Column(name = "CRC", length = 8, nullable = true)
     private String crc;
@@ -67,7 +67,7 @@ public class GameFileEntity implements Serializable {
         this.id = id;
     }
 
-    public GameFileEntity(String type, String name, Long size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public GameFileEntity(String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -80,7 +80,7 @@ public class GameFileEntity implements Serializable {
         this.region = region;
     }
 
-    public GameFileEntity(Long id, String type, String name, Long size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public GameFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -118,11 +118,11 @@ public class GameFileEntity implements Serializable {
         this.name = name;
     }
 
-    public Long getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

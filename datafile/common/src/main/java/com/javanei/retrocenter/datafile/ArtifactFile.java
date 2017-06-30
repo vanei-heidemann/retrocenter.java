@@ -17,7 +17,7 @@ public class ArtifactFile implements Serializable {
      * logiqx.rom.size, clrmamepro.rom.size
      * logiqx.disk.sha1, clrmamepro.disk.sha1
      */
-    private Long size;
+    private String size;
     /**
      * logiqx.rom.crc, clrmamepro.rom.crc
      * CRC must have 8 characters
@@ -65,7 +65,7 @@ public class ArtifactFile implements Serializable {
         this.name = name;
     }
 
-    public ArtifactFile(String type, String name, Long size, String crc, String sha1, String md5, String status,
+    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String status,
                         String date, String merge, String region) {
         this.type = type;
         this.name = name;
@@ -95,11 +95,11 @@ public class ArtifactFile implements Serializable {
         this.name = name;
     }
 
-    public Long getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Long size) {
+    public void setSize(String size) {
         this.size = size;
     }
 

@@ -76,7 +76,7 @@ public class ToDatafileTest {
 
         Assert.assertNotNull("ROM", gameFile);
         Assert.assertEquals("Name", "rom 01", gameFile.getName());
-        Assert.assertEquals("Size", Long.valueOf(1l), gameFile.getSize());
+        Assert.assertEquals("Size", "1", gameFile.getSize());
         Assert.assertEquals("CRC", "12345678", gameFile.getCrc());
         Assert.assertEquals("SHA1", "1234567890123456789012345678901234567890", gameFile.getSha1());
         Assert.assertNull("MD5", gameFile.getMd5());
