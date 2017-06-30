@@ -108,9 +108,9 @@ public class MameServiceTest {
     public void create() {
         Mame mame = mameService.create(datafile);
 
-        Assert.assertEquals("build", datafile.getBuild(), mame.getBuild());
+        Assert.assertEquals("build", "0.186 (mame0186)", mame.getBuild());
         Assert.assertEquals("debug", datafile.getDebug(), mame.getDebug());
-        Assert.assertEquals("mameconfig", datafile.getMameconfig(), mame.getMameconfig());
+        Assert.assertEquals("mameconfig", "10", mame.getMameconfig());
     }
 
     @Test
@@ -120,10 +120,10 @@ public class MameServiceTest {
 
         MameMachine m = mame.getMachines().iterator().next();
 
-        Assert.assertEquals("name", machine005.getName(), m.getName());
-        Assert.assertEquals("sourcefile", machine005.getSourcefile(), m.getSourcefile());
-        Assert.assertEquals("sampleof", machine005.getSampleof(), m.getSampleof());
-        Assert.assertEquals("description", machine005.getDescription(), m.getDescription());
+        Assert.assertEquals("name", "005", m.getName());
+        Assert.assertEquals("sourcefile", "segag80r.cpp", m.getSourcefile());
+        Assert.assertEquals("sampleof", "005", m.getSampleof());
+        Assert.assertEquals("description", "005", m.getDescription());
         Assert.assertEquals("isbios", machine005.getIsbios(), m.getIsbios());
         Assert.assertEquals("isdevice", machine005.getIsdevice(), m.getIsdevice());
         Assert.assertEquals("ismechanical", machine005.getIsmechanical(), m.getIsmechanical());
@@ -131,8 +131,8 @@ public class MameServiceTest {
         Assert.assertEquals("cloneof", machine005.getCloneof(), m.getCloneof());
         Assert.assertEquals("romof", machine005.getRomof(), m.getRomof());
         Assert.assertEquals("sampleof", machine005.getSampleof(), m.getSampleof());
-        Assert.assertEquals("year", machine005.getYear(), m.getYear());
-        Assert.assertEquals("manufacturer", machine005.getManufacturer(), m.getManufacturer());
+        Assert.assertEquals("year", "1981", m.getYear());
+        Assert.assertEquals("manufacturer", "Sega", m.getManufacturer());
     }
 
     @Test
@@ -141,8 +141,8 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameBiosset biosset = machine.getBiossets().iterator().next();
 
-        Assert.assertEquals("name", biosset005.getName(), biosset.getName());
-        Assert.assertEquals("description", biosset005.getDescription(), biosset.getDescription());
+        Assert.assertEquals("name", "biosset 01", biosset.getName());
+        Assert.assertEquals("description", "biosset 001", biosset.getDescription());
         Assert.assertEquals("default", biosset005.getDefault(), biosset.getDefault());
     }
 
@@ -152,14 +152,14 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameRom rom = machine.getRoms().get(0);
 
-        Assert.assertEquals("name", rom005.getName(), rom.getName());
+        Assert.assertEquals("name", "1346b.cpu-u25", rom.getName());
         Assert.assertEquals("bios", rom005.getBios(), rom.getBios());
-        Assert.assertEquals("size", rom005.getSize(), rom.getSize());
-        Assert.assertEquals("crc", rom005.getCrc(), rom.getCrc());
-        Assert.assertEquals("sha1;", rom005.getSha1(), rom.getSha1());
+        Assert.assertEquals("size", Long.valueOf(2048), rom.getSize());
+        Assert.assertEquals("crc", "8e68533e", rom.getCrc());
+        Assert.assertEquals("sha1;", "a257c556d31691068ed5c991f1fb2b51da4826db", rom.getSha1());
         Assert.assertEquals("merge", rom005.getMerge(), rom.getMerge());
-        Assert.assertEquals("region", rom005.getRegion(), rom.getRegion());
-        Assert.assertEquals("offset", rom005.getOffset(), rom.getOffset());
+        Assert.assertEquals("region", "maincpu", rom.getRegion());
+        Assert.assertEquals("offset", "0", rom.getOffset());
         Assert.assertEquals("status", rom005.getStatus(), rom.getStatus());
         Assert.assertEquals("optional", rom005.getOptional(), rom.getOptional());
     }
@@ -170,14 +170,14 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDisk disk = machine.getDisks().iterator().next();
 
-        Assert.assertEquals("name", disk005.getName(), disk.getName());
+        Assert.assertEquals("name", "disk 01", disk.getName());
         Assert.assertEquals("sha1", disk005.getSha1(), disk.getSha1());
         Assert.assertEquals("merge", disk005.getMerge(), disk.getMerge());
-        Assert.assertEquals("region", disk005.getRegion(), disk.getRegion());
+        Assert.assertEquals("region", "maincpu", disk.getRegion());
         Assert.assertEquals("index", disk005.getIndex(), disk.getIndex());
-        Assert.assertEquals("writable", disk005.getWritable(), disk.getWritable());
-        Assert.assertEquals("status", disk005.getStatus(), disk.getStatus());
-        Assert.assertEquals("optional", disk005.getOptional(), disk.getOptional());
+        Assert.assertEquals("writable", "no", disk.getWritable());
+        Assert.assertEquals("status", "nodump", disk.getStatus());
+        Assert.assertEquals("optional", "yes", disk.getOptional());
     }
 
     @Test
@@ -186,7 +186,7 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDeviceref deviceref = machine.getDevicerefs().get(0);
 
-        Assert.assertEquals("name", deviceref005.getName(), deviceref.getName());
+        Assert.assertEquals("name", "z80", deviceref.getName());
     }
 
     @Test
@@ -195,7 +195,7 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameSample sample = machine.getSamples().get(0);
 
-        Assert.assertEquals("name", sample005.getName(), sample.getName());
+        Assert.assertEquals("name", "lexplode", sample.getName());
     }
 
     @Test
@@ -204,10 +204,10 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameChip chip = machine.getChips().iterator().next();
 
-        Assert.assertEquals("name", chip005.getName(), chip.getName());
-        Assert.assertEquals("tag", chip005.getTag(), chip.getTag());
-        Assert.assertEquals("type", chip005.getType(), chip.getType());
-        Assert.assertEquals("clock", chip005.getClock(), chip.getClock());
+        Assert.assertEquals("name", "Z80", chip.getName());
+        Assert.assertEquals("tag", "maincpu", chip.getTag());
+        Assert.assertEquals("type", "cpu", chip.getType());
+        Assert.assertEquals("clock", "3867000", chip.getClock());
     }
 
     @Test
@@ -216,20 +216,20 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDisplay display = machine.getDisplays().iterator().next();
 
-        Assert.assertEquals("tag", display005.getTag(), display.getTag());
-        Assert.assertEquals("type", display005.getType(), display.getType());
-        Assert.assertEquals("rotate", display005.getRotate(), display.getRotate());
+        Assert.assertEquals("tag", "screen", display.getTag());
+        Assert.assertEquals("type", "raster", display.getType());
+        Assert.assertEquals("rotate", "270", display.getRotate());
         Assert.assertEquals("flipx", display005.getFlipx(), display.getFlipx());
-        Assert.assertEquals("width", display005.getWidth(), display.getWidth());
-        Assert.assertEquals("height", display005.getHeight(), display.getHeight());
-        Assert.assertEquals("refresh", display005.getRefresh(), display.getRefresh());
-        Assert.assertEquals("pixclock", display005.getPixclock(), display.getPixclock());
-        Assert.assertEquals("htotal", display005.getHtotal(), display.getHtotal());
-        Assert.assertEquals("hbend", display005.getHbend(), display.getHbend());
-        Assert.assertEquals("hbstart", display005.getHbstart(), display.getHbstart());
-        Assert.assertEquals("vtotal", display005.getVtotal(), display.getVtotal());
-        Assert.assertEquals("vbend", display005.getVbend(), display.getVbend());
-        Assert.assertEquals("vbstart", display005.getVbstart(), display.getVbstart());
+        Assert.assertEquals("width", Integer.valueOf(256), display.getWidth());
+        Assert.assertEquals("height", Integer.valueOf(224), display.getHeight());
+        Assert.assertEquals("refresh", "59.998138", display.getRefresh());
+        Assert.assertEquals("pixclock", Integer.valueOf(5156000), display.getPixclock());
+        Assert.assertEquals("htotal", Integer.valueOf(328), display.getHtotal());
+        Assert.assertEquals("hbend", Integer.valueOf(0), display.getHbend());
+        Assert.assertEquals("hbstart", Integer.valueOf(256), display.getHbstart());
+        Assert.assertEquals("vtotal", Integer.valueOf(262), display.getVtotal());
+        Assert.assertEquals("vbend", Integer.valueOf(0), display.getVbend());
+        Assert.assertEquals("vbstart", Integer.valueOf(224), display.getVbstart());
     }
 
     @Test
@@ -238,7 +238,7 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameSound sound = machine.getSound();
 
-        Assert.assertEquals("channels", sound005.getChannels(), sound.getChannels());
+        Assert.assertEquals("channels", Integer.valueOf(1), sound.getChannels());
     }
 
     @Test
@@ -247,10 +247,10 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameInput input = machine.getInput();
 
-        Assert.assertEquals("service", input005.getService(), input.getService());
+        Assert.assertEquals("service", "yes", input.getService());
         Assert.assertEquals("tilt", input005.getTilt(), input.getTilt());
-        Assert.assertEquals("players", input005.getPlayers(), input.getPlayers());
-        Assert.assertEquals("coins", input005.getCoins(), input.getCoins());
+        Assert.assertEquals("players", Integer.valueOf(2), input.getPlayers());
+        Assert.assertEquals("coins", Integer.valueOf(2), input.getCoins());
     }
 
     @Test
@@ -260,17 +260,16 @@ public class MameServiceTest {
         MameInput input = machine.getInput();
         MameInputControl control = input.getControls().iterator().next();
 
-        Assert.assertEquals("type", inputControl005.getType(), control.getType());
-
-        Assert.assertEquals("player", inputControl005.getPlayer(), control.getPlayer());
-        Assert.assertEquals("buttons", inputControl005.getButtons(), control.getButtons());
+        Assert.assertEquals("type", "joy", control.getType());
+        Assert.assertEquals("player", Integer.valueOf(1), control.getPlayer());
+        Assert.assertEquals("buttons", Integer.valueOf(1), control.getButtons());
         Assert.assertEquals("reqbuttons", inputControl005.getReqbuttons(), control.getReqbuttons());
         Assert.assertEquals("minimum", inputControl005.getMinimum(), control.getMinimum());
         Assert.assertEquals("maximum", inputControl005.getMaximum(), control.getMaximum());
         Assert.assertEquals("sensitivity", inputControl005.getSensitivity(), control.getSensitivity());
         Assert.assertEquals("keydelta", inputControl005.getKeydelta(), control.getKeydelta());
         Assert.assertEquals("reverse", inputControl005.getReverse(), control.getReverse());
-        Assert.assertEquals("ways", inputControl005.getWays(), control.getWays());
+        Assert.assertEquals("ways", "4", control.getWays());
         Assert.assertEquals("ways2", inputControl005.getWays2(), control.getWays2());
         Assert.assertEquals("ways3", inputControl005.getWays3(), control.getWays3());
     }
@@ -281,9 +280,9 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDipswitch dipswitch = machine.getDipswitches().get(0);
 
-        Assert.assertEquals("name", dipswitch005.getName(), dipswitch.getName());
-        Assert.assertEquals("tag", dipswitch005.getTag(), dipswitch.getTag());
-        Assert.assertEquals("mask", dipswitch005.getMask(), dipswitch.getMask());
+        Assert.assertEquals("name", "Coin A", dipswitch.getName());
+        Assert.assertEquals("tag", "D1D0", dipswitch.getTag());
+        Assert.assertEquals("mask", Long.valueOf(15), dipswitch.getMask());
     }
 
     @Test
@@ -293,8 +292,8 @@ public class MameServiceTest {
         MameDipswitch dipswitch = machine.getDipswitches().get(0);
         MameDipvalue dipvalue = dipswitch.getDipvalues().get(0);
 
-        Assert.assertEquals("name", dipvalue005.getName(), dipvalue.getName());
-        Assert.assertEquals("value", dipvalue005.getValue(), dipvalue.getValue());
+        Assert.assertEquals("name", "4 Coins/1 Credit", dipvalue.getName());
+        Assert.assertEquals("value", Long.valueOf(0), dipvalue.getValue());
         Assert.assertEquals("default", dipvalue005.getDefault(), dipvalue.getDefault());
     }
 
@@ -304,9 +303,9 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameConfiguration configuration = machine.getConfigurations().iterator().next();
 
-        Assert.assertEquals("name", configuration005.getName(), configuration.getName());
-        Assert.assertEquals("tag", configuration005.getTag(), configuration.getTag());
-        Assert.assertEquals("mask", configuration005.getMask(), configuration.getMask());
+        Assert.assertEquals("name", "Treat Joystick as...", configuration.getName());
+        Assert.assertEquals("tag", "CONFIG", configuration.getTag());
+        Assert.assertEquals("mask", Integer.valueOf(1), configuration.getMask());
     }
 
     @Test
@@ -316,9 +315,9 @@ public class MameServiceTest {
         MameConfiguration configuration = machine.getConfigurations().iterator().next();
         MameConfsetting confsetting = configuration.getConfsettings().iterator().next();
 
-        Assert.assertEquals("name", confsetting005.getName(), confsetting.getName());
-        Assert.assertEquals("value", confsetting005.getValue(), confsetting.getValue());
-        Assert.assertEquals("default", confsetting005.getDefault(), confsetting.getDefault());
+        Assert.assertEquals("name", "Buttons", confsetting.getName());
+        Assert.assertEquals("value", Integer.valueOf(0), confsetting.getValue());
+        Assert.assertEquals("default", "yes", confsetting.getDefault());
     }
 
     @Test
@@ -327,7 +326,7 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MamePort port = machine.getPorts().get(0);
 
-        Assert.assertEquals("tag", port005.getTag(), port.getTag());
+        Assert.assertEquals("tag", ":D1D0", port.getTag());
     }
 
     @Test
@@ -337,7 +336,7 @@ public class MameServiceTest {
         MamePort port = machine.getPorts().get(0);
         MameAnalog analog = port.getAnalogs().get(0);
 
-        Assert.assertEquals("mask", analog005.getMask(), analog.getMask());
+        Assert.assertEquals("mask", Integer.valueOf(1), analog.getMask());
     }
 
     @Test
@@ -346,8 +345,8 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameAdjuster adjuster = machine.getAdjusters().iterator().next();
 
-        Assert.assertEquals("name", adjuster005.getName(), adjuster.getName());
-        Assert.assertEquals("default", adjuster005.getDefault(), adjuster.getDefault());
+        Assert.assertEquals("name", "VR2 - DAC Volume", adjuster.getName());
+        Assert.assertEquals("default", Integer.valueOf(90), adjuster.getDefault());
     }
 
     @Test
@@ -356,14 +355,14 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDriver driver = machine.getDriver();
 
-        Assert.assertEquals("status", driver005.getStatus(), driver.getStatus());
-        Assert.assertEquals("emulation", driver005.getEmulation(), driver.getEmulation());
-        Assert.assertEquals("color", driver005.getColor(), driver.getColor());
-        Assert.assertEquals("sound", driver005.getSound(), driver.getSound());
-        Assert.assertEquals("graphic", driver005.getGraphic(), driver.getGraphic());
+        Assert.assertEquals("status", "imperfect", driver.getStatus());
+        Assert.assertEquals("emulation", "good", driver.getEmulation());
+        Assert.assertEquals("color", "good", driver.getColor());
+        Assert.assertEquals("sound", "imperfect", driver.getSound());
+        Assert.assertEquals("graphic", "good", driver.getGraphic());
         Assert.assertEquals("cocktail", driver005.getCocktail(), driver.getCocktail());
         Assert.assertEquals("protection", driver005.getProtection(), driver.getProtection());
-        Assert.assertEquals("savestate", driver005.getSavestate(), driver.getSavestate());
+        Assert.assertEquals("savestate", "unsupported", driver.getSavestate());
     }
 
     @Test
@@ -372,8 +371,8 @@ public class MameServiceTest {
         MameMachine machine = mame.getMachines().iterator().next();
         MameDevice device = machine.getDevices().iterator().next();
 
-        Assert.assertEquals("type", device005.getType(), device.getType());
-        Assert.assertEquals("tag", device005.getTag(), device.getTag());
+        Assert.assertEquals("type", "cassette", device.getType());
+        Assert.assertEquals("tag", "cassette", device.getTag());
         Assert.assertEquals("fixed_image", device005.getFixed_image(), device.getFixed_image());
         Assert.assertEquals("mandatory", device005.getMandatory(), device.getMandatory());
         Assert.assertEquals("interface", device005.getInterface(), device.getInterface());
@@ -386,8 +385,8 @@ public class MameServiceTest {
         MameDevice device = machine.getDevices().iterator().next();
         MameDeviceInstance instance = device.getInstances().iterator().next();
 
-        Assert.assertEquals("name", deviceInstance005.getName(), instance.getName());
-        Assert.assertEquals("briefname", deviceInstance005.getBriefname(), instance.getBriefname());
+        Assert.assertEquals("name", "cassette", instance.getName());
+        Assert.assertEquals("briefname", "cass", instance.getBriefname());
     }
 
     @Test
@@ -397,6 +396,6 @@ public class MameServiceTest {
         MameDevice device = machine.getDevices().iterator().next();
         MameDeviceExtension extension = device.getExtensions().iterator().next();
 
-        Assert.assertEquals("name", deviceExtension005.getName(), extension.getName());
+        Assert.assertEquals("name", "wav", extension.getName());
     }
 }

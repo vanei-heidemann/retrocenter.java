@@ -150,7 +150,7 @@
         <biosset name="biosset 01" description="biosset 001"/>
         <rom name="1346b.cpu-u25" size="2048" crc="8e68533e" sha1="a257c556d31691068ed5c991f1fb2b51da4826db"
              region="maincpu" offset="0"/>
-        <disk name="disk 01" region="Brazil" status="nodump" optional="yes" writable="no"/>
+        <disk name="disk 01" region="maincpu" status="nodump" optional="yes" writable="no"/>
         <device_ref name="z80"/>
         <sample name="lexplode"/>
         <chip type="cpu" tag="maincpu" name="Z80" clock="3867000"/>
