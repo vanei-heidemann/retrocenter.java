@@ -26,5 +26,6 @@
         <module>cmpro</module>
         <module>logiqx</module>
         <module>mame</module>
+        <module>parser</module>
     </modules>
 </project>
