@@ -58,41 +58,48 @@ public class LogiqxService {
             LogiqxGameEntity gameEntity = new LogiqxGameEntity(game);
             gameEntity.setDatafile(entity);
             gameEntity = gameDAO.saveAndFlush(gameEntity);
+            entity.getGames().add(gameEntity);
 
             for (LogiqxRelease release : game.getReleases()) {
                 LogiqxReleaseEntity releaseEntity = new LogiqxReleaseEntity(release);
                 releaseEntity.setGame(gameEntity);
                 releaseDAO.saveAndFlush(releaseEntity);
+                gameEntity.getReleases().add(releaseEntity);
             }
 
             for (LogiqxBiosset biosset : game.getBiossets()) {
                 LogiqxBiossetEntity biossetEntity = new LogiqxBiossetEntity(biosset);
                 biossetEntity.setGame(gameEntity);
                 biossetDAO.saveAndFlush(biossetEntity);
+                gameEntity.getBiossets().add(biossetEntity);
             }
 
             for (LogiqxRom rom : game.getRoms()) {
                 LogiqxRomEntity romEntity = new LogiqxRomEntity(rom);
                 romEntity.setGame(gameEntity);
                 romDAO.saveAndFlush(romEntity);
+                gameEntity.getRoms().add(romEntity);
             }
 
             for (LogiqxDisk disk : game.getDisks()) {
                 LogiqxDiskEntity diskEntity = new LogiqxDiskEntity(disk);
                 diskEntity.setGame(gameEntity);
                 diskDAO.saveAndFlush(diskEntity);
+                gameEntity.getDisks().add(diskEntity);
             }
 
             for (LogiqxSample sample : game.getSamples()) {
                 LogiqxSampleEntity sampleEntity = new LogiqxSampleEntity(sample);
                 sampleEntity.setGame(gameEntity);
                 sampleDAO.saveAndFlush(sampleEntity);
+                gameEntity.getSamples().add(sampleEntity);
             }
 
             for (LogiqxArchive archive : game.getArchives()) {
                 LogiqxArchiveEntity archiveEntity = new LogiqxArchiveEntity(archive);
                 archiveEntity.setGame(gameEntity);
                 archiveDAO.saveAndFlush(archiveEntity);
+                gameEntity.getArchives().add(archiveEntity);
             }
         }
 
