@@ -10,15 +10,15 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class RetrocenterParserTest {
+public class RetrocenterDatafileParserTest {
     private static Datafile datafile;
 
     @BeforeClass
     public static void initialize() throws Exception {
-        DatafileParser parser = new DatafileParser();
+        RetrocenterDatafileParser parser = new RetrocenterDatafileParser();
         InputStream is = DatafileParserTest.class.getClassLoader().getResourceAsStream("retrocenter.xml");
 
-        datafile = (Datafile) parser.parse(is);
+        datafile = parser.parse(is);
     }
 
     @Test
