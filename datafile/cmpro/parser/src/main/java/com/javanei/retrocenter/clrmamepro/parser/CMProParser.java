@@ -7,16 +7,18 @@ import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.common.DuplicatedItemException;
+import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.common.UnknownTagException;
 import com.javanei.retrocenter.datafile.Parser;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class CMProParser implements Parser {
-    private static CMProDisk parseDisk(String line) throws Exception {
+    private static CMProDisk parseDisk(String line) {
         String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
         CMProDisk r = new CMProDisk();
 
@@ -39,7 +41,7 @@ public class CMProParser implements Parser {
         return r;
     }
 
-    private static CMProRom parseRom(String line) throws Exception {
+    private static CMProRom parseRom(String line) {
         String romLine = line.substring(line.indexOf("(") + 1, line.length() - 1).trim();
         CMProRom r = new CMProRom();
 
@@ -88,20 +90,19 @@ public class CMProParser implements Parser {
         return s.trim();
     }
 
-    public CMProDatafile parse(File file) throws Exception {
+    public CMProDatafile parse(File file) throws UnknownDatafileFormatException, IOException {
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
     }
 
-    public CMProDatafile parse(InputStream is) throws Exception {
+    public CMProDatafile parse(InputStream is) throws UnknownDatafileFormatException, IOException {
         CMProDatafile r = null;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
             String line = reader.readLine().trim();
             String[] ss = line.split(" ");
             if (!ss[0].trim().equals("clrmamepro")) {
-                //TODO: Criar exception
-                throw new Exception("Invalid ClrMamePro dat file format");
+                throw new UnknownDatafileFormatException();
             }
 
             CMProHeader header = new CMProHeader();
@@ -210,7 +211,7 @@ public class CMProParser implements Parser {
                         throw new DuplicatedItemException("resource: " + resource.getName());
                     }
                 } else if (!line.isEmpty()) {
-                    throw new Exception("Unknown tag value: " + line);
+                    throw new UnknownTagException(line);
                 }
 
                 line = reader.readLine();

@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.parser;
 
+import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.common.UnknownTagException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
 import com.javanei.retrocenter.datafile.Parser;
@@ -14,29 +15,48 @@ import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class LogiqxParser implements Parser {
-    public LogiqxDatafile parse(File file) throws Exception {
+    private static final Logger LOG = LoggerFactory.getLogger(LogiqxParser.class);
+
+    public LogiqxDatafile parse(File file) throws UnknownDatafileFormatException, IOException {
+        LOG.info("parse(" + file + ")");
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
     }
 
-    public LogiqxDatafile parse(InputStream is) throws Exception {
+    public LogiqxDatafile parse(InputStream is) throws UnknownDatafileFormatException, IOException {
+        LOG.info("parse(is)");
         LogiqxDatafile r = new LogiqxDatafile();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         factory.setIgnoringComments(true);
         factory.setValidating(false);
 
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(is);
+        DocumentBuilder builder;
+        Document doc;
+        try {
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
+        } catch (ParserConfigurationException e) {
+            LOG.error(e.getMessage(), e);
+            throw new UnknownDatafileFormatException();
+        } catch (SAXException e) {
+            LOG.error(e.getMessage(), e);
+            throw new UnknownDatafileFormatException();
+        }
         NodeList datafiles = doc.getChildNodes();
         for (int idatafile = 0; idatafile < datafiles.getLength(); idatafile++) {
             Node datafile = datafiles.item(idatafile);

@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>retrocenter-datafile</artifactId>
+        <artifactId>retrocenter</artifactId>
         <relativePath>../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-datafile-service-spring</artifactId>
     <packaging>jar</packaging>
+    <artifactId>retrocenter-server-test</artifactId>
 
     <properties>
         <java.version>1.8</java.version>
@@ -48,59 +48,43 @@
     </build>
 
     <dependencies>
+        <!--
         <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.25.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart -->
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-multipart</artifactId>
+            <version>2.25.1</version>
         </dependency>
 
         <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-entity</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
         </dependency>
+
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
             <artifactId>retrocenter-datafile-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-persistence-springjpa</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-mame-service-spring</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-cmpro-service-spring</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-logiqx-service-spring</artifactId>
-            <version>${project.version}</version>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
 
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>4.2.5.RELEASE</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-datafile-mame-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

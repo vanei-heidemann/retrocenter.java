@@ -15,8 +15,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DatafileServiceConfiguration {
     @Bean
-    public DatafileService datafileService() {
-        return new DatafileService();
+    public RetrocenterDatafileService retrocenterDatafileService() {
+        return new RetrocenterDatafileService();
     }
 
     @Bean

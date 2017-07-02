@@ -10,17 +10,24 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DatafileParser implements Parser {
-    public DatafileObject parse(File file) throws Exception {
+    private static final Logger LOG = LoggerFactory.getLogger(DatafileParser.class);
+
+    public DatafileObject parse(File file) throws UnknownDatafileFormatException, IOException {
+        LOG.info("parse(" + file + ")");
         try (FileInputStream is = new FileInputStream(file)) {
             return parse(is);
         }
     }
 
-    public DatafileObject parse(InputStream is) throws Exception {
+    public DatafileObject parse(InputStream is) throws UnknownDatafileFormatException, IOException {
+        LOG.info("parse(is)");
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         byte[] b = new byte[8192];
         int size = is.read(b);
@@ -31,12 +38,16 @@ public class DatafileParser implements Parser {
             if (parser == null) {
                 if (s.contains("<retrocenter")) {
                     parser = new RetrocenterDatafileParser();
+                    LOG.info("parser class: " + parser.getClass());
                 } else if (s.contains("<mame ")) {
                     parser = new MameParser();
+                    LOG.info("parser class: " + parser.getClass());
                 } else if (s.contains("clrmamepro (")) {
                     parser = new CMProParser();
+                    LOG.info("parser class: " + parser.getClass());
                 } else if (s.contains("logiqx") || s.contains("<datafile")) {
                     parser = new LogiqxParser();
+                    LOG.info("parser class: " + parser.getClass());
                 }
             }
             size = is.read(b);

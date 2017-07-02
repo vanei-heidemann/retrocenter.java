@@ -16,10 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {DatafileServiceConfiguration.class})
-public class DatafileServiceTest {
+public class RetrocenterDatafileServiceTest {
     private static Datafile datafile;
     @Autowired
-    private DatafileService datafileService;
+    private RetrocenterDatafileService retrocenterDatafileService;
 
     @BeforeClass
     public static void initialize() throws Exception {
@@ -50,7 +50,7 @@ public class DatafileServiceTest {
 
     @Test
     public void create() {
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Assert.assertEquals("name", "name 01", d.getName());
         Assert.assertEquals("category", DatafileCategoryEnum.NoIntro.name(), d.getCategory());
         Assert.assertEquals("version", "1.00", d.getVersion());
@@ -65,7 +65,7 @@ public class DatafileServiceTest {
 
     @Test
     public void createGame() {
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Artifact game = d.getArtifacts().iterator().next();
         Assert.assertEquals("name", "game 01", game.getName());
         Assert.assertEquals("isbios", "no", game.getIsbios());
@@ -81,7 +81,7 @@ public class DatafileServiceTest {
     @Test
     public void createRom() {
         ArtifactFile gf = null;
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Artifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
@@ -105,7 +105,7 @@ public class DatafileServiceTest {
     @Test
     public void createDisk() {
         ArtifactFile gf = null;
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Artifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
@@ -129,7 +129,7 @@ public class DatafileServiceTest {
     @Test
     public void createSample() {
         ArtifactFile gf = null;
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Artifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
@@ -152,7 +152,7 @@ public class DatafileServiceTest {
 
     @Test
     public void createRelease() {
-        Datafile d = datafileService.create(datafile);
+        Datafile d = retrocenterDatafileService.create(datafile);
         Artifact game = d.getArtifacts().iterator().next();
         Release release = game.getReleases().iterator().next();
         Assert.assertEquals("name", "release 01", release.getName());

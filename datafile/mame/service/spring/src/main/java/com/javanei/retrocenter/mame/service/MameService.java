@@ -78,6 +78,8 @@ import com.javanei.retrocenter.mame.persistence.MameSlotDAO;
 import com.javanei.retrocenter.mame.persistence.MameSlotoptionDAO;
 import com.javanei.retrocenter.mame.persistence.MameSoftwarelistDAO;
 import com.javanei.retrocenter.mame.persistence.MameSoundDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -86,6 +88,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class MameService {
+    private static final Logger LOG = LoggerFactory.getLogger(MameService.class);
+
     @Autowired
     private MameDAO mameDAO;
     @Autowired
@@ -143,6 +147,7 @@ public class MameService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Mame create(String build, String debug, String mameconfig) {
+        LOG.info("create(build=" + build + ", debug=" + debug + ", mameconfig=" + mameconfig + ")");
         MameEntity entity = new MameEntity();
         entity.setBuild(build);
         entity.setDebug(debug);
@@ -153,6 +158,7 @@ public class MameService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Mame create(Mame mame) {
+        LOG.info("create - mame(build=" + mame.getBuild() + ", debug=" + mame.getDebug() + ", mameconfig=" + mame.getMameconfig() + ")");
         MameEntity entity = mameDAO.saveAndFlush(new MameEntity(mame));
         for (MameMachine machine : mame.getMachines()) {
             saveMachine(entity, machine);
@@ -163,17 +169,20 @@ public class MameService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public Mame findByBuild(String build) {
+        LOG.info("findByBuild(" + build + ")");
         MameEntity entity = mameDAO.findByBuild(build);
         return entity != null ? new Mame(entity.getBuild(), entity.getDebug(), entity.getMameconfig()) : null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public Mame findByBuildFull(String build) {
+        LOG.info("findByBuildFull(" + build + ")");
         MameEntity entity = mameDAO.findByBuildFull(build);
         return entity != null ? entity.toVO() : null;
     }
 
     private MameMachineEntity saveMachine(MameEntity mame, MameMachine machine) {
+        LOG.info("saveMachine(" + machine.getName() + ")");
         MameMachineEntity machineEntity = new MameMachineEntity(machine);
         machineEntity.setMame(mame);
         machineEntity = machineDAO.saveAndFlush(machineEntity);

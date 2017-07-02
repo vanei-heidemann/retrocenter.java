@@ -19,5 +19,6 @@
         <module>common</module>
         <module>datafile</module>
         <module>server/springboot</module>
+        <module>server/test</module>
     </modules>
 </project>
