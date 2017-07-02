@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
+import org.xml.sax.Attributes;
 
 public final class ReflectionUtil {
     public static void setValueByReflection(Object to, String attr, Object value) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
@@ -29,6 +30,20 @@ public final class ReflectionUtil {
             for (int j = 0; j < attrs.getLength(); j++) {
                 Node attr = attrs.item(j);
                 setValueByAttribute(to, attr);
+            }
+        }
+    }
+
+    public static void setValueByAttributes(Object to, Attributes attrs) {
+        if (attrs != null) {
+            for (int j = 0; j < attrs.getLength(); j++) {
+                String qName = attrs.getQName(j);
+                String value = attrs.getValue(j);
+                try {
+                    setValueByReflection(to, qName, value);
+                } catch (Exception ex) {
+                    throw new UnknownAttributeException(qName);
+                }
             }
         }
     }
