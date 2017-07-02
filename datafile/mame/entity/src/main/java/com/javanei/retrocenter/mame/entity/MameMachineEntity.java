@@ -1,21 +1,6 @@
 package com.javanei.retrocenter.mame.entity;
 
-import com.javanei.retrocenter.mame.MameAdjuster;
-import com.javanei.retrocenter.mame.MameBiosset;
-import com.javanei.retrocenter.mame.MameChip;
-import com.javanei.retrocenter.mame.MameConfiguration;
-import com.javanei.retrocenter.mame.MameDevice;
-import com.javanei.retrocenter.mame.MameDeviceref;
-import com.javanei.retrocenter.mame.MameDipswitch;
-import com.javanei.retrocenter.mame.MameDisk;
-import com.javanei.retrocenter.mame.MameDisplay;
 import com.javanei.retrocenter.mame.MameMachine;
-import com.javanei.retrocenter.mame.MamePort;
-import com.javanei.retrocenter.mame.MameRamoption;
-import com.javanei.retrocenter.mame.MameRom;
-import com.javanei.retrocenter.mame.MameSample;
-import com.javanei.retrocenter.mame.MameSlot;
-import com.javanei.retrocenter.mame.MameSoftwarelist;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -55,7 +40,7 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     @Column(name = "MAME_MACHINE_ID", nullable = false)
     private Long id;
 
-    @Column(name = "NAME", length = 32, nullable = false)
+    @Column(name = "NAME", length = 64, nullable = false)
     private String name;
 
     @Column(name = "SOURCEFILE", length = 48, nullable = false)
@@ -174,60 +159,6 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this(machine.getName(), machine.getSourcefile(), machine.getIsbios(), machine.getIsdevice(),
                 machine.getIsmechanical(), machine.getRunnable(), machine.getCloneof(), machine.getRomof(),
                 machine.getSampleof(), machine.getDescription(), machine.getYear(), machine.getManufacturer());
-        if (machine.getSound() != null) {
-            this.sound = new MameSoundEntity(machine.getSound());
-        }
-        if (machine.getInput() != null) {
-            this.input = new MameInputEntity(machine.getInput());
-        }
-        if (machine.getDriver() != null) {
-            this.driver = new MameDriverEntity(machine.getDriver());
-        }
-        for (MameBiosset biosset : machine.getBiossets()) {
-            this.biossets.add(new MameBiossetEntity(biosset));
-        }
-        for (MameRom rom : machine.getRoms()) {
-            this.roms.add(new MameRomEntity(rom));
-        }
-        for (MameDisk disk : machine.getDisks()) {
-            this.disks.add(new MameDiskEntity(disk));
-        }
-        for (MameDeviceref deviceref : machine.getDevicerefs()) {
-            this.devicerefs.add(new MameDevicerefEntity(deviceref));
-        }
-        for (MameSample sample : machine.getSamples()) {
-            this.samples.add(new MameSampleEntity(sample.getName()));
-        }
-        for (MameChip chip : machine.getChips()) {
-            this.chips.add(new MameChipEntity(chip));
-        }
-        for (MameDisplay display : machine.getDisplays()) {
-            this.displays.add(new MameDisplayEntity(display));
-        }
-        for (MameDipswitch dipswitch : machine.getDipswitches()) {
-            this.dipswitches.add(new MameDipswitchEntity(dipswitch));
-        }
-        for (MameConfiguration configuration : machine.getConfigurations()) {
-            this.configurations.add(new MameConfigurationEntity(configuration));
-        }
-        for (MamePort port : machine.getPorts()) {
-            this.ports.add(new MamePortEntity(port));
-        }
-        for (MameAdjuster adjuster : machine.getAdjusters()) {
-            this.adjusters.add(new MameAdjusterEntity(adjuster));
-        }
-        for (MameDevice device : machine.getDevices()) {
-            this.devices.add(new MameDeviceEntity(device));
-        }
-        for (MameSlot slot : machine.getSlots()) {
-            this.slots.add(new MameSlotEntity(slot));
-        }
-        for (MameSoftwarelist softwarelist : machine.getSoftwarelists()) {
-            this.softwarelists.add(new MameSoftwarelistEntity(softwarelist));
-        }
-        for (MameRamoption ramoption : machine.getRamoptions()) {
-            this.ramoptions.add(new MameRamoptionEntity(ramoption));
-        }
     }
 
     public MameMachine toVO() {

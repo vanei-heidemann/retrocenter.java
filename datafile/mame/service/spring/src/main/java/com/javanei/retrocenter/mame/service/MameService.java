@@ -144,6 +144,8 @@ public class MameService {
     private MameSoftwarelistDAO softwarelistDAO;
     @Autowired
     private MameRamoptionDAO ramoptionDAO;
+    @Autowired
+    private MameService mameService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public Mame create(String build, String debug, String mameconfig) {
@@ -156,37 +158,34 @@ public class MameService {
         return entity.toVO();
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public Mame create(Mame mame) {
         LOG.info("create - mame(build=" + mame.getBuild() + ", debug=" + mame.getDebug() + ", mameconfig=" + mame.getMameconfig() + ")");
-        MameEntity entity = mameDAO.saveAndFlush(new MameEntity(mame));
+        MameEntity entity = mameService.create(new MameEntity(mame));
+        int cont = 0;
         for (MameMachine machine : mame.getMachines()) {
-            saveMachine(entity, machine);
+            MameMachineEntity machineEntity = new MameMachineEntity(machine);
+            machineEntity.setMame(entity);
+            machineEntity = mameService.createMachine(machine, machineEntity);
+            entity.getMachines().add(machineEntity);
+            cont++;
+            if (cont % 100 == 0) {
+                LOG.info("====== Save machine " + cont + " of " + mame.getMachines().size() + ": " + machine.getName());
+            }
         }
 
         return entity.toVO();
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Mame findByBuild(String build) {
-        LOG.info("findByBuild(" + build + ")");
-        MameEntity entity = mameDAO.findByBuild(build);
-        return entity != null ? new Mame(entity.getBuild(), entity.getDebug(), entity.getMameconfig()) : null;
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public MameEntity create(MameEntity entity) {
+        return mameDAO.saveAndFlush(entity);
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Mame findByBuildFull(String build) {
-        LOG.info("findByBuildFull(" + build + ")");
-        MameEntity entity = mameDAO.findByBuildFull(build);
-        return entity != null ? entity.toVO() : null;
-    }
-
-    private MameMachineEntity saveMachine(MameEntity mame, MameMachine machine) {
-        LOG.info("saveMachine(" + machine.getName() + ")");
-        MameMachineEntity machineEntity = new MameMachineEntity(machine);
-        machineEntity.setMame(mame);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public MameMachineEntity createMachine(MameMachine machine, MameMachineEntity machineEntity) {
+        LOG.info(":::::: createMachine(" + machineEntity.getName() + ")=" + machineEntity.getName().length());
         machineEntity = machineDAO.saveAndFlush(machineEntity);
-        mame.getMachines().add(machineEntity);
 
         if (machine.getSound() != null) {
             MameSoundEntity soundEntity = new MameSoundEntity(machine.getSound());
@@ -364,5 +363,19 @@ public class MameService {
         }
 
         return machineEntity;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Mame findByBuild(String build) {
+        LOG.info("findByBuild(" + build + ")");
+        MameEntity entity = mameDAO.findByBuild(build);
+        return entity != null ? new Mame(entity.getBuild(), entity.getDebug(), entity.getMameconfig()) : null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Mame findByBuildFull(String build) {
+        LOG.info("findByBuildFull(" + build + ")");
+        MameEntity entity = mameDAO.findByBuildFull(build);
+        return entity != null ? entity.toVO() : null;
     }
 }

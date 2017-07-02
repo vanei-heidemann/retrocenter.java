@@ -28,7 +28,7 @@ public class MameBiossetEntity implements Serializable, Comparable<MameBiossetEn
     @Column(name = "MAME_BIOSSET_ID", nullable = false)
     private Long id;
 
-    @Column(name = "NAME", length = 16, nullable = false)
+    @Column(name = "NAME", length = 32, nullable = false)
     private String name;
 
     @Column(name = "DESCRIPTION", length = 96, nullable = false)

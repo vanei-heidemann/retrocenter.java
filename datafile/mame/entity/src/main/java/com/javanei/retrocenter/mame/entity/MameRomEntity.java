@@ -28,7 +28,7 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
     @Column(name = "MAME_ROM_ID", nullable = false)
     private Long id;
 
-    @Column(name = "NAME", length = 80, nullable = false)
+    @Column(name = "NAME", length = 160, nullable = false)
     private String name;
 
     @Column(name = "BIOS", length = 16, nullable = true)
