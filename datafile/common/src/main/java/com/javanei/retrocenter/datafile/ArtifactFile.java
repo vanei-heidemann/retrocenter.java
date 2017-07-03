@@ -35,14 +35,15 @@ public class ArtifactFile implements Serializable {
      */
     private String md5;
     /**
+     * logiqx.rom.date
+     */
+    private String date;
+
+    /**
      * logiqx.rom.status [(baddump|nodump|good|verified) "good"], clrmamepro.rom.flags [baddump|verified]
      * logiqx.disk.status [(baddump|nodump|good|verified) "good"]
      */
     private String status;
-    /**
-     * logiqx.rom.date
-     */
-    private String date;
     /**
      * logiqx.rom.merge
      * logiqx.disk.merge

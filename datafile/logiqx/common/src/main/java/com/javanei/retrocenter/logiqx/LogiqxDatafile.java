@@ -118,8 +118,12 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
                 this.header.getEmail(), this.header.getHomepage(), this.header.getUrl(),
                 this.header.getComment()) : new Datafile();
         for (LogiqxGame game : this.getGames()) {
-            Artifact rGame = new Artifact(game.getName(), game.getIsbios(), game.getDescription(), game.getYear(),
-                    game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(), game.getComment());
+            Artifact rGame = new Artifact(game.getName(), game.getDescription(), game.getYear(), game.getComment());
+            rGame.setIsbios(game.getIsbios());
+            rGame.setManufacturer(game.getManufacturer());
+            rGame.setCloneof(game.getCloneof());
+            rGame.setRomof(game.getRomof());
+            rGame.setSampleof(game.getSampleof());
             for (LogiqxRelease p : game.getReleases()) {
                 rGame.addRelease(new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault()));
             }

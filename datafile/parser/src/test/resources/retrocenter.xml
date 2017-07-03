@@ -7,9 +7,9 @@
     <url>http://www.tosecdev.org/</url>
     <comment>Comment</comment>
     <date>1998</date>
-    <artifact name="1080 Snowboarding (1998)(Nintendo)(EU)(M4)" isbios="no">
-        <description>1080 Snowboarding (1998)(Nintendo)(EU)(M4)</description>
-        <year>1998</year>
+    <artifact name="1080 Snowboarding (1998)(Nintendo)(EU)(M4)" year="1998"
+              description="1080 Snowboarding (1998)(Nintendo)(EU)(M4)">
+        <isbios>no</isbios>
         <manufacturer>Nintendo</manufacturer>
         <cloneof>1080 Snowboarding (1998)(Nintendo)</cloneof>
         <romof>1080 Snowboarding</romof>

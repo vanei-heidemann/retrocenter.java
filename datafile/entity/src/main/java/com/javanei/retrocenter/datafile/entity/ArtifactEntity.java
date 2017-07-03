@@ -1,11 +1,15 @@
 package com.javanei.retrocenter.datafile.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,8 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "DATAFILE_ARTIFACT", indexes = {
@@ -32,29 +39,21 @@ public class ArtifactEntity implements Serializable {
     @Column(name = "NAME", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "ISBIOS", length = 3, nullable = true)
-    private String isbios;
-
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
 
     @Column(name = "YEAR", length = 32, nullable = true)
     private String year;
 
-    @Column(name = "MANUFACTURER", length = 255, nullable = true)
-    private String manufacturer;
-
-    @Column(name = "CLONEOF", length = 255, nullable = true)
-    private String cloneof;
-
-    @Column(name = "ROMOF", length = 255, nullable = true)
-    private String romof;
-
-    @Column(name = "SAMPLEOF", length = 255, nullable = true)
-    private String sampleof;
-
     @Column(name = "COMMENT", length = 255, nullable = true)
     private String comment;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "DATAFILE_ARTIFACT_FIELD")
+    @MapKeyColumn(name = "FIELD_KEY", length = 128)
+    @Column(name = "FIELD_VALUE", length = 255, nullable = true)
+    @MapKeyJoinColumn(name = "ARTIFACT_ID", referencedColumnName = "ARTIFACT_ID")
+    private Map<String, String> fields = new HashMap<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
     private Set<ArtifactFileEntity> files = new HashSet<>();
@@ -73,29 +72,19 @@ public class ArtifactEntity implements Serializable {
         this.id = id;
     }
 
-    public ArtifactEntity(String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
+    public ArtifactEntity(String name, String description, String year, String comment) {
         this.name = name;
-        this.isbios = isbios;
         this.description = description;
         this.year = year;
-        this.manufacturer = manufacturer;
-        this.cloneof = cloneof;
-        this.romof = romof;
-        this.sampleof = sampleof;
         this.comment = comment;
     }
 
-    public ArtifactEntity(Long id, String name, String isbios, String description, String year, String manufacturer, String cloneof, String romof, String sampleof, String comment) {
-        this.id = id;
+    public ArtifactEntity(String name, String description, String year, String comment, Map<String, String> fields) {
         this.name = name;
-        this.isbios = isbios;
         this.description = description;
         this.year = year;
-        this.manufacturer = manufacturer;
-        this.cloneof = cloneof;
-        this.romof = romof;
-        this.sampleof = sampleof;
         this.comment = comment;
+        this.fields = fields;
     }
 
     public Long getId() {
@@ -114,14 +103,6 @@ public class ArtifactEntity implements Serializable {
         this.name = name;
     }
 
-    public String getIsbios() {
-        return isbios;
-    }
-
-    public void setIsbios(String isbios) {
-        this.isbios = isbios;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -138,44 +119,27 @@ public class ArtifactEntity implements Serializable {
         this.year = year;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
-    }
-
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
-    }
-
-    public String getCloneof() {
-        return cloneof;
-    }
-
-    public void setCloneof(String cloneof) {
-        this.cloneof = cloneof;
-    }
-
-    public String getRomof() {
-        return romof;
-    }
-
-    public void setRomof(String romof) {
-        this.romof = romof;
-    }
-
-    public String getSampleof() {
-        return sampleof;
-    }
-
-    public void setSampleof(String sampleof) {
-        this.sampleof = sampleof;
-    }
-
     public String getComment() {
         return comment;
     }
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
+    }
+
+    public void addField(String key, String value) {
+        if (this.fields == null) {
+            this.fields = new HashMap<>();
+        }
+        this.fields.put(key, value);
     }
 
     public Set<ArtifactFileEntity> getFiles() {
@@ -200,6 +164,76 @@ public class ArtifactEntity implements Serializable {
 
     public void setDatafile(DatafileEntity datafile) {
         this.datafile = datafile;
+    }
+
+    @Transient
+    public String getIsbios() {
+        return this.fields.get("isbios");
+    }
+
+    @Transient
+    public void setIsbios(String isbios) {
+        if (isbios != null) {
+            this.fields.put("isbios", isbios);
+        } else {
+            this.fields.remove(isbios);
+        }
+    }
+
+    @Transient
+    public String getManufacturer() {
+        return this.fields.get("manufacturer");
+    }
+
+    @Transient
+    public void setManufacturer(String manufacturer) {
+        if (manufacturer != null) {
+            this.fields.put("manufacturer", manufacturer);
+        } else {
+            this.fields.remove("manufacturer");
+        }
+    }
+
+    @Transient
+    public String getCloneof() {
+        return this.fields.get("cloneof");
+    }
+
+    @Transient
+    public void setCloneof(String cloneof) {
+        if (cloneof != null) {
+            this.fields.put("cloneof", cloneof);
+        } else {
+            this.fields.remove("cloneof");
+        }
+    }
+
+    @Transient
+    public String getRomof() {
+        return this.fields.get("romof");
+    }
+
+    @Transient
+    public void setRomof(String romof) {
+        if (romof != null) {
+            this.fields.put("romof", romof);
+        } else {
+            this.fields.remove("romof");
+        }
+    }
+
+    @Transient
+    public String getSampleof() {
+        return this.fields.get("sampleof");
+    }
+
+    @Transient
+    public void setSampleof(String sampleof) {
+        if (sampleof != null) {
+            this.fields.put("sampleof", sampleof);
+        } else {
+            this.fields.remove("sampleof");
+        }
     }
 
     @Override

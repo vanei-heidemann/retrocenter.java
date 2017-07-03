@@ -27,9 +27,12 @@ public class RetrocenterDatafileServiceTest {
                 "description 01", "author 01", "2017", "teste@teste.com",
                 "homepage 01", "http://www.teste.com", "comment 01");
 
-        Artifact game = new Artifact("game 01", "no", "description 01", "2017",
-                "manufacturer 01", "cloneof 01", "romof 01", "sampleof 01",
-                "game comment 01");
+        Artifact game = new Artifact("game 01", "description 01", "2017", "game comment 01");
+        game.setIsbios("no");
+        game.setCloneof("cloneof 01");
+        game.setRomof("romof 01");
+        game.setSampleof("sampleof 01");
+        game.setManufacturer("manufacturer 01");
 
         ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", "100", "12345678",
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",

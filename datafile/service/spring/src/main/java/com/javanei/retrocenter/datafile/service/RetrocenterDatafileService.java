@@ -43,9 +43,8 @@ public class RetrocenterDatafileService {
                 entity.getHomepage(), entity.getUrl(), entity.getComment());
 
         for (ArtifactEntity gameEntity : entity.getArtifacts()) {
-            Artifact g = new Artifact(gameEntity.getName(), gameEntity.getIsbios(), gameEntity.getDescription(),
-                    gameEntity.getYear(), gameEntity.getManufacturer(), gameEntity.getCloneof(),
-                    gameEntity.getRomof(), gameEntity.getSampleof(), gameEntity.getComment());
+            Artifact g = new Artifact(gameEntity.getName(), gameEntity.getDescription(),
+                    gameEntity.getYear(), gameEntity.getComment(), gameEntity.getFields());
             datafile.addArtifact(g);
 
             for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
@@ -76,9 +75,8 @@ public class RetrocenterDatafileService {
 
         int cont = 0;
         for (Artifact game : datafile.getArtifacts()) {
-            ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getIsbios(), game.getDescription(),
-                    game.getYear(), game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(),
-                    game.getComment());
+            ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getDescription(),
+                    game.getYear(), game.getComment(), game.getFields());
             gameEntity.setDatafile(entity);
             for (ArtifactFile gameFile : game.getFiles()) {
                 ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),

@@ -230,15 +230,12 @@ public class Datafile implements DatafileObject, Serializable {
         for (Artifact game : this.artifacts) {
             sb.append("\t<artifact");
             appendXMLAttributeIfNotNull(sb, "name", game.getName());
-            appendXMLAttributeIfNotNull(sb, "isbios", game.getIsbios());
+            appendXMLAttributeIfNotNull(sb, "description", game.getDescription());
+            appendXMLAttributeIfNotNull(sb, "year", game.getYear());
             sb.append(">\n");
-            appendXMLTagIfNotNull(sb, "description", game.getDescription(), 2);
-            appendXMLTagIfNotNull(sb, "year", game.getYear(), 2);
-            appendXMLTagIfNotNull(sb, "manufacturer", game.getManufacturer(), 2);
-            appendXMLTagIfNotNull(sb, "cloneof", game.getCloneof(), 2);
-            appendXMLTagIfNotNull(sb, "romof", game.getRomof(), 2);
-            appendXMLTagIfNotNull(sb, "sampleof", game.getSampleof(), 2);
-            appendXMLTagIfNotNull(sb, "comment", game.getComment(), 2);
+            for (String key : game.getFields().keySet()) {
+                appendXMLTagIfNotNull(sb, key, game.getField(key), 2);
+            }
 
             for (ArtifactFile file : game.getFiles()) {
                 sb.append("\t\t<file");
