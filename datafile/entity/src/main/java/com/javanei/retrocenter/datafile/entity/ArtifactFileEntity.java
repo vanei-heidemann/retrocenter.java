@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DATAFILE_ARTIFACTFILE", indexes = {
-        @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = true, columnList = "ARTIFACT_ID,FILE_TYPE,NAME")
+        @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = true, columnList = "ARTIFACT_ID,FILE_TYPE,NAME,CRC,SHA1,MD5,REGION")
 })
 public class ArtifactFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class ArtifactFileEntity implements Serializable {
     @Column(name = "DATE", length = 32, nullable = true)
     private String date;
 
-    @Column(name = "MERGE", length = 32, nullable = true)
+    @Column(name = "MERGE", length = 255, nullable = true)
     private String merge;
 
     @Column(name = "REGION", length = 128, nullable = true)

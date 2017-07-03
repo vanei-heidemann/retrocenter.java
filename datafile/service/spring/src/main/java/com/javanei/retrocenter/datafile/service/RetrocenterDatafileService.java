@@ -34,6 +34,8 @@ public class RetrocenterDatafileService {
     private ArtifactFileDAO artifactFileDAO;
     @Autowired
     private ReleaseDAO releaseDAO;
+    @Autowired
+    private RetrocenterDatafileService retrocenterDatafileService;
 
     private static Datafile toVO(DatafileEntity entity) {
         Datafile datafile = new Datafile(entity.getName(), entity.getCategory(), entity.getVersion(),
@@ -64,40 +66,64 @@ public class RetrocenterDatafileService {
         return datafile;
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional(propagation = Propagation.REQUIRED)
     public Datafile create(Datafile datafile) {
+        LOG.info("create(" + datafile.getName() + ", " + datafile.getCategory() + ", " + datafile.getVersion() + ")");
         DatafileEntity entity = new DatafileEntity(datafile.getName(), datafile.getCategory(), datafile.getVersion(),
                 datafile.getDescription(), datafile.getAuthor(), datafile.getDate(), datafile.getEmail(),
                 datafile.getHomepage(), datafile.getUrl(), datafile.getComment());
-        entity = datafileDAO.saveAndFlush(entity);
+        entity = retrocenterDatafileService.create(entity);
 
+        int cont = 0;
         for (Artifact game : datafile.getArtifacts()) {
             ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getIsbios(), game.getDescription(),
                     game.getYear(), game.getManufacturer(), game.getCloneof(), game.getRomof(), game.getSampleof(),
                     game.getComment());
             gameEntity.setDatafile(entity);
-            gameEntity = artifactDAO.saveAndFlush(gameEntity);
-            entity.getArtifacts().add(gameEntity);
-
             for (ArtifactFile gameFile : game.getFiles()) {
                 ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
                         gameFile.getStatus(), gameFile.getDate(), gameFile.getMerge(), gameFile.getRegion());
-                gameFileEntity.setArtifact(gameEntity);
-                artifactFileDAO.saveAndFlush(gameFileEntity);
                 gameEntity.getFiles().add(gameFileEntity);
             }
-
             for (Release release : game.getReleases()) {
                 ReleaseEntity releaseEntity = new ReleaseEntity(release.getName(), release.getRegion(),
                         release.getLanguage(), release.getDate(), release.getDefault());
-                releaseEntity.setArtifact(gameEntity);
-                releaseDAO.saveAndFlush(releaseEntity);
                 gameEntity.getReleases().add(releaseEntity);
+            }
+
+            gameEntity = retrocenterDatafileService.createArtifact(gameEntity);
+            entity.getArtifacts().add(gameEntity);
+
+            cont++;
+            if (cont % 100 == 0) {
+                LOG.info("Salvo artifact " + cont + " of " + datafile.getArtifacts().size() + ": " + game.getName());
             }
         }
 
         return toVO(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public DatafileEntity create(DatafileEntity entity) {
+        entity = datafileDAO.saveAndFlush(entity);
+        return entity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public ArtifactEntity createArtifact(ArtifactEntity gameEntity) {
+        gameEntity = artifactDAO.saveAndFlush(gameEntity);
+        for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
+            gameFileEntity.setArtifact(gameEntity);
+            artifactFileDAO.saveAndFlush(gameFileEntity);
+        }
+
+        for (ReleaseEntity releaseEntity : gameEntity.getReleases()) {
+            releaseEntity.setArtifact(gameEntity);
+            releaseDAO.saveAndFlush(releaseEntity);
+        }
+
+        return gameEntity;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
