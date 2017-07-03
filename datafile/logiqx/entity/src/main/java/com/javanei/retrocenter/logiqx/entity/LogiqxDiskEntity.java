@@ -36,7 +36,7 @@ public class LogiqxDiskEntity implements Serializable {
     @Column(name = "MD5", length = 32, nullable = true)
     private String md5;
 
-    @Column(name = "MERGE", length = 32, nullable = true)
+    @Column(name = "MERGE", length = 255, nullable = true)
     private String merge;
 
     @Column(name = "DISKSTATUS", length = 8, nullable = true)
