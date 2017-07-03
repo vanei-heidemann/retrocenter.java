@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
 import com.javanei.retrocenter.mame.MameInput;
+import com.javanei.retrocenter.mame.MameInputControl;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
 import java.util.Objects;
@@ -39,7 +40,7 @@ public class MameInputEntity implements Serializable, Comparable<MameInputEntity
     @Column(name = "COINS", nullable = true)
     private Integer coins;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "input")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "input")
     private Set<MameInputControlEntity> controls = new LinkedHashSet<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, optional = false)
@@ -58,6 +59,11 @@ public class MameInputEntity implements Serializable, Comparable<MameInputEntity
 
     public MameInputEntity(MameInput input) {
         this(input.getService(), input.getTilt(), input.getPlayers(), input.getCoins());
+        for (MameInputControl control : input.getControls()) {
+            MameInputControlEntity e = new MameInputControlEntity(control);
+            e.setInput(this);
+            this.controls.add(e);
+        }
     }
 
     public MameInput toVO() {

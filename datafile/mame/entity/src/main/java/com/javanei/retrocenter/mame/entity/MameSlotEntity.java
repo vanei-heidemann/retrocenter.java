@@ -34,7 +34,7 @@ public class MameSlotEntity implements Serializable, Comparable<MameSlotEntity> 
     @Column(name = "NAME", length = 48, nullable = false)
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "slot")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "slot")
     private Set<MameSlotoptionEntity> slotoptions = new LinkedHashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -51,7 +51,9 @@ public class MameSlotEntity implements Serializable, Comparable<MameSlotEntity> 
     public MameSlotEntity(MameSlot slot) {
         this(slot.getName());
         for (MameSlotoption slotoption : slot.getSlotoptions()) {
-            this.slotoptions.add(new MameSlotoptionEntity(slotoption));
+            MameSlotoptionEntity e = new MameSlotoptionEntity(slotoption);
+            e.setSlot(this);
+            this.slotoptions.add(e);
         }
     }
 

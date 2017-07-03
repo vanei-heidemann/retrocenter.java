@@ -47,10 +47,10 @@ public class MameDeviceEntity implements Serializable, Comparable<MameDeviceEnti
     @Column(name = "INTERFACE", length = 20, nullable = true)
     private String _interface;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "device")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "device")
     private Set<MameDeviceInstanceEntity> instances = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "device")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "device")
     private Set<MameDeviceExtensionEntity> extensions = new LinkedHashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -71,10 +71,14 @@ public class MameDeviceEntity implements Serializable, Comparable<MameDeviceEnti
     public MameDeviceEntity(MameDevice device) {
         this(device.getType(), device.getTag(), device.getFixed_image(), device.getMandatory(), device.getInterface());
         for (MameDeviceInstance instance : device.getInstances()) {
-            this.instances.add(new MameDeviceInstanceEntity(instance));
+            MameDeviceInstanceEntity e = new MameDeviceInstanceEntity(instance);
+            e.setDevice(this);
+            this.instances.add(e);
         }
         for (MameDeviceExtension extension : device.getExtensions()) {
-            this.extensions.add(new MameDeviceExtensionEntity(extension));
+            MameDeviceExtensionEntity e = new MameDeviceExtensionEntity(extension);
+            e.setDevice(this);
+            this.extensions.add(e);
         }
     }
 

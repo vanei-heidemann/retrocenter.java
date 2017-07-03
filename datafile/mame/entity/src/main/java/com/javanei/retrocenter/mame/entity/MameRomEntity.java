@@ -43,7 +43,7 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
     @Column(name = "SHA1", length = 40, nullable = true)
     private String sha1;
 
-    @Column(name = "MERGE", length = 48, nullable = true)
+    @Column(name = "MERGE", length = 160, nullable = true)
     private String merge;
 
     @Column(name = "REGION", length = 40, nullable = true)

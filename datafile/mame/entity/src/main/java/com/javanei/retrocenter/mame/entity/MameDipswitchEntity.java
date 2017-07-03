@@ -41,7 +41,7 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
     @Column(name = "MASK", nullable = true)
     private Long mask;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "dipswitch")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "dipswitch")
     private List<MameDipvalueEntity> dipvalues = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -60,7 +60,9 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
     public MameDipswitchEntity(MameDipswitch dipswitch) {
         this(dipswitch.getName(), dipswitch.getTag(), dipswitch.getMask());
         for (MameDipvalue dipvalue : dipswitch.getDipvalues()) {
-            this.dipvalues.add(new MameDipvalueEntity(dipvalue));
+            MameDipvalueEntity e = new MameDipvalueEntity(dipvalue);
+            e.setDipswitch(this);
+            this.dipvalues.add(e);
         }
     }
 

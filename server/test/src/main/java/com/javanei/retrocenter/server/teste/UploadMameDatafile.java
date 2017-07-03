@@ -23,7 +23,7 @@ public class UploadMameDatafile {
             MultiPart multiPart = new MultiPart();
             multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
             //File file = new File("server/test/src/main/resources/mame.xml");
-            File file = new File("server/test/src/main/resources/mame0186.xml");
+            File file = new File("server/test/src/main/resources/mame-test.xml");
             FileDataBodyPart fileDataBodyPart = new FileDataBodyPart("file",
                     file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
             multiPart.bodyPart(fileDataBodyPart);

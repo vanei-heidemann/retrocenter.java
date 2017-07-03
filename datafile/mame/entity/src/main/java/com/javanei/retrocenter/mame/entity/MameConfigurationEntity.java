@@ -40,7 +40,7 @@ public class MameConfigurationEntity implements Serializable, Comparable<MameCon
     @Column(name = "MASK", nullable = false)
     private Integer mask;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "configuration")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "configuration")
     private Set<MameConfsettingEntity> confsettings = new LinkedHashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -59,7 +59,9 @@ public class MameConfigurationEntity implements Serializable, Comparable<MameCon
     public MameConfigurationEntity(MameConfiguration configuration) {
         this(configuration.getName(), configuration.getTag(), configuration.getMask());
         for (MameConfsetting confsetting : configuration.getConfsettings()) {
-            this.confsettings.add(new MameConfsettingEntity(confsetting));
+            MameConfsettingEntity e = new MameConfsettingEntity(confsetting);
+            e.setConfiguration(this);
+            this.confsettings.add(e);
         }
     }
 

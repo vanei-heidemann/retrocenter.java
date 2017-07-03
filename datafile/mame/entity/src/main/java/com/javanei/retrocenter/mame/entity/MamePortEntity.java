@@ -34,7 +34,7 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
     @Column(name = "TAG", length = 80, nullable = false)
     private String tag;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "port")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "port")
     private List<MameAnalogEntity> analogs = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -51,7 +51,9 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
     public MamePortEntity(MamePort port) {
         this(port.getTag());
         for (MameAnalog analog : port.getAnalogs()) {
-            this.analogs.add(new MameAnalogEntity(analog));
+            MameAnalogEntity e = new MameAnalogEntity(analog);
+            e.setPort(this);
+            this.analogs.add(e);
         }
     }
 

@@ -1,6 +1,21 @@
 package com.javanei.retrocenter.mame.entity;
 
+import com.javanei.retrocenter.mame.MameAdjuster;
+import com.javanei.retrocenter.mame.MameBiosset;
+import com.javanei.retrocenter.mame.MameChip;
+import com.javanei.retrocenter.mame.MameConfiguration;
+import com.javanei.retrocenter.mame.MameDevice;
+import com.javanei.retrocenter.mame.MameDeviceref;
+import com.javanei.retrocenter.mame.MameDipswitch;
+import com.javanei.retrocenter.mame.MameDisk;
+import com.javanei.retrocenter.mame.MameDisplay;
 import com.javanei.retrocenter.mame.MameMachine;
+import com.javanei.retrocenter.mame.MamePort;
+import com.javanei.retrocenter.mame.MameRamoption;
+import com.javanei.retrocenter.mame.MameRom;
+import com.javanei.retrocenter.mame.MameSample;
+import com.javanei.retrocenter.mame.MameSlot;
+import com.javanei.retrocenter.mame.MameSoftwarelist;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -76,58 +91,58 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     @Column(name = "MANUFACTURER", length = 80, nullable = true)
     private String manufacturer;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameBiossetEntity> biossets = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private List<MameRomEntity> roms = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameDiskEntity> disks = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private List<MameDevicerefEntity> devicerefs = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private List<MameSampleEntity> samples = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameChipEntity> chips = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameDisplayEntity> displays = new LinkedHashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine", optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine", optional = true)
     private MameSoundEntity sound;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine", optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine", optional = true)
     private MameInputEntity input;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private List<MameDipswitchEntity> dipswitches = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameConfigurationEntity> configurations = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private List<MamePortEntity> ports = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameAdjusterEntity> adjusters = new LinkedHashSet<>();
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine", optional = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine", optional = true)
     private MameDriverEntity driver;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameDeviceEntity> devices = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameSlotEntity> slots = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameSoftwarelistEntity> softwarelists = new LinkedHashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "machine")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "machine")
     private Set<MameRamoptionEntity> ramoptions = new LinkedHashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
@@ -140,7 +155,6 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
     public MameMachineEntity(String name, String sourcefile, String isbios, String isdevice,
                              String ismechanical, String runnable, String cloneof, String romof, String sampleof,
                              String description, String year, String manufacturer) {
-        this.id = id;
         this.name = name;
         this.sourcefile = sourcefile;
         this.isbios = isbios;
@@ -159,6 +173,93 @@ public class MameMachineEntity implements Serializable, Comparable<MameMachineEn
         this(machine.getName(), machine.getSourcefile(), machine.getIsbios(), machine.getIsdevice(),
                 machine.getIsmechanical(), machine.getRunnable(), machine.getCloneof(), machine.getRomof(),
                 machine.getSampleof(), machine.getDescription(), machine.getYear(), machine.getManufacturer());
+        if (machine.getSound() != null) {
+            this.sound = new MameSoundEntity(machine.getSound());
+            this.sound.setMachine(this);
+        }
+        if (machine.getInput() != null) {
+            this.input = new MameInputEntity(machine.getInput());
+            this.input.setMachine(this);
+        }
+        if (machine.getDriver() != null) {
+            this.driver = new MameDriverEntity(machine.getDriver());
+            this.driver.setMachine(this);
+        }
+        for (MameBiosset biosset : machine.getBiossets()) {
+            MameBiossetEntity e = new MameBiossetEntity(biosset);
+            e.setMachine(this);
+            this.biossets.add(e);
+        }
+        for (MameRom rom : machine.getRoms()) {
+            MameRomEntity e = new MameRomEntity(rom);
+            this.roms.add(e);
+            e.setMachine(this);
+        }
+        for (MameDisk disk : machine.getDisks()) {
+            MameDiskEntity e = new MameDiskEntity(disk);
+            e.setMachine(this);
+            this.disks.add(e);
+        }
+        for (MameDeviceref deviceref : machine.getDevicerefs()) {
+            MameDevicerefEntity e = new MameDevicerefEntity(deviceref);
+            e.setMachine(this);
+            this.devicerefs.add(e);
+        }
+        for (MameSample sample : machine.getSamples()) {
+            MameSampleEntity e = new MameSampleEntity(sample.getName());
+            e.setMachine(this);
+            this.samples.add(e);
+        }
+        for (MameChip chip : machine.getChips()) {
+            MameChipEntity e = new MameChipEntity(chip);
+            e.setMachine(this);
+            this.chips.add(e);
+        }
+        for (MameDisplay display : machine.getDisplays()) {
+            MameDisplayEntity e = new MameDisplayEntity(display);
+            e.setMachine(this);
+            this.displays.add(e);
+        }
+        for (MameDipswitch dipswitch : machine.getDipswitches()) {
+            MameDipswitchEntity e = new MameDipswitchEntity(dipswitch);
+            e.setMachine(this);
+            this.dipswitches.add(e);
+        }
+        for (MameConfiguration configuration : machine.getConfigurations()) {
+            MameConfigurationEntity e = new MameConfigurationEntity(configuration);
+            e.setMachine(this);
+            this.configurations.add(e);
+        }
+        for (MamePort port : machine.getPorts()) {
+            MamePortEntity e = new MamePortEntity(port);
+            e.setMachine(this);
+            this.ports.add(e);
+        }
+        for (MameAdjuster adjuster : machine.getAdjusters()) {
+            MameAdjusterEntity e = new MameAdjusterEntity(adjuster);
+            e.setMachine(this);
+            this.adjusters.add(e);
+        }
+        for (MameDevice device : machine.getDevices()) {
+            MameDeviceEntity e = new MameDeviceEntity(device);
+            e.setMachine(this);
+            this.devices.add(e);
+        }
+        for (MameSlot slot : machine.getSlots()) {
+            MameSlotEntity e = new MameSlotEntity(slot);
+            e.setMachine(this);
+            this.slots.add(e);
+        }
+        for (MameSoftwarelist softwarelist : machine.getSoftwarelists()) {
+            MameSoftwarelistEntity e = new MameSoftwarelistEntity(softwarelist);
+            e.setMachine(this);
+            this.softwarelists.add(e);
+        }
+        for (MameRamoption ramoption : machine.getRamoptions()) {
+            MameRamoptionEntity e = new MameRamoptionEntity(ramoption);
+            e.setMachine(this);
+            this.ramoptions.add(e);
+        }
     }
 
     public MameMachine toVO() {
