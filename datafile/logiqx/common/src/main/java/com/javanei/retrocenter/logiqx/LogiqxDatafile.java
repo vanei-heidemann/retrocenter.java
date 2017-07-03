@@ -128,13 +128,19 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
                 rGame.addRelease(new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault()));
             }
             for (LogiqxRom p : game.getRoms()) {
-                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), p.getName(),
+                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), p.getName(),
                         p.getSize() != null ? p.getSize().toString() : null, p.getCrc(), p.getSha1(), p.getMd5(),
-                        p.getStatus(), p.getDate(), p.getMerge(), null));
+                        p.getDate());
+                af.setStatus(p.getStatus());
+                af.setMerge(p.getMerge());
+                rGame.addFile(af);
             }
             for (LogiqxDisk p : game.getDisks()) {
-                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), p.getName(), null, null, p.getSha1(), p.getMd5(),
-                        p.getStatus(), null, p.getMerge(), null));
+                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), p.getName(), null, null,
+                        p.getSha1(), p.getMd5(), null);
+                af.setStatus(p.getStatus());
+                af.setMerge(p.getMerge());
+                rGame.addFile(af);
             }
             for (LogiqxSample p : game.getSamples()) {
                 rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), p.getName()));

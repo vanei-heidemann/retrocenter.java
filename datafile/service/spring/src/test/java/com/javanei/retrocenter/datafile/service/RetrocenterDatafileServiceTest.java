@@ -36,11 +36,14 @@ public class RetrocenterDatafileServiceTest {
 
         ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", "100", "12345678",
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
-                "baddump", "2016", "merge 01", "Brazil");
+                "2016");
+        gf.setStatus("baddump");
+        gf.setMerge("merge 01");
+        gf.setRegion("main");
         game.addFile(gf);
         gf = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", "200", null,
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
-                null, null, null, null);
+                null);
         game.addFile(gf);
         gf = new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), "sample 01");
         game.addFile(gf);
@@ -102,7 +105,7 @@ public class RetrocenterDatafileServiceTest {
         Assert.assertEquals("status", "baddump", gf.getStatus());
         Assert.assertEquals("date", "2016", gf.getDate());
         Assert.assertEquals("merge", "merge 01", gf.getMerge());
-        Assert.assertEquals("region", "Brazil", gf.getRegion());
+        Assert.assertEquals("region", "main", gf.getRegion());
     }
 
     @Test

@@ -1,8 +1,10 @@
 package com.javanei.retrocenter.datafile.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -56,7 +58,7 @@ public class ArtifactEntity implements Serializable {
     private Map<String, String> fields = new HashMap<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
-    private Set<ArtifactFileEntity> files = new HashSet<>();
+    private List<ArtifactFileEntity> files = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
     private Set<ReleaseEntity> releases = new HashSet<>();
@@ -142,11 +144,11 @@ public class ArtifactEntity implements Serializable {
         this.fields.put(key, value);
     }
 
-    public Set<ArtifactFileEntity> getFiles() {
+    public List<ArtifactFileEntity> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<ArtifactFileEntity> files) {
+    public void setFiles(List<ArtifactFileEntity> files) {
         this.files = files;
     }
 

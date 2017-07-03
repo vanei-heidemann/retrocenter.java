@@ -50,8 +50,7 @@ public class RetrocenterDatafileService {
             for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
                 ArtifactFile gf = new ArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
                         gameFileEntity.getSize(), gameFileEntity.getCrc(), gameFileEntity.getSha1(),
-                        gameFileEntity.getMd5(), gameFileEntity.getStatus(), gameFileEntity.getDate(),
-                        gameFileEntity.getMerge(), gameFileEntity.getRegion());
+                        gameFileEntity.getMd5(), gameFileEntity.getDate(), gameFileEntity.getFields());
                 g.addFile(gf);
             }
 
@@ -81,7 +80,7 @@ public class RetrocenterDatafileService {
             for (ArtifactFile gameFile : game.getFiles()) {
                 ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
-                        gameFile.getStatus(), gameFile.getDate(), gameFile.getMerge(), gameFile.getRegion());
+                        gameFile.getDate(), gameFile.getFields());
                 gameEntity.getFiles().add(gameFileEntity);
             }
             for (Release release : game.getReleases()) {

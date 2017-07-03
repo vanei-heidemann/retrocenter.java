@@ -1,6 +1,9 @@
 package com.javanei.retrocenter.datafile;
 
+import java.beans.Transient;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ArtifactFile implements Serializable {
@@ -40,19 +43,13 @@ public class ArtifactFile implements Serializable {
     private String date;
 
     /**
+     * clrmamepro.rom.region
+     * logiqx.rom.merge
+     * logiqx.disk.merge
      * logiqx.rom.status [(baddump|nodump|good|verified) "good"], clrmamepro.rom.flags [baddump|verified]
      * logiqx.disk.status [(baddump|nodump|good|verified) "good"]
      */
-    private String status;
-    /**
-     * logiqx.rom.merge
-     * logiqx.disk.merge
-     */
-    private String merge;
-    /**
-     * clrmamepro.rom.region
-     */
-    private String region;
+    private Map<String, String> fields = new HashMap<>();
 
     public ArtifactFile() {
     }
@@ -66,18 +63,26 @@ public class ArtifactFile implements Serializable {
         this.name = name;
     }
 
-    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String status,
-                        String date, String merge, String region) {
+    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date) {
         this.type = type;
         this.name = name;
         this.size = size;
         this.crc = crc;
         this.sha1 = sha1;
         this.md5 = md5;
-        this.status = status;
         this.date = date;
-        this.merge = merge;
-        this.region = region;
+    }
+
+    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date,
+                        Map<String, String> fields) {
+        this.type = type;
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.date = date;
+        this.fields = fields;
     }
 
     public String getType() {
@@ -128,14 +133,6 @@ public class ArtifactFile implements Serializable {
         this.md5 = md5;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getDate() {
         return date;
     }
@@ -144,20 +141,66 @@ public class ArtifactFile implements Serializable {
         this.date = date;
     }
 
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
+    }
+
+    public void setField(String key, String value) {
+        if (value != null) {
+            this.fields.put(key, value);
+        } else {
+            this.fields.remove(key);
+        }
+    }
+
+    public String getField(String key) {
+        return this.fields.get(key);
+    }
+
+    @Transient
+    public String getStatus() {
+        return this.fields.get("status");
+    }
+
+    @Transient
+    public void setStatus(String status) {
+        if (status != null) {
+            this.fields.put("status", status);
+        } else {
+            this.fields.remove("status");
+        }
+    }
+
+    @Transient
     public String getMerge() {
-        return merge;
+        return this.fields.get("merge");
     }
 
+    @Transient
     public void setMerge(String merge) {
-        this.merge = merge;
+        if (merge != null) {
+            this.fields.put("merge", merge);
+        } else {
+            this.fields.remove("merge");
+        }
     }
 
+    @Transient
     public String getRegion() {
-        return region;
+        return this.fields.get("region");
     }
 
+    @Transient
     public void setRegion(String region) {
-        this.region = region;
+        if (region != null) {
+            this.fields.put("region", region);
+        } else {
+            this.fields.remove("region");
+        }
     }
 
     @Override
@@ -173,14 +216,12 @@ public class ArtifactFile implements Serializable {
                 Objects.equals(crc, gameFile.crc) &&
                 Objects.equals(sha1, gameFile.sha1) &&
                 Objects.equals(md5, gameFile.md5) &&
-                Objects.equals(status, gameFile.status) &&
                 Objects.equals(date, gameFile.date) &&
-                Objects.equals(merge, gameFile.merge) &&
-                Objects.equals(region, gameFile.region);
+                Objects.equals(fields, gameFile.fields);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, name, size, crc, sha1, md5, status, date, merge, region);
+        return Objects.hash(type, name, size, crc, sha1, md5, date, fields);
     }
 }

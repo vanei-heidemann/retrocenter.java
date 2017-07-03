@@ -239,17 +239,17 @@ public class Datafile implements DatafileObject, Serializable {
 
             for (ArtifactFile file : game.getFiles()) {
                 sb.append("\t\t<file");
-                appendXMLAttributeIfNotNull(sb, "name", file.getName());
                 appendXMLAttributeIfNotNull(sb, "type", file.getType());
+                appendXMLAttributeIfNotNull(sb, "name", file.getName());
+                appendXMLAttributeIfNotNull(sb, "size", file.getSize());
+                appendXMLAttributeIfNotNull(sb, "crc", file.getCrc());
+                appendXMLAttributeIfNotNull(sb, "sha1", file.getSha1());
+                appendXMLAttributeIfNotNull(sb, "md5", file.getMd5());
+                appendXMLAttributeIfNotNull(sb, "date", file.getDate());
                 sb.append(">\n");
-                appendXMLTagIfNotNull(sb, "size", file.getSize(), 3);
-                appendXMLTagIfNotNull(sb, "crc", file.getCrc(), 3);
-                appendXMLTagIfNotNull(sb, "sha1", file.getSha1(), 3);
-                appendXMLTagIfNotNull(sb, "md5", file.getMd5(), 3);
-                appendXMLTagIfNotNull(sb, "status", file.getStatus(), 3);
-                appendXMLTagIfNotNull(sb, "date", file.getDate(), 3);
-                appendXMLTagIfNotNull(sb, "merge", file.getMerge(), 3);
-                appendXMLTagIfNotNull(sb, "region", file.getRegion(), 3);
+                for (String key : game.getFields().keySet()) {
+                    appendXMLTagIfNotNull(sb, key, file.getField(key), 3);
+                }
                 sb.append("\t\t</file>\n");
             }
 

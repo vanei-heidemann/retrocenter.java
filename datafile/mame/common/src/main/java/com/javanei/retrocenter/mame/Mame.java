@@ -119,13 +119,21 @@ public class Mame implements DatafileObject, Serializable {
             game.setRomof(machine.getRomof());
             game.setSampleof(machine.getSampleof());
             for (MameRom rom : machine.getRoms()) {
-                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
+                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
                         rom.getSize() != null ? rom.getSize().toString() : null, rom.getCrc(),
-                        rom.getSha1(), null, rom.getStatus(), null, rom.getMerge(), rom.getRegion()));
+                        rom.getSha1(), null, null);
+                af.setStatus(rom.getStatus());
+                af.setMerge(rom.getMerge());
+                af.setRegion(rom.getRegion());
+                game.addFile(af);
             }
             for (MameDisk disk : machine.getDisks()) {
-                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
-                        disk.getSha1(), null, disk.getStatus(), null, disk.getMerge(), disk.getRegion()));
+                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                        disk.getSha1(), null, null);
+                af.setStatus(disk.getStatus());
+                af.setMerge(disk.getMerge());
+                af.setRegion(disk.getRegion());
+                game.addFile(af);
             }
             for (MameSample sample : machine.getSamples()) {
                 game.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample.getName()));

@@ -89,13 +89,16 @@ public class CMProDatafile implements DatafileObject, Serializable {
             rGame.setCloneof(game.getCloneof());
             rGame.setRomof(game.getRomof());
             for (CMProRom rom : game.getRoms()) {
-                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
+                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
                         rom.getSize() != null ? rom.getSize().toString() : null, rom.getCrc(),
-                        rom.getSha1(), rom.getMd5(), rom.getFlags(), null, null, rom.getRegion()));
+                        rom.getSha1(), rom.getMd5(), null);
+                af.setRegion(rom.getRegion());
+                af.setStatus(rom.getFlags());
+                rGame.addFile(af);
             }
             for (CMProDisk disk : game.getDisks()) {
                 rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
-                        disk.getSha1(), disk.getMd5(), null, null, null, null));
+                        disk.getSha1(), disk.getMd5(), null));
             }
             for (String sample : game.getSamples()) {
                 rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample));

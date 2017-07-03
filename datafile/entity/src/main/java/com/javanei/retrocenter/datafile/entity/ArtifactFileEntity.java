@@ -1,9 +1,13 @@
 package com.javanei.retrocenter.datafile.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,11 +16,14 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyColumn;
+import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "DATAFILE_ARTIFACTFILE", indexes = {
-        @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = true, columnList = "ARTIFACT_ID,FILE_TYPE,NAME,CRC,SHA1,MD5,REGION")
+        @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = false, columnList = "ARTIFACT_ID,FILE_TYPE,NAME,CRC,SHA1,MD5")
 })
 public class ArtifactFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,21 +51,19 @@ public class ArtifactFileEntity implements Serializable {
     @Column(name = "MD5", length = 32, nullable = true)
     private String md5;
 
-    @Column(name = "STATUS", length = 16, nullable = true)
-    private String status;
-
     @Column(name = "DATE", length = 32, nullable = true)
     private String date;
-
-    @Column(name = "MERGE", length = 255, nullable = true)
-    private String merge;
-
-    @Column(name = "REGION", length = 128, nullable = true)
-    private String region;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ARTIFACT_ID")
     private ArtifactEntity artifact;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "DATAFILE_ARTIFACTFILE_FIELD")
+    @MapKeyColumn(name = "FIELD_KEY", length = 128)
+    @Column(name = "FIELD_VALUE", length = 255, nullable = true)
+    @MapKeyJoinColumn(name = "ARTIFACTFILE_ID", referencedColumnName = "ARTIFACTFILE_ID")
+    private Map<String, String> fields = new HashMap<>();
 
     public ArtifactFileEntity() {
     }
@@ -67,20 +72,18 @@ public class ArtifactFileEntity implements Serializable {
         this.id = id;
     }
 
-    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date) {
         this.type = type;
         this.name = name;
         this.size = size;
         this.crc = crc;
         this.sha1 = sha1;
         this.md5 = md5;
-        this.status = status;
         this.date = date;
-        this.merge = merge;
-        this.region = region;
     }
 
-    public ArtifactFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5, String status, String date, String merge, String region) {
+    public ArtifactFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5,
+                              String date) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -88,10 +91,19 @@ public class ArtifactFileEntity implements Serializable {
         this.crc = crc;
         this.sha1 = sha1;
         this.md5 = md5;
-        this.status = status;
         this.date = date;
-        this.merge = merge;
-        this.region = region;
+    }
+
+    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date,
+                              Map<String, String> fields) {
+        this.type = type;
+        this.name = name;
+        this.size = size;
+        this.crc = crc;
+        this.sha1 = sha1;
+        this.md5 = md5;
+        this.date = date;
+        this.fields = fields;
     }
 
     public Long getId() {
@@ -150,14 +162,6 @@ public class ArtifactFileEntity implements Serializable {
         this.md5 = md5;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getDate() {
         return date;
     }
@@ -166,28 +170,62 @@ public class ArtifactFileEntity implements Serializable {
         this.date = date;
     }
 
-    public String getMerge() {
-        return merge;
-    }
-
-    public void setMerge(String merge) {
-        this.merge = merge;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
     public ArtifactEntity getArtifact() {
         return artifact;
     }
 
     public void setArtifact(ArtifactEntity artifact) {
         this.artifact = artifact;
+    }
+
+    public Map<String, String> getFields() {
+        return fields;
+    }
+
+    public void setFields(Map<String, String> fields) {
+        this.fields = fields;
+    }
+
+    @Transient
+    public String getStatus() {
+        return this.fields.get("status");
+    }
+
+    @Transient
+    public void setStatus(String status) {
+        if (status != null) {
+            this.fields.put("status", status);
+        } else {
+            this.fields.remove("status");
+        }
+    }
+
+    @Transient
+    public String getMerge() {
+        return this.fields.get("merge");
+    }
+
+    @Transient
+    public void setMerge(String merge) {
+        if (merge != null) {
+            this.fields.put("merge", merge);
+        } else {
+            this.fields.remove("merge");
+        }
+    }
+
+    @Transient
+    public String getRegion() {
+        return this.fields.get("region");
+    }
+
+    @Transient
+    public void setRegion(String region) {
+        if (region != null) {
+            this.fields.put("region", region);
+        } else {
+            this.fields.remove("region");
+        }
     }
 
     @Override
