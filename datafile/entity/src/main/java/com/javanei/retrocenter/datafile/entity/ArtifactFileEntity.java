@@ -17,7 +17,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -62,7 +61,6 @@ public class ArtifactFileEntity implements Serializable {
     @CollectionTable(name = "DATAFILE_ARTIFACTFILE_FIELD")
     @MapKeyColumn(name = "FIELD_KEY", length = 128)
     @Column(name = "FIELD_VALUE", length = 255, nullable = true)
-    @MapKeyJoinColumn(name = "ARTIFACTFILE_ID", referencedColumnName = "ARTIFACTFILE_ID")
     private Map<String, String> fields = new HashMap<>();
 
     public ArtifactFileEntity() {

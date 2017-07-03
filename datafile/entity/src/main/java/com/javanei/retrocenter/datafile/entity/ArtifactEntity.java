@@ -21,7 +21,6 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
-import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -54,7 +53,6 @@ public class ArtifactEntity implements Serializable {
     @CollectionTable(name = "DATAFILE_ARTIFACT_FIELD")
     @MapKeyColumn(name = "FIELD_KEY", length = 128)
     @Column(name = "FIELD_VALUE", length = 255, nullable = true)
-    @MapKeyJoinColumn(name = "ARTIFACT_ID", referencedColumnName = "ARTIFACT_ID")
     private Map<String, String> fields = new HashMap<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
