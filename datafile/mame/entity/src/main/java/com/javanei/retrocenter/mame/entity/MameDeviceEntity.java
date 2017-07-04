@@ -35,7 +35,7 @@ public class MameDeviceEntity implements Serializable, Comparable<MameDeviceEnti
     @Column(name = "TYPE", length = 16, nullable = false)
     private String type;
 
-    @Column(name = "TAG", length = 64, nullable = false)
+    @Column(name = "TAG", length = 128, nullable = false)
     private String tag;
 
     @Column(name = "FIXED_IMAGE", nullable = true)

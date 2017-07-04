@@ -27,7 +27,7 @@ public class MameDisplayEntity implements Serializable, Comparable<MameDisplayEn
     @Column(name = "MAME_DISPLAY_ID", nullable = false)
     private Long id;
 
-    @Column(name = "TAG", length = 64, nullable = false)
+    @Column(name = "TAG", length = 128, nullable = false)
     private String tag;
 
     @Column(name = "TYPE", length = 8, nullable = false)

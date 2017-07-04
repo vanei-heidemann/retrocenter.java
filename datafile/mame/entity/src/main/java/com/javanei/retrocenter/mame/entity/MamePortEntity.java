@@ -31,7 +31,7 @@ public class MamePortEntity implements Serializable, Comparable<MamePortEntity> 
     @Column(name = "MAME_PORT_ID", nullable = false)
     private Long id;
 
-    @Column(name = "TAG", length = 80, nullable = false)
+    @Column(name = "TAG", length = 128, nullable = false)
     private String tag;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "port")

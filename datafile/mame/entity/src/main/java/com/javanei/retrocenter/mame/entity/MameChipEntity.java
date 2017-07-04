@@ -31,7 +31,7 @@ public class MameChipEntity implements Serializable, Comparable<MameChipEntity> 
     @Column(name = "NAME", length = 48, nullable = false)
     private String name;
 
-    @Column(name = "TAG", length = 64, nullable = false)
+    @Column(name = "TAG", length = 128, nullable = false)
     private String tag;
 
     @Column(name = "TYPE", length = 5, nullable = false)

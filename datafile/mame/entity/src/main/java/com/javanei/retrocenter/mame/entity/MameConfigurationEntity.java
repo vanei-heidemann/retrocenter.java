@@ -34,7 +34,7 @@ public class MameConfigurationEntity implements Serializable, Comparable<MameCon
     @Column(name = "NAME", length = 64, nullable = false)
     private String name;
 
-    @Column(name = "TAG", length = 48, nullable = false)
+    @Column(name = "TAG", length = 128, nullable = false)
     private String tag;
 
     @Column(name = "MASK", nullable = false)

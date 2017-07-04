@@ -35,7 +35,7 @@ public class MameDipswitchEntity implements Serializable, Comparable<MameDipswit
     @Column(name = "NAME", length = 64, nullable = false)
     private String name;
 
-    @Column(name = "TAG", length = 40, nullable = true)
+    @Column(name = "TAG", length = 128, nullable = true)
     private String tag;
 
     @Column(name = "MASK", nullable = true)
