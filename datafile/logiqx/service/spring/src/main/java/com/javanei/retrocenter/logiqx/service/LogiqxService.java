@@ -16,14 +16,10 @@ import com.javanei.retrocenter.logiqx.entity.LogiqxGameEntity;
 import com.javanei.retrocenter.logiqx.entity.LogiqxReleaseEntity;
 import com.javanei.retrocenter.logiqx.entity.LogiqxRomEntity;
 import com.javanei.retrocenter.logiqx.entity.LogiqxSampleEntity;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxArchiveDAO;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxBiossetDAO;
 import com.javanei.retrocenter.logiqx.persistence.LogiqxDatafileDAO;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxDiskDAO;
 import com.javanei.retrocenter.logiqx.persistence.LogiqxGameDAO;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxReleaseDAO;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxRomDAO;
-import com.javanei.retrocenter.logiqx.persistence.LogiqxSampleDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,74 +28,86 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class LogiqxService {
+    private static final Logger LOG = LoggerFactory.getLogger(LogiqxService.class);
+
     @Autowired
     private LogiqxDatafileDAO datafileDAO;
     @Autowired
-    private LogiqxArchiveDAO archiveDAO;
-    @Autowired
-    private LogiqxBiossetDAO biossetDAO;
-    @Autowired
-    private LogiqxDiskDAO diskDAO;
-    @Autowired
     private LogiqxGameDAO gameDAO;
     @Autowired
-    private LogiqxReleaseDAO releaseDAO;
-    @Autowired
-    private LogiqxRomDAO romDAO;
-    @Autowired
-    private LogiqxSampleDAO sampleDAO;
+    private LogiqxService logiqxService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public LogiqxDatafile create(LogiqxDatafile datafile) {
-        LogiqxDatafileEntity entity = new LogiqxDatafileEntity(datafile);
+    public LogiqxDatafileEntity create(LogiqxDatafileEntity entity) {
+        LOG.debug("create(name=" + entity.getName() + ", category=" + entity.getCategory() + ", version=" + entity.getVersion() + ")");
         entity = datafileDAO.saveAndFlush(entity);
+        return entity;
+    }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public LogiqxGameEntity createGame(LogiqxGameEntity entity) {
+        LOG.debug("create(name=" + entity.getName() + ")");
+        entity = gameDAO.saveAndFlush(entity);
+        return entity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public LogiqxDatafile create(LogiqxDatafile datafile) {
+        LOG.info("create(name=" + datafile.getHeader().getName()
+                + ", category=" + datafile.getHeader().getCategory()
+                + ", version=" + datafile.getHeader().getVersion()
+                + ", games=" + datafile.getGames().size()
+                + ")");
+        LogiqxDatafileEntity entity = new LogiqxDatafileEntity(datafile);
+        entity = logiqxService.create(entity);
+
+        int cont = 0;
         for (LogiqxGame game : datafile.getGames()) {
             LogiqxGameEntity gameEntity = new LogiqxGameEntity(game);
             gameEntity.setDatafile(entity);
-            gameEntity = gameDAO.saveAndFlush(gameEntity);
-            entity.getGames().add(gameEntity);
 
             for (LogiqxRelease release : game.getReleases()) {
                 LogiqxReleaseEntity releaseEntity = new LogiqxReleaseEntity(release);
                 releaseEntity.setGame(gameEntity);
-                releaseDAO.saveAndFlush(releaseEntity);
                 gameEntity.getReleases().add(releaseEntity);
             }
 
             for (LogiqxBiosset biosset : game.getBiossets()) {
                 LogiqxBiossetEntity biossetEntity = new LogiqxBiossetEntity(biosset);
                 biossetEntity.setGame(gameEntity);
-                biossetDAO.saveAndFlush(biossetEntity);
                 gameEntity.getBiossets().add(biossetEntity);
             }
 
             for (LogiqxRom rom : game.getRoms()) {
                 LogiqxRomEntity romEntity = new LogiqxRomEntity(rom);
                 romEntity.setGame(gameEntity);
-                romDAO.saveAndFlush(romEntity);
                 gameEntity.getRoms().add(romEntity);
             }
 
             for (LogiqxDisk disk : game.getDisks()) {
                 LogiqxDiskEntity diskEntity = new LogiqxDiskEntity(disk);
                 diskEntity.setGame(gameEntity);
-                diskDAO.saveAndFlush(diskEntity);
                 gameEntity.getDisks().add(diskEntity);
             }
 
             for (LogiqxSample sample : game.getSamples()) {
                 LogiqxSampleEntity sampleEntity = new LogiqxSampleEntity(sample);
                 sampleEntity.setGame(gameEntity);
-                sampleDAO.saveAndFlush(sampleEntity);
                 gameEntity.getSamples().add(sampleEntity);
             }
 
             for (LogiqxArchive archive : game.getArchives()) {
                 LogiqxArchiveEntity archiveEntity = new LogiqxArchiveEntity(archive);
                 archiveEntity.setGame(gameEntity);
-                archiveDAO.saveAndFlush(archiveEntity);
                 gameEntity.getArchives().add(archiveEntity);
+            }
+
+            logiqxService.createGame(gameEntity);
+            entity.getGames().add(gameEntity);
+
+            cont++;
+            if (cont % 100 == 0) {
+                LOG.info("Saved game " + cont + " of " + datafile.getGames().size() + ": " + game.getName());
             }
         }
 
