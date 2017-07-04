@@ -246,11 +246,15 @@ public class Datafile implements DatafileObject, Serializable {
                 appendXMLAttributeIfNotNull(sb, "sha1", file.getSha1());
                 appendXMLAttributeIfNotNull(sb, "md5", file.getMd5());
                 appendXMLAttributeIfNotNull(sb, "date", file.getDate());
-                sb.append(">\n");
-                for (String key : game.getFields().keySet()) {
-                    appendXMLTagIfNotNull(sb, key, file.getField(key), 3);
+                if (game.getFields().size() > 0) {
+                    sb.append(">\n");
+                    for (String key : game.getFields().keySet()) {
+                        appendXMLTagIfNotNull(sb, key, file.getField(key), 3);
+                    }
+                    sb.append("\t\t</file>\n");
+                } else {
+                    sb.append("/>\n");
                 }
-                sb.append("\t\t</file>\n");
             }
 
             for (Release release : game.getReleases()) {

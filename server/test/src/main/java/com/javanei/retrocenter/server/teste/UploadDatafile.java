@@ -13,7 +13,7 @@ import org.glassfish.jersey.media.multipart.MultiPart;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 
-public class UploadMameDatafile {
+public class UploadDatafile {
     private static final String TARGET_URL = "http://localhost:8080/retrocenter/datafiles/";
 
     public static void main(String[] args) {
@@ -23,7 +23,10 @@ public class UploadMameDatafile {
             MultiPart multiPart = new MultiPart();
             multiPart.setMediaType(MediaType.MULTIPART_FORM_DATA_TYPE);
             //File file = new File("server/test/src/main/resources/mame.xml");
-            File file = new File("server/test/src/main/resources/mame-test.xml");
+            //File file = new File("server/test/src/main/resources/mame-test.xml");
+            //File file = new File("server/test/src/main/resources/mame0186.xml");
+            //File file = new File("server/test/src/main/resources/logiqx-n64.dat");
+            File file = new File("server/test/src/main/resources/cmpro-vita.dat");
             FileDataBodyPart fileDataBodyPart = new FileDataBodyPart("file",
                     file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
             multiPart.bodyPart(fileDataBodyPart);

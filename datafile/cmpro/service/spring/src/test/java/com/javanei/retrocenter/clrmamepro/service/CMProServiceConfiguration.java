@@ -1,6 +1,5 @@
 package com.javanei.retrocenter.clrmamepro.service;
 
-import com.javanei.retrocenter.clrmamepro.persistence.CMProCustomFieldDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProDatafileDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProDiskDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProGameDAO;
@@ -17,13 +16,6 @@ public class CMProServiceConfiguration {
     @Bean
     public CMProService cmProService() {
         return new CMProService();
-    }
-
-    @Bean
-    public CMProCustomFieldDAO customFieldDAO() {
-        CMProCustomFieldDAO dao = Mockito.mock(CMProCustomFieldDAO.class);
-        Mockito.when(dao.saveAndFlush(Mockito.any())).then(AdditionalAnswers.returnsFirstArg());
-        return dao;
     }
 
     @Bean

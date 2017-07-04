@@ -94,7 +94,7 @@ public class RetrocenterDatafileService {
 
             cont++;
             if (cont % 100 == 0) {
-                LOG.info("Salvo artifact " + cont + " of " + datafile.getArtifacts().size() + ": " + game.getName());
+                LOG.info("created artifact " + cont + " of " + datafile.getArtifacts().size() + ": " + game.getName());
             }
         }
 

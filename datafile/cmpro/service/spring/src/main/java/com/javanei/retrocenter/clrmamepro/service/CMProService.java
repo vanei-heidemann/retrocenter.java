@@ -6,7 +6,6 @@ import com.javanei.retrocenter.clrmamepro.CMProGame;
 import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
-import com.javanei.retrocenter.clrmamepro.entity.CMProCustomFieldEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProDatafileEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProDiskEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProGameEntity;
@@ -15,7 +14,6 @@ import com.javanei.retrocenter.clrmamepro.entity.CMProResourceEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProResourceRomEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProSampleEntity;
 import com.javanei.retrocenter.clrmamepro.entity.CMProSampleofEntity;
-import com.javanei.retrocenter.clrmamepro.persistence.CMProCustomFieldDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProDatafileDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProDiskDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProGameDAO;
@@ -24,7 +22,10 @@ import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceRomDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleofDAO;
+import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,8 +34,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class CMProService {
-    @Autowired
-    private CMProCustomFieldDAO customFieldDAO;
+    private static final Logger LOG = LoggerFactory.getLogger(CMProService.class);
+
     @Autowired
     private CMProDatafileDAO datafileDAO;
     @Autowired
@@ -51,6 +52,8 @@ public class CMProService {
     private CMProSampleDAO sampleDAO;
     @Autowired
     private CMProSampleofDAO sampleofDAO;
+    @Autowired
+    private CMProService cmProService;
 
     private static CMProDatafileEntity datafileToEntity(CMProDatafile datafile) {
         CMProDatafileEntity entity = new CMProDatafileEntity(datafile.getHeader().getName(),
@@ -64,9 +67,7 @@ public class CMProService {
         for (CMProResource resource : datafile.getResources()) {
             entity.getResources().add(resourceToEntity(resource));
         }
-        for (String key : datafile.getHeader().getCustomFields().keySet()) {
-            entity.getCustomFields().add(new CMProCustomFieldEntity(key, datafile.getHeader().getCustomField(key)));
-        }
+        entity.setCustomFields(datafile.getHeader().getCustomFields());
 
         return entity;
     }
@@ -129,9 +130,7 @@ public class CMProService {
         for (CMProResourceEntity resource : datafile.getResources()) {
             entity.addResource(entityToResource(resource));
         }
-        for (CMProCustomFieldEntity customFieldEntity : datafile.getCustomFields()) {
-            entity.getHeader().addCustomField(customFieldEntity.getKey(), customFieldEntity.getValue());
-        }
+        entity.getHeader().setCustomFields(datafile.getCustomFields());
 
         return entity;
     }
@@ -184,57 +183,89 @@ public class CMProService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public CMProDatafileEntity create(CMProDatafileEntity entity) {
+        LOG.debug("create(name=" + entity.getName()
+                + ", category=" + entity.getCategory()
+                + ", version=" + entity.getVersion() + ")");
+        entity = datafileDAO.saveAndFlush(entity);
+        return entity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public CMProGameEntity createGame(CMProGameEntity gameEntity) {
+        LOG.debug("create - game(" + gameEntity.getName() + ")");
+        gameEntity = gameDAO.saveAndFlush(gameEntity);
+
+        Set<CMProGameRomEntity> roms = gameEntity.getRoms();
+        Set<CMProDiskEntity> disks = gameEntity.getDisks();
+        Set<CMProSampleofEntity> samplesof = gameEntity.getSampleof();
+        Set<CMProSampleEntity> samples = gameEntity.getSamples();
+
+        for (CMProGameRomEntity rom : roms) {
+            rom.setGame(gameEntity);
+            gameRomDAO.saveAndFlush(rom);
+        }
+
+        for (CMProDiskEntity disk : disks) {
+            disk.setGame(gameEntity);
+            diskDAO.saveAndFlush(disk);
+        }
+
+        for (CMProSampleofEntity sampleof : samplesof) {
+            sampleof.setGame(gameEntity);
+            sampleofDAO.saveAndFlush(sampleof);
+        }
+
+        for (CMProSampleEntity sample : samples) {
+            sample.setGame(gameEntity);
+            sampleDAO.saveAndFlush(sample);
+        }
+        return gameEntity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public CMProResourceEntity createResource(CMProResourceEntity resourceEntity) {
+        LOG.debug("create - resource(" + resourceEntity.getName() + ")");
+        Set<CMProResourceRomEntity> roms = resourceEntity.getRoms();
+
+        resourceEntity = resourceDAO.saveAndFlush(resourceEntity);
+
+        for (CMProResourceRomEntity rom : roms) {
+            rom.setResource(resourceEntity);
+            resourceRomDAO.saveAndFlush(rom);
+        }
+        return resourceEntity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
     public CMProDatafile create(CMProDatafile datafile) {
+        LOG.info("create(name=" + datafile.getHeader().getName()
+                + ", category=" + datafile.getHeader().getCategory()
+                + ", version=" + datafile.getHeader().getVersion() + ")");
         CMProDatafileEntity entity = datafileToEntity(datafile);
-        Set<CMProCustomFieldEntity> customFields = entity.getCustomFields();
+        Map<String, String> customFields = entity.getCustomFields();
         Set<CMProGameEntity> games = entity.getGames();
         Set<CMProResourceEntity> resources = entity.getResources();
 
-        entity = datafileDAO.saveAndFlush(entity);
-        for (CMProCustomFieldEntity customFieldEntity : customFields) {
-            customFieldEntity.setDatafile(entity);
-            customFieldDAO.saveAndFlush(customFieldEntity);
-        }
+        entity = cmProService.create(entity);
 
+        int cont = 0;
         for (CMProGameEntity gameEntity : games) {
-            Set<CMProGameRomEntity> roms = gameEntity.getRoms();
-            Set<CMProDiskEntity> disks = gameEntity.getDisks();
-            Set<CMProSampleofEntity> samplesof = gameEntity.getSampleof();
-            Set<CMProSampleEntity> samples = gameEntity.getSamples();
-
             gameEntity.setDatafile(entity);
-            gameEntity = gameDAO.saveAndFlush(gameEntity);
-
-            for (CMProGameRomEntity rom : roms) {
-                rom.setGame(gameEntity);
-                gameRomDAO.saveAndFlush(rom);
-            }
-
-            for (CMProDiskEntity disk : disks) {
-                disk.setGame(gameEntity);
-                diskDAO.saveAndFlush(disk);
-            }
-
-            for (CMProSampleofEntity sampleof : samplesof) {
-                sampleof.setGame(gameEntity);
-                sampleofDAO.saveAndFlush(sampleof);
-            }
-
-            for (CMProSampleEntity sample : samples) {
-                sample.setGame(gameEntity);
-                sampleDAO.saveAndFlush(sample);
+            gameEntity = cmProService.createGame(gameEntity);
+            cont++;
+            if (cont % 100 == 0) {
+                LOG.info("created game " + cont + " of " + games.size() + " : " + gameEntity.getName());
             }
         }
 
+        cont = 0;
         for (CMProResourceEntity resourceEntity : resources) {
-            Set<CMProResourceRomEntity> roms = resourceEntity.getRoms();
-
             resourceEntity.setDatafile(entity);
-            resourceEntity = resourceDAO.saveAndFlush(resourceEntity);
-
-            for (CMProResourceRomEntity rom : roms) {
-                rom.setResource(resourceEntity);
-                resourceRomDAO.saveAndFlush(rom);
+            resourceEntity = cmProService.createResource(resourceEntity);
+            cont++;
+            if (cont % 100 == 0) {
+                LOG.info("created resource " + cont + " of " + resources.size() + " : " + resourceEntity.getName());
             }
         }
 

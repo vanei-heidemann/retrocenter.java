@@ -1,20 +1,26 @@
 package com.javanei.retrocenter.clrmamepro.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "CMPRO_DATAFILE", indexes = {
@@ -59,8 +65,11 @@ public class CMProDatafileEntity implements Serializable {
     @Column(name = "FORCEZIPPING", length = 3, nullable = true)
     private String forcezipping;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
-    private Set<CMProCustomFieldEntity> customFields = new HashSet<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "CMPRO_CUSTOMFIELD")
+    @MapKeyColumn(name = "CUSTOM_KEY", length = 160)
+    @Column(name = "CUSTOM_VALUE", length = 255, nullable = false)
+    private Map<String, String> customFields = new HashMap<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
     private Set<CMProGameEntity> games = new HashSet<>();
@@ -178,12 +187,25 @@ public class CMProDatafileEntity implements Serializable {
         this.forcezipping = forcezipping;
     }
 
-    public Set<CMProCustomFieldEntity> getCustomFields() {
+    public Map<String, String> getCustomFields() {
         return customFields;
     }
 
-    public void setCustomFields(Set<CMProCustomFieldEntity> customFields) {
+    public void setCustomFields(Map<String, String> customFields) {
         this.customFields = customFields;
+    }
+
+    public void addCustomField(String key, String value) {
+        if (value != null) {
+            this.customFields.put(key, value);
+        } else {
+            this.customFields.remove(key);
+        }
+    }
+
+    @Transient
+    public String getCustomField(String key) {
+        return this.customFields.get(key);
     }
 
     public Set<CMProGameEntity> getGames() {
