@@ -47,7 +47,7 @@ public class LogiqxDatafileEntity implements Serializable {
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
 
-    @Column(name = "BUILD", length = 16, nullable = false)
+    @Column(name = "BUILD", length = 16, nullable = true)
     private String build;
 
     @Column(name = "DEBUG", length = 3, nullable = true)

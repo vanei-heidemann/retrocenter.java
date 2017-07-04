@@ -33,7 +33,7 @@ public class LogiqxGameEntity implements Serializable {
     @Column(name = "NAME", length = 255, nullable = false)
     private String name;
 
-    @Column(name = "SOURCEFILE", length = 48, nullable = false)
+    @Column(name = "SOURCEFILE", length = 48, nullable = true)
     private String sourcefile;
 
     @Column(name = "ISBIOS", length = 3, nullable = true)
