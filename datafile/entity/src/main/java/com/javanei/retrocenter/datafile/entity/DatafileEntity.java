@@ -19,11 +19,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DATAFILE", indexes = {
-        @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+        @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATALOG,VERSION")
 })
 @NamedQueries({
-        @NamedQuery(name = "DatafileEntity.findByUniqueFull", query = "SELECT o from DatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version"),
-        @NamedQuery(name = "DatafileEntity.findByUnique", query = "SELECT new DatafileEntity(id, name, category, version, description, author, date, email, homepage, url, comment) from DatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version")
+        @NamedQuery(name = "DatafileEntity.findByUniqueFull", query = "SELECT o from DatafileEntity o WHERE name = :name AND o.catalog = :catalog AND o.version = :version"),
+        @NamedQuery(name = "DatafileEntity.findByUnique", query = "SELECT new DatafileEntity(id, name, catalog, version, description, author, date, email, homepage, url, comment) from DatafileEntity o WHERE name = :name AND o.catalog = :catalog AND o.version = :version")
 })
 public class DatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -36,8 +36,8 @@ public class DatafileEntity implements Serializable {
     @Column(name = "NAME", length = 160, nullable = false)
     private String name;
 
-    @Column(name = "CATEGORY", length = 32, nullable = false)
-    private String category;
+    @Column(name = "CATALOG", length = 32, nullable = false)
+    private String catalog;
 
     @Column(name = "VERSION", length = 64, nullable = false)
     private String version;
@@ -73,9 +73,9 @@ public class DatafileEntity implements Serializable {
         this.id = id;
     }
 
-    public DatafileEntity(String name, String category, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
+    public DatafileEntity(String name, String catalog, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
         this.name = name;
-        this.category = category;
+        this.catalog = catalog;
         this.version = version;
         this.description = description;
         this.author = author;
@@ -86,10 +86,10 @@ public class DatafileEntity implements Serializable {
         this.comment = comment;
     }
 
-    public DatafileEntity(Long id, String name, String category, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
+    public DatafileEntity(Long id, String name, String catalog, String version, String description, String author, String date, String email, String homepage, String url, String comment) {
         this.id = id;
         this.name = name;
-        this.category = category;
+        this.catalog = catalog;
         this.version = version;
         this.description = description;
         this.author = author;
@@ -116,12 +116,12 @@ public class DatafileEntity implements Serializable {
         this.name = name;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCatalog() {
+        return catalog;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
     }
 
     public String getVersion() {
@@ -202,12 +202,12 @@ public class DatafileEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         DatafileEntity that = (DatafileEntity) o;
         return Objects.equals(name, that.name) &&
-                Objects.equals(category, that.category) &&
+                Objects.equals(catalog, that.catalog) &&
                 Objects.equals(version, that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, version);
+        return Objects.hash(name, catalog, version);
     }
 }

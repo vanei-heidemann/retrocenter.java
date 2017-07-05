@@ -21,11 +21,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "LOGIQX_DATAFILE", indexes = {
-        @Index(name = "LOGIQX_DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+        @Index(name = "LOGIQX_DATAFILE_0001", unique = true, columnList = "NAME,CATALOG,VERSION")
 })
 @NamedQueries({
-        @NamedQuery(name = "LogiqxDatafileEntity.findByUniqueFull", query = "SELECT o from LogiqxDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version"),
-        @NamedQuery(name = "LogiqxDatafileEntity.findByUnique", query = "SELECT new LogiqxDatafileEntity(id, name, category, version, description, build, debug, date, author, email, homepage, url, comment, header, forcemerging, forcenodump, forcepacking, plugin, rommode, biosmode, samplemode, lockrommode, lockbiosmode, locksamplemode) from LogiqxDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version")
+        @NamedQuery(name = "LogiqxDatafileEntity.findByUniqueFull", query = "SELECT o from LogiqxDatafileEntity o WHERE name = :name AND o.catalog = :catalog AND o.version = :version"),
+        @NamedQuery(name = "LogiqxDatafileEntity.findByUnique", query = "SELECT new LogiqxDatafileEntity(id, name, catalog, version, category, description, build, debug, date, author, email, homepage, url, comment, header, forcemerging, forcenodump, forcepacking, plugin, rommode, biosmode, samplemode, lockrommode, lockbiosmode, locksamplemode) from LogiqxDatafileEntity o WHERE name = :name AND o.catalog = :catalog AND o.version = :version")
 })
 public class LogiqxDatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,11 +38,14 @@ public class LogiqxDatafileEntity implements Serializable {
     @Column(name = "NAME", length = 160, nullable = false)
     private String name;
 
-    @Column(name = "CATEGORY", length = 32, nullable = false)
-    private String category;
+    @Column(name = "CATALOG", length = 32, nullable = false)
+    private String catalog;
 
     @Column(name = "VERSION", length = 64, nullable = false)
     private String version;
+
+    @Column(name = "CATEGORY", length = 128, nullable = true)
+    private String category;
 
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
@@ -110,14 +113,15 @@ public class LogiqxDatafileEntity implements Serializable {
     public LogiqxDatafileEntity() {
     }
 
-    public LogiqxDatafileEntity(String name, String category, String version) {
+    public LogiqxDatafileEntity(String name, String catalog, String version) {
         this.name = name;
-        this.category = category;
+        this.catalog = catalog;
         this.version = version;
     }
 
     public LogiqxDatafileEntity(LogiqxDatafile datafile) {
-        this(datafile.getHeader().getName(), datafile.getHeader().getCategory(), datafile.getHeader().getVersion(),
+        this(datafile.getHeader().getName(), datafile.getHeader().getCatalog(), datafile.getHeader().getVersion(),
+                datafile.getHeader().getCategory(),
                 datafile.getHeader().getDescription(), datafile.getBuild(), datafile.getDebug(),
                 datafile.getHeader().getDate(), datafile.getHeader().getAuthor(), datafile.getHeader().getEmail(),
                 datafile.getHeader().getHomepage(), datafile.getHeader().getUrl(), datafile.getHeader().getComment(),
@@ -129,14 +133,15 @@ public class LogiqxDatafileEntity implements Serializable {
                 datafile.getHeader().getLocksamplemode());
     }
 
-    public LogiqxDatafileEntity(String name, String category, String version, String description, String build,
+    public LogiqxDatafileEntity(String name, String catalog, String version, String category, String description, String build,
                                 String debug, String date, String author, String email, String homepage, String url,
                                 String comment, String header, String forcemerging, String forcenodump,
                                 String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
                                 String lockrommode, String lockbiosmode, String locksamplemode) {
         this.name = name;
-        this.category = category;
+        this.catalog = catalog;
         this.version = version;
+        this.category = category;
         this.description = description;
         this.build = build;
         this.debug = debug;
@@ -159,13 +164,14 @@ public class LogiqxDatafileEntity implements Serializable {
         this.locksamplemode = locksamplemode;
     }
 
-    public LogiqxDatafileEntity(Long id, String name, String category, String version, String description, String build,
+    public LogiqxDatafileEntity(Long id, String name, String catalog, String version, String category, String description, String build,
                                 String debug, String date, String author, String email, String homepage, String url,
                                 String comment, String header, String forcemerging, String forcenodump,
                                 String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
                                 String lockrommode, String lockbiosmode, String locksamplemode) {
         this.id = id;
         this.name = name;
+        this.catalog = catalog;
         this.category = category;
         this.version = version;
         this.description = description;
@@ -204,6 +210,14 @@ public class LogiqxDatafileEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
     }
 
     public String getCategory() {
@@ -392,7 +406,7 @@ public class LogiqxDatafileEntity implements Serializable {
 
     public LogiqxDatafile toVO() {
         LogiqxDatafile datafile = new LogiqxDatafile(this.build, this.debug);
-        LogiqxHeader header = new LogiqxHeader(this.name, this.description, this.category, this.version, this.date,
+        LogiqxHeader header = new LogiqxHeader(this.name, this.catalog, this.version, this.description, this.category, this.date,
                 this.author, this.email, this.homepage, this.url, this.comment, this.header, this.forcemerging,
                 this.forcenodump, this.forcepacking, this.plugin, this.rommode, this.biosmode, this.samplemode,
                 this.lockrommode, this.lockbiosmode, this.locksamplemode);
@@ -411,12 +425,12 @@ public class LogiqxDatafileEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         LogiqxDatafileEntity that = (LogiqxDatafileEntity) o;
         return Objects.equals(name, that.name) &&
-                Objects.equals(category, that.category) &&
+                Objects.equals(catalog, that.catalog) &&
                 Objects.equals(version, that.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, version);
+        return Objects.hash(name, catalog, version);
     }
 }

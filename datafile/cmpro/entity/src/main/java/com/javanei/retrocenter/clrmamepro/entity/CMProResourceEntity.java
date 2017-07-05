@@ -48,6 +48,9 @@ public class CMProResourceEntity implements Serializable {
     @JoinColumn(name = "DATAFILE_ID")
     private CMProDatafileEntity datafile;
 
+    public CMProResourceEntity() {
+    }
+
     public CMProResourceEntity(Long id) {
         this.id = id;
     }

@@ -33,7 +33,7 @@ import javax.persistence.Transient;
 })
 @NamedQueries({
         @NamedQuery(name = "ArtifactEntity.findByDatafileAndName",
-                query = "SELECT o from ArtifactEntity o WHERE o.datafile.name = :datafileName AND o.datafile.category = :category AND o.datafile.version = :version AND o.name = :name")
+                query = "SELECT o from ArtifactEntity o WHERE o.datafile.name = :datafileName AND o.datafile.catalog = :catalog AND o.datafile.version = :version AND o.name = :name")
 })
 public class ArtifactEntity implements Serializable {
     private static final long serialVersionUID = 1L;

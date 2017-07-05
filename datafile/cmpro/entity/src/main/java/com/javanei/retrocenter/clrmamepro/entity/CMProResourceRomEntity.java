@@ -51,6 +51,9 @@ public class CMProResourceRomEntity implements Serializable {
     @JoinColumn(name = "RESOURCE_ID")
     private CMProResourceEntity resource;
 
+    public CMProResourceRomEntity() {
+    }
+
     public CMProResourceRomEntity(Long id) {
         this.id = id;
     }

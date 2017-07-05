@@ -113,7 +113,7 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
 
     @Override
     public Datafile toDatafile() {
-        Datafile datafile = this.header != null ? new Datafile(this.header.getName(), this.header.getCategory(),
+        Datafile datafile = this.header != null ? new Datafile(this.header.getName(), this.header.getCatalog(),
                 this.header.getVersion(), this.header.getDescription(), this.header.getAuthor(), this.header.getDate(),
                 this.header.getEmail(), this.header.getHomepage(), this.header.getUrl(),
                 this.header.getComment()) : new Datafile();

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<retrocenter name="Nintendo 64 - Games" category="TOSEC" version="2015-05-27">
+<retrocenter name="Nintendo 64 - Games" catalog="TOSEC" version="2015-05-27">
     <description>Nintendo 64 - Games (TOSEC-v2015-05-27)</description>
     <author>Cassiel - Yori Yoshizuki</author>
     <email>contact@tosecdev.org</email>

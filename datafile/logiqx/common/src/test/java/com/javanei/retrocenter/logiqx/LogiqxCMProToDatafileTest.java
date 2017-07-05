@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -14,7 +14,7 @@ public class LogiqxCMProToDatafileTest {
     public static void initialize() throws Exception {
         logiqxCMPro = new LogiqxDatafile();
 
-        LogiqxHeader header = new LogiqxHeader("name 001", "description 001", "no-intro", "version 001",
+        LogiqxHeader header = new LogiqxHeader("name 001", "no-intro", "version 001", "description 001", "no-intro",
                 "date 001", "author 001", "email 001", "homepage 001", "url 001", "comment 001");
         header.setHeader("header 001");
         header.setForcemerging("none");
@@ -35,8 +35,8 @@ public class LogiqxCMProToDatafileTest {
     }
 
     @Test
-    public void testHeaderCategory() {
-        Assert.assertEquals(DatafileCategoryEnum.NoIntro.name(), datafile.getCategory());
+    public void testHeaderCatalog() {
+        Assert.assertEquals(DatafileCatalogEnum.NoIntro.name(), datafile.getCatalog());
     }
 
     @Test

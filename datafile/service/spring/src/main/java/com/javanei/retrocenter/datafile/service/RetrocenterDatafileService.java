@@ -38,7 +38,7 @@ public class RetrocenterDatafileService {
     private RetrocenterDatafileService retrocenterDatafileService;
 
     private static Datafile toVO(DatafileEntity entity) {
-        Datafile datafile = new Datafile(entity.getName(), entity.getCategory(), entity.getVersion(),
+        Datafile datafile = new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(),
                 entity.getDescription(), entity.getAuthor(), entity.getDate(), entity.getEmail(),
                 entity.getHomepage(), entity.getUrl(), entity.getComment());
 
@@ -66,8 +66,8 @@ public class RetrocenterDatafileService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Datafile create(Datafile datafile) {
-        LOG.info("create(" + datafile.getName() + ", " + datafile.getCategory() + ", " + datafile.getVersion() + ")");
-        DatafileEntity entity = new DatafileEntity(datafile.getName(), datafile.getCategory(), datafile.getVersion(),
+        LOG.info("create(" + datafile.getName() + ", " + datafile.getCatalog() + ", " + datafile.getVersion() + ")");
+        DatafileEntity entity = new DatafileEntity(datafile.getName(), datafile.getCatalog(), datafile.getVersion(),
                 datafile.getDescription(), datafile.getAuthor(), datafile.getDate(), datafile.getEmail(),
                 datafile.getHomepage(), datafile.getUrl(), datafile.getComment());
         entity = retrocenterDatafileService.create(entity);
@@ -103,9 +103,9 @@ public class RetrocenterDatafileService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DatafileEntity create(DatafileEntity entity) {
-        LOG.debug("create(name=" + entity.getName() + ", category=" + entity.getCategory()
+        LOG.debug("create(name=" + entity.getName() + ", catalog=" + entity.getCatalog()
                 + ", version=" + entity.getVersion() + ")");
-        DatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        DatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCatalog(), entity.getVersion());
         if (old == null) {
             entity = datafileDAO.saveAndFlush(entity);
         } else {
@@ -119,7 +119,7 @@ public class RetrocenterDatafileService {
     public ArtifactEntity createArtifact(ArtifactEntity gameEntity) {
         LOG.debug("createArtifact(" + gameEntity.getName() + ")");
         ArtifactEntity old = artifactDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
-                gameEntity.getDatafile().getCategory(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
+                gameEntity.getDatafile().getCatalog(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
         if (old != null) {
             LOG.debug("Artifact already exist");
             gameEntity.setId(old.getId());
@@ -140,10 +140,10 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Datafile findByUnique(String name, String category, String version) {
-        DatafileEntity entity = datafileDAO.findByUnique(name, category, version);
+    public Datafile findByUnique(String name, String catalog, String version) {
+        DatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
-            return new Datafile(entity.getName(), entity.getCategory(), entity.getVersion(), entity.getDescription(),
+            return new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
                     entity.getComment());
         }
@@ -151,8 +151,8 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Datafile findByUniqueFull(String name, String category, String version) {
-        DatafileEntity entity = datafileDAO.findByUnique(name, category, version);
+    public Datafile findByUniqueFull(String name, String catalog, String version) {
+        DatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
             return toVO(entity);
         }
@@ -164,7 +164,7 @@ public class RetrocenterDatafileService {
         List<DatafileEntity> l = datafileDAO.findAll();
         List<Datafile> r = new ArrayList<>(l.size());
         for (DatafileEntity entity : l) {
-            r.add(new Datafile(entity.getName(), entity.getCategory(), entity.getVersion(), entity.getDescription(),
+            r.add(new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
                     entity.getComment()));
         }

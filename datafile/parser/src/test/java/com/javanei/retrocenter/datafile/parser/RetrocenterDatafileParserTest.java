@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.datafile.parser;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
@@ -24,7 +24,7 @@ public class RetrocenterDatafileParserTest {
     @Test
     public void testHeader() {
         Assert.assertEquals("name", "Nintendo 64 - Games", datafile.getName());
-        Assert.assertEquals("category", DatafileCategoryEnum.TOSEC.name(), datafile.getCategory());
+        Assert.assertEquals("catalog", DatafileCatalogEnum.TOSEC.name(), datafile.getCatalog());
         Assert.assertEquals("version", "2015-05-27", datafile.getVersion());
         Assert.assertEquals("description", "Nintendo 64 - Games (TOSEC-v2015-05-27)", datafile.getDescription());
         Assert.assertEquals("author", "Cassiel - Yori Yoshizuki", datafile.getAuthor());

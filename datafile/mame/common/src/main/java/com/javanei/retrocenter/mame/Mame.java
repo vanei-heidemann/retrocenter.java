@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.mame;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import com.javanei.retrocenter.datafile.Artifact;
@@ -109,7 +109,7 @@ public class Mame implements DatafileObject, Serializable {
     public Datafile toDatafile() {
         Datafile datafile = new Datafile();
         datafile.setName("MAME");
-        datafile.setCategory(DatafileCategoryEnum.MAME.name());
+        datafile.setCatalog(DatafileCatalogEnum.MAME.name());
         datafile.setVersion(this.build);
         for (MameMachine machine : this.machines) {
             Artifact game = new Artifact(machine.getName(), machine.getDescription(), machine.getYear(), null);

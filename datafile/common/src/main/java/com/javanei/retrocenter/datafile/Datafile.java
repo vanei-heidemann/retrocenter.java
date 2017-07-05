@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.datafile;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -13,10 +14,7 @@ public class Datafile implements DatafileObject, Serializable {
      * clrmamepro.header.name, logiqx.header.name
      */
     private String name;
-    /**
-     * clrmamepro.header.category, logiqx.header.category
-     */
-    private String category;
+    private String catalog;
     /**
      * clrmamepro.header.version, logiqx.header.version
      */
@@ -59,10 +57,10 @@ public class Datafile implements DatafileObject, Serializable {
         this.name = name;
     }
 
-    public Datafile(String name, String category, String version, String description, String author, String date,
+    public Datafile(String name, String catalog, String version, String description, String author, String date,
                     String email, String homepage, String url, String comment) {
         this.name = name;
-        this.setCategory(category);
+        this.setCatalog(catalog);
         this.version = version;
         this.description = description;
         this.author = author;
@@ -108,30 +106,25 @@ public class Datafile implements DatafileObject, Serializable {
         this.name = name;
     }
 
+    public String getCatalog() {
+        return catalog;
+    }
+
+    @Transient
+    public void setCatalog(DatafileCatalogEnum catalog) {
+        this.catalog = catalog.name();
+    }
+
+    public void setCatalog(String catalog) {
+        this.setCatalog(DatafileCatalogEnum.fromName(catalog));
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        if (category == null) {
-            this.category = null;
-        } else if (category.toLowerCase().equals("no-intro") || category.toLowerCase().equals("nointro")) {
-            this.category = DatafileCategoryEnum.NoIntro.name();
-        } else if (category.toLowerCase().equals("tosec")) {
-            this.category = DatafileCategoryEnum.TOSEC.name();
-        } else if (category.toUpperCase().equals("MAME")) {
-            this.category = DatafileCategoryEnum.MAME.name();
-        } else {
-            throw new IllegalArgumentException("Invalid category value: '" + category + "'");
-        }
     }
 
     public String getVersion() {
@@ -196,13 +189,13 @@ public class Datafile implements DatafileObject, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Datafile datafile = (Datafile) o;
         return Objects.equals(name, datafile.name) &&
-                Objects.equals(category, datafile.category) &&
+                Objects.equals(catalog, datafile.catalog) &&
                 Objects.equals(version, datafile.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, category, version);
+        return Objects.hash(name, catalog, version);
     }
 
     @Override
@@ -216,7 +209,7 @@ public class Datafile implements DatafileObject, Serializable {
         sb.append("<?xml version=\"1.0\"?>\n");
         sb.append("<retrocenter");
         appendXMLAttributeIfNotNull(sb, "name", name);
-        appendXMLAttributeIfNotNull(sb, "category", category);
+        appendXMLAttributeIfNotNull(sb, "catalog", catalog);
         appendXMLAttributeIfNotNull(sb, "version", version);
         sb.append(">\n");
         appendXMLTagIfNotNull(sb, "description", description, 1);

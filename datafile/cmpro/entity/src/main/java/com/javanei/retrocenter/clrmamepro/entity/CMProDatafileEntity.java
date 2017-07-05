@@ -24,11 +24,11 @@ import javax.persistence.Transient;
 
 @Entity
 @Table(name = "CMPRO_DATAFILE", indexes = {
-        @Index(name = "CMPRO_DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
+        @Index(name = "CMPRO_DATAFILE_0001", unique = true, columnList = "NAME,CATALOG,VERSION")
 })
 @NamedQueries({
-        @NamedQuery(name = "CMProDatafileEntity.findByUniqueFull", query = "SELECT o from CMProDatafileEntity o WHERE o.name = :name AND o.category = :category AND o.version = :version"),
-        @NamedQuery(name = "CMProDatafileEntity.findByUnique", query = "SELECT new CMProDatafileEntity(id, name, category, version, description, author, homepage, url, forcemerging, forcezipping) from CMProDatafileEntity o WHERE o.name = :name AND o.category = :category AND o.version = :version")
+        @NamedQuery(name = "CMProDatafileEntity.findByUniqueFull", query = "SELECT o from CMProDatafileEntity o WHERE o.name = :name AND o.catalog = :catalog AND o.version = :version"),
+        @NamedQuery(name = "CMProDatafileEntity.findByUnique", query = "SELECT new CMProDatafileEntity(id, name, catalog, version, category, description, author, homepage, url, forcemerging, forcezipping) from CMProDatafileEntity o WHERE o.name = :name AND o.catalog = :catalog AND o.version = :version")
 })
 public class CMProDatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -41,11 +41,14 @@ public class CMProDatafileEntity implements Serializable {
     @Column(name = "NAME", length = 160, nullable = false)
     private String name;
 
-    @Column(name = "CATEGORY", length = 32, nullable = false)
-    private String category;
+    @Column(name = "CATALOG", length = 32, nullable = false)
+    private String catalog;
 
     @Column(name = "VERSION", length = 64, nullable = false)
     private String version;
+
+    @Column(name = "CATEGORY", length = 128, nullable = true)
+    private String category;
 
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
@@ -80,9 +83,10 @@ public class CMProDatafileEntity implements Serializable {
     public CMProDatafileEntity() {
     }
 
-    public CMProDatafileEntity(String name, String category, String version, String description, String author,
+    public CMProDatafileEntity(String name, String catalog, String version, String category, String description, String author,
                                String homepage, String url, String forcemerging, String forcezipping) {
         this.name = name;
+        this.catalog = catalog;
         this.category = category;
         this.version = version;
         this.description = description;
@@ -93,10 +97,11 @@ public class CMProDatafileEntity implements Serializable {
         this.forcezipping = forcezipping;
     }
 
-    public CMProDatafileEntity(Long id, String name, String category, String version, String description,
+    public CMProDatafileEntity(Long id, String name, String catalog, String version, String category, String description,
                                String author, String homepage, String url, String forcemerging, String forcezipping) {
         this.id = id;
         this.name = name;
+        this.catalog = catalog;
         this.category = category;
         this.version = version;
         this.description = description;
@@ -121,6 +126,14 @@ public class CMProDatafileEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    public void setCatalog(String catalog) {
+        this.catalog = catalog;
     }
 
     public String getDescription() {

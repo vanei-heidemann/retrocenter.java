@@ -39,8 +39,8 @@ public class LogiqxService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public LogiqxDatafileEntity create(LogiqxDatafileEntity entity) {
-        LOG.debug("create(name=" + entity.getName() + ", category=" + entity.getCategory() + ", version=" + entity.getVersion() + ")");
-        LogiqxDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        LOG.debug("create(name=" + entity.getName() + ", catalog=" + entity.getCatalog() + ", version=" + entity.getVersion() + ")");
+        LogiqxDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCatalog(), entity.getVersion());
         if (old == null) {
             entity = datafileDAO.saveAndFlush(entity);
         } else {
@@ -54,7 +54,7 @@ public class LogiqxService {
     public LogiqxGameEntity createGame(LogiqxGameEntity entity) {
         LOG.debug("create(name=" + entity.getName() + ")");
         LogiqxGameEntity old = gameDAO.findByDatafileAndName(entity.getDatafile().getName(),
-                entity.getDatafile().getCategory(), entity.getDatafile().getVersion(), entity.getName());
+                entity.getDatafile().getCatalog(), entity.getDatafile().getVersion(), entity.getName());
         if (old == null) {
             entity = gameDAO.saveAndFlush(entity);
         } else {
@@ -66,7 +66,7 @@ public class LogiqxService {
     @Transactional(propagation = Propagation.REQUIRED)
     public LogiqxDatafile create(LogiqxDatafile datafile) {
         LOG.info("create(name=" + datafile.getHeader().getName()
-                + ", category=" + datafile.getHeader().getCategory()
+                + ", catalog=" + datafile.getHeader().getCatalog()
                 + ", version=" + datafile.getHeader().getVersion()
                 + ", games=" + datafile.getGames().size()
                 + ")");
@@ -127,8 +127,8 @@ public class LogiqxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LogiqxDatafile findByUnique(String name, String category, String version) {
-        LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, category, version);
+    public LogiqxDatafile findByUnique(String name, String catalog, String version) {
+        LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
             return entity.toVO();
         }
@@ -136,8 +136,8 @@ public class LogiqxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LogiqxDatafile findByUniqueFull(String name, String category, String version) {
-        LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, category, version);
+    public LogiqxDatafile findByUniqueFull(String name, String catalog, String version) {
+        LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
             return entity.toVO();
         }

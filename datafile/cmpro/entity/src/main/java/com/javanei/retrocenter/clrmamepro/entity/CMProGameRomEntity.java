@@ -51,6 +51,9 @@ public class CMProGameRomEntity implements Serializable {
     @JoinColumn(name = "GAME_ID")
     private CMProGameEntity game;
 
+    public CMProGameRomEntity() {
+    }
+
     public CMProGameRomEntity(String name, Long size, String crc, String sha1, String md5, String region, String flags) {
         this.name = name;
         this.size = size;

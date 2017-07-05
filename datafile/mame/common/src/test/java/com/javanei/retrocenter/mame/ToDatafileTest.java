@@ -47,7 +47,7 @@ public class ToDatafileTest {
 
     @Test
     public void testCategory() {
-        Assert.assertEquals("MAME", datafile.getCategory());
+        Assert.assertEquals("MAME", datafile.getCatalog());
     }
 
     @Test

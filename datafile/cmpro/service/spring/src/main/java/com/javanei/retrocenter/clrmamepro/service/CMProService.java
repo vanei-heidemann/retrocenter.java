@@ -57,7 +57,8 @@ public class CMProService {
 
     private static CMProDatafileEntity datafileToEntity(CMProDatafile datafile) {
         CMProDatafileEntity entity = new CMProDatafileEntity(datafile.getHeader().getName(),
-                datafile.getHeader().getCategory(), datafile.getHeader().getVersion(),
+                datafile.getHeader().getCatalog(), datafile.getHeader().getVersion(),
+                datafile.getHeader().getCategory(),
                 datafile.getHeader().getDescription(), datafile.getHeader().getAuthor(),
                 datafile.getHeader().getHomepage(), datafile.getHeader().getUrl(),
                 datafile.getHeader().getForcemerging(), datafile.getHeader().getForcezipping());
@@ -120,8 +121,8 @@ public class CMProService {
     }
 
     private static CMProDatafile entityToDatafile(CMProDatafileEntity datafile) {
-        CMProDatafile entity = new CMProDatafile(new CMProHeader(datafile.getName(),
-                datafile.getDescription(), datafile.getCategory(), datafile.getVersion(),
+        CMProDatafile entity = new CMProDatafile(new CMProHeader(datafile.getName(), datafile.getCatalog(),
+                datafile.getVersion(), datafile.getDescription(), datafile.getCategory(),
                 datafile.getAuthor(), datafile.getHomepage(), datafile.getUrl(),
                 datafile.getForcemerging(), datafile.getForcezipping()));
         for (CMProGameEntity game : datafile.getGames()) {
@@ -185,9 +186,9 @@ public class CMProService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CMProDatafileEntity create(CMProDatafileEntity entity) {
         LOG.debug("create(name=" + entity.getName()
-                + ", category=" + entity.getCategory()
+                + ", catalog=" + entity.getCatalog()
                 + ", version=" + entity.getVersion() + ")");
-        CMProDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        CMProDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCatalog(), entity.getVersion());
         if (old == null) {
             entity = datafileDAO.saveAndFlush(entity);
         } else {
@@ -201,7 +202,7 @@ public class CMProService {
     public CMProGameEntity createGame(CMProGameEntity gameEntity) {
         LOG.debug("create - game(" + gameEntity.getName() + ")");
         CMProGameEntity old = gameDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
-                gameEntity.getDatafile().getCategory(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
+                gameEntity.getDatafile().getCatalog(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
         if (old != null) {
             LOG.debug("Game already exist");
             gameEntity.setId(old.getId());
@@ -240,7 +241,7 @@ public class CMProService {
     public CMProResourceEntity createResource(CMProResourceEntity resourceEntity) {
         LOG.debug("create - resource(" + resourceEntity.getName() + ")");
         CMProResourceEntity old = resourceDAO.findByDatafileAndName(resourceEntity.getDatafile().getName(),
-                resourceEntity.getDatafile().getCategory(), resourceEntity.getDatafile().getVersion(),
+                resourceEntity.getDatafile().getCatalog(), resourceEntity.getDatafile().getVersion(),
                 resourceEntity.getName());
         if (old != null) {
             resourceEntity.setId(old.getId());
@@ -261,7 +262,7 @@ public class CMProService {
     @Transactional(propagation = Propagation.REQUIRED)
     public CMProDatafile create(CMProDatafile datafile) {
         LOG.info("create(name=" + datafile.getHeader().getName()
-                + ", category=" + datafile.getHeader().getCategory()
+                + ", catalog=" + datafile.getHeader().getCatalog()
                 + ", version=" + datafile.getHeader().getVersion() + ")");
         CMProDatafileEntity entity = datafileToEntity(datafile);
         Map<String, String> customFields = entity.getCustomFields();
@@ -294,19 +295,20 @@ public class CMProService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public CMProDatafile findByUnique(String name, String category, String version) {
-        CMProDatafileEntity entity = datafileDAO.findByUnique(name, category, version);
+    public CMProDatafile findByUnique(String name, String catalog, String version) {
+        CMProDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
-            return new CMProDatafile(new CMProHeader(entity.getName(), entity.getDescription(), entity.getCategory(),
-                    entity.getVersion(), entity.getAuthor(), entity.getHomepage(), entity.getUrl(),
+            return new CMProDatafile(new CMProHeader(entity.getName(), entity.getCatalog(), entity.getVersion(),
+                    entity.getDescription(), entity.getCatalog(),
+                    entity.getAuthor(), entity.getHomepage(), entity.getUrl(),
                     entity.getForcemerging(), entity.getForcezipping()));
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public CMProDatafile findByUniqueFull(String name, String category, String version) {
-        CMProDatafileEntity entity = datafileDAO.findByUniqueFull(name, category, version);
+    public CMProDatafile findByUniqueFull(String name, String catalog, String version) {
+        CMProDatafileEntity entity = datafileDAO.findByUniqueFull(name, catalog, version);
         if (entity != null) {
             return entityToDatafile(entity);
         }

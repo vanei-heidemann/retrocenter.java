@@ -39,6 +39,9 @@ public class CMProDiskEntity implements Serializable {
     @JoinColumn(name = "GAME_ID")
     private CMProGameEntity game;
 
+    public CMProDiskEntity() {
+    }
+
     public CMProDiskEntity(Long id) {
         this.id = id;
     }

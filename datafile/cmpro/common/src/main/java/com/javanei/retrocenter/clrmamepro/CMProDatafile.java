@@ -80,7 +80,7 @@ public class CMProDatafile implements DatafileObject, Serializable {
 
     @Override
     public Datafile toDatafile() {
-        Datafile r = new Datafile(header.getName(), header.getCategory(), header.getVersion(),
+        Datafile r = new Datafile(header.getName(), header.getCatalog(), header.getVersion(),
                 header.getDescription(), header.getAuthor(), null,
                 null, header.getHomepage(), header.getUrl(), null);
         for (CMProGame game : this.getGames()) {

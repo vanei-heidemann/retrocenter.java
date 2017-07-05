@@ -6,7 +6,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface CMProGameDAO extends JpaRepository<CMProGameEntity, Long> {
     CMProGameEntity findByDatafileAndName(@Param("datafileName") String datafileName,
-                                          @Param("category") String category,
+                                          @Param("catalog") String catalog,
                                           @Param("version") String version,
                                           @Param("name") String name);
 }

@@ -25,7 +25,7 @@ import javax.persistence.Table;
 })
 @NamedQueries({
         @NamedQuery(name = "CMProGameEntity.findByDatafileAndName",
-                query = "SELECT o from CMProGameEntity o WHERE o.datafile.name = :datafileName AND o.datafile.category = :category AND o.datafile.version = :version AND o.name = :name")
+                query = "SELECT o from CMProGameEntity o WHERE o.datafile.name = :datafileName AND o.datafile.catalog = :catalog AND o.datafile.version = :version AND o.name = :name")
 })
 public class CMProGameEntity implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.clrmamepro;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
+import java.beans.Transient;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ public class CMProHeader implements Serializable {
     // Standard fields
     private String name; // Name of the emulator without a version number.
     private String description; // Name of the emulator with a version number.
+    private String catalog;
     private String category; // General comment about the emulator (e.g. the systems or game types it supports).
     private String version; // Vsersion number of the data file. I would recommend using something like a date encoded version number (YYYYMMDD is preferable to DDMMYYYY as it can be sorted and is unambiguous).
     private String author; // Your name and e-mail/web address.
@@ -34,11 +36,12 @@ public class CMProHeader implements Serializable {
     public CMProHeader() {
     }
 
-    public CMProHeader(String name, String description, String category, String version, String author, String homepage,
+    public CMProHeader(String name, String catalog, String version, String description, String category, String author, String homepage,
                        String url, String forcemerging, String forcezipping) {
         this.name = name;
+        this.setCatalog(catalog);
         this.description = description;
-        this.setCategory(category);
+        this.category = category;
         this.version = version;
         this.author = author;
         this.homepage = homepage;
@@ -61,6 +64,22 @@ public class CMProHeader implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+        if (DatafileCatalogEnum.isValid(description)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(description));
+        }
+    }
+
+    public String getCatalog() {
+        return catalog;
+    }
+
+    @Transient
+    public void setCatalog(DatafileCatalogEnum catalog) {
+        this.catalog = catalog.name();
+    }
+
+    public void setCatalog(String catalog) {
+        this.setCatalog(DatafileCatalogEnum.fromName(catalog));
     }
 
     public String getCategory() {
@@ -68,17 +87,7 @@ public class CMProHeader implements Serializable {
     }
 
     public void setCategory(String category) {
-        if (category == null) {
-            this.category = null;
-        } else if (category.toLowerCase().equals("no-intro") || category.toLowerCase().equals("nointro")) {
-            this.category = DatafileCategoryEnum.NoIntro.name();
-        } else if (category.toLowerCase().equals("tosec")) {
-            this.category = DatafileCategoryEnum.TOSEC.name();
-        } else if (category.toUpperCase().equals("MAME")) {
-            this.category = DatafileCategoryEnum.MAME.name();
-        } else {
-            throw new IllegalArgumentException("Invalid category value: '" + category + "'");
-        }
+        this.category = category;
     }
 
     public String getVersion() {
@@ -111,8 +120,8 @@ public class CMProHeader implements Serializable {
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
-        if (homepage.toLowerCase().contains("no-intro") && this.category == null) {
-            this.setCategory(DatafileCategoryEnum.NoIntro.name());
+        if (this.catalog == null && DatafileCatalogEnum.isValid(homepage)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(homepage));
         }
     }
 
@@ -122,8 +131,8 @@ public class CMProHeader implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
-        if (url.toLowerCase().contains("no-intro") && this.category == null) {
-            this.setCategory(DatafileCategoryEnum.NoIntro.name());
+        if (this.catalog == null && DatafileCatalogEnum.isValid(url)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(url));
         }
     }
 
@@ -164,14 +173,14 @@ public class CMProHeader implements Serializable {
         CMProHeader header = (CMProHeader) o;
         return Objects.equals(name, header.name) &&
                 Objects.equals(description, header.description) &&
-                Objects.equals(category, header.category) &&
+                Objects.equals(catalog, header.catalog) &&
                 Objects.equals(version, header.version) &&
                 Objects.equals(author, header.author);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, description, category, version, author);
+        return Objects.hash(name, description, catalog, version, author);
     }
 
     @Override

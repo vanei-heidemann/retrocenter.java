@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
 import java.beans.Transient;
 import java.io.Serializable;
@@ -14,6 +15,11 @@ public class LogiqxHeader implements Serializable {
      * <!ELEMENT name (#PCDATA)>
      */
     private String name;
+    private String catalog;
+    /**
+     * <!ELEMENT version (#PCDATA)>
+     */
+    private String version;
     /**
      * <!ELEMENT description (#PCDATA)>
      */
@@ -22,10 +28,6 @@ public class LogiqxHeader implements Serializable {
      * <!ELEMENT category (#PCDATA)>
      */
     private String category;
-    /**
-     * <!ELEMENT version (#PCDATA)>
-     */
-    private String version;
     /**
      * <!ELEMENT date (#PCDATA)>
      */
@@ -113,9 +115,10 @@ public class LogiqxHeader implements Serializable {
     public LogiqxHeader() {
     }
 
-    public LogiqxHeader(String name, String description, String category, String version, String date, String author,
+    public LogiqxHeader(String name, String catalog, String version, String description, String category, String date, String author,
                         String email, String homepage, String url, String comment) {
         this.name = name;
+        this.setCatalog(catalog);
         this.description = description;
         this.category = category;
         this.version = version;
@@ -127,11 +130,12 @@ public class LogiqxHeader implements Serializable {
         this.comment = comment;
     }
 
-    public LogiqxHeader(String name, String description, String category, String version, String date, String author,
+    public LogiqxHeader(String name, String catalog, String version, String description, String category, String date, String author,
                         String email, String homepage, String url, String comment, String header, String forcemerging,
                         String forcenodump, String forcepacking, String plugin, String rommode, String biosmode, String samplemode,
                         String lockrommode, String lockbiosmode, String locksamplemode) {
         this.name = name;
+        this.setCatalog(catalog);
         this.description = description;
         this.category = category;
         this.version = version;
@@ -172,12 +176,28 @@ public class LogiqxHeader implements Serializable {
         this.name = name;
     }
 
+    public String getCatalog() {
+        return catalog;
+    }
+
+    @Transient
+    public void setCatalog(DatafileCatalogEnum catalog) {
+        this.catalog = catalog.name();
+    }
+
+    public void setCatalog(String catalog) {
+        this.setCatalog(DatafileCatalogEnum.fromName(catalog));
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(description)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(description));
+        }
     }
 
     public String getCategory() {
@@ -186,6 +206,9 @@ public class LogiqxHeader implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(description)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(category));
+        }
     }
 
     public String getVersion() {
@@ -218,6 +241,9 @@ public class LogiqxHeader implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(email)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(email));
+        }
     }
 
     public String getHomepage() {
@@ -226,6 +252,9 @@ public class LogiqxHeader implements Serializable {
 
     public void setHomepage(String homepage) {
         this.homepage = homepage;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(homepage)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(homepage));
+        }
     }
 
     public String getUrl() {
@@ -234,6 +263,9 @@ public class LogiqxHeader implements Serializable {
 
     public void setUrl(String url) {
         this.url = url;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(url)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(url));
+        }
     }
 
     public String getComment() {
@@ -242,6 +274,9 @@ public class LogiqxHeader implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+        if (this.catalog == null && DatafileCatalogEnum.isValid(comment)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(comment));
+        }
     }
 
     public String getHeader() {

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface LogiqxDatafileDAO extends JpaRepository<LogiqxDatafileEntity, Long> {
-    LogiqxDatafileEntity findByUniqueFull(@Param("name") String name, @Param("category") String category, @Param("version") String version);
+    LogiqxDatafileEntity findByUniqueFull(@Param("name") String name, @Param("catalog") String catalog, @Param("version") String version);
 
-    LogiqxDatafileEntity findByUnique(@Param("name") String name, @Param("category") String category, @Param("version") String version);
+    LogiqxDatafileEntity findByUnique(@Param("name") String name, @Param("catalog") String catalog, @Param("version") String version);
 }

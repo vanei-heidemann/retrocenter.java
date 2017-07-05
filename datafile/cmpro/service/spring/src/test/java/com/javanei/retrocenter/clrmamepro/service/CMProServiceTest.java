@@ -7,7 +7,7 @@ import com.javanei.retrocenter.clrmamepro.CMProHeader;
 import com.javanei.retrocenter.clrmamepro.CMProResource;
 import com.javanei.retrocenter.clrmamepro.CMProRom;
 import com.javanei.retrocenter.clrmamepro.parser.CMProParser;
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import java.io.InputStream;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -50,10 +50,12 @@ public class CMProServiceTest {
         Assert.assertEquals("name", "Sony - PlayStation Vita", h.getName());
         Assert.assertEquals("description", "Sony - PlayStation Vita", h.getDescription());
         Assert.assertEquals("version", "20170114-224204", h.getVersion());
-        Assert.assertEquals("category", DatafileCategoryEnum.NoIntro.name(), h.getCategory());
+        //Assert.assertEquals("category", DatafileCatalogEnum.NoIntro.name(), h.getCategory());
+        Assert.assertEquals("catalog", DatafileCatalogEnum.NoIntro.name(), h.getCatalog());
         Assert.assertEquals("author", "Densetsu, einstein95, Gefflon, Hiccup, jimmsu, Money_114, SonGoku, xuom2, zg", h.getAuthor());
         Assert.assertEquals("homepage", "No-Intro", h.getHomepage());
         Assert.assertEquals("url", "http://www.no-intro.org", h.getUrl());
+        Assert.assertNull("category", h.getCategory());
         Assert.assertNull("forcemerging", h.getForcemerging());
         Assert.assertNull("forcezipping", h.getForcezipping());
     }

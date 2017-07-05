@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.datafile.service;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
@@ -58,7 +58,7 @@ public class RetrocenterDatafileServiceTest {
     public void create() {
         Datafile d = retrocenterDatafileService.create(datafile);
         Assert.assertEquals("name", "name 01", d.getName());
-        Assert.assertEquals("category", DatafileCategoryEnum.NoIntro.name(), d.getCategory());
+        Assert.assertEquals("catalog", DatafileCatalogEnum.NoIntro.name(), d.getCatalog());
         Assert.assertEquals("version", "1.00", d.getVersion());
         Assert.assertEquals("description", "description 01", d.getDescription());
         Assert.assertEquals("author", "author 01", d.getAuthor());

@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.clrmamepro;
 
-import com.javanei.retrocenter.common.DatafileCategoryEnum;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
@@ -16,8 +16,8 @@ public class ToDatafileTest {
 
     @BeforeClass
     public static void initialize() throws Exception {
-        cmpro = new CMProDatafile(new CMProHeader("name 01", "description 01", "no-intro",
-                "1.00", "javanei", "javanei.com.br", "www.javanei.com.br",
+        cmpro = new CMProDatafile(new CMProHeader("name 01", "no-intro", "1.00", "description 01", "no-intro",
+                "javanei", "javanei.com.br", "www.javanei.com.br",
                 "split", "yes"));
         CMProGame game = new CMProGame("game name 01", "game description 01", "2017",
                 "manufacturer 01", "cloneof 01", "romof 01", null);
@@ -48,8 +48,8 @@ public class ToDatafileTest {
     }
 
     @Test
-    public void testCategory() {
-        Assert.assertEquals("Category", DatafileCategoryEnum.NoIntro.name(), datafile.getCategory());
+    public void testCatalog() {
+        Assert.assertEquals("Catalog", DatafileCatalogEnum.NoIntro.name(), datafile.getCatalog());
     }
 
     @Test
