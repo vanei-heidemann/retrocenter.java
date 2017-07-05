@@ -187,13 +187,26 @@ public class CMProService {
         LOG.debug("create(name=" + entity.getName()
                 + ", category=" + entity.getCategory()
                 + ", version=" + entity.getVersion() + ")");
-        entity = datafileDAO.saveAndFlush(entity);
+        CMProDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        if (old == null) {
+            entity = datafileDAO.saveAndFlush(entity);
+        } else {
+            LOG.debug("Datafile already exist");
+            entity.setId(old.getId());
+        }
         return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CMProGameEntity createGame(CMProGameEntity gameEntity) {
         LOG.debug("create - game(" + gameEntity.getName() + ")");
+        CMProGameEntity old = gameDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
+                gameEntity.getDatafile().getCategory(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
+        if (old != null) {
+            LOG.debug("Game already exist");
+            gameEntity.setId(old.getId());
+            return gameEntity;
+        }
         gameEntity = gameDAO.saveAndFlush(gameEntity);
 
         Set<CMProGameRomEntity> roms = gameEntity.getRoms();
@@ -226,6 +239,14 @@ public class CMProService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public CMProResourceEntity createResource(CMProResourceEntity resourceEntity) {
         LOG.debug("create - resource(" + resourceEntity.getName() + ")");
+        CMProResourceEntity old = resourceDAO.findByDatafileAndName(resourceEntity.getDatafile().getName(),
+                resourceEntity.getDatafile().getCategory(), resourceEntity.getDatafile().getVersion(),
+                resourceEntity.getName());
+        if (old != null) {
+            resourceEntity.setId(old.getId());
+            LOG.debug("Resource already exist");
+            return resourceEntity;
+        }
         Set<CMProResourceRomEntity> roms = resourceEntity.getRoms();
 
         resourceEntity = resourceDAO.saveAndFlush(resourceEntity);

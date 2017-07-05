@@ -40,14 +40,26 @@ public class LogiqxService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public LogiqxDatafileEntity create(LogiqxDatafileEntity entity) {
         LOG.debug("create(name=" + entity.getName() + ", category=" + entity.getCategory() + ", version=" + entity.getVersion() + ")");
-        entity = datafileDAO.saveAndFlush(entity);
+        LogiqxDatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        if (old == null) {
+            entity = datafileDAO.saveAndFlush(entity);
+        } else {
+            LOG.debug("Datafile already exist");
+            entity.setId(old.getId());
+        }
         return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public LogiqxGameEntity createGame(LogiqxGameEntity entity) {
         LOG.debug("create(name=" + entity.getName() + ")");
-        entity = gameDAO.saveAndFlush(entity);
+        LogiqxGameEntity old = gameDAO.findByDatafileAndName(entity.getDatafile().getName(),
+                entity.getDatafile().getCategory(), entity.getDatafile().getVersion(), entity.getName());
+        if (old == null) {
+            entity = gameDAO.saveAndFlush(entity);
+        } else {
+            entity.setId(old.getId());
+        }
         return entity;
     }
 

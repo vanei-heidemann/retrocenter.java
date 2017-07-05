@@ -57,12 +57,24 @@ public class MameService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public MameEntity create(MameEntity entity) {
-        return mameDAO.saveAndFlush(entity);
+        MameEntity oldMame = mameDAO.findByBuild(entity.getBuild());
+        if (oldMame == null) {
+            entity = mameDAO.saveAndFlush(entity);
+        } else {
+            entity.setId(oldMame.getId());
+        }
+        return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public MameMachineEntity createMachine(MameMachineEntity machineEntity) {
-        machineEntity = machineDAO.saveAndFlush(machineEntity);
+        MameMachineEntity old = machineDAO.findByBuildAndName(machineEntity.getMame().getBuild(),
+                machineEntity.getName());
+        if (old == null) {
+            machineEntity = machineDAO.saveAndFlush(machineEntity);
+        } else {
+            machineEntity.setId(old.getId());
+        }
 
         return machineEntity;
     }

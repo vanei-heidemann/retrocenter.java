@@ -14,12 +14,18 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "CMPRO_GAME", indexes = {
         @Index(name = "CMPRO_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+})
+@NamedQueries({
+        @NamedQuery(name = "CMProGameEntity.findByDatafileAndName",
+                query = "SELECT o from CMProGameEntity o WHERE o.datafile.name = :datafileName AND o.datafile.category = :category AND o.datafile.version = :version AND o.name = :name")
 })
 public class CMProGameEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -65,6 +71,9 @@ public class CMProGameEntity implements Serializable {
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private CMProDatafileEntity datafile;
+
+    public CMProGameEntity() {
+    }
 
     public CMProGameEntity(String name, String description, String year, String manufacturer, String cloneof,
                            String romof, String serial) {

@@ -15,12 +15,18 @@ import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "LOGIQX_GAME", indexes = {
         @Index(name = "LOGIQX_GAME_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+})
+@NamedQueries({
+        @NamedQuery(name = "LogiqxGameEntity.findByDatafileAndName",
+                query = "SELECT o from LogiqxGameEntity o WHERE o.datafile.name = :datafileName AND o.datafile.category = :category AND o.datafile.version = :version AND o.name = :name")
 })
 public class LogiqxGameEntity implements Serializable {
     private static final long serialVersionUID = 1L;

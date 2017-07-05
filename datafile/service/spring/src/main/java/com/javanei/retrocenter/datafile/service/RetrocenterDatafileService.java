@@ -103,12 +103,28 @@ public class RetrocenterDatafileService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DatafileEntity create(DatafileEntity entity) {
-        entity = datafileDAO.saveAndFlush(entity);
+        LOG.debug("create(name=" + entity.getName() + ", category=" + entity.getCategory()
+                + ", version=" + entity.getVersion() + ")");
+        DatafileEntity old = datafileDAO.findByUnique(entity.getName(), entity.getCategory(), entity.getVersion());
+        if (old == null) {
+            entity = datafileDAO.saveAndFlush(entity);
+        } else {
+            LOG.debug("Datafile already exist");
+            entity.setId(old.getId());
+        }
         return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public ArtifactEntity createArtifact(ArtifactEntity gameEntity) {
+        LOG.debug("createArtifact(" + gameEntity.getName() + ")");
+        ArtifactEntity old = artifactDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
+                gameEntity.getDatafile().getCategory(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
+        if (old != null) {
+            LOG.debug("Artifact already exist");
+            gameEntity.setId(old.getId());
+            return gameEntity;
+        }
         gameEntity = artifactDAO.saveAndFlush(gameEntity);
         for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
             gameFileEntity.setArtifact(gameEntity);

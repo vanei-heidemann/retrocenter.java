@@ -21,6 +21,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -28,6 +30,10 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "DATAFILE_ARTIFACT", indexes = {
         @Index(name = "DATAFILE_ARTIFACT_0001", unique = true, columnList = "DATAFILE_ID,NAME")
+})
+@NamedQueries({
+        @NamedQuery(name = "ArtifactEntity.findByDatafileAndName",
+                query = "SELECT o from ArtifactEntity o WHERE o.datafile.name = :datafileName AND o.datafile.category = :category AND o.datafile.version = :version AND o.name = :name")
 })
 public class ArtifactEntity implements Serializable {
     private static final long serialVersionUID = 1L;

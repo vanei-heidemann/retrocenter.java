@@ -27,8 +27,8 @@ import javax.persistence.Transient;
         @Index(name = "CMPRO_DATAFILE_0001", unique = true, columnList = "NAME,CATEGORY,VERSION")
 })
 @NamedQueries({
-        @NamedQuery(name = "CMProDatafileEntity.findByUniqueFull", query = "SELECT o from CMProDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version"),
-        @NamedQuery(name = "CMProDatafileEntity.findByUnique", query = "SELECT new CMProDatafileEntity(id, name, category, version, description, author, homepage, url, forcemerging, forcezipping) from CMProDatafileEntity o WHERE name = :name AND o.category = :category AND o.version = :version")
+        @NamedQuery(name = "CMProDatafileEntity.findByUniqueFull", query = "SELECT o from CMProDatafileEntity o WHERE o.name = :name AND o.category = :category AND o.version = :version"),
+        @NamedQuery(name = "CMProDatafileEntity.findByUnique", query = "SELECT new CMProDatafileEntity(id, name, category, version, description, author, homepage, url, forcemerging, forcezipping) from CMProDatafileEntity o WHERE o.name = :name AND o.category = :category AND o.version = :version")
 })
 public class CMProDatafileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
