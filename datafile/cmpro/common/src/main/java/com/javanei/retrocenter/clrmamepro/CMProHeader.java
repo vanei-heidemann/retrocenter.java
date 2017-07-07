@@ -64,7 +64,7 @@ public class CMProHeader implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-        if (DatafileCatalogEnum.isValid(description)) {
+        if (this.catalog == null && DatafileCatalogEnum.isValid(description)) {
             this.setCatalog(DatafileCatalogEnum.fromName(description));
         }
     }
@@ -73,13 +73,13 @@ public class CMProHeader implements Serializable {
         return catalog;
     }
 
+    public void setCatalog(String catalog) {
+        this.setCatalog(DatafileCatalogEnum.fromName(catalog));
+    }
+
     @Transient
     public void setCatalog(DatafileCatalogEnum catalog) {
         this.catalog = catalog.name();
-    }
-
-    public void setCatalog(String catalog) {
-        this.setCatalog(DatafileCatalogEnum.fromName(catalog));
     }
 
     public String getCategory() {
@@ -152,6 +152,12 @@ public class CMProHeader implements Serializable {
         this.forcezipping = forcezipping;
     }
 
+    public void setComment(String comment) {
+        this.addCustomField("comment", comment);
+        if (this.catalog == null && DatafileCatalogEnum.isValid(comment)) {
+            this.setCatalog(DatafileCatalogEnum.fromName(comment));
+        }
+    }
     public boolean addCustomField(String key, String value) {
         if (!this.customFields.containsKey(key)) {
             this.customFields.put(key, value);

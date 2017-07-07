@@ -16,11 +16,14 @@ import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
 public class UploadDirectoryDatafiles {
     private static final String SERVER_URL = "http://localhost:8080/retrocenter/";
     private static final String TARGET_URL = SERVER_URL + "datafiles/";
-    private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC";
+    //private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC/TOSEC";
+    private static final String BASE_DIR = "F:/Desenv/Fontes/Java/retrocenter/resources/no-intro";
+    private static final boolean DELETE_FILE = true;
 
     public static void main(String[] args) {
         try {
             processFile(new File(BASE_DIR));
+            System.out.println("========== FIM ==========");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -40,10 +43,19 @@ public class UploadDirectoryDatafiles {
 
                 Response response = webTarget.request(MediaType.APPLICATION_JSON_TYPE)
                         .post(Entity.entity(multiPart, multiPart.getMediaType()));
-                System.out.println("--- " + response.getStatus() + ": " + response.getStatusInfo());
-                Gson gson = new Gson();
-                Datafile d = gson.fromJson(response.readEntity(String.class), Datafile.class);
-                System.out.println("====== Games: " + d.getArtifacts().size());
+                int status = response.getStatus();
+                if (status == 200) {
+                    System.out.println("--- " + response.getStatus() + ": " + response.getStatusInfo());
+                    Gson gson = new Gson();
+                    Datafile d = gson.fromJson(response.readEntity(String.class), Datafile.class);
+                    System.out.println("====== Games: " + d.getArtifacts().size());
+                    if (DELETE_FILE) {
+                        file.delete();
+                    }
+                } else {
+                    System.err.println("EEE " + response.getStatus() + ": " + response.getStatusInfo());
+                    System.err.println("EEEEE " + response.readEntity(String.class));
+                }
             }
         } else if (file.isDirectory()) {
             File[] fs = file.listFiles();

@@ -127,6 +127,8 @@ public class CMProParser implements Parser {
                     header.setForcemerging(extractLineValue("forcemerging", line));
                 } else if (line.startsWith("forcezipping")) {
                     header.setForcezipping(extractLineValue("forcezipping", line));
+                } else if (line.startsWith("comment")) {
+                    header.setComment(extractLineValue("comment", line));
                 } else {
                     String key = line.substring(0, line.indexOf(" ")).trim();
                     if (!header.addCustomField(key, extractLineValue(key, line))) {

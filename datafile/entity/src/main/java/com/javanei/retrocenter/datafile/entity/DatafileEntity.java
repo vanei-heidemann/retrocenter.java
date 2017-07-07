@@ -45,7 +45,7 @@ public class DatafileEntity implements Serializable {
     @Column(name = "DESCRIPTION", length = 255, nullable = true)
     private String description;
 
-    @Column(name = "AUTHOR", length = 128, nullable = true)
+    @Column(name = "AUTHOR", length = 400, nullable = true)
     private String author;
 
     @Column(name = "DATE", length = 32, nullable = true)
