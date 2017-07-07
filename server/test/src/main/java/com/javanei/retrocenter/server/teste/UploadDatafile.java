@@ -25,9 +25,10 @@ public class UploadDatafile {
             //File file = new File("server/test/src/main/resources/mame.xml");
             //File file = new File("server/test/src/main/resources/mame-test.xml");
             //File file = new File("server/test/src/main/resources/mame0186.xml");
+            File file = new File("F:/Downloads/Emulator/MAME/mame0187.xml");
             //File file = new File("server/test/src/main/resources/logiqx-n64.dat");
             //File file = new File("server/test/src/main/resources/cmpro-vita.dat");
-            File file = new File("F:/Desenv/Fontes/Java/retrocenter/resources/no-intro/Commodore - Plus-4 (20090105-000000_CM).dat");
+            //File file = new File("F:/Desenv/Fontes/Java/retrocenter/resources/no-intro/Commodore - Plus-4 (20090105-000000_CM).dat");
             FileDataBodyPart fileDataBodyPart = new FileDataBodyPart("file",
                     file, MediaType.APPLICATION_OCTET_STREAM_TYPE);
             multiPart.bodyPart(fileDataBodyPart);

@@ -104,6 +104,17 @@
         </dependency>
 
         <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-core</artifactId>
+            <version>1.5.13</version>
+        </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.13</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.javanei.retrocenter</groupId>
             <artifactId>retrocenter-datafile-service-spring</artifactId>
             <version>${project.version}</version>
