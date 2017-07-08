@@ -6,11 +6,11 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>retrocenter-datafile</artifactId>
+        <artifactId>retrocenter-datafile-hyperlist</artifactId>
         <relativePath>../../pom.xml</relativePath>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-datafile-service-spring</artifactId>
+    <artifactId>retrocenter-datafile-hyperlist-service-spring</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -55,38 +55,25 @@
 
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-entity</artifactId>
+            <artifactId>retrocenter-datafile-hyperlist-entity</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-common</artifactId>
+            <artifactId>retrocenter-datafile-hyperlist-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-persistence-springjpa</artifactId>
+            <artifactId>retrocenter-datafile-hyperlist-persistence-springjpa</artifactId>
             <version>${project.version}</version>
         </dependency>
+
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-mame-service-spring</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-cmpro-service-spring</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-logiqx-service-spring</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-hyperlist-service-spring</artifactId>
-            <version>${project.version}</version>
+            <artifactId>retrocenter-datafile-hyperlist-parser</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

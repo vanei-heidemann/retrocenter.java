@@ -4,6 +4,8 @@ import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.service.CMProService;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
+import com.javanei.retrocenter.hyperlist.HyperListMenu;
+import com.javanei.retrocenter.hyperlist.service.HyperListService;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.service.LogiqxService;
 import com.javanei.retrocenter.mame.Mame;
@@ -27,6 +29,8 @@ public class DatafileService {
     @Autowired
     private LogiqxService logiqxService;
     @Autowired
+    private HyperListService hyperListService;
+    @Autowired
     private RetrocenterDatafileService retrocenterDatafileService;
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -39,6 +43,8 @@ public class DatafileService {
             datafile = cmProService.create((CMProDatafile) datafileObject).toDatafile();
         } else if (datafileObject instanceof LogiqxDatafile) {
             datafile = logiqxService.create((LogiqxDatafile) datafileObject).toDatafile();
+        } else if (datafileObject instanceof HyperListMenu) {
+            datafile = hyperListService.create((HyperListMenu) datafileObject).toDatafile();
         } else {
             datafile = (Datafile) datafileObject;
         }

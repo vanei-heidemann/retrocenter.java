@@ -104,6 +104,14 @@ public class HyperListEntity implements Serializable {
         this.exporterVersion = exporterVersion;
     }
 
+    public Set<HyperListGameEntity> getGames() {
+        return games;
+    }
+
+    public void setGames(Set<HyperListGameEntity> games) {
+        this.games = games;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
