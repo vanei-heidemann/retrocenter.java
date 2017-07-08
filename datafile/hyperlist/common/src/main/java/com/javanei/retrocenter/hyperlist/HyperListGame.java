@@ -17,7 +17,6 @@ public class HyperListGame implements Serializable {
     public String year;
     public String genre;
     public String rating;
-    public Boolean enabled = Boolean.TRUE;
 
     public String getName() {
         return name;
@@ -97,14 +96,6 @@ public class HyperListGame implements Serializable {
 
     public void setRating(String rating) {
         this.rating = rating;
-    }
-
-    public Boolean getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(Boolean enabled) {
-        this.enabled = enabled;
     }
 
     @Override
