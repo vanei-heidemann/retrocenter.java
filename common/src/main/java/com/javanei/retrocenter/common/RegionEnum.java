@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Supported regions
- * Based on no-intro
+ * Supported regions.
+ * Based on no-intro.
  */
 public enum RegionEnum {
     Asia("Asia"),
