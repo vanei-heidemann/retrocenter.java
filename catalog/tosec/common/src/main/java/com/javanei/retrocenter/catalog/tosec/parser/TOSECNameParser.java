@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser;
 
+import com.javanei.retrocenter.catalog.common.TagValue;
 import com.javanei.retrocenter.catalog.tosec.common.TOSECGame;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECCopyrightStatusFlagEnum;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECCountryFlagEnum;
@@ -14,73 +15,10 @@ import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECPublisherFlag;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECSystemFlagEnum;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECVersionFlag;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECVideoFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.TagValue;
-import java.util.LinkedList;
 import java.util.List;
 
+//Title version (demo) (date)(publisher)(system)(video)(country)(language)(copyright)(devstatus)(media type)(media label)[cr][f][h][m][p][t][tr][o][u][v][b][a][!][more info]
 public class TOSECNameParser {
-    //Title version (demo) (date)(publisher)(system)(video)(country)(language)(copyright)(devstatus)(media type)(media label)[cr][f][h][m][p][t][tr][o][u][v][b][a][!][more info]
-    private static List<TagValue> parseNameInTags(String name) {
-        List<TagValue> r = new LinkedList<>();
-
-        StringBuilder sb = new StringBuilder();
-        char[] separators = null;
-        for (char c : name.toCharArray()) {
-            switch (c) {
-                case '(':
-                    if (separators != null) {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim()));
-                        }
-                        separators = new char[]{'(', ')'};
-                        sb = new StringBuilder();
-                    }
-                    break;
-                case ')':
-                    if (separators != null && separators[1] != ')') {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim(), separators));
-                        }
-                        sb = new StringBuilder();
-                        separators = null;
-                    }
-                    break;
-                case '[':
-                    if (separators != null) {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim()));
-                        }
-                        separators = new char[]{'[', ']'};
-                        sb = new StringBuilder();
-                    }
-                    break;
-                case ']':
-                    if (separators != null && separators[1] != ']') {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim(), separators));
-                        }
-                        sb = new StringBuilder();
-                        separators = null;
-                    }
-                    break;
-                default:
-                    sb.append(c);
-                    break;
-            }
-        }
-        if (sb.toString().trim().length() > 0)
-            r.add(new TagValue(sb.toString().trim(), separators));
-        return r;
-    }
-
     private static boolean parseReleaseDate(TOSECGame game, String tag) {
         if (game.getReleaseDate() != null && !game.getReleaseDate().isEmpty()) {
             return false;
@@ -96,7 +34,7 @@ public class TOSECNameParser {
     public TOSECGame parseName(String name) {
         TOSECGame game = new TOSECGame(name);
 
-        List<TagValue> tags = parseNameInTags(name);
+        List<TagValue> tags = TagValue.parseNameInTags(name);
 
         StringBuilder mainName = new StringBuilder();
         mainName.append(tags.get(0));

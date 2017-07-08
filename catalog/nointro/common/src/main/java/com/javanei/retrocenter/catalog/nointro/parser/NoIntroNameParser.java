@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.catalog.nointro.parser;
 
+import com.javanei.retrocenter.catalog.common.TagValue;
 import com.javanei.retrocenter.catalog.nointro.common.NoIntroGame;
 import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroAlternate;
 import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroCompilation;
@@ -12,7 +13,6 @@ import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroReleaseDate;
 import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroSystemEnum;
 import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroVersion;
 import com.javanei.retrocenter.catalog.nointro.parser.flags.NoIntroVideoEnum;
-import java.util.LinkedList;
 import java.util.List;
 
 public class NoIntroNameParser {
@@ -99,72 +99,11 @@ public class NoIntroNameParser {
          */
     }
 
-    private static List<TagValue> parseNameInTags(String name) {
-        List<TagValue> r = new LinkedList<>();
-
-        StringBuilder sb = new StringBuilder();
-        char[] separators = null;
-        for (char c : name.toCharArray()) {
-            switch (c) {
-                case '(':
-                    if (separators != null) {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim()));
-                        }
-                        separators = new char[]{'(', ')'};
-                        sb = new StringBuilder();
-                    }
-                    break;
-                case ')':
-                    if (separators != null && separators[1] != ')') {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim(), separators));
-                        }
-                        sb = new StringBuilder();
-                        separators = null;
-                    }
-                    break;
-                case '[':
-                    if (separators != null) {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim()));
-                        }
-                        separators = new char[]{'[', ']'};
-                        sb = new StringBuilder();
-                    }
-                    break;
-                case ']':
-                    if (separators != null && separators[1] != ']') {
-                        sb.append(c);
-                    } else {
-                        if (sb.toString().trim().length() > 0) {
-                            r.add(new TagValue(sb.toString().trim(), separators));
-                        }
-                        sb = new StringBuilder();
-                        separators = null;
-                    }
-                    break;
-                default:
-                    sb.append(c);
-                    break;
-            }
-        }
-        if (sb.toString().trim().length() > 0)
-            r.add(new TagValue(sb.toString().trim(), separators));
-        return r;
-    }
-
     public NoIntroGame parseName(String name) throws NoIntroRegionNotIdentifiedException {
         NoIntroGame game = new NoIntroGame(name);
 
         String s = name;
-        List<TagValue> tags = parseNameInTags(s);
+        List<TagValue> tags = TagValue.parseNameInTags(s);
 
         StringBuilder mainName = new StringBuilder();
 
