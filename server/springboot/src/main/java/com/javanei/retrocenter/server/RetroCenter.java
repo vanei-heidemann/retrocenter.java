@@ -17,7 +17,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
         "com.javanei.retrocenter.clrmamepro.persistence",
         "com.javanei.retrocenter.datafile.persistence",
-        "com.javanei.retrocenter.logiqx.persistence"
+        "com.javanei.retrocenter.logiqx.persistence",
+        "com.javanei.retrocenter.hyperlist.persistence"
 })
 @EnableTransactionManagement
 @EnableAsync
