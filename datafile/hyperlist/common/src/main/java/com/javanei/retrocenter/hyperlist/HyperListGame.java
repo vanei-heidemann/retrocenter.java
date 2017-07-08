@@ -27,7 +27,8 @@ public class HyperListGame implements Serializable {
         this.image = image;
     }
 
-    public HyperListGame(String name, String index, String image, String description, String cloneof, String crc, String manufacturer, String year, String genre, String rating) {
+    public HyperListGame(String name, String index, String image, String description, String cloneof, String crc,
+                         String manufacturer, String year, String genre, String rating) {
         this.name = name;
         this.index = index;
         this.image = image;

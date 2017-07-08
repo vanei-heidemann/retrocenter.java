@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EntityScan(basePackages = {"com.javanei.retrocenter.datafile.entity",
         "com.javanei.retrocenter.mame.entity",
         "com.javanei.retrocenter.clrmamepro.entity",
-        "com.javanei.retrocenter.logiqx.entity"
+        "com.javanei.retrocenter.logiqx.entity",
+        "com.javanei.retrocenter.hyperlist.entity"
 })
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
         "com.javanei.retrocenter.clrmamepro.persistence",
