@@ -38,13 +38,13 @@ public class HyperListGameEntity implements Serializable {
     public String cloneof;
     @Column(name = "CRC", length = 8, nullable = true)
     public String crc;
-    @Column(name = "MANUFACTURER", length = 80, nullable = true)
+    @Column(name = "MANUFACTURER", length = 255, nullable = true)
     public String manufacturer;
     @Column(name = "YEAR", length = 8, nullable = true)
     public String year;
     @Column(name = "GENRE", length = 128, nullable = true)
     public String genre;
-    @Column(name = "rating", length = 255, nullable = true)
+    @Column(name = "RATING", length = 255, nullable = true)
     public String rating;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
