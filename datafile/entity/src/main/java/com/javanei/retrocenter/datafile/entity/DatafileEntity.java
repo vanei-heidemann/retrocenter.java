@@ -19,7 +19,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "DATAFILE", indexes = {
-        @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATALOG,VERSION")
+        @Index(name = "DATAFILE_0001", unique = true, columnList = "NAME,CATALOG,VERSION"),
+        @Index(name = "DATAFILE_0002", unique = false, columnList = "CATALOG,VERSION")
 })
 @NamedQueries({
         @NamedQuery(name = "DatafileEntity.findByUniqueFull", query = "SELECT o from DatafileEntity o WHERE name = :name AND o.catalog = :catalog AND o.version = :version"),
