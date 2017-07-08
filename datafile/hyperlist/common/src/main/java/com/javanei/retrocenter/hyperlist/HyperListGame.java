@@ -18,6 +18,28 @@ public class HyperListGame implements Serializable {
     public String genre;
     public String rating;
 
+    public HyperListGame() {
+    }
+
+    public HyperListGame(String name, String index, String image) {
+        this.name = name;
+        this.index = index;
+        this.image = image;
+    }
+
+    public HyperListGame(String name, String index, String image, String description, String cloneof, String crc, String manufacturer, String year, String genre, String rating) {
+        this.name = name;
+        this.index = index;
+        this.image = image;
+        this.description = description;
+        this.cloneof = cloneof;
+        this.crc = crc;
+        this.manufacturer = manufacturer;
+        this.year = year;
+        this.genre = genre;
+        this.rating = rating;
+    }
+
     public String getName() {
         return name;
     }

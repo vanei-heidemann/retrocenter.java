@@ -10,6 +10,16 @@ public class HyperListHeader implements Serializable {
     public String listversion;
     public String exporterversion;
 
+    public HyperListHeader() {
+    }
+
+    public HyperListHeader(String listname, String lastlistupdate, String listversion, String exporterversion) {
+        this.listname = listname;
+        this.lastlistupdate = lastlistupdate;
+        this.listversion = listversion;
+        this.exporterversion = exporterversion;
+    }
+
     public String getListname() {
         return listname;
     }

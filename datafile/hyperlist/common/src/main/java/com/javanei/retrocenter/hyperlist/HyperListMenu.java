@@ -1,5 +1,9 @@
 package com.javanei.retrocenter.hyperlist;
 
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
+import com.javanei.retrocenter.datafile.Artifact;
+import com.javanei.retrocenter.datafile.ArtifactFile;
+import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import java.io.Serializable;
@@ -14,6 +18,13 @@ public class HyperListMenu implements DatafileObject, Serializable {
 
     private HyperListHeader header;
     private Set<HyperListGame> games = new HashSet<>();
+
+    public HyperListMenu() {
+    }
+
+    public HyperListMenu(HyperListHeader header) {
+        this.header = header;
+    }
 
     private static void appendXMLAttribute(StringBuilder sb, String name, Object value) {
         sb.append(" ").append(name).append("=\"").append(value != null ? value : "").append("\"");
@@ -82,7 +93,34 @@ public class HyperListMenu implements DatafileObject, Serializable {
 
     @Override
     public Datafile toDatafile() {
-        return null;
+        Datafile datafile = (this.header != null
+                ? new Datafile(this.header.getListname(), DatafileCatalogEnum.HyperList.name(),
+                this.header.getListversion(), this.header.getListname(), "HyperList", header.getLastlistupdate(),
+                null, "https://hyperlist.hyperspin-fe.com/", "https://hyperlist.hyperspin-fe.com/", null)
+                : new Datafile());
+        for (HyperListGame game : this.games) {
+            Artifact artifact = new Artifact(game.getName(), game.getDescription(), game.getYear(), null);
+            artifact.setManufacturer(game.getManufacturer());
+            if (game.getCloneof() != null && !game.getCloneof().isEmpty()) {
+                artifact.setCloneof(game.getCloneof());
+            }
+            if (game.getIndex() != null && !game.getIndex().isEmpty()) {
+                artifact.addField("index", game.getIndex());
+            }
+            if (game.getImage() != null && !game.getImage().isEmpty()) {
+                artifact.addField("image", game.getImage());
+            }
+            if (game.getGenre() != null && !game.getGenre().isEmpty()) {
+                artifact.addField("genre", game.getGenre());
+            }
+            if (game.getRating() != null && !game.getRating().isEmpty()) {
+                artifact.addField("rating", game.getRating());
+            }
+            datafile.addArtifact(artifact);
+            ArtifactFile file = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), game.getName(), null, game.getCrc(), null, null, game.getYear());
+            artifact.addFile(file);
+        }
+        return datafile;
     }
 
     @Override
