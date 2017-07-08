@@ -73,7 +73,6 @@ public class HyperListMenu implements DatafileObject, Serializable {
                 appendXMLTag(sb, "year", game.getYear(), 2);
                 appendXMLTag(sb, "genre", game.getGenre(), 2);
                 appendXMLTag(sb, "rating", game.getRating(), 2);
-                appendXMLTag(sb, "enabled", game.getEnabled(), 2);
                 sb.append("\t</game>\n");
             }
         }
