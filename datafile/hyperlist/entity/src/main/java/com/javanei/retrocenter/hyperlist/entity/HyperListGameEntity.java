@@ -40,7 +40,7 @@ public class HyperListGameEntity implements Serializable {
     public String crc;
     @Column(name = "MANUFACTURER", length = 255, nullable = true)
     public String manufacturer;
-    @Column(name = "YEAR", length = 8, nullable = true)
+    @Column(name = "YEAR", length = 10, nullable = true)
     public String year;
     @Column(name = "GENRE", length = 128, nullable = true)
     public String genre;
