@@ -21,7 +21,7 @@ package com.javanei.retrocenter.catalog.tosec.parser.flags;
  * • Legend of TOSEC, The (19xx-12-25)
  * • Legend of TOSEC, The (19xx-12-2x)
  */
-public class DateFlag {
+public class TOSECDateFlag {
     public static String parseDate(String tag) {
         if (tag.matches("\\d\\d\\d\\d")
                 || tag.matches("\\d\\d\\d\\w")

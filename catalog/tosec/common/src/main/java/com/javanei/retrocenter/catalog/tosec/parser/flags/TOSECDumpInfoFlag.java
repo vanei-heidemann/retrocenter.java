@@ -2,62 +2,62 @@ package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
 import java.util.StringTokenizer;
 
-public class DumpInfoFlag {
-    private final DumpInfoFlagEnum dumpInfo;
+public class TOSECDumpInfoFlag {
+    private final TOSECDumpInfoFlagEnum dumpInfo;
     private final Integer count;
     private final String complement;
 
-    private DumpInfoFlag(DumpInfoFlagEnum dumpInfo, Integer count, String complement) {
+    private TOSECDumpInfoFlag(TOSECDumpInfoFlagEnum dumpInfo, Integer count, String complement) {
         this.dumpInfo = dumpInfo;
         this.count = count;
         this.complement = complement;
     }
 
-    public static DumpInfoFlag parseInfo(String s) {
-        DumpInfoFlagEnum flag = null;
+    public static TOSECDumpInfoFlag parseInfo(String s) {
+        TOSECDumpInfoFlagEnum flag = null;
         DecomposedTag tag = decomposeTag(s);
         switch (tag.type) {
             case "cr":
-                flag = DumpInfoFlagEnum.Cracked;
+                flag = TOSECDumpInfoFlagEnum.Cracked;
                 break;
             case "f":
-                flag = DumpInfoFlagEnum.Fixed;
+                flag = TOSECDumpInfoFlagEnum.Fixed;
                 break;
             case "h":
-                flag = DumpInfoFlagEnum.Hacked;
+                flag = TOSECDumpInfoFlagEnum.Hacked;
                 break;
             case "m":
-                flag = DumpInfoFlagEnum.Modified;
+                flag = TOSECDumpInfoFlagEnum.Modified;
                 break;
             case "p":
-                flag = DumpInfoFlagEnum.Pirated;
+                flag = TOSECDumpInfoFlagEnum.Pirated;
                 break;
             case "tr":
-                flag = DumpInfoFlagEnum.Translated;
+                flag = TOSECDumpInfoFlagEnum.Translated;
                 break;
             case "t":
-                flag = DumpInfoFlagEnum.Trained;
+                flag = TOSECDumpInfoFlagEnum.Trained;
                 break;
             case "o":
-                flag = DumpInfoFlagEnum.OverDump;
+                flag = TOSECDumpInfoFlagEnum.OverDump;
                 break;
             case "u":
-                flag = DumpInfoFlagEnum.UnderDump;
+                flag = TOSECDumpInfoFlagEnum.UnderDump;
                 break;
             case "v":
-                flag = DumpInfoFlagEnum.Virus;
+                flag = TOSECDumpInfoFlagEnum.Virus;
                 break;
             case "b":
-                flag = DumpInfoFlagEnum.BadDump;
+                flag = TOSECDumpInfoFlagEnum.BadDump;
                 break;
             case "a":
-                flag = DumpInfoFlagEnum.Alternate;
+                flag = TOSECDumpInfoFlagEnum.Alternate;
                 break;
             case "!":
-                flag = DumpInfoFlagEnum.VerifiedGoodDump;
+                flag = TOSECDumpInfoFlagEnum.VerifiedGoodDump;
                 break;
         }
-        return flag != null ? new DumpInfoFlag(flag, tag.count, tag.complement) : null;
+        return flag != null ? new TOSECDumpInfoFlag(flag, tag.count, tag.complement) : null;
     }
 
     private static DecomposedTag decomposeTag(final String tag) {
@@ -81,7 +81,7 @@ public class DumpInfoFlag {
         return r;
     }
 
-    public DumpInfoFlagEnum getDumpInfo() {
+    public TOSECDumpInfoFlagEnum getDumpInfo() {
         return dumpInfo;
     }
 

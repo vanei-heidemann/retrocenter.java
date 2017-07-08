@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
-public enum CopyrightStatusFlagEnum {
+public enum TOSECCopyrightStatusFlagEnum {
     CW("CW", "Cardware"),
     CWR("CW-R", "Cardware-Registered"),
     FW("FW", "Freeware"),
@@ -14,13 +14,13 @@ public enum CopyrightStatusFlagEnum {
     private String name;
     private String description;
 
-    CopyrightStatusFlagEnum(String name, String description) {
+    TOSECCopyrightStatusFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static CopyrightStatusFlagEnum fromName(String name) {
-        for (CopyrightStatusFlagEnum e : CopyrightStatusFlagEnum.values()) {
+    public static TOSECCopyrightStatusFlagEnum fromName(String name) {
+        for (TOSECCopyrightStatusFlagEnum e : TOSECCopyrightStatusFlagEnum.values()) {
             if (e.getName().equals(name)) {
                 return e;
             }

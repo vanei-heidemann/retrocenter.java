@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
-public enum DevelopmentStatusFlagEnum {
+public enum TOSECDevStatusFlagEnum {
     alpha("alpha", "Early test build"),
     beta("beta", "Later, feature complete test build"),
     preview("preview", "Near complete build"),
@@ -10,13 +10,13 @@ public enum DevelopmentStatusFlagEnum {
     private String name;
     private String description;
 
-    DevelopmentStatusFlagEnum(String name, String description) {
+    TOSECDevStatusFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static DevelopmentStatusFlagEnum fromName(String name) {
-        for (DevelopmentStatusFlagEnum e : DevelopmentStatusFlagEnum.values()) {
+    public static TOSECDevStatusFlagEnum fromName(String name) {
+        for (TOSECDevStatusFlagEnum e : TOSECDevStatusFlagEnum.values()) {
             if (e.getName().equals(name)) {
                 return e;
             }

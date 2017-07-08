@@ -24,14 +24,14 @@ package com.javanei.retrocenter.catalog.tosec.parser.flags;
  * • Legend of TOSEC, The (1986)(Devstudio)(US)(Tape 2 of 2 Side B)
  * • Legend of TOSEC, The (1986)(Devstudio)(US)(Side 1 of 2)
  */
-public class MediaTypeFlag {
+public class TOSECMediaTypeFlag {
     private String name;
 
-    private MediaTypeFlag(String name) {
+    private TOSECMediaTypeFlag(String name) {
         this.name = name;
     }
 
-    public static MediaTypeFlag parseMediaType(String tag) {
+    public static TOSECMediaTypeFlag parseMediaType(String tag) {
         if (tag.startsWith("Disc ") //Optical disc based media
                 || tag.startsWith("Disk ") //Magnetic disk based media
                 || tag.startsWith("File ") //Individual files
@@ -39,7 +39,7 @@ public class MediaTypeFlag {
                 || tag.startsWith("Side ") //Side of media
                 || tag.startsWith("Tape ") //Magnetic tape based media
                 ) {
-            return new MediaTypeFlag(tag);
+            return new TOSECMediaTypeFlag(tag);
         }
         return null;
     }

@@ -1,20 +1,20 @@
 package com.javanei.retrocenter.catalog.tosec.parser;
 
 import com.javanei.retrocenter.catalog.tosec.common.TOSECGame;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.CopyrightStatusFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.CountryFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.DateFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.DemoFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.DevelopmentStatusFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.DumpInfoFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.LanguageFlagEnum;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.MediaLabelFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.MediaTypeFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.PublisherFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.SystemFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECCopyrightStatusFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECCountryFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECDateFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECDemoFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECDevStatusFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECDumpInfoFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECLanguageFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECMediaLabelFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECMediaTypeFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECPublisherFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECSystemFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECVersionFlag;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECVideoFlagEnum;
 import com.javanei.retrocenter.catalog.tosec.parser.flags.TagValue;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.VersionFlag;
-import com.javanei.retrocenter.catalog.tosec.parser.flags.VideoFlagEnum;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class TOSECNameParser {
         if (game.getReleaseDate() != null && !game.getReleaseDate().isEmpty()) {
             return false;
         }
-        String date = DateFlag.parseDate(tag);
+        String date = TOSECDateFlag.parseDate(tag);
         if (date != null) {
             game.setReleaseDate(date);
             return true;
@@ -105,7 +105,7 @@ public class TOSECNameParser {
         while (pos < tags.size()) {
             // Trata a informação de Demo e Release date
             String tag = tags.get(pos).getValue().trim();
-            DemoFlagEnum demoStatus = DemoFlagEnum.fromName(tag);
+            TOSECDemoFlagEnum demoStatus = TOSECDemoFlagEnum.fromName(tag);
             if (demoStatus != null) {
                 game.setDemoStatus(demoStatus.getName());
                 pos++;
@@ -121,7 +121,7 @@ public class TOSECNameParser {
         }
         game.setMainName(mainName.toString());
 
-        VersionFlag versionFlag = VersionFlag.parseVersion(game.getMainName());
+        TOSECVersionFlag versionFlag = TOSECVersionFlag.parseVersion(game.getMainName());
         if (versionFlag != null) {
             game.setMainName(versionFlag.getMainName());
             game.setVersion(versionFlag.getVersion());
@@ -130,9 +130,9 @@ public class TOSECNameParser {
         if (pos < tags.size()) {
             // A próxima tag é o publisher
             String tag = tags.get(pos).getValue().trim();
-            List<PublisherFlag> pubs = PublisherFlag.parsePublishers(tag);
+            List<TOSECPublisherFlag> pubs = TOSECPublisherFlag.parsePublishers(tag);
             if (tag != null) {
-                game.setPublishers(PublisherFlag.toStringList(pubs));
+                game.setPublishers(TOSECPublisherFlag.toStringList(pubs));
             }
             pos++;
         }
@@ -144,41 +144,41 @@ public class TOSECNameParser {
             validate_block:
             {
                 if (tag.getStartSeparator() == '(') {
-                    SystemFlagEnum sys = SystemFlagEnum.fromName(tag.getValue().trim());
+                    TOSECSystemFlagEnum sys = TOSECSystemFlagEnum.fromName(tag.getValue().trim());
                     if (sys != null) {
                         game.setSystem(sys.getName());
                         break validate_block;
                     }
-                    VideoFlagEnum video = VideoFlagEnum.fromName(tag.getValue().trim());
+                    TOSECVideoFlagEnum video = TOSECVideoFlagEnum.fromName(tag.getValue().trim());
                     if (video != null) {
                         game.setVideo(video.getName());
                         break validate_block;
                     }
-                    List<CountryFlagEnum> countries = CountryFlagEnum.fromName(tag.getValue().trim());
+                    List<TOSECCountryFlagEnum> countries = TOSECCountryFlagEnum.fromName(tag.getValue().trim());
                     if (countries != null) {
-                        for (CountryFlagEnum c : countries) {
+                        for (TOSECCountryFlagEnum c : countries) {
                             game.addRegion(c.getName());
                         }
                         break validate_block;
                     }
-                    List<LanguageFlagEnum> languages = LanguageFlagEnum.fromName(tag.getValue().trim());
+                    List<TOSECLanguageFlagEnum> languages = TOSECLanguageFlagEnum.fromName(tag.getValue().trim());
                     if (languages != null) {
-                        for (LanguageFlagEnum l : languages) {
+                        for (TOSECLanguageFlagEnum l : languages) {
                             game.addLanguage(l.getName());
                         }
                         break validate_block;
                     }
-                    CopyrightStatusFlagEnum copyright = CopyrightStatusFlagEnum.fromName(tag.getValue().trim());
+                    TOSECCopyrightStatusFlagEnum copyright = TOSECCopyrightStatusFlagEnum.fromName(tag.getValue().trim());
                     if (copyright != null) {
                         game.setCopyright(copyright.getName());
                         break validate_block;
                     }
-                    DevelopmentStatusFlagEnum devStatus = DevelopmentStatusFlagEnum.fromName(tag.getValue().trim());
+                    TOSECDevStatusFlagEnum devStatus = TOSECDevStatusFlagEnum.fromName(tag.getValue().trim());
                     if (devStatus != null) {
                         game.setDevStatus(devStatus.getName());
                         break validate_block;
                     }
-                    MediaTypeFlag mediaType = MediaTypeFlag.parseMediaType(tag.getValue().trim());
+                    TOSECMediaTypeFlag mediaType = TOSECMediaTypeFlag.parseMediaType(tag.getValue().trim());
                     if (mediaType != null) {
                         game.setMediaType(mediaType.getName());
                         break validate_block;
@@ -188,7 +188,7 @@ public class TOSECNameParser {
                         if (game.getMediaType() != null) {
                             game.setMediaLabel(tag.getValue().trim());
                         } else {
-                            String mediaLabel = MediaLabelFlag.parseMediaLabel(tag.getValue());
+                            String mediaLabel = TOSECMediaLabelFlag.parseMediaLabel(tag.getValue());
                             if (mediaLabel != null) {
                                 game.setMediaLabel(mediaLabel);
                                 break validate_block;
@@ -198,7 +198,7 @@ public class TOSECNameParser {
                     game.addComplement(tag.getValue().trim());
                 } else {
                     String s = tag.getValue();
-                    DumpInfoFlag flag = DumpInfoFlag.parseInfo(s);
+                    TOSECDumpInfoFlag flag = TOSECDumpInfoFlag.parseInfo(s);
                     if (flag != null) {
                         game.addDumpStatus(flag.getDumpInfo(), flag.getValue());
                     } else {

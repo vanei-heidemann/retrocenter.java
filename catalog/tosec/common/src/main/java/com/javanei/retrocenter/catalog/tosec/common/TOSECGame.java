@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.common;
 
-import com.javanei.retrocenter.catalog.tosec.parser.flags.DumpInfoFlagEnum;
+import com.javanei.retrocenter.catalog.tosec.parser.flags.TOSECDumpInfoFlagEnum;
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -102,16 +102,16 @@ public class TOSECGame implements Serializable {
 
     @Transient
     public String getCracked() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Cracked.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Cracked.getName());
     }
 
     public void setCracked(String cracked) {
-        dumpInfo.put(DumpInfoFlagEnum.Cracked.getName(), cracked);
+        dumpInfo.put(TOSECDumpInfoFlagEnum.Cracked.getName(), cracked);
     }
 
     @Transient
     public String getFixed() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Fixed.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Fixed.getName());
     }
 
     @Transient
@@ -120,12 +120,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setFixed(String fixed) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Fixed.getName(), fixed);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Fixed.getName(), fixed);
     }
 
     @Transient
     public String getHacked() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Hacked.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Hacked.getName());
     }
 
     @Transient
@@ -134,12 +134,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setHacked(String hacked) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Hacked.getName(), hacked);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Hacked.getName(), hacked);
     }
 
     @Transient
     public String getModified() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Modified.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Modified.getName());
     }
 
     @Transient
@@ -148,12 +148,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setModified(String modified) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Modified.getName(), modified);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Modified.getName(), modified);
     }
 
     @Transient
     public String getPirated() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Pirated.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Pirated.getName());
     }
 
     @Transient
@@ -162,12 +162,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setPirated(String pirated) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Pirated.getName(), pirated);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Pirated.getName(), pirated);
     }
 
     @Transient
     public String getTrained() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Trained.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Trained.getName());
     }
 
     @Transient
@@ -176,12 +176,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setTrained(String trained) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Trained.getName(), trained);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Trained.getName(), trained);
     }
 
     @Transient
     public String getTranslated() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Translated.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Translated.getName());
     }
 
     @Transient
@@ -190,12 +190,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setTranslated(String translated) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Translated.getName(), translated);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Translated.getName(), translated);
     }
 
     @Transient
     public String getOverDump() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.OverDump.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.OverDump.getName());
     }
 
     @Transient
@@ -204,12 +204,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setOverDump(String overDump) {
-        this.dumpInfo.put(DumpInfoFlagEnum.OverDump.getName(), overDump);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.OverDump.getName(), overDump);
     }
 
     @Transient
     public String getUnderDump() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.UnderDump.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.UnderDump.getName());
     }
 
     @Transient
@@ -218,12 +218,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setUnderDump(String underDump) {
-        this.dumpInfo.put(DumpInfoFlagEnum.UnderDump.getName(), underDump);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.UnderDump.getName(), underDump);
     }
 
     @Transient
     public String getVirus() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Virus.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Virus.getName());
     }
 
     public boolean isVirus() {
@@ -231,12 +231,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setVirus(String virus) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Virus.getName(), virus);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Virus.getName(), virus);
     }
 
     @Transient
     public String getBadDump() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.BadDump.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.BadDump.getName());
     }
 
     @Transient
@@ -245,12 +245,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setBadDump(String badDump) {
-        this.dumpInfo.put(DumpInfoFlagEnum.BadDump.getName(), badDump);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.BadDump.getName(), badDump);
     }
 
     @Transient
     public String getAlternate() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.Alternate.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.Alternate.getName());
     }
 
     @Transient
@@ -259,12 +259,12 @@ public class TOSECGame implements Serializable {
     }
 
     public void setAlternate(String alternate) {
-        this.dumpInfo.put(DumpInfoFlagEnum.Alternate.getName(), alternate);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.Alternate.getName(), alternate);
     }
 
     @Transient
     public String getVerifiedGoodDump() {
-        return this.dumpInfo.get(DumpInfoFlagEnum.VerifiedGoodDump.getName());
+        return this.dumpInfo.get(TOSECDumpInfoFlagEnum.VerifiedGoodDump.getName());
     }
 
     @Transient
@@ -273,10 +273,10 @@ public class TOSECGame implements Serializable {
     }
 
     public void setVerifiedGoodDump(String verifiedGoodDump) {
-        this.dumpInfo.put(DumpInfoFlagEnum.VerifiedGoodDump.getName(), verifiedGoodDump);
+        this.dumpInfo.put(TOSECDumpInfoFlagEnum.VerifiedGoodDump.getName(), verifiedGoodDump);
     }
 
-    public void addDumpStatus(DumpInfoFlagEnum flag, String value) {
+    public void addDumpStatus(TOSECDumpInfoFlagEnum flag, String value) {
         this.dumpInfo.put(flag.getName(), value);
     }
 

@@ -5,30 +5,30 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public class PublisherFlag implements Serializable {
+public class TOSECPublisherFlag implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String name;
 
-    public PublisherFlag(String name) {
+    public TOSECPublisherFlag(String name) {
         this.name = name;
     }
 
-    public PublisherFlag() {
+    public TOSECPublisherFlag() {
     }
 
-    public static List<PublisherFlag> parsePublishers(String publishers) {
-        List<PublisherFlag> l = new LinkedList<>();
+    public static List<TOSECPublisherFlag> parsePublishers(String publishers) {
+        List<TOSECPublisherFlag> l = new LinkedList<>();
         if (!publishers.trim().equals("-")) {
             StringTokenizer st = new StringTokenizer(publishers, " - ");
             while (st.hasMoreTokens()) {
-                l.add(new PublisherFlag(st.nextToken().trim()));
+                l.add(new TOSECPublisherFlag(st.nextToken().trim()));
             }
         }
         return l;
     }
 
-    public static String toString(List<PublisherFlag> publishers) {
+    public static String toString(List<TOSECPublisherFlag> publishers) {
         if (publishers.isEmpty()) {
             return "-";
         }
@@ -36,7 +36,7 @@ public class PublisherFlag implements Serializable {
             return publishers.get(0).getName();
         }
         StringBuilder sb = new StringBuilder();
-        for (PublisherFlag p : publishers) {
+        for (TOSECPublisherFlag p : publishers) {
             if (sb.length() > 0) {
                 sb.append(" - ");
             }
@@ -45,9 +45,9 @@ public class PublisherFlag implements Serializable {
         return sb.toString();
     }
 
-    public static List<String> toStringList(List<PublisherFlag> publishers) {
+    public static List<String> toStringList(List<TOSECPublisherFlag> publishers) {
         List<String> l = new LinkedList<>();
-        for (PublisherFlag p : publishers) {
+        for (TOSECPublisherFlag p : publishers) {
             l.add(p.getName());
         }
         return l;

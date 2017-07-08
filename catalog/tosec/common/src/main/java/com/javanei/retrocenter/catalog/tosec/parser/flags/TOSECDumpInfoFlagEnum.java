@@ -27,7 +27,7 @@ package com.javanei.retrocenter.catalog.tosec.parser.flags;
  * - Legend of TOSEC, The (1986)(Devstudio)(US)[cr]
  * - Legend of TOSEC, The (1986)(Devstudio)(US)[cr2]
  */
-public enum DumpInfoFlagEnum {
+public enum TOSECDumpInfoFlagEnum {
     /**
      * The original software has been deliberately hacked/altered to remove some form of copy protection.
      * <p>
@@ -143,7 +143,7 @@ public enum DumpInfoFlagEnum {
 
     private String name;
 
-    DumpInfoFlagEnum(String name) {
+    TOSECDumpInfoFlagEnum(String name) {
         this.name = name;
     }
 

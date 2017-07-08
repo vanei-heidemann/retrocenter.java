@@ -14,7 +14,7 @@ package com.javanei.retrocenter.catalog.tosec.parser.flags;
  * • Legend of TOSEC, The (1986)(Devstudio)(US)(Disk 2 of 2)(Disk B)
  * • Legend of TOSEC, The (1986)(Devstudio)(US)(Bonus Disc)
  */
-public class MediaLabelFlag {
+public class TOSECMediaLabelFlag {
     public static String parseMediaLabel(String tag) {
         if (tag.toLowerCase().contains("bonus disc")
                 || tag.toLowerCase().contains("disk")

@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
-public enum DemoFlagEnum {
+public enum TOSECDemoFlagEnum {
     Demo("demo", "General demonstration version"),
     DemoKiosk("demo-kiosk", "Retail demo units and kiosks"),
     DemoPlayable("demo-playable", "General demonstration version, playable"),
@@ -10,13 +10,13 @@ public enum DemoFlagEnum {
     private String name;
     private String description;
 
-    DemoFlagEnum(String name, String description) {
+    TOSECDemoFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static DemoFlagEnum fromName(String name) {
-        for (DemoFlagEnum e : DemoFlagEnum.values()) {
+    public static TOSECDemoFlagEnum fromName(String name) {
+        for (TOSECDemoFlagEnum e : TOSECDemoFlagEnum.values()) {
             if (e.getName().equals(name)) {
                 return e;
             }

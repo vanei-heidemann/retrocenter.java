@@ -8,7 +8,7 @@ import java.util.StringTokenizer;
  * English is seen as the default language, in other words when no language or country flag is used
  * it is taken that the software is in English or is language neutral.
  */
-public enum LanguageFlagEnum {
+public enum TOSECLanguageFlagEnum {
     ar("ar", "Arabic"),
     bg("bg", "Bulgarian"),
     bs("bs", "Bosnian"),
@@ -58,18 +58,18 @@ public enum LanguageFlagEnum {
     private String name;
     private String description;
 
-    LanguageFlagEnum(String name, String description) {
+    TOSECLanguageFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static List<LanguageFlagEnum> fromName(String name) {
-        List<LanguageFlagEnum> l = new LinkedList<>();
+    public static List<TOSECLanguageFlagEnum> fromName(String name) {
+        List<TOSECLanguageFlagEnum> l = new LinkedList<>();
         StringTokenizer st = new StringTokenizer(name, "-");
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
             boolean achou = false;
-            for (LanguageFlagEnum e : LanguageFlagEnum.values()) {
+            for (TOSECLanguageFlagEnum e : TOSECLanguageFlagEnum.values()) {
                 if (e.getName().equals(s)) {
                     l.add(e);
                     achou = true;
@@ -80,8 +80,8 @@ public enum LanguageFlagEnum {
         return l;
     }
 
-    public static LanguageFlagEnum fromDescription(String description) {
-        for (LanguageFlagEnum e : LanguageFlagEnum.values()) {
+    public static TOSECLanguageFlagEnum fromDescription(String description) {
+        for (TOSECLanguageFlagEnum e : TOSECLanguageFlagEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

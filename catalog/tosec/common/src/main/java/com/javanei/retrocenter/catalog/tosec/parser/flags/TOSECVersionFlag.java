@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * • Legend of TOSEC, The Rev 1
  * • Legend of TOSEC, The v20000101
  */
-public class VersionFlag {
+public class TOSECVersionFlag {
     private static final String[] versionPatterns = new String[]{
             "v\\d\\.\\d\\d",
             "v\\d\\d\\d\\d\\d\\d\\d\\d",
@@ -27,13 +27,13 @@ public class VersionFlag {
     private String mainName;
     private String version;
 
-    private VersionFlag(String mainName, String version) {
+    private TOSECVersionFlag(String mainName, String version) {
         this.mainName = mainName;
         this.version = version;
     }
 
-    public static VersionFlag parseVersion(String tag) {
-        VersionFlag r = null;
+    public static TOSECVersionFlag parseVersion(String tag) {
+        TOSECVersionFlag r = null;
 
         version_block:
         for (String smatch : versionPatterns) {
@@ -43,7 +43,7 @@ public class VersionFlag {
                 String version = matcher.group();
                 if (tag.endsWith(version)) {
                     String mn = tag.substring(0, matcher.start()).trim();
-                    r = new VersionFlag(mn, version);
+                    r = new TOSECVersionFlag(mn, version);
                     break version_block;
                 }
             }

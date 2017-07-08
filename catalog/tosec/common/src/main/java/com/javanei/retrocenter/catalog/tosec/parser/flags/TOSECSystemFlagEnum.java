@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
-public enum SystemFlagEnum {
+public enum TOSECSystemFlagEnum {
     Plus2("+2", "Sinclair ZX Spectrum"),
     Plus2a("+2a", "Sinclair ZX Spectrum"),
     Plus3("+3", "Sinclair ZX Spectrum"),
@@ -62,13 +62,13 @@ public enum SystemFlagEnum {
     private String name;
     private String description;
 
-    SystemFlagEnum(String name, String description) {
+    TOSECSystemFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static SystemFlagEnum fromName(String name) {
-        for (SystemFlagEnum e : SystemFlagEnum.values()) {
+    public static TOSECSystemFlagEnum fromName(String name) {
+        for (TOSECSystemFlagEnum e : TOSECSystemFlagEnum.values()) {
             if (e.getName().equals(name)) {
                 return e;
             }

@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-public enum CountryFlagEnum {
+public enum TOSECCountryFlagEnum {
     AE("AE", "United Arab Emirates"),
     AL("AL", "Albania"),
     AS("AS", "Asia"),
@@ -77,13 +77,13 @@ public enum CountryFlagEnum {
     private String name;
     private String description;
 
-    CountryFlagEnum(String name, String description) {
+    TOSECCountryFlagEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public static List<CountryFlagEnum> fromName(String name) {
-        List<CountryFlagEnum> r = new LinkedList<>();
+    public static List<TOSECCountryFlagEnum> fromName(String name) {
+        List<TOSECCountryFlagEnum> r = new LinkedList<>();
         if (name.equals("-")) {
             return r;
         }
@@ -91,7 +91,7 @@ public enum CountryFlagEnum {
         while (st.hasMoreTokens()) {
             String s = st.nextToken();
             boolean achou = false;
-            for (CountryFlagEnum e : CountryFlagEnum.values()) {
+            for (TOSECCountryFlagEnum e : TOSECCountryFlagEnum.values()) {
                 if (e.getName().equals(s)) {
                     r.add(e);
                     achou = true;
@@ -102,8 +102,8 @@ public enum CountryFlagEnum {
         return r;
     }
 
-    public static CountryFlagEnum fromDescription(String description) {
-        for (CountryFlagEnum e : CountryFlagEnum.values()) {
+    public static TOSECCountryFlagEnum fromDescription(String description) {
+        for (TOSECCountryFlagEnum e : TOSECCountryFlagEnum.values()) {
             if (e.getDescription().equals(description)) {
                 return e;
             }

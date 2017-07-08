@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.catalog.tosec.parser.flags;
 
-public enum VideoFlagEnum {
+public enum TOSECVideoFlagEnum {
     CGA("CGA"),
     EGA("EGA"),
     HGC("HGC"),
@@ -17,12 +17,12 @@ public enum VideoFlagEnum {
 
     private String name;
 
-    VideoFlagEnum(String name) {
+    TOSECVideoFlagEnum(String name) {
         this.name = name;
     }
 
-    public static VideoFlagEnum fromName(String name) {
-        for (VideoFlagEnum e : VideoFlagEnum.values()) {
+    public static TOSECVideoFlagEnum fromName(String name) {
+        for (TOSECVideoFlagEnum e : TOSECVideoFlagEnum.values()) {
             if (e.getName().equals(name)) {
                 return e;
             }
