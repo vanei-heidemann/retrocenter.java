@@ -17,7 +17,8 @@ public class UploadDirectoryDatafiles {
     private static final String SERVER_URL = "http://localhost:8080/retrocenter/";
     private static final String TARGET_URL = SERVER_URL + "datafiles/";
     //private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC/TOSEC";
-    private static final String BASE_DIR = "F:/Desenv/Fontes/Java/retrocenter/resources/no-intro";
+    //private static final String BASE_DIR = "F:/Desenv/Fontes/Java/retrocenter/resources/no-intro";
+    private static final String BASE_DIR = "F:/Downloads/Emulator/Hyperspin/Databases/";
     private static final boolean DELETE_FILE = true;
 
     public static void main(String[] args) {
@@ -61,6 +62,11 @@ public class UploadDirectoryDatafiles {
             File[] fs = file.listFiles();
             for (File f : fs) {
                 processFile(f);
+            }
+            if (DELETE_FILE) {
+                if (file.listFiles() == null || file.listFiles().length == 0) {
+                    file.delete();
+                }
             }
         }
     }

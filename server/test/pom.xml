@@ -86,5 +86,15 @@
             <artifactId>retrocenter-datafile-mame-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-datafile-mame-parser</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-catalog-mame-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

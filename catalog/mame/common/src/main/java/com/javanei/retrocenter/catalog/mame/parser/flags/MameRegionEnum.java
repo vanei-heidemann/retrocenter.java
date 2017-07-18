@@ -1,9 +1,9 @@
-package com.javanei.retrocenter.catalog.nointro.parser.flags;
+package com.javanei.retrocenter.catalog.mame.parser.flags;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public enum NoIntroRegionEnum {
+public enum MameRegionEnum {
     America("America"),
     Asia("Asia"),
     Australia("Australia"),
@@ -44,15 +44,20 @@ public enum NoIntroRegionEnum {
 
     private String name;
 
-    NoIntroRegionEnum(String name) {
+    MameRegionEnum(String name) {
         this.name = name;
     }
 
-    public static List<NoIntroRegionEnum> fromName(String name) {
-        List<NoIntroRegionEnum> result = new LinkedList<>();
-        for (String s : name.split(",")) {
+
+    public static List<MameRegionEnum> fromName(String name) {
+        List<MameRegionEnum> result = new LinkedList<>();
+        for (String s : name.split("/")) {
+            if (name.equals("European")) {
+                result.add(Europe);
+                continue;
+            }
             boolean achou = false;
-            for (NoIntroRegionEnum r : NoIntroRegionEnum.values()) {
+            for (MameRegionEnum r : MameRegionEnum.values()) {
                 if (r.getName().equals(s.trim())) {
                     result.add(r);
                     achou = true;
@@ -65,19 +70,19 @@ public enum NoIntroRegionEnum {
         return result;
     }
 
-    public static List<String> toListString(List<NoIntroRegionEnum> regions) {
+    public static List<String> toListString(List<MameRegionEnum> regions) {
         List<String> l = new LinkedList<>();
-        for (NoIntroRegionEnum r : regions) {
+        for (MameRegionEnum r : regions) {
             l.add(r.getName());
         }
         return l;
     }
 
-    public static String toString(List<NoIntroRegionEnum> regions) {
+    public static String toString(List<MameRegionEnum> regions) {
         StringBuilder sb = new StringBuilder();
-        for (NoIntroRegionEnum r : regions) {
+        for (MameRegionEnum r : regions) {
             if (sb.length() > 0) {
-                sb.append(", ");
+                sb.append("/");
             }
             sb.append(r.getName());
         }
