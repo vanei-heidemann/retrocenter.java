@@ -258,6 +258,7 @@ public class LaunchBoxParser {
             }
         }
         //System.out.println(gamesByDatabaseid.values());
+/*
         System.out.println("Genres=" + genres.size() + " - " + genres.values());
         System.out.println("Regions=" + regions.size() + " - " + regions.values());
         System.out.println("Companies=" + companies.size() + " - " + companies.values());
@@ -268,6 +269,7 @@ public class LaunchBoxParser {
         System.out.println("Game Files=" + metadata.getGameFiles().size());
         System.out.println("Achou: " + achou);
         System.out.println("Nao Achou: " + naoAchou);
+*/
         return result;
     }
 
