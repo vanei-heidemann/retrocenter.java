@@ -4,9 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.javanei.retrocenter</groupId>
-    <artifactId>retrocenter</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <parent>
+        <groupId>com.javanei.retrocenter</groupId>
+        <artifactId>retrocenter</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>retrocenter-gamedb</artifactId>
     <packaging>pom</packaging>
 
     <properties>
@@ -16,11 +19,6 @@
     </properties>
 
     <modules>
-        <module>common</module>
-        <module>datafile</module>
-        <module>server/springboot</module>
-        <module>server/test</module>
-        <module>catalog</module>
-        <module>gamedb</module>
+        <module>launchbox</module>
     </modules>
 </project>
