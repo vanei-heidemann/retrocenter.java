@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/platforms")
@@ -41,11 +42,8 @@ public class PlatformRest {
     public ResponseEntity<PlatformVO> findByID(@PathVariable("id") Long id) throws Exception {
         Identified<Platform> p = service.findPlatformByID(id);
         if (p != null) {
-            PlatformVO vo = new PlatformVO();
-            vo.setId(p.getId());
-            vo.setName(p.get().getName());
-            vo.setShortName(p.get().getShortName());
-            vo.setAlternateNames(p.get().getAlternateNames());
+            PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
+                    p.get().getStorageFolder(), p.get().getAlternateNames());
             return ResponseEntity.ok(vo);
         }
         return ResponseEntity.notFound().build();
@@ -63,11 +61,8 @@ public class PlatformRest {
         List<Identified<Platform>> platforms = service.findPlatform(name, alternateName);
         List<PlatformVO> result = new ArrayList<>();
         for (Identified<Platform> p : platforms) {
-            PlatformVO vo = new PlatformVO();
-            vo.setId(p.getId());
-            vo.setName(p.get().getName());
-            vo.setShortName(p.get().getShortName());
-            vo.setAlternateNames(p.get().getAlternateNames());
+            PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
+                    p.get().getStorageFolder(), p.get().getAlternateNames());
             result.add(vo);
         }
         return ResponseEntity.ok(result);
@@ -86,16 +81,18 @@ public class PlatformRest {
             return new ResponseEntity(new ErrorResponse("Platform already exists"), HttpStatus.BAD_REQUEST);
         }
         Identified<Platform> p = service.createPlatform(platform);
-        PlatformVO vo = new PlatformVO();
-        vo.setId(p.getId());
-        vo.setName(p.get().getName());
-        vo.setShortName(p.get().getShortName());
-        vo.setAlternateNames(p.get().getAlternateNames());
+        PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
+                p.get().getStorageFolder(), p.get().getAlternateNames());
         return new ResponseEntity(vo, HttpStatus.CREATED);
     }
 
     private class PlatformVO extends Platform {
         private Long id;
+
+        public PlatformVO(Long id, String name, String shortName, String storageFolder, Set<String> alternateNames) {
+            super(name, shortName, storageFolder, alternateNames);
+            this.id = id;
+        }
 
         public Long getId() {
             return id;
