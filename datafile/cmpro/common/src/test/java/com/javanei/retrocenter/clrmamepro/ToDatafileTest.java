@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.clrmamepro;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -71,8 +71,8 @@ public class ToDatafileTest {
     @Test
     public void testRom() {
         DatafileArtifact game = datafile.getArtifacts().iterator().next();
-        Iterator<ArtifactFile> it = game.getFiles().iterator();
-        ArtifactFile gameFile = it.next();
+        Iterator<DatafileArtifactFile> it = game.getFiles().iterator();
+        DatafileArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.ROM.name()) && it.hasNext()) {
             gameFile = it.next();
         }
@@ -92,8 +92,8 @@ public class ToDatafileTest {
     @Test
     public void testDisk() {
         DatafileArtifact game = datafile.getArtifacts().iterator().next();
-        Iterator<ArtifactFile> it = game.getFiles().iterator();
-        ArtifactFile gameFile = it.next();
+        Iterator<DatafileArtifactFile> it = game.getFiles().iterator();
+        DatafileArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.DISK.name()) && it.hasNext()) {
             gameFile = it.next();
         }
@@ -113,8 +113,8 @@ public class ToDatafileTest {
     @Test
     public void testSample() {
         DatafileArtifact game = datafile.getArtifacts().iterator().next();
-        Iterator<ArtifactFile> it = game.getFiles().iterator();
-        ArtifactFile gameFile = it.next();
+        Iterator<DatafileArtifactFile> it = game.getFiles().iterator();
+        DatafileArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.SAMPLE.name()) && it.hasNext()) {
             gameFile = it.next();
         }

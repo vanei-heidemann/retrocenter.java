@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -54,8 +54,8 @@ public class RetrocenterDatafileParserTest {
 
     @Test
     public void testRom() {
-        ArtifactFile r = null;
-        for (ArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new ArtifactFile[0])) {
+        DatafileArtifactFile r = null;
+        for (DatafileArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new DatafileArtifactFile[0])) {
             if (af.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 r = af;
                 break;
@@ -76,8 +76,8 @@ public class RetrocenterDatafileParserTest {
 
     @Test
     public void testSample() {
-        ArtifactFile r = null;
-        for (ArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new ArtifactFile[0])) {
+        DatafileArtifactFile r = null;
+        for (DatafileArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new DatafileArtifactFile[0])) {
             if (af.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 r = af;
                 break;
@@ -90,8 +90,8 @@ public class RetrocenterDatafileParserTest {
 
     @Test
     public void testDisk() {
-        ArtifactFile r = null;
-        for (ArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new ArtifactFile[0])) {
+        DatafileArtifactFile r = null;
+        for (DatafileArtifactFile af : datafile.getArtifacts().iterator().next().getFiles().toArray(new DatafileArtifactFile[0])) {
             if (af.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 r = af;
                 break;

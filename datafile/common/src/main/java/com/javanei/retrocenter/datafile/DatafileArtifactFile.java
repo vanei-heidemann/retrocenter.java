@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class ArtifactFile implements Serializable {
+public class DatafileArtifactFile implements Serializable {
     /**
      * Valid values: ROM, DISK, SAMPLE
      */
@@ -51,19 +51,19 @@ public class ArtifactFile implements Serializable {
      */
     private Map<String, String> fields = new HashMap<>();
 
-    public ArtifactFile() {
+    public DatafileArtifactFile() {
     }
 
-    public ArtifactFile(String type) {
+    public DatafileArtifactFile(String type) {
         this.type = type;
     }
 
-    public ArtifactFile(String type, String name) {
+    public DatafileArtifactFile(String type, String name) {
         this.type = type;
         this.name = name;
     }
 
-    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date) {
+    public DatafileArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -73,8 +73,8 @@ public class ArtifactFile implements Serializable {
         this.date = date;
     }
 
-    public ArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date,
-                        Map<String, String> fields) {
+    public DatafileArtifactFile(String type, String name, String size, String crc, String sha1, String md5, String date,
+                                Map<String, String> fields) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -209,7 +209,7 @@ public class ArtifactFile implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        ArtifactFile gameFile = (ArtifactFile) o;
+        DatafileArtifactFile gameFile = (DatafileArtifactFile) o;
         return Objects.equals(type, gameFile.type) &&
                 Objects.equals(name, gameFile.name) &&
                 Objects.equals(size, gameFile.size) &&

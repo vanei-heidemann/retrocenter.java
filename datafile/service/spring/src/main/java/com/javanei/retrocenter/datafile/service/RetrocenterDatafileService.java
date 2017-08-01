@@ -1,8 +1,8 @@
 package com.javanei.retrocenter.datafile.service;
 
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.Release;
 import com.javanei.retrocenter.datafile.entity.ArtifactEntity;
 import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
@@ -49,7 +49,7 @@ public class RetrocenterDatafileService {
             datafile.addArtifact(g);
 
             for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
-                ArtifactFile gf = new ArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
+                DatafileArtifactFile gf = new DatafileArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
                         gameFileEntity.getSize(), gameFileEntity.getCrc(), gameFileEntity.getSha1(),
                         gameFileEntity.getMd5(), gameFileEntity.getDate(), gameFileEntity.getFields());
                 g.addFile(gf);
@@ -78,7 +78,7 @@ public class RetrocenterDatafileService {
             ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getDescription(),
                     game.getYear(), game.getComment(), game.getFields());
             gameEntity.setDatafile(entity);
-            for (ArtifactFile gameFile : game.getFiles()) {
+            for (DatafileArtifactFile gameFile : game.getFiles()) {
                 ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
                         gameFile.getDate(), gameFile.getFields());

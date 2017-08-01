@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.hyperlist;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 
 import java.io.Serializable;
@@ -118,7 +118,7 @@ public class HyperListMenu implements DatafileObject, Serializable {
                 artifact.addField("rating", game.getRating());
             }
             datafile.addArtifact(artifact);
-            ArtifactFile file = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), game.getName(), null, game.getCrc(), null, null, game.getYear());
+            DatafileArtifactFile file = new DatafileArtifactFile(ArtifactFileTypeEnum.ROM.name(), game.getName(), null, game.getCrc(), null, null, game.getYear());
             artifact.addFile(file);
         }
         return datafile;

@@ -2,9 +2,9 @@ package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.datafile.Release;
 import org.slf4j.Logger;
@@ -78,7 +78,7 @@ public class RetrocenterDatafileParser implements Parser {
                                         game.addRelease(release);
                                         break;
                                     case "file":
-                                        ArtifactFile rom = new ArtifactFile();
+                                        DatafileArtifactFile rom = new DatafileArtifactFile();
                                         ReflectionUtil.setValueByAttributes(rom, n1.getAttributes());
                                         NodeList nfile = n1.getChildNodes();
                                         for (int k = 0; k < nfile.getLength(); k++) {

@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.datafile.service;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.Release;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -34,18 +34,18 @@ public class RetrocenterDatafileServiceTest {
         game.setSampleof("sampleof 01");
         game.setManufacturer("manufacturer 01");
 
-        ArtifactFile gf = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", "100", "12345678",
+        DatafileArtifactFile gf = new DatafileArtifactFile(ArtifactFileTypeEnum.ROM.name(), "file 01", "100", "12345678",
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 "2016");
         gf.setStatus("baddump");
         gf.setMerge("merge 01");
         gf.setRegion("main");
         game.addFile(gf);
-        gf = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", "200", null,
+        gf = new DatafileArtifactFile(ArtifactFileTypeEnum.DISK.name(), "file 02", "200", null,
                 "1234567890123456789012345678901234567890", "12345678901234567890123456789012",
                 null);
         game.addFile(gf);
-        gf = new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), "sample 01");
+        gf = new DatafileArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), "sample 01");
         game.addFile(gf);
 
         Release release = new Release("release 01", "Brazil", "br", "2016", "yes");
@@ -86,10 +86,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createRom() {
-        ArtifactFile gf = null;
+        DatafileArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
         DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (ArtifactFile g : game.getFiles()) {
+        for (DatafileArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 gf = g;
                 break;
@@ -110,10 +110,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createDisk() {
-        ArtifactFile gf = null;
+        DatafileArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
         DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (ArtifactFile g : game.getFiles()) {
+        for (DatafileArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 gf = g;
                 break;
@@ -134,10 +134,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createSample() {
-        ArtifactFile gf = null;
+        DatafileArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
         DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (ArtifactFile g : game.getFiles()) {
+        for (DatafileArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 gf = g;
                 break;

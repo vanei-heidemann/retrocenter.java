@@ -3,10 +3,10 @@ package com.javanei.retrocenter.mame;
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 
 import java.io.Serializable;
@@ -120,7 +120,7 @@ public class Mame implements DatafileObject, Serializable {
             game.setRomof(machine.getRomof());
             game.setSampleof(machine.getSampleof());
             for (MameRom rom : machine.getRoms()) {
-                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
+                DatafileArtifactFile af = new DatafileArtifactFile(ArtifactFileTypeEnum.ROM.name(), rom.getName(),
                         rom.getSize() != null ? rom.getSize().toString() : null, rom.getCrc(),
                         rom.getSha1(), null, null);
                 af.setStatus(rom.getStatus());
@@ -129,7 +129,7 @@ public class Mame implements DatafileObject, Serializable {
                 game.addFile(af);
             }
             for (MameDisk disk : machine.getDisks()) {
-                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
+                DatafileArtifactFile af = new DatafileArtifactFile(ArtifactFileTypeEnum.DISK.name(), disk.getName(), null, null,
                         disk.getSha1(), null, null);
                 af.setStatus(disk.getStatus());
                 af.setMerge(disk.getMerge());
@@ -137,7 +137,7 @@ public class Mame implements DatafileObject, Serializable {
                 game.addFile(af);
             }
             for (MameSample sample : machine.getSamples()) {
-                game.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample.getName()));
+                game.addFile(new DatafileArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), sample.getName()));
             }
 
             datafile.addArtifact(game);

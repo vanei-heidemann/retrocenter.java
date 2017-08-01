@@ -2,10 +2,10 @@ package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
+import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Release;
 
@@ -129,7 +129,7 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
                 rGame.addRelease(new Release(p.getName(), p.getRegion(), p.getLanguage(), p.getDate(), p.getDefault()));
             }
             for (LogiqxRom p : game.getRoms()) {
-                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.ROM.name(), p.getName(),
+                DatafileArtifactFile af = new DatafileArtifactFile(ArtifactFileTypeEnum.ROM.name(), p.getName(),
                         p.getSize() != null ? p.getSize().toString() : null, p.getCrc(), p.getSha1(), p.getMd5(),
                         p.getDate());
                 af.setStatus(p.getStatus());
@@ -137,14 +137,14 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
                 rGame.addFile(af);
             }
             for (LogiqxDisk p : game.getDisks()) {
-                ArtifactFile af = new ArtifactFile(ArtifactFileTypeEnum.DISK.name(), p.getName(), null, null,
+                DatafileArtifactFile af = new DatafileArtifactFile(ArtifactFileTypeEnum.DISK.name(), p.getName(), null, null,
                         p.getSha1(), p.getMd5(), null);
                 af.setStatus(p.getStatus());
                 af.setMerge(p.getMerge());
                 rGame.addFile(af);
             }
             for (LogiqxSample p : game.getSamples()) {
-                rGame.addFile(new ArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), p.getName()));
+                rGame.addFile(new DatafileArtifactFile(ArtifactFileTypeEnum.SAMPLE.name(), p.getName()));
             }
             datafile.addArtifact(rGame);
         }
