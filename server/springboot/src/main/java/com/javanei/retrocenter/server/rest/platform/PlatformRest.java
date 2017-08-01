@@ -25,20 +25,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/platforms")
-@Api(value = "Platforms service", description = "Management of platforms")
+@RequestMapping(value = "/api/platforms")
+@Api(tags = {"Platforms service"}, produces = "application/json")
 public class PlatformRest {
     private static final Logger LOG = LoggerFactory.getLogger(PlatformRest.class);
     @Autowired
     public PlatformService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return a list of platforms")
+    @ApiOperation(value = "Find a platform by ID")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok"),
             @ApiResponse(code = 400, message = "Platform Not Found")
     })
-    public ResponseEntity<PlatformVO> findByID(@PathVariable("id") Long id) {
+    public ResponseEntity<PlatformVO> findByID(@PathVariable("id") Long id) throws Exception {
         Identified<Platform> p = service.findPlatformByID(id);
         if (p != null) {
             PlatformVO vo = new PlatformVO();
@@ -58,7 +58,8 @@ public class PlatformRest {
     })
     public ResponseEntity<List<PlatformVO>> find(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "alternateName", required = false) String alternateName) {
+            @RequestParam(value = "alternateName", required = false) String alternateName)
+            throws Exception {
         List<Identified<Platform>> platforms = service.findPlatform(name, alternateName);
         List<PlatformVO> result = new ArrayList<>();
         for (Identified<Platform> p : platforms) {
@@ -77,26 +78,21 @@ public class PlatformRest {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Add a new platform")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 201, message = "Ok"),
             @ApiResponse(code = 400, message = "Platform already exists"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
     public ResponseEntity<PlatformVO> create(@RequestBody Platform platform) throws Exception {
-        try {
-            if (service.findPlatformByName(platform.getName()) != null) {
-                return new ResponseEntity(new ErrorResponse("Platform already exists"), HttpStatus.BAD_REQUEST);
-            }
-            Identified<Platform> p = service.createPlatform(platform);
-            PlatformVO vo = new PlatformVO();
-            vo.setId(p.getId());
-            vo.setName(p.get().getName());
-            vo.setShortName(p.get().getShortName());
-            vo.setAlternateNames(p.get().getAlternateNames());
-            return ResponseEntity.ok(vo);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return ResponseEntity.badRequest().build();
+        if (service.findPlatformByName(platform.getName()) != null) {
+            return new ResponseEntity(new ErrorResponse("Platform already exists"), HttpStatus.BAD_REQUEST);
         }
+        Identified<Platform> p = service.createPlatform(platform);
+        PlatformVO vo = new PlatformVO();
+        vo.setId(p.getId());
+        vo.setName(p.get().getName());
+        vo.setShortName(p.get().getShortName());
+        vo.setAlternateNames(p.get().getAlternateNames());
+        return new ResponseEntity(vo, HttpStatus.CREATED);
     }
 
     private class PlatformVO extends Platform {
