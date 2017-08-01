@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.datafile;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
+
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -48,7 +49,7 @@ public class Datafile implements DatafileObject, Serializable {
      */
     private String comment;
 
-    private Set<Artifact> artifacts = new HashSet<>();
+    private Set<DatafileArtifact> artifacts = new HashSet<>();
 
     public Datafile() {
     }
@@ -86,15 +87,15 @@ public class Datafile implements DatafileObject, Serializable {
         }
     }
 
-    public boolean addArtifact(Artifact artifact) {
+    public boolean addArtifact(DatafileArtifact artifact) {
         return this.artifacts.add(artifact);
     }
 
-    public Set<Artifact> getArtifacts() {
+    public Set<DatafileArtifact> getArtifacts() {
         return artifacts;
     }
 
-    public void setArtifacts(Set<Artifact> artifacts) {
+    public void setArtifacts(Set<DatafileArtifact> artifacts) {
         this.artifacts = artifacts;
     }
 
@@ -220,7 +221,7 @@ public class Datafile implements DatafileObject, Serializable {
         appendXMLTagIfNotNull(sb, "url", url, 1);
         appendXMLTagIfNotNull(sb, "comment", comment, 1);
 
-        for (Artifact game : this.artifacts) {
+        for (DatafileArtifact game : this.artifacts) {
             sb.append("\t<artifact");
             appendXMLAttributeIfNotNull(sb, "name", game.getName());
             appendXMLAttributeIfNotNull(sb, "description", game.getDescription());
