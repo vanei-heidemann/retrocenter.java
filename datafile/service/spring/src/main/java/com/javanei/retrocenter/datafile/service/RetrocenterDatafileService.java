@@ -8,10 +8,10 @@ import com.javanei.retrocenter.datafile.entity.DatafileArtifactEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileArtifactFileEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileReleaseEntity;
-import com.javanei.retrocenter.datafile.persistence.ArtifactDAO;
-import com.javanei.retrocenter.datafile.persistence.ArtifactFileDAO;
+import com.javanei.retrocenter.datafile.persistence.DatafileArtifactDAO;
+import com.javanei.retrocenter.datafile.persistence.DatafileArtifactFileDAO;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
-import com.javanei.retrocenter.datafile.persistence.ReleaseDAO;
+import com.javanei.retrocenter.datafile.persistence.DatafileReleaseDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +30,11 @@ public class RetrocenterDatafileService {
     @Autowired
     private DatafileDAO datafileDAO;
     @Autowired
-    private ArtifactDAO artifactDAO;
+    private DatafileArtifactDAO artifactDAO;
     @Autowired
-    private ArtifactFileDAO artifactFileDAO;
+    private DatafileArtifactFileDAO artifactFileDAO;
     @Autowired
-    private ReleaseDAO releaseDAO;
+    private DatafileReleaseDAO releaseDAO;
     @Autowired
     private RetrocenterDatafileService retrocenterDatafileService;
 

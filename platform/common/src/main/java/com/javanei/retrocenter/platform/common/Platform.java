@@ -8,6 +8,8 @@ import java.util.Set;
 
 @XmlRootElement(name = "platform")
 public class Platform implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String name;
     private String shortName;
     private String storageFolder;

@@ -4,7 +4,7 @@ import com.javanei.retrocenter.datafile.entity.DatafileArtifactEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
-public interface ArtifactDAO extends JpaRepository<DatafileArtifactEntity, Long> {
+public interface DatafileArtifactDAO extends JpaRepository<DatafileArtifactEntity, Long> {
     DatafileArtifactEntity findByDatafileAndName(@Param("datafileName") String datafileName, @Param("catalog") String catalog,
                                                  @Param("version") String version, @Param("name") String name);
 }
