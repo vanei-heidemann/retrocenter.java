@@ -231,7 +231,7 @@ public class Datafile implements DatafileObject, Serializable {
                 appendXMLTagIfNotNull(sb, key, game.getField(key), 2);
             }
 
-            for (ArtifactFile file : game.getFiles()) {
+            for (DatafileArtifactFile file : game.getFiles()) {
                 sb.append("\t\t<file");
                 appendXMLAttributeIfNotNull(sb, "type", file.getType());
                 appendXMLAttributeIfNotNull(sb, "name", file.getName());

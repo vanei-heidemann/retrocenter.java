@@ -37,7 +37,7 @@ public class DatafileArtifact implements Serializable {
      */
     private Map<String, String> fields = new HashMap<>();
 
-    private Set<ArtifactFile> files = new HashSet<>();
+    private Set<DatafileArtifactFile> files = new HashSet<>();
 
     private Set<Release> releases = new HashSet<>();
 
@@ -59,7 +59,7 @@ public class DatafileArtifact implements Serializable {
         this.fields = fields;
     }
 
-    public boolean addFile(ArtifactFile file) {
+    public boolean addFile(DatafileArtifactFile file) {
         return this.files.add(file);
     }
 
@@ -119,11 +119,11 @@ public class DatafileArtifact implements Serializable {
         return this.fields.get(key);
     }
 
-    public Set<ArtifactFile> getFiles() {
+    public Set<DatafileArtifactFile> getFiles() {
         return files;
     }
 
-    public void setFiles(Set<ArtifactFile> files) {
+    public void setFiles(Set<DatafileArtifactFile> files) {
         this.files = files;
     }
 
