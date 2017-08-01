@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-public class Artifact implements Serializable {
+public class DatafileArtifact implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
@@ -41,17 +41,17 @@ public class Artifact implements Serializable {
 
     private Set<Release> releases = new HashSet<>();
 
-    public Artifact() {
+    public DatafileArtifact() {
     }
 
-    public Artifact(String name, String description, String year, String comment) {
+    public DatafileArtifact(String name, String description, String year, String comment) {
         this.name = name;
         this.description = description;
         this.year = year;
         this.comment = comment;
     }
 
-    public Artifact(String name, String description, String year, String comment, Map<String, String> fields) {
+    public DatafileArtifact(String name, String description, String year, String comment, Map<String, String> fields) {
         this.name = name;
         this.description = description;
         this.year = year;
@@ -211,7 +211,7 @@ public class Artifact implements Serializable {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        Artifact game = (Artifact) o;
+        DatafileArtifact game = (DatafileArtifact) o;
         return Objects.equals(name, game.name);
     }
 

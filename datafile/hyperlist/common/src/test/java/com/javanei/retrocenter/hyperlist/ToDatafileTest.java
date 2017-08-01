@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.hyperlist;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
 public class ToDatafileTest {
     private static HyperListMenu hyperList;
     private static Datafile datafile;
-    private static Artifact artifact;
+    private static DatafileArtifact artifact;
     private static ArtifactFile file;
 
     @BeforeClass

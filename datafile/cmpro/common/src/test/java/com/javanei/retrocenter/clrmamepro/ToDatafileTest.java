@@ -1,14 +1,15 @@
 package com.javanei.retrocenter.clrmamepro;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
-import java.util.Iterator;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Iterator;
 
 public class ToDatafileTest {
     private static CMProDatafile cmpro;
@@ -56,7 +57,7 @@ public class ToDatafileTest {
     public void testGame() {
         Assert.assertEquals("Artifact", 1, datafile.getArtifacts().size());
 
-        Artifact game = datafile.getArtifacts().iterator().next();
+        DatafileArtifact game = datafile.getArtifacts().iterator().next();
         Assert.assertEquals("Artifact : Name", "game name 01", game.getName());
         Assert.assertEquals("Artifact : cloneof", "cloneof 01", game.getCloneof());
         Assert.assertEquals("Artifact : description", "game description 01", game.getDescription());
@@ -69,7 +70,7 @@ public class ToDatafileTest {
 
     @Test
     public void testRom() {
-        Artifact game = datafile.getArtifacts().iterator().next();
+        DatafileArtifact game = datafile.getArtifacts().iterator().next();
         Iterator<ArtifactFile> it = game.getFiles().iterator();
         ArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.ROM.name()) && it.hasNext()) {
@@ -90,7 +91,7 @@ public class ToDatafileTest {
 
     @Test
     public void testDisk() {
-        Artifact game = datafile.getArtifacts().iterator().next();
+        DatafileArtifact game = datafile.getArtifacts().iterator().next();
         Iterator<ArtifactFile> it = game.getFiles().iterator();
         ArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.DISK.name()) && it.hasNext()) {
@@ -111,7 +112,7 @@ public class ToDatafileTest {
 
     @Test
     public void testSample() {
-        Artifact game = datafile.getArtifacts().iterator().next();
+        DatafileArtifact game = datafile.getArtifacts().iterator().next();
         Iterator<ArtifactFile> it = game.getFiles().iterator();
         ArtifactFile gameFile = it.next();
         while (gameFile != null && !gameFile.getType().equals(ArtifactFileTypeEnum.SAMPLE.name()) && it.hasNext()) {

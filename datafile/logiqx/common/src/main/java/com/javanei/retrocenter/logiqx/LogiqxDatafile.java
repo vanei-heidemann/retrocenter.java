@@ -2,12 +2,13 @@ package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Release;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -118,7 +119,7 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
                 this.header.getEmail(), this.header.getHomepage(), this.header.getUrl(),
                 this.header.getComment()) : new Datafile();
         for (LogiqxGame game : this.getGames()) {
-            Artifact rGame = new Artifact(game.getName(), game.getDescription(), game.getYear(), game.getComment());
+            DatafileArtifact rGame = new DatafileArtifact(game.getName(), game.getDescription(), game.getYear(), game.getComment());
             rGame.setIsbios(game.getIsbios());
             rGame.setManufacturer(game.getManufacturer());
             rGame.setCloneof(game.getCloneof());

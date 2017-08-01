@@ -2,24 +2,25 @@ package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.common.util.ReflectionUtil;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.datafile.Release;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class RetrocenterDatafileParser implements Parser {
     private static final Logger LOG = LoggerFactory.getLogger(RetrocenterDatafileParser.class);
@@ -63,7 +64,7 @@ public class RetrocenterDatafileParser implements Parser {
                     }
                     switch (n.getNodeName()) {
                         case "artifact":
-                            Artifact game = new Artifact();
+                            DatafileArtifact game = new DatafileArtifact();
                             ReflectionUtil.setValueByAttributes(game, n.getAttributes());
                             NodeList nl = n.getChildNodes();
                             for (int j = 0; j < nl.getLength(); j++) {

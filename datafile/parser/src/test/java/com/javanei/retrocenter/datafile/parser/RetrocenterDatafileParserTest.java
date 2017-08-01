@@ -1,14 +1,15 @@
 package com.javanei.retrocenter.datafile.parser;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
-import java.io.InputStream;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.io.InputStream;
 
 public class RetrocenterDatafileParserTest {
     private static Datafile datafile;
@@ -39,7 +40,7 @@ public class RetrocenterDatafileParserTest {
     public void testArtifact() {
         Assert.assertEquals("artifacts", 1, datafile.getArtifacts().size());
 
-        Artifact g = datafile.getArtifacts().iterator().next();
+        DatafileArtifact g = datafile.getArtifacts().iterator().next();
         Assert.assertEquals("name", "1080 Snowboarding (1998)(Nintendo)(EU)(M4)", g.getName());
         Assert.assertEquals("description", "1080 Snowboarding (1998)(Nintendo)(EU)(M4)", g.getDescription());
         Assert.assertEquals("year", "1998", g.getYear());

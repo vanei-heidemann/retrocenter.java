@@ -1,10 +1,10 @@
 package com.javanei.retrocenter.datafile.service;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.Release;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -27,7 +27,7 @@ public class RetrocenterDatafileServiceTest {
                 "description 01", "author 01", "2017", "teste@teste.com",
                 "homepage 01", "http://www.teste.com", "comment 01");
 
-        Artifact game = new Artifact("game 01", "description 01", "2017", "game comment 01");
+        DatafileArtifact game = new DatafileArtifact("game 01", "description 01", "2017", "game comment 01");
         game.setIsbios("no");
         game.setCloneof("cloneof 01");
         game.setRomof("romof 01");
@@ -72,7 +72,7 @@ public class RetrocenterDatafileServiceTest {
     @Test
     public void createGame() {
         Datafile d = retrocenterDatafileService.create(datafile);
-        Artifact game = d.getArtifacts().iterator().next();
+        DatafileArtifact game = d.getArtifacts().iterator().next();
         Assert.assertEquals("name", "game 01", game.getName());
         Assert.assertEquals("isbios", "no", game.getIsbios());
         Assert.assertEquals("description", "description 01", game.getDescription());
@@ -88,7 +88,7 @@ public class RetrocenterDatafileServiceTest {
     public void createRom() {
         ArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
-        Artifact game = d.getArtifacts().iterator().next();
+        DatafileArtifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 gf = g;
@@ -112,7 +112,7 @@ public class RetrocenterDatafileServiceTest {
     public void createDisk() {
         ArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
-        Artifact game = d.getArtifacts().iterator().next();
+        DatafileArtifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 gf = g;
@@ -136,7 +136,7 @@ public class RetrocenterDatafileServiceTest {
     public void createSample() {
         ArtifactFile gf = null;
         Datafile d = retrocenterDatafileService.create(datafile);
-        Artifact game = d.getArtifacts().iterator().next();
+        DatafileArtifact game = d.getArtifacts().iterator().next();
         for (ArtifactFile g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 gf = g;
@@ -159,7 +159,7 @@ public class RetrocenterDatafileServiceTest {
     @Test
     public void createRelease() {
         Datafile d = retrocenterDatafileService.create(datafile);
-        Artifact game = d.getArtifacts().iterator().next();
+        DatafileArtifact game = d.getArtifacts().iterator().next();
         Release release = game.getReleases().iterator().next();
         Assert.assertEquals("name", "release 01", release.getName());
         Assert.assertEquals("region", "Brazil", release.getRegion());

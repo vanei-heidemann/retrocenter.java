@@ -1,8 +1,8 @@
 package com.javanei.retrocenter.datafile.service;
 
-import com.javanei.retrocenter.datafile.Artifact;
 import com.javanei.retrocenter.datafile.ArtifactFile;
 import com.javanei.retrocenter.datafile.Datafile;
+import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.Release;
 import com.javanei.retrocenter.datafile.entity.ArtifactEntity;
 import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
@@ -12,14 +12,15 @@ import com.javanei.retrocenter.datafile.persistence.ArtifactDAO;
 import com.javanei.retrocenter.datafile.persistence.ArtifactFileDAO;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
 import com.javanei.retrocenter.datafile.persistence.ReleaseDAO;
-import java.util.ArrayList;
-import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -43,7 +44,7 @@ public class RetrocenterDatafileService {
                 entity.getHomepage(), entity.getUrl(), entity.getComment());
 
         for (ArtifactEntity gameEntity : entity.getArtifacts()) {
-            Artifact g = new Artifact(gameEntity.getName(), gameEntity.getDescription(),
+            DatafileArtifact g = new DatafileArtifact(gameEntity.getName(), gameEntity.getDescription(),
                     gameEntity.getYear(), gameEntity.getComment(), gameEntity.getFields());
             datafile.addArtifact(g);
 
@@ -73,7 +74,7 @@ public class RetrocenterDatafileService {
         entity = retrocenterDatafileService.create(entity);
 
         int cont = 0;
-        for (Artifact game : datafile.getArtifacts()) {
+        for (DatafileArtifact game : datafile.getArtifacts()) {
             ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getDescription(),
                     game.getYear(), game.getComment(), game.getFields());
             gameEntity.setDatafile(entity);
