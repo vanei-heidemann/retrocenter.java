@@ -79,8 +79,7 @@ public class PlatformRest {
     @ApiOperation(value = "Add a new platform")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Ok"),
-            @ApiResponse(code = 400, message = "Platform already exists"),
-            @ApiResponse(code = 500, message = "Internal server error")
+            @ApiResponse(code = 400, message = "Platform already exists")
     })
     public ResponseEntity<PlatformVO> create(@RequestBody Platform platform) throws Exception {
         if (service.findPlatformByName(platform.getName()) != null) {
