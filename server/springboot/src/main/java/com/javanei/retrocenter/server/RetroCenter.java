@@ -12,13 +12,15 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.javanei.retrocenter.mame.entity",
         "com.javanei.retrocenter.clrmamepro.entity",
         "com.javanei.retrocenter.logiqx.entity",
-        "com.javanei.retrocenter.hyperlist.entity"
+        "com.javanei.retrocenter.hyperlist.entity",
+        "com.javanei.retrocenter.platform.entity"
 })
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
         "com.javanei.retrocenter.clrmamepro.persistence",
         "com.javanei.retrocenter.datafile.persistence",
         "com.javanei.retrocenter.logiqx.persistence",
-        "com.javanei.retrocenter.hyperlist.persistence"
+        "com.javanei.retrocenter.hyperlist.persistence",
+        "com.javanei.retrocenter.platform.persistence"
 })
 @EnableTransactionManagement
 @EnableAsync

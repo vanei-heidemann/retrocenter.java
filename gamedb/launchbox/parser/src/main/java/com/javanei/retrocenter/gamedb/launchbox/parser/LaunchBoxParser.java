@@ -227,7 +227,7 @@ public class LaunchBoxParser {
                                         unknowsWords.add(fname);
                                     }
                                     gameFiles.put(fileName.getPlatform().toLowerCase() + "|" + fileName.getGameName().toLowerCase(), fileName);
-                                    System.out.println("===== " + fileName.getFileName() + " -> " + s + "=" + fname + " -> " + fileName.getPlatform());
+                                    //System.out.println("===== " + fileName.getFileName() + " -> " + s + "=" + fname + " -> " + fileName.getPlatform());
                                     naoAchou++;
                                     break;
                                 }
