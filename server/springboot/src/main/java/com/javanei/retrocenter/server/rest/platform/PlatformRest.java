@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -30,13 +32,34 @@ public class PlatformRest {
     @Autowired
     public PlatformService service;
 
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a list of platforms")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 400, message = "Platform Not Found")
+    })
+    public ResponseEntity<PlatformVO> findByID(@PathVariable("id") Long id) {
+        Identified<Platform> p = service.findPlatformByID(id);
+        if (p != null) {
+            PlatformVO vo = new PlatformVO();
+            vo.setId(p.getId());
+            vo.setName(p.get().getName());
+            vo.setShortName(p.get().getShortName());
+            vo.setAlternateNames(p.get().getAlternateNames());
+            return ResponseEntity.ok(vo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of platforms")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public List<PlatformVO> find() {
-        List<Identified<Platform>> platforms = service.findAllPlatforms();
+    public ResponseEntity<List<PlatformVO>> find(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "alternateName", required = false) String alternateName) {
+        List<Identified<Platform>> platforms = service.findPlatform(name, alternateName);
         List<PlatformVO> result = new ArrayList<>();
         for (Identified<Platform> p : platforms) {
             PlatformVO vo = new PlatformVO();
@@ -46,7 +69,7 @@ public class PlatformRest {
             vo.setAlternateNames(p.get().getAlternateNames());
             result.add(vo);
         }
-        return result;
+        return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
@@ -69,10 +92,10 @@ public class PlatformRest {
             vo.setName(p.get().getName());
             vo.setShortName(p.get().getShortName());
             vo.setAlternateNames(p.get().getAlternateNames());
-            return new ResponseEntity(vo, HttpStatus.OK);
+            return ResponseEntity.ok(vo);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new ResponseEntity(new ErrorResponse(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.badRequest().build();
         }
     }
 

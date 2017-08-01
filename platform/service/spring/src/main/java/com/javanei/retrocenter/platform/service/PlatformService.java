@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -61,6 +62,22 @@ public class PlatformService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
+    public Identified<Platform> findPlatformByID(Long id) {
+        PlatformEntity entity = platformDAO.findOne(id);
+        if (entity != null) {
+            Platform p = new Platform(entity.getName(), entity.getShortName(), entity.getStorageFolder());
+            Set<PlatformAltNameEntity> alts = entity.getAlternateNames();
+            if (!alts.isEmpty()) {
+                for (PlatformAltNameEntity alt : alts) {
+                    p.addAlternateName(alt.getAlternateName());
+                }
+            }
+            return new Identified<>(entity.getId(), p);
+        }
+        return null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
     public Identified<Platform> findPlatform(String name) {
         PlatformEntity entity = platformDAO.findByName(name);
         if (entity == null) {
@@ -80,6 +97,27 @@ public class PlatformService {
             return new Identified<>(entity.getId(), p);
         }
         return null;
+    }
+
+    public List<Identified<Platform>> findPlatform(String name, String alternateName) {
+        if (alternateName != null) {
+            Identified<Platform> p = this.findPlatform(alternateName);
+            if (p != null) {
+                List<Identified<Platform>> r = new ArrayList<>();
+                r.add(p);
+                return r;
+            }
+            return Collections.emptyList();
+        } else if (name != null) {
+            Identified<Platform> p = this.findPlatformByName(name);
+            if (p != null) {
+                List<Identified<Platform>> r = new ArrayList<>();
+                r.add(p);
+                return r;
+            }
+            return Collections.emptyList();
+        }
+        return findAllPlatforms();
     }
 
     public List<Identified<Platform>> findAllPlatforms() {
