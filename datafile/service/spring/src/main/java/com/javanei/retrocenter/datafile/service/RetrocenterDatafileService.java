@@ -4,10 +4,10 @@ import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.Release;
-import com.javanei.retrocenter.datafile.entity.ArtifactEntity;
-import com.javanei.retrocenter.datafile.entity.ArtifactFileEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileArtifactEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileArtifactFileEntity;
 import com.javanei.retrocenter.datafile.entity.DatafileEntity;
-import com.javanei.retrocenter.datafile.entity.ReleaseEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileReleaseEntity;
 import com.javanei.retrocenter.datafile.persistence.ArtifactDAO;
 import com.javanei.retrocenter.datafile.persistence.ArtifactFileDAO;
 import com.javanei.retrocenter.datafile.persistence.DatafileDAO;
@@ -43,19 +43,19 @@ public class RetrocenterDatafileService {
                 entity.getDescription(), entity.getAuthor(), entity.getDate(), entity.getEmail(),
                 entity.getHomepage(), entity.getUrl(), entity.getComment());
 
-        for (ArtifactEntity gameEntity : entity.getArtifacts()) {
+        for (DatafileArtifactEntity gameEntity : entity.getArtifacts()) {
             DatafileArtifact g = new DatafileArtifact(gameEntity.getName(), gameEntity.getDescription(),
                     gameEntity.getYear(), gameEntity.getComment(), gameEntity.getFields());
             datafile.addArtifact(g);
 
-            for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
+            for (DatafileArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
                 DatafileArtifactFile gf = new DatafileArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
                         gameFileEntity.getSize(), gameFileEntity.getCrc(), gameFileEntity.getSha1(),
                         gameFileEntity.getMd5(), gameFileEntity.getDate(), gameFileEntity.getFields());
                 g.addFile(gf);
             }
 
-            for (ReleaseEntity releaseEntity : gameEntity.getReleases()) {
+            for (DatafileReleaseEntity releaseEntity : gameEntity.getReleases()) {
                 Release r = new Release(releaseEntity.getName(), releaseEntity.getRegion(),
                         releaseEntity.getLanguage(), releaseEntity.getDate(), releaseEntity.getDefault());
                 g.addRelease(r);
@@ -75,17 +75,17 @@ public class RetrocenterDatafileService {
 
         int cont = 0;
         for (DatafileArtifact game : datafile.getArtifacts()) {
-            ArtifactEntity gameEntity = new ArtifactEntity(game.getName(), game.getDescription(),
+            DatafileArtifactEntity gameEntity = new DatafileArtifactEntity(game.getName(), game.getDescription(),
                     game.getYear(), game.getComment(), game.getFields());
             gameEntity.setDatafile(entity);
             for (DatafileArtifactFile gameFile : game.getFiles()) {
-                ArtifactFileEntity gameFileEntity = new ArtifactFileEntity(gameFile.getType(), gameFile.getName(),
+                DatafileArtifactFileEntity gameFileEntity = new DatafileArtifactFileEntity(gameFile.getType(), gameFile.getName(),
                         gameFile.getSize(), gameFile.getCrc(), gameFile.getSha1(), gameFile.getMd5(),
                         gameFile.getDate(), gameFile.getFields());
                 gameEntity.getFiles().add(gameFileEntity);
             }
             for (Release release : game.getReleases()) {
-                ReleaseEntity releaseEntity = new ReleaseEntity(release.getName(), release.getRegion(),
+                DatafileReleaseEntity releaseEntity = new DatafileReleaseEntity(release.getName(), release.getRegion(),
                         release.getLanguage(), release.getDate(), release.getDefault());
                 gameEntity.getReleases().add(releaseEntity);
             }
@@ -117,9 +117,9 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public ArtifactEntity createArtifact(ArtifactEntity gameEntity) {
+    public DatafileArtifactEntity createArtifact(DatafileArtifactEntity gameEntity) {
         LOG.debug("createArtifact(" + gameEntity.getName() + ")");
-        ArtifactEntity old = artifactDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
+        DatafileArtifactEntity old = artifactDAO.findByDatafileAndName(gameEntity.getDatafile().getName(),
                 gameEntity.getDatafile().getCatalog(), gameEntity.getDatafile().getVersion(), gameEntity.getName());
         if (old != null) {
             LOG.debug("Artifact already exist");
@@ -127,12 +127,12 @@ public class RetrocenterDatafileService {
             return gameEntity;
         }
         gameEntity = artifactDAO.saveAndFlush(gameEntity);
-        for (ArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
+        for (DatafileArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
             gameFileEntity.setArtifact(gameEntity);
             artifactFileDAO.saveAndFlush(gameFileEntity);
         }
 
-        for (ReleaseEntity releaseEntity : gameEntity.getReleases()) {
+        for (DatafileReleaseEntity releaseEntity : gameEntity.getReleases()) {
             releaseEntity.setArtifact(gameEntity);
             releaseDAO.saveAndFlush(releaseEntity);
         }

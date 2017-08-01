@@ -1,13 +1,5 @@
 package com.javanei.retrocenter.datafile.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -26,16 +18,24 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "DATAFILE_ARTIFACT", indexes = {
         @Index(name = "DATAFILE_ARTIFACT_0001", unique = true, columnList = "DATAFILE_ID,NAME")
 })
 @NamedQueries({
-        @NamedQuery(name = "ArtifactEntity.findByDatafileAndName",
-                query = "SELECT o from ArtifactEntity o WHERE o.datafile.name = :datafileName AND o.datafile.catalog = :catalog AND o.datafile.version = :version AND o.name = :name")
+        @NamedQuery(name = "DatafileArtifactEntity.findByDatafileAndName",
+                query = "SELECT o from DatafileArtifactEntity o WHERE o.datafile.name = :datafileName AND o.datafile.catalog = :catalog AND o.datafile.version = :version AND o.name = :name")
 })
-public class ArtifactEntity implements Serializable {
+public class DatafileArtifactEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -62,30 +62,30 @@ public class ArtifactEntity implements Serializable {
     private Map<String, String> fields = new HashMap<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
-    private List<ArtifactFileEntity> files = new ArrayList<>();
+    private List<DatafileArtifactFileEntity> files = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "artifact")
-    private Set<ReleaseEntity> releases = new HashSet<>();
+    private Set<DatafileReleaseEntity> releases = new HashSet<>();
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "DATAFILE_ID")
     private DatafileEntity datafile;
 
-    public ArtifactEntity() {
+    public DatafileArtifactEntity() {
     }
 
-    public ArtifactEntity(Long id) {
+    public DatafileArtifactEntity(Long id) {
         this.id = id;
     }
 
-    public ArtifactEntity(String name, String description, String year, String comment) {
+    public DatafileArtifactEntity(String name, String description, String year, String comment) {
         this.name = name;
         this.description = description;
         this.year = year;
         this.comment = comment;
     }
 
-    public ArtifactEntity(String name, String description, String year, String comment, Map<String, String> fields) {
+    public DatafileArtifactEntity(String name, String description, String year, String comment, Map<String, String> fields) {
         this.name = name;
         this.description = description;
         this.year = year;
@@ -148,19 +148,19 @@ public class ArtifactEntity implements Serializable {
         this.fields.put(key, value);
     }
 
-    public List<ArtifactFileEntity> getFiles() {
+    public List<DatafileArtifactFileEntity> getFiles() {
         return files;
     }
 
-    public void setFiles(List<ArtifactFileEntity> files) {
+    public void setFiles(List<DatafileArtifactFileEntity> files) {
         this.files = files;
     }
 
-    public Set<ReleaseEntity> getReleases() {
+    public Set<DatafileReleaseEntity> getReleases() {
         return releases;
     }
 
-    public void setReleases(Set<ReleaseEntity> releases) {
+    public void setReleases(Set<DatafileReleaseEntity> releases) {
         this.releases = releases;
     }
 
@@ -246,7 +246,7 @@ public class ArtifactEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArtifactEntity that = (ArtifactEntity) o;
+        DatafileArtifactEntity that = (DatafileArtifactEntity) o;
         return Objects.equals(name, that.name);
     }
 

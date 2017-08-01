@@ -1,7 +1,5 @@
 package com.javanei.retrocenter.datafile.entity;
 
-import java.io.Serializable;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,12 +11,14 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "DATAFILE_RELEASE", indexes = {
         @Index(name = "DATAFILE_RELEASE_0001", unique = true, columnList = "ARTIFACT_ID,NAME,REGION,LANGUAGE,DATE,ISDEFAULT")
 })
-public class ReleaseEntity implements Serializable {
+public class DatafileReleaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -43,16 +43,16 @@ public class ReleaseEntity implements Serializable {
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ARTIFACT_ID")
-    private ArtifactEntity artifact;
+    private DatafileArtifactEntity artifact;
 
-    public ReleaseEntity() {
+    public DatafileReleaseEntity() {
     }
 
-    public ReleaseEntity(Long id) {
+    public DatafileReleaseEntity(Long id) {
         this.id = id;
     }
 
-    public ReleaseEntity(String name, String region, String language, String date, String _default) {
+    public DatafileReleaseEntity(String name, String region, String language, String date, String _default) {
         this.name = name;
         this.region = region;
         this.language = language;
@@ -60,7 +60,7 @@ public class ReleaseEntity implements Serializable {
         this._default = _default;
     }
 
-    public ReleaseEntity(Long id, String name, String region, String language, String date, String _default) {
+    public DatafileReleaseEntity(Long id, String name, String region, String language, String date, String _default) {
         this.id = id;
         this.name = name;
         this.region = region;
@@ -117,11 +117,11 @@ public class ReleaseEntity implements Serializable {
         this._default = _default;
     }
 
-    public ArtifactEntity getArtifact() {
+    public DatafileArtifactEntity getArtifact() {
         return artifact;
     }
 
-    public void setArtifact(ArtifactEntity artifact) {
+    public void setArtifact(DatafileArtifactEntity artifact) {
         this.artifact = artifact;
     }
 
@@ -129,7 +129,7 @@ public class ReleaseEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ReleaseEntity that = (ReleaseEntity) o;
+        DatafileReleaseEntity that = (DatafileReleaseEntity) o;
         return Objects.equals(name, that.name) &&
                 Objects.equals(region, that.region) &&
                 Objects.equals(language, that.language) &&

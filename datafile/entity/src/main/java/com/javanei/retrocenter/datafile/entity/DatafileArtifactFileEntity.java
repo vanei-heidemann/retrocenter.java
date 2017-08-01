@@ -1,9 +1,5 @@
 package com.javanei.retrocenter.datafile.entity;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -19,12 +15,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Entity
 @Table(name = "DATAFILE_ARTIFACTFILE", indexes = {
         @Index(name = "DATAFILE_ARTIFACTFILE_0001", unique = false, columnList = "ARTIFACT_ID,FILE_TYPE,NAME,CRC,SHA1,MD5")
 })
-public class ArtifactFileEntity implements Serializable {
+public class DatafileArtifactFileEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -55,7 +55,7 @@ public class ArtifactFileEntity implements Serializable {
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "ARTIFACT_ID")
-    private ArtifactEntity artifact;
+    private DatafileArtifactEntity artifact;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "DATAFILE_ARTIFACTFILE_FIELD")
@@ -63,14 +63,14 @@ public class ArtifactFileEntity implements Serializable {
     @Column(name = "FIELD_VALUE", length = 255, nullable = true)
     private Map<String, String> fields = new HashMap<>();
 
-    public ArtifactFileEntity() {
+    public DatafileArtifactFileEntity() {
     }
 
-    public ArtifactFileEntity(Long id) {
+    public DatafileArtifactFileEntity(Long id) {
         this.id = id;
     }
 
-    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date) {
+    public DatafileArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -80,8 +80,8 @@ public class ArtifactFileEntity implements Serializable {
         this.date = date;
     }
 
-    public ArtifactFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5,
-                              String date) {
+    public DatafileArtifactFileEntity(Long id, String type, String name, String size, String crc, String sha1, String md5,
+                                      String date) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -92,8 +92,8 @@ public class ArtifactFileEntity implements Serializable {
         this.date = date;
     }
 
-    public ArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date,
-                              Map<String, String> fields) {
+    public DatafileArtifactFileEntity(String type, String name, String size, String crc, String sha1, String md5, String date,
+                                      Map<String, String> fields) {
         this.type = type;
         this.name = name;
         this.size = size;
@@ -168,11 +168,11 @@ public class ArtifactFileEntity implements Serializable {
         this.date = date;
     }
 
-    public ArtifactEntity getArtifact() {
+    public DatafileArtifactEntity getArtifact() {
         return artifact;
     }
 
-    public void setArtifact(ArtifactEntity artifact) {
+    public void setArtifact(DatafileArtifactEntity artifact) {
         this.artifact = artifact;
     }
 
@@ -230,7 +230,7 @@ public class ArtifactFileEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ArtifactFileEntity that = (ArtifactFileEntity) o;
+        DatafileArtifactFileEntity that = (DatafileArtifactFileEntity) o;
         return Objects.equals(type, that.type) &&
                 Objects.equals(name, that.name);
     }

@@ -1,9 +1,5 @@
 package com.javanei.retrocenter.datafile.entity;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +12,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "DATAFILE", indexes = {
@@ -65,7 +65,7 @@ public class DatafileEntity implements Serializable {
     private String comment;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
-    private Set<ArtifactEntity> artifacts = new HashSet<>();
+    private Set<DatafileArtifactEntity> artifacts = new HashSet<>();
 
     public DatafileEntity() {
     }
@@ -189,11 +189,11 @@ public class DatafileEntity implements Serializable {
         this.comment = comment;
     }
 
-    public Set<ArtifactEntity> getArtifacts() {
+    public Set<DatafileArtifactEntity> getArtifacts() {
         return artifacts;
     }
 
-    public void setArtifacts(Set<ArtifactEntity> artifacts) {
+    public void setArtifacts(Set<DatafileArtifactEntity> artifacts) {
         this.artifacts = artifacts;
     }
 
