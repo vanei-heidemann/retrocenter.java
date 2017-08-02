@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.javanei.retrocenter.clrmamepro.entity",
         "com.javanei.retrocenter.logiqx.entity",
         "com.javanei.retrocenter.hyperlist.entity",
-        "com.javanei.retrocenter.platform.entity"
+        "com.javanei.retrocenter.platform.entity",
+        "com.javanei.retrocenter.gamedb.launchbox.entity"
 })
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
         "com.javanei.retrocenter.clrmamepro.persistence",
