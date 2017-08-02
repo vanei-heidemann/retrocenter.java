@@ -21,7 +21,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.javanei.retrocenter.datafile.persistence",
         "com.javanei.retrocenter.logiqx.persistence",
         "com.javanei.retrocenter.hyperlist.persistence",
-        "com.javanei.retrocenter.platform.persistence"
+        "com.javanei.retrocenter.platform.persistence",
+        "com.javanei.retrocenter.gamedb.launchbox.persistence"
 })
 @EnableTransactionManagement
 @EnableAsync
