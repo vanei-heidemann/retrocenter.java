@@ -32,6 +32,14 @@ public class LBoxGameRegionEntity implements Serializable {
     @JoinColumn(name = "REGION_ID")
     private LBoxRegionEntity region;
 
+    public LBoxGameRegionEntity() {
+    }
+
+    public LBoxGameRegionEntity(LBoxGameEntity game, LBoxRegionEntity region) {
+        this.game = game;
+        this.region = region;
+    }
+
     public Long getId() {
         return id;
     }

@@ -50,6 +50,62 @@ public class LBoxGameImageEntity implements Serializable {
         this.game = game;
     }
 
+    public LBoxGameImageEntity(LBoxGameEntity game, String fileName, String type, String crc32) {
+        this.fileName = fileName;
+        this.type = type;
+        this.crc32 = crc32;
+        this.region = region;
+        this.game = game;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCrc32() {
+        return crc32;
+    }
+
+    public void setCrc32(String crc32) {
+        this.crc32 = crc32;
+    }
+
+    public LBoxRegionEntity getRegion() {
+        return region;
+    }
+
+    public void setRegion(LBoxRegionEntity region) {
+        this.region = region;
+    }
+
+    public LBoxGameEntity getGame() {
+        return game;
+    }
+
+    public void setGame(LBoxGameEntity game) {
+        this.game = game;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

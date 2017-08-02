@@ -32,6 +32,14 @@ public class LBoxGameGenreEntity implements Serializable {
     @JoinColumn(name = "GENRE_ID")
     private LBoxGenreEntity genre;
 
+    public LBoxGameGenreEntity() {
+    }
+
+    public LBoxGameGenreEntity(LBoxGameEntity game, LBoxGenreEntity genre) {
+        this.game = game;
+        this.genre = genre;
+    }
+
     public Long getId() {
         return id;
     }

@@ -5,10 +5,26 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LBoxDatafile implements Serializable {
+    private String version;
     private Set<LBoxPlatform> platforms = new HashSet<>();
     private Set<LBoxGenre> genres = new HashSet<>();
     private Set<LBoxRegion> regions = new HashSet<>();
     private Set<LBoxGame> games = new HashSet<>();
+
+    public LBoxDatafile() {
+    }
+
+    public LBoxDatafile(String version) {
+        this.version = version;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
     public Set<LBoxPlatform> getPlatforms() {
         return platforms;

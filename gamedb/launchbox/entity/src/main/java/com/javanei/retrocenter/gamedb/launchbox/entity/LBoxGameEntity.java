@@ -62,7 +62,7 @@ public class LBoxGameEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
     private Set<LBoxGameRegionEntity> regions = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "game")
     private Set<LBoxGameImageEntity> images = new HashSet<>();
 
     public LBoxGameEntity() {
