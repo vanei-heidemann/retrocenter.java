@@ -35,7 +35,7 @@ public class LBoxDatafileEntity implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
     private Set<LBoxDatafileRegionEntity> regions = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
     private Set<LBoxDatafileGameEntity> games = new HashSet<>();
 
     public LBoxDatafileEntity() {

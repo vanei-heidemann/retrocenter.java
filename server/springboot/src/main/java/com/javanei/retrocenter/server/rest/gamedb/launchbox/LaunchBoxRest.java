@@ -1,12 +1,12 @@
 package com.javanei.retrocenter.server.rest.gamedb.launchbox;
 
-import com.javanei.retrocenter.common.Identified;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxDatafile;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGame;
-import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGenre;
-import com.javanei.retrocenter.gamedb.launchbox.common.LBoxPlatform;
-import com.javanei.retrocenter.gamedb.launchbox.common.LBoxRegion;
 import com.javanei.retrocenter.gamedb.launchbox.parser.LaunchBoxParser;
+import com.javanei.retrocenter.gamedb.launchbox.service.LBoxDatafileDTO;
+import com.javanei.retrocenter.gamedb.launchbox.service.LBoxGenreDTO;
+import com.javanei.retrocenter.gamedb.launchbox.service.LBoxPlatformDTO;
+import com.javanei.retrocenter.gamedb.launchbox.service.LBoxRegionDTO;
 import com.javanei.retrocenter.gamedb.launchbox.service.LBoxService;
 import com.javanei.retrocenter.server.ErrorResponse;
 import io.swagger.annotations.Api;
@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/api/gamedb/launchbox")
@@ -37,30 +39,39 @@ public class LaunchBoxRest {
     @Autowired
     public LBoxService service;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "List datafiles")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok")
+    })
+    public ResponseEntity<List<LBoxDatafileDTO>> findDatafiles() {
+        return ResponseEntity.ok(service.findDatafiles());
+    }
+
     @RequestMapping(value = "/{version:.+}", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Parse and save LaunchBox Datafiles")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Ok"),
             @ApiResponse(code = 400, message = "Datafile is empty")
     })
-    public ResponseEntity<LBoxDatafile> upload(
+    public ResponseEntity<LBoxDatafileDTO> upload(
             @PathVariable(value = "version", required = true) String version,
-            @RequestParam(value = "datafileXML", required = true) MultipartFile datafileXML,
+            @RequestParam(value = "metadataXML", required = true) MultipartFile metadataXML,
             @RequestParam(value = "filesXML", required = true) MultipartFile filesXML) throws Exception {
-        if (datafileXML.isEmpty()) {
-            LOG.info("datafileXML is empty");
+        if (metadataXML.isEmpty()) {
+            LOG.info("metadataXML is empty");
             return new ResponseEntity(new ErrorResponse("File is empty"), HttpStatus.BAD_REQUEST);
         }
-        LOG.info("Datafile.xml uploaded: " + datafileXML.getOriginalFilename() + ", size=" + datafileXML.getSize());
+        LOG.info("MetadataXML.xml uploaded: " + metadataXML.getOriginalFilename() + ", size=" + metadataXML.getSize());
         LOG.info("Files.xml uploaded: " + filesXML.getOriginalFilename() + ", size=" + filesXML.getSize());
 
         LaunchBoxParser parser = new LaunchBoxParser();
-        LBoxDatafile datafile = parser.parse(datafileXML.getInputStream(), filesXML.getInputStream());
+        LBoxDatafile datafile = parser.parse(metadataXML.getInputStream(), filesXML.getInputStream());
         datafile.setVersion(version);
         LOG.info("Datafile: " + datafile);
-        datafile = service.save(datafile);
-        LOG.info("Result: " + datafile);
-        return new ResponseEntity(datafile, HttpStatus.CREATED);
+        LBoxDatafileDTO result = service.save(datafile);
+        LOG.info("Result: " + result);
+        return new ResponseEntity(result, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/{version:.+}/games", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,8 +88,13 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<LBoxGame>> findGames() {
-        return ResponseEntity.ok(service.findGames());
+    public ResponseEntity<List<LBoxGame>> findGames(
+            @RequestParam(value = "name", required = false) String name) {
+        Map<String, Object> params = new HashMap<>();
+        if (name != null && !name.trim().isEmpty()) {
+            params.put("name", name.trim());
+        }
+        return ResponseEntity.ok(service.findGames(params));
     }
 
     @RequestMapping(value = "/{version:.+}/platforms", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -86,7 +102,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxPlatform>>> findPlatformsByVersion(@PathVariable(value = "version", required = true) String version) {
+    public ResponseEntity<List<LBoxPlatformDTO>> findPlatformsByVersion(@PathVariable(value = "version", required = true) String version) {
         return ResponseEntity.ok(service.findPlatformsByVersion(version));
     }
 
@@ -95,7 +111,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxPlatform>>> findPlatforms() {
+    public ResponseEntity<List<LBoxPlatformDTO>> findPlatforms() {
         return ResponseEntity.ok(service.findPlatforms());
     }
 
@@ -104,7 +120,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxRegion>>> findRegionsByVersion(@PathVariable(value = "version", required = true) String version) {
+    public ResponseEntity<List<LBoxRegionDTO>> findRegionsByVersion(@PathVariable(value = "version", required = true) String version) {
         return ResponseEntity.ok(service.findRegionsByVersion(version));
     }
 
@@ -113,7 +129,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxRegion>>> findRegions() {
+    public ResponseEntity<List<LBoxRegionDTO>> findRegions() {
         return ResponseEntity.ok(service.findRegions());
     }
 
@@ -122,7 +138,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxGenre>>> findGenresByVersion(@PathVariable(value = "version", required = true) String version) {
+    public ResponseEntity<List<LBoxGenreDTO>> findGenresByVersion(@PathVariable(value = "version", required = true) String version) {
         return ResponseEntity.ok(service.findGenresByVersion(version));
     }
 
@@ -131,7 +147,7 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<Identified<LBoxGenre>>> findGenres() {
+    public ResponseEntity<List<LBoxGenreDTO>> findGenres() {
         return ResponseEntity.ok(service.findGenres());
     }
 }
