@@ -32,6 +32,14 @@ public class LBoxDatafilePlatformEntity implements Serializable {
     @JoinColumn(name = "PLATFORM_ID")
     private LBoxPlatformEntity platform;
 
+    public LBoxDatafilePlatformEntity() {
+    }
+
+    public LBoxDatafilePlatformEntity(LBoxDatafileEntity datafile, LBoxPlatformEntity platform) {
+        this.datafile = datafile;
+        this.platform = platform;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,14 +71,14 @@ public class LBoxDatafilePlatformEntity implements Serializable {
 
         LBoxDatafilePlatformEntity that = (LBoxDatafilePlatformEntity) o;
 
-        if (!datafile.equals(that.datafile)) return false;
-        return platform.equals(that.platform);
+        if (datafile != null ? !datafile.equals(that.datafile) : that.datafile != null) return false;
+        return platform != null ? platform.equals(that.platform) : that.platform == null;
     }
 
     @Override
     public int hashCode() {
-        int result = datafile.hashCode();
-        result = 31 * result + platform.hashCode();
+        int result = datafile != null ? datafile.hashCode() : 0;
+        result = 31 * result + (platform != null ? platform.hashCode() : 0);
         return result;
     }
 

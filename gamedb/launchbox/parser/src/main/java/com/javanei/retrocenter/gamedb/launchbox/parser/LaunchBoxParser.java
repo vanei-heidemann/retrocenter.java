@@ -17,6 +17,8 @@ import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGame
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGameFileName;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGameImage;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataPlatform;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -36,6 +38,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class LaunchBoxParser {
+    private static final Logger LOG = LoggerFactory.getLogger(LaunchBoxParser.class);
+
     private List<String> invalidTags = new ArrayList<>();
 
     public static String adjustDate(String date) throws ParseException {
@@ -57,6 +61,7 @@ public class LaunchBoxParser {
     }
 
     public LBoxDatafile parse(InputStream isMetadata, InputStream isFiles) throws Exception {
+        LOG.info("parse(isMetadata=" + isMetadata + ", isFiles=" + isFiles + ")");
         LBoxDatafile result = new LBoxDatafile();
 
         LBoxMetadata metadata = parseMetadata(isMetadata, isFiles);
@@ -65,6 +70,7 @@ public class LaunchBoxParser {
     }
 
     public LBoxDatafile parse(File lbDir) throws Exception {
+        LOG.info("parse(lbDir=" + lbDir.getAbsolutePath() + ")");
         LBoxDatafile result = new LBoxDatafile();
 
         LBoxMetadata metadata = parseMetadata(lbDir);
@@ -73,6 +79,7 @@ public class LaunchBoxParser {
     }
 
     public LBoxMetadata parseMetadata(InputStream isMetadata, InputStream isFiles) throws Exception {
+        LOG.info("parseMetadata(isMetadata=" + isMetadata + ", isFiles=" + isFiles + ")");
         LBoxMetadata metadata = new LBoxMetadata();
         if (isMetadata != null) {
             this.parseMetadata(metadata, isMetadata);
@@ -84,6 +91,7 @@ public class LaunchBoxParser {
     }
 
     public LBoxMetadata parseMetadata(File lbDir) throws Exception {
+        LOG.info("parseMetadata(lbDir=" + lbDir.getAbsolutePath() + ")");
         return parseMetadata(
                 new FileInputStream(new File(lbDir, "Metadata/Metadata.xml")),
                 new FileInputStream(new File(lbDir, "Metadata/Files.xml")));
@@ -492,6 +500,9 @@ public class LaunchBoxParser {
             }
         }
 
+        for (LBoxMetadataGameFileName fileName : metadata.getGameFiles()) {
+            gameFiles.put(fileName.getPlatform().toLowerCase() + "|" + fileName.getGameName().toLowerCase(), fileName);
+        }
         /*
         List<String> unknowsWords = new ArrayList<>();
         for (LBoxMetadataGameFileName fileName : metadata.getGameFiles()) {

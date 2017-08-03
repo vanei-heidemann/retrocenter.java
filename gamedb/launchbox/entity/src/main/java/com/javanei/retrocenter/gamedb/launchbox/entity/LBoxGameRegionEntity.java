@@ -71,14 +71,14 @@ public class LBoxGameRegionEntity implements Serializable {
 
         LBoxGameRegionEntity that = (LBoxGameRegionEntity) o;
 
-        if (!game.equals(that.game)) return false;
-        return region.equals(that.region);
+        if (game != null ? !game.equals(that.game) : that.game != null) return false;
+        return region != null ? region.equals(that.region) : that.region == null;
     }
 
     @Override
     public int hashCode() {
-        int result = game.hashCode();
-        result = 31 * result + region.hashCode();
+        int result = game != null ? game.hashCode() : 0;
+        result = 31 * result + (region != null ? region.hashCode() : 0);
         return result;
     }
 

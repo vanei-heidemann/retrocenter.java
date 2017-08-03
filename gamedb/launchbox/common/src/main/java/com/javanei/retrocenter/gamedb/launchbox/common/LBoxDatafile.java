@@ -73,4 +73,15 @@ public class LBoxDatafile implements Serializable {
     public void addGame(LBoxGame game) {
         this.games.add(game);
     }
+
+    @Override
+    public String toString() {
+        return "LBoxDatafile{" +
+                "version='" + version + '\'' +
+                ", platforms=" + platforms.size() +
+                ", genres=" + genres.size() +
+                ", regions=" + regions.size() +
+                ", games=" + games.size() +
+                '}';
+    }
 }

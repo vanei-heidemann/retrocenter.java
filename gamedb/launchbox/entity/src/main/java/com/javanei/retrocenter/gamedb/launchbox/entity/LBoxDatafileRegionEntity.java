@@ -32,6 +32,14 @@ public class LBoxDatafileRegionEntity implements Serializable {
     @JoinColumn(name = "REGION_ID")
     private LBoxRegionEntity region;
 
+    public LBoxDatafileRegionEntity() {
+    }
+
+    public LBoxDatafileRegionEntity(LBoxDatafileEntity datafile, LBoxRegionEntity region) {
+        this.datafile = datafile;
+        this.region = region;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,14 +71,14 @@ public class LBoxDatafileRegionEntity implements Serializable {
 
         LBoxDatafileRegionEntity that = (LBoxDatafileRegionEntity) o;
 
-        if (!datafile.equals(that.datafile)) return false;
-        return region.equals(that.region);
+        if (datafile != null ? !datafile.equals(that.datafile) : that.datafile != null) return false;
+        return region != null ? region.equals(that.region) : that.region == null;
     }
 
     @Override
     public int hashCode() {
-        int result = datafile.hashCode();
-        result = 31 * result + region.hashCode();
+        int result = datafile != null ? datafile.hashCode() : 0;
+        result = 31 * result + (region != null ? region.hashCode() : 0);
         return result;
     }
 

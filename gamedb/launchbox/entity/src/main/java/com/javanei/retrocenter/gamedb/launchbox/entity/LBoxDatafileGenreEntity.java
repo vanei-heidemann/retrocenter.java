@@ -32,6 +32,14 @@ public class LBoxDatafileGenreEntity implements Serializable {
     @JoinColumn(name = "GENRE_ID")
     private LBoxGenreEntity genre;
 
+    public LBoxDatafileGenreEntity() {
+    }
+
+    public LBoxDatafileGenreEntity(LBoxDatafileEntity datafile, LBoxGenreEntity genre) {
+        this.datafile = datafile;
+        this.genre = genre;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,14 +71,14 @@ public class LBoxDatafileGenreEntity implements Serializable {
 
         LBoxDatafileGenreEntity that = (LBoxDatafileGenreEntity) o;
 
-        if (!datafile.equals(that.datafile)) return false;
-        return genre.equals(that.genre);
+        if (datafile != null ? !datafile.equals(that.datafile) : that.datafile != null) return false;
+        return genre != null ? genre.equals(that.genre) : that.genre == null;
     }
 
     @Override
     public int hashCode() {
-        int result = datafile.hashCode();
-        result = 31 * result + genre.hashCode();
+        int result = datafile != null ? datafile.hashCode() : 0;
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
         return result;
     }
 

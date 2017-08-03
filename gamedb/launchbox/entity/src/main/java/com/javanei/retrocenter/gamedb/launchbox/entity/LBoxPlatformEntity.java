@@ -44,12 +44,13 @@ public class LBoxPlatformEntity implements Serializable {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "LBOX_PLATFORM_ALT_NAME",
-            joinColumns = @JoinColumn(name = "PLATFORM_IDX",
+            joinColumns = @JoinColumn(name = "PLATFORM_ID",
                     foreignKey = @ForeignKey(name = "FK_LBOX_PLAT_ALT_NAME"),
                     unique = false)
     )
-    @Column(name = "ALTERNATE_NAME", length = 255, nullable = false, unique = true)
+    @Column(name = "ALTERNATE_NAME", length = 128, nullable = false, unique = false, columnDefinition = "VARCHAR(128) COLLATE utf8_bin")
     private Set<String> alternateNames = new HashSet<>();
+    //ALTER TABLE lbox_platform_alt_name CONVERT TO CHARACTER SET UTF8 COLLATE utf8_bin;
 
     public LBoxPlatformEntity() {
     }

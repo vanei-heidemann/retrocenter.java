@@ -71,14 +71,14 @@ public class LBoxGameGenreEntity implements Serializable {
 
         LBoxGameGenreEntity that = (LBoxGameGenreEntity) o;
 
-        if (!game.equals(that.game)) return false;
-        return genre.equals(that.genre);
+        if (game != null ? !game.equals(that.game) : that.game != null) return false;
+        return genre != null ? genre.equals(that.genre) : that.genre == null;
     }
 
     @Override
     public int hashCode() {
-        int result = game.hashCode();
-        result = 31 * result + genre.hashCode();
+        int result = game != null ? game.hashCode() : 0;
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
         return result;
     }
 

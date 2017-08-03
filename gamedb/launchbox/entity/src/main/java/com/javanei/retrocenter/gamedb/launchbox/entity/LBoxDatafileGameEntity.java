@@ -32,6 +32,14 @@ public class LBoxDatafileGameEntity implements Serializable {
     @JoinColumn(name = "GAME_ID")
     private LBoxGameEntity game;
 
+    public LBoxDatafileGameEntity() {
+    }
+
+    public LBoxDatafileGameEntity(LBoxDatafileEntity datafile, LBoxGameEntity game) {
+        this.datafile = datafile;
+        this.game = game;
+    }
+
     public Long getId() {
         return id;
     }
@@ -63,14 +71,14 @@ public class LBoxDatafileGameEntity implements Serializable {
 
         LBoxDatafileGameEntity that = (LBoxDatafileGameEntity) o;
 
-        if (!datafile.equals(that.datafile)) return false;
-        return game.equals(that.game);
+        if (datafile != null ? !datafile.equals(that.datafile) : that.datafile != null) return false;
+        return game != null ? game.equals(that.game) : that.game == null;
     }
 
     @Override
     public int hashCode() {
-        int result = datafile.hashCode();
-        result = 31 * result + game.hashCode();
+        int result = datafile != null ? datafile.hashCode() : 0;
+        result = 31 * result + (game != null ? game.hashCode() : 0);
         return result;
     }
 

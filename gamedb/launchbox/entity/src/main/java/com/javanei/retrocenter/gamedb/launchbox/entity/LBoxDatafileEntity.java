@@ -26,16 +26,16 @@ public class LBoxDatafileEntity implements Serializable {
     @Column(name = "VERSION", length = 16, nullable = false, unique = true)
     private String version;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
     private Set<LBoxDatafilePlatformEntity> platforms = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
     private Set<LBoxDatafileGenreEntity> genres = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
     private Set<LBoxDatafileRegionEntity> regions = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "datafile")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "datafile")
     private Set<LBoxDatafileGameEntity> games = new HashSet<>();
 
     public LBoxDatafileEntity() {

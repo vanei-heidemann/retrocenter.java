@@ -56,10 +56,10 @@ public class LBoxGameEntity implements Serializable {
     @Column(name = "FILE_NAME", length = 255, nullable = false, unique = false)
     private Set<String> fileNames = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "game")
     private Set<LBoxGameGenreEntity> genres = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "game")
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "game")
     private Set<LBoxGameRegionEntity> regions = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, mappedBy = "game")
