@@ -136,7 +136,7 @@ public class LBoxService {
                 dge = new LBoxDatafileGameEntity(entity, ge);
             }
             entity.getGames().add(dge);
-            if (entity.getGames().size() % 100 == 0) {
+            if (entity.getGames().size() % 1000 == 0) {
                 LOG.info("save(" + datafile.getVersion() + ") - saved games: "
                         + entity.getGames().size() + " of " + datafile.getGames().size()
                         + " : " + ge.getName() + " (" + ge.getDatabaseID() + ")");
@@ -191,7 +191,6 @@ public class LBoxService {
         if (entity != null) {
             return entity;
         }
-        LOG.info("saveRegion - new - (region.name=" + region.getName() + ")");
         entity = new LBoxRegionEntity(region.getName());
         return regionDAO.saveAndFlush(entity);
     }
@@ -203,7 +202,6 @@ public class LBoxService {
         if (entity != null) {
             return entity;
         }
-        LOG.info("saveGenre - new - (genre.name=" + genre.getName() + ")");
         entity = new LBoxGenreEntity(genre.getName());
         return genreDAO.saveAndFlush(entity);
     }
@@ -215,7 +213,6 @@ public class LBoxService {
         if (entity != null) {
             return entity;
         }
-        LOG.info("saveCompany - new - (company.name=" + company.getName() + ")");
         entity = new LBoxCompanyEntity(company.getName());
         return companyDAO.saveAndFlush(entity);
     }
@@ -225,7 +222,6 @@ public class LBoxService {
         LOG.debug("savePlatform(platform.name=" + platform.getName() + ")");
         LBoxPlatformEntity entity = platformDAO.findByName(platform.getName());
         if (entity == null) {
-            LOG.info("savePlatform - new - (platform.name=" + platform.getName() + ")");
             entity = new LBoxPlatformEntity();
         }
         entity.setName(platform.getName());
@@ -259,8 +255,6 @@ public class LBoxService {
             for (LBoxGameImageEntity e : exist.getImages()) {
                 images.put(e.hashCode(), e);
             }
-        } else {
-            LOG.info("saveGame - new - (game.databaseID=" + game.getDatabaseID() + ", game.name=" + game.getName() + ")");
         }
 
         entity.setFileNames(game.getFileNames());
@@ -311,7 +305,7 @@ public class LBoxService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxGame> findGames(Map<String, Object> params) {
-        LOG.info("findGames(" + params + ")");
+        LOG.debug("findGames(" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
         List<LBoxGameEntity> l;
         if (params.get("name") != null) {
@@ -322,13 +316,13 @@ public class LBoxService {
         for (LBoxGameEntity e : l) {
             result.add(entityToGameVO(e));
         }
-        LOG.info("findGames(): " + result.size());
+        LOG.debug("findGames(): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxGame> findGamesByVersion(String version, Map<String, Object> params) {
-        LOG.info("findGamesByVersion(version=" + version + ", params=" + params + ")");
+        LOG.debug("findGamesByVersion(version=" + version + ", params=" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
 
         List<LBoxDatafileGameEntity> l;
@@ -340,13 +334,13 @@ public class LBoxService {
         for (LBoxDatafileGameEntity game : l) {
             result.add(entityToGameVO(game.getGame()));
         }
-        LOG.info("findGamesByVersion(version=" + version + "): " + result.size());
+        LOG.debug("findGamesByVersion(version=" + version + "): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxRegionDTO> findRegionsByVersion(String version) {
-        LOG.info("findRegionsByVersion(version=" + version + ")");
+        LOG.debug("findRegionsByVersion(version=" + version + ")");
         List<LBoxRegionDTO> result = new LinkedList<>();
         LBoxDatafileEntity entity = datafileDAO.findByVersion(version);
         if (entity != null) {
@@ -354,13 +348,13 @@ public class LBoxService {
                 result.add(entityToRegionDTO(region.getRegion()));
             }
         }
-        LOG.info("findRegionsByVersion(version=" + version + "): " + result.size());
+        LOG.debug("findRegionsByVersion(version=" + version + "): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxGenreDTO> findGenresByVersion(String version) {
-        LOG.info("findGenresByVersion(version=" + version + ")");
+        LOG.debug("findGenresByVersion(version=" + version + ")");
         List<LBoxGenreDTO> result = new LinkedList<>();
         LBoxDatafileEntity entity = datafileDAO.findByVersion(version);
         if (entity != null) {
@@ -368,13 +362,13 @@ public class LBoxService {
                 result.add(entityToGenreDTO(genre.getGenre()));
             }
         }
-        LOG.info("findGenresByVersion(version=" + version + "): " + result.size());
+        LOG.debug("findGenresByVersion(version=" + version + "): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxPlatformDTO> findPlatformsByVersion(String version) {
-        LOG.info("findPlatforms(findPlatformsByVersion(version=" + version + ")");
+        LOG.debug("findPlatforms(findPlatformsByVersion(version=" + version + ")");
         List<LBoxPlatformDTO> result = new LinkedList<>();
         LBoxDatafileEntity entity = datafileDAO.findByVersion(version);
         if (entity != null) {
@@ -382,43 +376,43 @@ public class LBoxService {
                 result.add(entityToPlatformDTO(p.getPlatform()));
             }
         }
-        LOG.info("findPlatforms(findPlatformsByVersion(version=" + version + "): " + result.size());
+        LOG.debug("findPlatforms(findPlatformsByVersion(version=" + version + "): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxPlatformDTO> findPlatforms() {
-        LOG.info("findPlatforms()");
+        LOG.debug("findPlatforms()");
         List<LBoxPlatformDTO> result = new LinkedList<>();
         List<LBoxPlatformEntity> l = platformDAO.findAll();
         for (LBoxPlatformEntity e : l) {
             result.add(entityToPlatformDTO(e));
         }
-        LOG.info("findPlatforms(): " + result.size());
+        LOG.debug("findPlatforms(): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxGenreDTO> findGenres() {
-        LOG.info("findGenres()");
+        LOG.debug("findGenres()");
         List<LBoxGenreDTO> result = new LinkedList<>();
         List<LBoxGenreEntity> l = genreDAO.findAll();
         for (LBoxGenreEntity e : l) {
             result.add(entityToGenreDTO(e));
         }
-        LOG.info("findGenres(): " + result.size());
+        LOG.debug("findGenres(): " + result.size());
         return result;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxRegionDTO> findRegions() {
-        LOG.info("findRegions()");
+        LOG.debug("findRegions()");
         List<LBoxRegionDTO> result = new LinkedList<>();
         List<LBoxRegionEntity> l = regionDAO.findAll();
         for (LBoxRegionEntity e : l) {
             result.add(entityToRegionDTO(e));
         }
-        LOG.info("findRegions(): " + result.size());
+        LOG.debug("findRegions(): " + result.size());
         return result;
     }
 
