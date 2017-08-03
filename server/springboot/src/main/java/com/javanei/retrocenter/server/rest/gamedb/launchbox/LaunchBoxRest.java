@@ -79,8 +79,14 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public ResponseEntity<List<LBoxGame>> findGamesByVersion(@PathVariable(value = "version", required = true) String version) {
-        return ResponseEntity.ok(service.findGamesByVersion(version));
+    public ResponseEntity<List<LBoxGame>> findGamesByVersion(
+            @PathVariable(value = "version", required = true) String version,
+            @RequestParam(value = "name", required = false) String name) {
+        Map<String, Object> params = new HashMap<>();
+        if (name != null && !name.trim().isEmpty()) {
+            params.put("name", name.trim());
+        }
+        return ResponseEntity.ok(service.findGamesByVersion(version, params));
     }
 
     @RequestMapping(value = "/games", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

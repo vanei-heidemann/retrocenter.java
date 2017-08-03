@@ -178,7 +178,7 @@ public class LBoxGameEntity implements Serializable {
     @Override
     public String toString() {
         return "LBoxGameEntity{" +
-                ", databaseID='" + databaseID + '\'' +
+                "databaseID='" + databaseID + '\'' +
                 ", name='" + name + '\'' +
                 ", releaseDate='" + releaseDate + '\'' +
                 ", releaseYear=" + releaseYear +

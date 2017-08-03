@@ -136,7 +136,7 @@ public class LBoxService {
                 dge = new LBoxDatafileGameEntity(entity, ge);
             }
             entity.getGames().add(dge);
-            if (entity.getGames().size() % 1000 == 0) {
+            if (entity.getGames().size() % 100 == 0) {
                 LOG.info("save(" + datafile.getVersion() + ") - saved games: "
                         + entity.getGames().size() + " of " + datafile.getGames().size()
                         + " : " + ge.getName() + " (" + ge.getDatabaseID() + ")");
@@ -145,13 +145,11 @@ public class LBoxService {
         }
 
         LOG.info("save(" + datafile.getVersion() + ") - Saving datafile");
-        entity = datafileDAO.saveAndFlush(entity);
+        entity = lboxService.saveDatafile(entity);
         LOG.info("save(" + datafile.getVersion() + ") - Saving datafile game");
         int count = 0;
         for (LBoxDatafileGameEntity e : newGames.values()) {
-            if (e.getId() != null) {
-                datafileGameDAO.saveAndFlush(e);
-            }
+            e = lboxService.createDatafileGame(e);
             count++;
             if (count % 1000 == 0) {
                 LOG.info("save(" + datafile.getVersion() + ") - saved datafile games: "
@@ -168,6 +166,22 @@ public class LBoxService {
         LOG.info("save(" + datafile.getVersion() + ")=" + entity.getId());
 
         return new LBoxDatafileDTO(entity.getId(), entity.getVersion());
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public LBoxDatafileEntity saveDatafile(LBoxDatafileEntity entity) {
+        entity = datafileDAO.saveAndFlush(entity);
+        return entity;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public LBoxDatafileGameEntity createDatafileGame(LBoxDatafileGameEntity entity) {
+        if (entity.getId() == null) {
+            entity.setDatafile(datafileDAO.findOne(entity.getDatafile().getId()));
+            entity.setGame(gameDAO.findOne(entity.getGame().getDatabaseID()));
+            entity = datafileGameDAO.saveAndFlush(entity);
+        }
+        return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -218,17 +232,17 @@ public class LBoxService {
         entity.setReleaseDate(platform.getReleaseDate());
         entity.setAlternateNames(platform.getAlternateNames());
         if (platform.getManufacturer() != null) {
-            entity.setManufacturer(saveCompany(platform.getManufacturer()));
+            entity.setManufacturer(lboxService.saveCompany(platform.getManufacturer()));
         }
         if (platform.getDeveloper() != null) {
-            entity.setDeveloper(saveCompany(platform.getDeveloper()));
+            entity.setDeveloper(lboxService.saveCompany(platform.getDeveloper()));
         }
         return platformDAO.saveAndFlush(entity);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public LBoxGameEntity saveGame(LBoxGame game) {
-        LOG.debug("saveGame(game.name=" + game.getName() + ")");
+        LOG.debug("saveGame(game.databaseID=" + game.getDatabaseID() + ", game.name=" + game.getName() + ")");
         Map<Long, LBoxGameGenreEntity> genres = new HashMap<>();
         Map<Long, LBoxGameRegionEntity> regions = new HashMap<>();
         Map<Integer, LBoxGameImageEntity> images = new HashMap<>();
@@ -246,19 +260,19 @@ public class LBoxService {
                 images.put(e.hashCode(), e);
             }
         } else {
-            LOG.info("saveGame - new - (game.name=" + game.getName() + ")");
+            LOG.info("saveGame - new - (game.databaseID=" + game.getDatabaseID() + ", game.name=" + game.getName() + ")");
         }
 
         entity.setFileNames(game.getFileNames());
         entity.setName(game.getName());
         entity.setReleaseDate(game.getReleaseDate());
         entity.setReleaseYear(game.getReleaseYear());
-        entity.setPlatform(savePlatform(game.getPlatform()));
+        entity.setPlatform(lboxService.savePlatform(game.getPlatform()));
         if (game.getDeveloper() != null) {
-            entity.setDeveloper(saveCompany(game.getDeveloper()));
+            entity.setDeveloper(lboxService.saveCompany(game.getDeveloper()));
         }
         if (game.getPublisher() != null) {
-            entity.setPublisher(saveCompany(game.getPublisher()));
+            entity.setPublisher(lboxService.saveCompany(game.getPublisher()));
         }
         if (!game.getGenres().isEmpty()) {
             for (LBoxGenre genre : game.getGenres()) {
@@ -291,7 +305,8 @@ public class LBoxService {
                 entity.getImages().add(ee != null ? ee : e);
             }
         }
-        return gameDAO.saveAndFlush(entity);
+        entity = gameDAO.saveAndFlush(entity);
+        return entity;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -312,16 +327,18 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<LBoxGame> findGamesByVersion(String version) {
-        LOG.info("findGamesByVersion(version=" + version + ")");
+    public List<LBoxGame> findGamesByVersion(String version, Map<String, Object> params) {
+        LOG.info("findGamesByVersion(version=" + version + ", params=" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
 
-        LBoxDatafileEntity entity = datafileDAO.findByVersion(version);
-        if (entity != null) {
-            List<LBoxDatafileGameEntity> l = datafileGameDAO.findByDatafile_Version(version);
-            for (LBoxDatafileGameEntity game : l) {
-                result.add(entityToGameVO(game.getGame()));
-            }
+        List<LBoxDatafileGameEntity> l;
+        if (params.get("name") != null) {
+            l = datafileGameDAO.findByDatafile_VersionAndGame_NameLike(version, "%" + params.get("name") + "%");
+        } else {
+            l = datafileGameDAO.findByDatafile_Version(version);
+        }
+        for (LBoxDatafileGameEntity game : l) {
+            result.add(entityToGameVO(game.getGame()));
         }
         LOG.info("findGamesByVersion(version=" + version + "): " + result.size());
         return result;
