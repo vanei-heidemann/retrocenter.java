@@ -149,7 +149,7 @@ public class LBoxService {
         LOG.info("save(" + datafile.getVersion() + ") - Saving datafile game");
         int count = 0;
         for (LBoxDatafileGameEntity e : newGames.values()) {
-            e = lboxService.createDatafileGame(e);
+            e = lboxService.saveDatafileGame(e);
             count++;
             if (count % 1000 == 0) {
                 LOG.info("save(" + datafile.getVersion() + ") - saved datafile games: "
@@ -175,7 +175,7 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public LBoxDatafileGameEntity createDatafileGame(LBoxDatafileGameEntity entity) {
+    public LBoxDatafileGameEntity saveDatafileGame(LBoxDatafileGameEntity entity) {
         if (entity.getId() == null) {
             entity.setDatafile(datafileDAO.findOne(entity.getDatafile().getId()));
             entity.setGame(gameDAO.findOne(entity.getGame().getDatabaseID()));
