@@ -296,11 +296,11 @@ public class LBoxService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<LBoxGame> findGames(Map<String, Object> params) {
-        LOG.info("findGames()");
+        LOG.info("findGames(" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
         List<LBoxGameEntity> l;
         if (params.get("name") != null) {
-            l = gameDAO.findByNameLike((String) params.get("name"));
+            l = gameDAO.findByNameLike("%" + params.get("name") + "%");
         } else {
             l = gameDAO.findAll();
         }
@@ -452,7 +452,8 @@ public class LBoxService {
         g.setReleaseDate(ge.getReleaseDate());
         g.setPublisher(entityToCompanyDTO(ge.getPublisher()));
         g.setDeveloper(entityToCompanyDTO(ge.getDeveloper()));
-        g.setPlatform(entityToPlatformDTO(ge.getPlatform()));
+        g.setPlatform(new LBoxPlatformDTO(ge.getPlatform().getName(), ge.getPlatform().getId()));
+        //g.setPlatform(entityToPlatformDTO(ge.getPlatform()));
         g.setFileNames(ge.getFileNames());
         for (LBoxGameImageEntity gi : ge.getImages()) {
             g.addImage(entityToGameImageVO(gi));
