@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,6 +45,20 @@ public class DatafileRest {
     })
     public List<DatafileDTO> find() {
         return retrocenterDatafileService.findAll();
+    }
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ApiOperation(value = "Return the xml file")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<String> findById(@PathVariable Long id) {
+        DatafileDTO vo = retrocenterDatafileService.findByIDFull(id);
+        if (vo != null) {
+            return ResponseEntity.ok(vo.toFile());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)

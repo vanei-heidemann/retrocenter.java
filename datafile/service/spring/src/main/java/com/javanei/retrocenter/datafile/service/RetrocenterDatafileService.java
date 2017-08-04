@@ -161,6 +161,15 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
+    public DatafileDTO findByIDFull(Long id) {
+        DatafileEntity entity = datafileDAO.findOne(id);
+        if (entity != null) {
+            return toVO(entity);
+        }
+        return null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
     public List<DatafileDTO> findAll() {
         List<DatafileEntity> l = datafileDAO.findAll();
         List<DatafileDTO> r = new ArrayList<>(l.size());
