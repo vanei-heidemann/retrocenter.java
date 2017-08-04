@@ -7,6 +7,8 @@ import com.javanei.retrocenter.platform.persistence.ArtifactDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +55,17 @@ public class ArtifactService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Identified<Artifact>> findArtifacts(Long id, String code, String name) {
+    public List<Identified<Artifact>> findArtifactByNamePaging(String name, PageRequest paging) {
+        Page<ArtifactEntity> l = artifactDAO.findByNameLike("%" + name + "%", paging);
+        List<Identified<Artifact>> result = new LinkedList<>();
+        for (ArtifactEntity entity : l.getContent()) {
+            result.add(new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName())));
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<Identified<Artifact>> findArtifacts(Long id, String code, String name, PageRequest paging) {
         if (id != null) {
             Identified<Artifact> entity = this.findArtifactById(id);
             if (entity != null) {
@@ -73,11 +85,11 @@ public class ArtifactService {
             return Collections.emptyList();
         }
         if (name != null) {
-            return this.findArtifactByName(name);
+            return this.findArtifactByNamePaging(name, paging);
         }
-        List<ArtifactEntity> l = artifactDAO.findAll();
+        Page<ArtifactEntity> l = artifactDAO.findAll(paging);
         List<Identified<Artifact>> result = new LinkedList<>();
-        for (ArtifactEntity entity : l) {
+        for (ArtifactEntity entity : l.getContent()) {
             result.add(new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName())));
         }
         return result;

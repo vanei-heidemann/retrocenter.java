@@ -9,6 +9,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,9 +53,12 @@ public class ArtifactRest {
     })
     public ResponseEntity<List<ArtifactVO>> find(
             @RequestParam(value = "code", required = false) String code,
-            @RequestParam(value = "name", required = false) String name)
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize)
             throws Exception {
-        List<Identified<Artifact>> values = service.findArtifacts(null, code, name);
+        List<Identified<Artifact>> values = service.findArtifacts(null, code, name
+                , new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name")));
         List<ArtifactVO> result = new ArrayList<>();
         for (Identified<Artifact> p : values) {
             ArtifactVO vo = new ArtifactVO(p.getId(), p.get().getCode(), p.get().getName());
