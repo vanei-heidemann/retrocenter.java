@@ -30,6 +30,8 @@ import com.javanei.retrocenter.gamedb.launchbox.persistence.LBoxRegionDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -304,14 +306,16 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<LBoxGame> findGames(Map<String, Object> params) {
+    public List<LBoxGame> findGames(Map<String, Object> params, PageRequest paging) {
         LOG.debug("findGames(" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
         List<LBoxGameEntity> l;
         if (params.get("name") != null) {
-            l = gameDAO.findByNameLike("%" + params.get("name") + "%");
+            Page<LBoxGameEntity> page = gameDAO.findByNameLike("%" + params.get("name") + "%", paging);
+            l = page.getContent();
         } else {
-            l = gameDAO.findAll();
+            Page<LBoxGameEntity> page = gameDAO.findAll(paging);
+            l = page.getContent();
         }
         for (LBoxGameEntity e : l) {
             result.add(entityToGameVO(e));
@@ -321,15 +325,15 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<LBoxGame> findGamesByVersion(String version, Map<String, Object> params) {
+    public List<LBoxGame> findGamesByVersion(String version, Map<String, Object> params, PageRequest paging) {
         LOG.debug("findGamesByVersion(version=" + version + ", params=" + params + ")");
         List<LBoxGame> result = new LinkedList<>();
 
         List<LBoxDatafileGameEntity> l;
         if (params.get("name") != null) {
-            l = datafileGameDAO.findByDatafile_VersionAndGame_NameLike(version, "%" + params.get("name") + "%");
+            l = datafileGameDAO.findByDatafile_VersionAndGame_NameLike(version, "%" + params.get("name") + "%", paging);
         } else {
-            l = datafileGameDAO.findByDatafile_Version(version);
+            l = datafileGameDAO.findByDatafile_Version(version, paging);
         }
         for (LBoxDatafileGameEntity game : l) {
             result.add(entityToGameVO(game.getGame()));

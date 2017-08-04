@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -81,12 +83,15 @@ public class LaunchBoxRest {
     })
     public ResponseEntity<List<LBoxGame>> findGamesByVersion(
             @PathVariable(value = "version", required = true) String version,
-            @RequestParam(value = "name", required = false) String name) {
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
         Map<String, Object> params = new HashMap<>();
         if (name != null && !name.trim().isEmpty()) {
             params.put("name", name.trim());
         }
-        return ResponseEntity.ok(service.findGamesByVersion(version, params));
+        return ResponseEntity.ok(service.findGamesByVersion(version, params,
+                new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "game.name"))));
     }
 
     @RequestMapping(value = "/games", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -95,12 +100,15 @@ public class LaunchBoxRest {
             @ApiResponse(code = 200, message = "Ok")
     })
     public ResponseEntity<List<LBoxGame>> findGames(
-            @RequestParam(value = "name", required = false) String name) {
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
         Map<String, Object> params = new HashMap<>();
         if (name != null && !name.trim().isEmpty()) {
             params.put("name", name.trim());
         }
-        return ResponseEntity.ok(service.findGames(params));
+        return ResponseEntity.ok(service.findGames(params,
+                new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"))));
     }
 
     @RequestMapping(value = "/{version:.+}/platforms", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
