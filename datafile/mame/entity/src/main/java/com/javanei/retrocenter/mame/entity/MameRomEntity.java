@@ -1,8 +1,7 @@
 package com.javanei.retrocenter.mame.entity;
 
 import com.javanei.retrocenter.mame.MameRom;
-import java.io.Serializable;
-import java.util.Objects;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,6 +13,8 @@ import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "MAME_ROM", indexes = {
@@ -31,7 +32,7 @@ public class MameRomEntity implements Serializable, Comparable<MameRomEntity> {
     @Column(name = "NAME", length = 160, nullable = false)
     private String name;
 
-    @Column(name = "BIOS", length = 16, nullable = true)
+    @Column(name = "BIOS", length = 32, nullable = true)
     private String bios;
 
     @Column(name = "SIZE", nullable = true)
