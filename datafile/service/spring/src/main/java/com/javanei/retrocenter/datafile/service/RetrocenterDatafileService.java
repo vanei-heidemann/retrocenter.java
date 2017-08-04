@@ -38,10 +38,10 @@ public class RetrocenterDatafileService {
     @Autowired
     private RetrocenterDatafileService retrocenterDatafileService;
 
-    private static Datafile toVO(DatafileEntity entity) {
-        Datafile datafile = new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(),
+    private static DatafileDTO toVO(DatafileEntity entity) {
+        DatafileDTO datafile = new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(),
                 entity.getDescription(), entity.getAuthor(), entity.getDate(), entity.getEmail(),
-                entity.getHomepage(), entity.getUrl(), entity.getComment());
+                entity.getHomepage(), entity.getUrl(), entity.getComment(), entity.getId());
 
         for (DatafileArtifactEntity gameEntity : entity.getArtifacts()) {
             DatafileArtifact g = new DatafileArtifact(gameEntity.getName(), gameEntity.getDescription(),
@@ -152,7 +152,7 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Datafile findByUniqueFull(String name, String catalog, String version) {
+    public DatafileDTO findByUniqueFull(String name, String catalog, String version) {
         DatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
             return toVO(entity);
@@ -161,13 +161,13 @@ public class RetrocenterDatafileService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Datafile> findAll() {
+    public List<DatafileDTO> findAll() {
         List<DatafileEntity> l = datafileDAO.findAll();
-        List<Datafile> r = new ArrayList<>(l.size());
+        List<DatafileDTO> r = new ArrayList<>(l.size());
         for (DatafileEntity entity : l) {
-            r.add(new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
+            r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
-                    entity.getComment()));
+                    entity.getComment(), entity.getId()));
         }
         return r;
     }

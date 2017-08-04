@@ -4,6 +4,7 @@ import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
 import com.javanei.retrocenter.datafile.parser.DatafileParser;
+import com.javanei.retrocenter.datafile.service.DatafileDTO;
 import com.javanei.retrocenter.datafile.service.DatafileService;
 import com.javanei.retrocenter.datafile.service.RetrocenterDatafileService;
 import com.javanei.retrocenter.server.ErrorResponse;
@@ -41,7 +42,7 @@ public class DatafileRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok")
     })
-    public List<Datafile> find() {
+    public List<DatafileDTO> find() {
         return retrocenterDatafileService.findAll();
     }
 
