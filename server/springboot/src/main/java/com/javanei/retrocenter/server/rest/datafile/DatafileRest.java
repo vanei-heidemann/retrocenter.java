@@ -51,13 +51,27 @@ public class DatafileRest {
         return retrocenterDatafileService.findAll();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return the xml file")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok"),
             @ApiResponse(code = 404, message = "Datafile not found")
     })
-    public ResponseEntity<String> findById(@PathVariable Long id) {
+    public ResponseEntity<DatafileDTO> findById(@PathVariable Long id) {
+        DatafileDTO vo = retrocenterDatafileService.findByIDFull(id);
+        if (vo != null) {
+            return ResponseEntity.ok(vo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/{id}/xml", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
+    @ApiOperation(value = "Return the xml file")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<String> downloadById(@PathVariable Long id) {
         DatafileDTO vo = retrocenterDatafileService.findByIDFull(id);
         if (vo != null) {
             return ResponseEntity.ok(vo.toFile());
@@ -96,13 +110,27 @@ public class DatafileRest {
         return cmProService.findAll();
     }
 
-    @RequestMapping(value = "/cmpro/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    @ApiOperation(value = "Return the xml file")
+    @RequestMapping(value = "/cmpro/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return CMPro data file")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok"),
             @ApiResponse(code = 404, message = "Datafile not found")
     })
-    public ResponseEntity<String> findByCmProId(@PathVariable Long id) {
+    public ResponseEntity<CMProDatafileDTO> findByCmProId(@PathVariable Long id) {
+        CMProDatafileDTO vo = cmProService.findByIdFull(id);
+        if (vo != null) {
+            return ResponseEntity.ok(vo);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/cmpro/{id}/dat", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ApiOperation(value = "Return the CMPro dat file")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<String> downloadCmPro(@PathVariable Long id) {
         CMProDatafileDTO vo = cmProService.findByIdFull(id);
         if (vo != null) {
             return ResponseEntity.ok(vo.toString());
