@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.server.rest.datafile;
 
+import com.javanei.retrocenter.clrmamepro.service.CMProDatafileDTO;
+import com.javanei.retrocenter.clrmamepro.service.CMProService;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
@@ -37,6 +39,8 @@ public class DatafileRest {
     public DatafileService service;
     @Autowired
     RetrocenterDatafileService retrocenterDatafileService;
+    @Autowired
+    private CMProService cmProService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of datafiles")
@@ -81,5 +85,28 @@ public class DatafileRest {
         Datafile r = service.create(datafile);
         LOG.info("Result: " + r.getClass());
         return new ResponseEntity(r, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/cmpro", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a list cmpro datafiles")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok")
+    })
+    public List<CMProDatafileDTO> findCmPro() {
+        return cmProService.findAll();
+    }
+
+    @RequestMapping(value = "/cmpro/{id}", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ApiOperation(value = "Return the xml file")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<String> findByCmProId(@PathVariable Long id) {
+        CMProDatafileDTO vo = cmProService.findByIdFull(id);
+        if (vo != null) {
+            return ResponseEntity.ok(vo.toString());
+        }
+        return ResponseEntity.notFound().build();
     }
 }

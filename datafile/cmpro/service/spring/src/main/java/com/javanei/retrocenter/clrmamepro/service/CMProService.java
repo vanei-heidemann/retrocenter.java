@@ -22,14 +22,17 @@ import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceRomDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleofDAO;
-import java.util.Map;
-import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -120,11 +123,11 @@ public class CMProService {
                 rom.getRegion(), rom.getFlags());
     }
 
-    private static CMProDatafile entityToDatafile(CMProDatafileEntity datafile) {
-        CMProDatafile entity = new CMProDatafile(new CMProHeader(datafile.getName(), datafile.getCatalog(),
+    private static CMProDatafileDTO entityToDatafile(CMProDatafileEntity datafile) {
+        CMProDatafileDTO entity = new CMProDatafileDTO(new CMProHeader(datafile.getName(), datafile.getCatalog(),
                 datafile.getVersion(), datafile.getDescription(), datafile.getCategory(),
                 datafile.getAuthor(), datafile.getHomepage(), datafile.getUrl(),
-                datafile.getForcemerging(), datafile.getForcezipping()));
+                datafile.getForcemerging(), datafile.getForcezipping()), datafile.getId());
         for (CMProGameEntity game : datafile.getGames()) {
             entity.addGame(entityToGame(game));
         }
@@ -295,20 +298,42 @@ public class CMProService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public CMProDatafile findByUnique(String name, String catalog, String version) {
+    public CMProDatafileDTO findByUnique(String name, String catalog, String version) {
         CMProDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
-            return new CMProDatafile(new CMProHeader(entity.getName(), entity.getCatalog(), entity.getVersion(),
+            return new CMProDatafileDTO(new CMProHeader(entity.getName(), entity.getCatalog(), entity.getVersion(),
                     entity.getDescription(), entity.getCatalog(),
                     entity.getAuthor(), entity.getHomepage(), entity.getUrl(),
-                    entity.getForcemerging(), entity.getForcezipping()));
+                    entity.getForcemerging(), entity.getForcezipping()), entity.getId());
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public CMProDatafile findByUniqueFull(String name, String catalog, String version) {
+    public CMProDatafileDTO findByUniqueFull(String name, String catalog, String version) {
         CMProDatafileEntity entity = datafileDAO.findByUniqueFull(name, catalog, version);
+        if (entity != null) {
+            return entityToDatafile(entity);
+        }
+        return null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<CMProDatafileDTO> findAll() {
+        List<CMProDatafileEntity> l = datafileDAO.findAll();
+        List<CMProDatafileDTO> result = new LinkedList<>();
+        for (CMProDatafileEntity datafile : l) {
+            result.add(new CMProDatafileDTO(new CMProHeader(datafile.getName(), datafile.getCatalog(),
+                    datafile.getVersion(), datafile.getDescription(), datafile.getCategory(),
+                    datafile.getAuthor(), datafile.getHomepage(), datafile.getUrl(),
+                    datafile.getForcemerging(), datafile.getForcezipping()), datafile.getId()));
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public CMProDatafileDTO findByIdFull(Long id) {
+        CMProDatafileEntity entity = datafileDAO.findOne(id);
         if (entity != null) {
             return entityToDatafile(entity);
         }
