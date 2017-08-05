@@ -1,7 +1,5 @@
 package com.javanei.retrocenter.server.rest.datafile;
 
-import com.javanei.retrocenter.clrmamepro.service.CMProDatafileDTO;
-import com.javanei.retrocenter.clrmamepro.service.CMProService;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
@@ -9,8 +7,6 @@ import com.javanei.retrocenter.datafile.parser.DatafileParser;
 import com.javanei.retrocenter.datafile.service.DatafileDTO;
 import com.javanei.retrocenter.datafile.service.DatafileService;
 import com.javanei.retrocenter.datafile.service.RetrocenterDatafileService;
-import com.javanei.retrocenter.logiqx.service.LogiqxDatafileDTO;
-import com.javanei.retrocenter.logiqx.service.LogiqxService;
 import com.javanei.retrocenter.server.ErrorResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -33,7 +29,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/datafiles")
-@Api(tags = {"Datafiles service"}, produces = "application/json")
+@Api(tags = {"Datafiles service"})
 public class DatafileRest {
     private static final Logger LOG = LoggerFactory.getLogger(DatafileRest.class);
 
@@ -41,10 +37,6 @@ public class DatafileRest {
     public DatafileService service;
     @Autowired
     RetrocenterDatafileService retrocenterDatafileService;
-    @Autowired
-    private CMProService cmProService;
-    @Autowired
-    private LogiqxService logiqxService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of datafiles")
@@ -103,79 +95,5 @@ public class DatafileRest {
         Datafile r = service.create(datafile);
         LOG.info("Result: " + r.getClass());
         return new ResponseEntity(r, HttpStatus.CREATED);
-    }
-
-    @RequestMapping(value = "/cmpro", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return a list cmpro datafiles")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok")
-    })
-    public List<CMProDatafileDTO> findCmPro() {
-        return cmProService.findAll();
-    }
-
-    @RequestMapping(value = "/cmpro/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return CMPro data file")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Datafile not found")
-    })
-    public ResponseEntity<CMProDatafileDTO> findByCmProId(@PathVariable Long id) {
-        CMProDatafileDTO vo = cmProService.findByIdFull(id);
-        if (vo != null) {
-            return ResponseEntity.ok(vo);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @RequestMapping(value = "/cmpro/{id}/dat", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
-    @ApiOperation(value = "Return the CMPro dat file")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Datafile not found")
-    })
-    public ResponseEntity<String> downloadCmPro(@PathVariable Long id) {
-        CMProDatafileDTO vo = cmProService.findByIdFull(id);
-        if (vo != null) {
-            return ResponseEntity.ok(vo.toString());
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @RequestMapping(value = "/logiqx", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return a list logiqx datafiles")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok")
-    })
-    public List<LogiqxDatafileDTO> findLogiq() {
-        return logiqxService.findAll();
-    }
-
-    @RequestMapping(value = "/logiqx/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return Logiqx data file")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Datafile not found")
-    })
-    public ResponseEntity<LogiqxDatafileDTO> findByLogiqxId(@PathVariable Long id) {
-        LogiqxDatafileDTO vo = logiqxService.findByIdFull(id);
-        if (vo != null) {
-            return ResponseEntity.ok(vo);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @RequestMapping(value = "/logiqx/{id}/xml", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
-    @ApiOperation(value = "Return the Logiqx xml file")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Datafile not found")
-    })
-    public ResponseEntity<String> downloadLogiqxById(@PathVariable Long id) {
-        LogiqxDatafileDTO vo = logiqxService.findByIdFull(id);
-        if (vo != null) {
-            return ResponseEntity.ok(vo.toString());
-        }
-        return ResponseEntity.notFound().build();
     }
 }
