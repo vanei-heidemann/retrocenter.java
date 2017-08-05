@@ -19,9 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Service
 @Transactional
 public class RetrocenterDatafileService {
@@ -38,35 +35,8 @@ public class RetrocenterDatafileService {
     @Autowired
     private RetrocenterDatafileService retrocenterDatafileService;
 
-    private static DatafileDTO toVO(DatafileEntity entity) {
-        DatafileDTO datafile = new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(),
-                entity.getDescription(), entity.getAuthor(), entity.getDate(), entity.getEmail(),
-                entity.getHomepage(), entity.getUrl(), entity.getComment(), entity.getId());
-
-        for (DatafileArtifactEntity gameEntity : entity.getArtifacts()) {
-            DatafileArtifact g = new DatafileArtifact(gameEntity.getName(), gameEntity.getDescription(),
-                    gameEntity.getYear(), gameEntity.getComment(), gameEntity.getFields());
-            datafile.addArtifact(g);
-
-            for (DatafileArtifactFileEntity gameFileEntity : gameEntity.getFiles()) {
-                DatafileArtifactFile gf = new DatafileArtifactFile(gameFileEntity.getType(), gameFileEntity.getName(),
-                        gameFileEntity.getSize(), gameFileEntity.getCrc(), gameFileEntity.getSha1(),
-                        gameFileEntity.getMd5(), gameFileEntity.getDate(), gameFileEntity.getFields());
-                g.addFile(gf);
-            }
-
-            for (DatafileReleaseEntity releaseEntity : gameEntity.getReleases()) {
-                Release r = new Release(releaseEntity.getName(), releaseEntity.getRegion(),
-                        releaseEntity.getLanguage(), releaseEntity.getDate(), releaseEntity.getDefault());
-                g.addRelease(r);
-            }
-        }
-
-        return datafile;
-    }
-
     @Transactional(propagation = Propagation.REQUIRED)
-    public Datafile create(Datafile datafile) {
+    public DatafileEntity create(Datafile datafile) {
         LOG.info("create(" + datafile.getName() + ", " + datafile.getCatalog() + ", " + datafile.getVersion() + ")");
         DatafileEntity entity = new DatafileEntity(datafile.getName(), datafile.getCatalog(), datafile.getVersion(),
                 datafile.getDescription(), datafile.getAuthor(), datafile.getDate(), datafile.getEmail(),
@@ -99,7 +69,7 @@ public class RetrocenterDatafileService {
             }
         }
 
-        return toVO(entity);
+        return entity;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -138,46 +108,5 @@ public class RetrocenterDatafileService {
         }
 
         return gameEntity;
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public Datafile findByUnique(String name, String catalog, String version) {
-        DatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
-        if (entity != null) {
-            return new Datafile(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
-                    entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
-                    entity.getComment());
-        }
-        return null;
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public DatafileDTO findByUniqueFull(String name, String catalog, String version) {
-        DatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
-        if (entity != null) {
-            return toVO(entity);
-        }
-        return null;
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public DatafileDTO findByIDFull(Long id) {
-        DatafileEntity entity = datafileDAO.findOne(id);
-        if (entity != null) {
-            return toVO(entity);
-        }
-        return null;
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<DatafileDTO> findAll() {
-        List<DatafileEntity> l = datafileDAO.findAll();
-        List<DatafileDTO> r = new ArrayList<>(l.size());
-        for (DatafileEntity entity : l) {
-            r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
-                    entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
-                    entity.getComment(), entity.getId()));
-        }
-        return r;
     }
 }

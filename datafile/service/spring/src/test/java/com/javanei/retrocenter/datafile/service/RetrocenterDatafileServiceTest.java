@@ -6,6 +6,10 @@ import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;
 import com.javanei.retrocenter.datafile.Release;
+import com.javanei.retrocenter.datafile.entity.DatafileArtifactEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileArtifactFileEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileEntity;
+import com.javanei.retrocenter.datafile.entity.DatafileReleaseEntity;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,7 +60,7 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void create() {
-        Datafile d = retrocenterDatafileService.create(datafile);
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
         Assert.assertEquals("name", "name 01", d.getName());
         Assert.assertEquals("catalog", DatafileCatalogEnum.NoIntro.name(), d.getCatalog());
         Assert.assertEquals("version", "1.00", d.getVersion());
@@ -71,8 +75,8 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createGame() {
-        Datafile d = retrocenterDatafileService.create(datafile);
-        DatafileArtifact game = d.getArtifacts().iterator().next();
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
+        DatafileArtifactEntity game = d.getArtifacts().iterator().next();
         Assert.assertEquals("name", "game 01", game.getName());
         Assert.assertEquals("isbios", "no", game.getIsbios());
         Assert.assertEquals("description", "description 01", game.getDescription());
@@ -86,10 +90,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createRom() {
-        DatafileArtifactFile gf = null;
-        Datafile d = retrocenterDatafileService.create(datafile);
-        DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (DatafileArtifactFile g : game.getFiles()) {
+        DatafileArtifactFileEntity gf = null;
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
+        DatafileArtifactEntity game = d.getArtifacts().iterator().next();
+        for (DatafileArtifactFileEntity g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.ROM.name())) {
                 gf = g;
                 break;
@@ -110,10 +114,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createDisk() {
-        DatafileArtifactFile gf = null;
-        Datafile d = retrocenterDatafileService.create(datafile);
-        DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (DatafileArtifactFile g : game.getFiles()) {
+        DatafileArtifactFileEntity gf = null;
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
+        DatafileArtifactEntity game = d.getArtifacts().iterator().next();
+        for (DatafileArtifactFileEntity g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.DISK.name())) {
                 gf = g;
                 break;
@@ -134,10 +138,10 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createSample() {
-        DatafileArtifactFile gf = null;
-        Datafile d = retrocenterDatafileService.create(datafile);
-        DatafileArtifact game = d.getArtifacts().iterator().next();
-        for (DatafileArtifactFile g : game.getFiles()) {
+        DatafileArtifactFileEntity gf = null;
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
+        DatafileArtifactEntity game = d.getArtifacts().iterator().next();
+        for (DatafileArtifactFileEntity g : game.getFiles()) {
             if (g.getType().equals(ArtifactFileTypeEnum.SAMPLE.name())) {
                 gf = g;
                 break;
@@ -158,9 +162,9 @@ public class RetrocenterDatafileServiceTest {
 
     @Test
     public void createRelease() {
-        Datafile d = retrocenterDatafileService.create(datafile);
-        DatafileArtifact game = d.getArtifacts().iterator().next();
-        Release release = game.getReleases().iterator().next();
+        DatafileEntity d = retrocenterDatafileService.create(datafile);
+        DatafileArtifactEntity game = d.getArtifacts().iterator().next();
+        DatafileReleaseEntity release = game.getReleases().iterator().next();
         Assert.assertEquals("name", "release 01", release.getName());
         Assert.assertEquals("region", "Brazil", release.getRegion());
         Assert.assertEquals("language", "br", release.getLanguage());

@@ -44,7 +44,7 @@ public class DatafileRest {
             @ApiResponse(code = 200, message = "Ok")
     })
     public List<DatafileDTO> find() {
-        return retrocenterDatafileService.findAll();
+        return service.findAll();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -54,7 +54,7 @@ public class DatafileRest {
             @ApiResponse(code = 404, message = "Datafile not found")
     })
     public ResponseEntity<DatafileDTO> findById(@PathVariable Long id) {
-        DatafileDTO vo = retrocenterDatafileService.findByIDFull(id);
+        DatafileDTO vo = service.findByIDFull(id);
         if (vo != null) {
             return ResponseEntity.ok(vo);
         }
@@ -68,7 +68,7 @@ public class DatafileRest {
             @ApiResponse(code = 404, message = "Datafile not found")
     })
     public ResponseEntity<String> downloadById(@PathVariable Long id) {
-        DatafileDTO vo = retrocenterDatafileService.findByIDFull(id);
+        DatafileDTO vo = service.findByIDFull(id);
         if (vo != null) {
             return ResponseEntity.ok(vo.toFile());
         }
