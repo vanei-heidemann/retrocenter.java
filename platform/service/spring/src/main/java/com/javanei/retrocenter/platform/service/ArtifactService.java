@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.platform.service;
 
-import com.javanei.retrocenter.common.Identified;
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Artifact;
 import com.javanei.retrocenter.platform.entity.ArtifactEntity;
 import com.javanei.retrocenter.platform.persistence.ArtifactDAO;
@@ -9,13 +9,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -27,78 +25,80 @@ public class ArtifactService {
     private ArtifactDAO artifactDAO;
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Identified<Artifact> findArtifactById(Long id) {
+    public ArtifactDTO findArtifactById(Long id) {
         ArtifactEntity entity = artifactDAO.findOne(id);
         if (entity != null) {
-            return new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName()));
+            return new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId());
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Identified<Artifact> findArtifactByCode(String code) {
+    public ArtifactDTO findArtifactByCode(String code) {
         ArtifactEntity entity = artifactDAO.findByCode(code);
         if (entity != null) {
-            return new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName()));
+            return new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId());
         }
         return null;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Identified<Artifact>> findArtifactByName(String name) {
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<ArtifactDTO> findArtifactByName(String name) {
         List<ArtifactEntity> l = artifactDAO.findByNameLike("%" + name + "%");
-        List<Identified<Artifact>> result = new LinkedList<>();
+        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>();
         for (ArtifactEntity entity : l) {
-            result.add(new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName())));
+            result.add(new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId()));
         }
         return result;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Identified<Artifact>> findArtifactByNamePaging(String name, PageRequest paging) {
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<ArtifactDTO> findArtifactByNamePaging(String name, PageRequest paging) {
         Page<ArtifactEntity> l = artifactDAO.findByNameLike("%" + name + "%", paging);
-        List<Identified<Artifact>> result = new LinkedList<>();
+        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(l.hasNext());
         for (ArtifactEntity entity : l.getContent()) {
-            result.add(new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName())));
+            result.add(new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId()));
         }
         return result;
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public List<Identified<Artifact>> findArtifacts(Long id, String code, String name, PageRequest paging) {
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<ArtifactDTO> findArtifacts(Long id, String code, String name, int page, int pageSize) {
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+
         if (id != null) {
-            Identified<Artifact> entity = this.findArtifactById(id);
+            ArtifactDTO entity = this.findArtifactById(id);
             if (entity != null) {
-                List<Identified<Artifact>> r = new ArrayList<>();
+                PaginatedResult<ArtifactDTO> r = new PaginatedResult<>();
                 r.add(entity);
                 return r;
             }
-            return Collections.emptyList();
+            return new PaginatedResult<>();
         }
         if (code != null) {
-            Identified<Artifact> entity = this.findArtifactByCode(code);
+            ArtifactDTO entity = this.findArtifactByCode(code);
             if (entity != null) {
-                List<Identified<Artifact>> r = new ArrayList<>();
+                PaginatedResult<ArtifactDTO> r = new PaginatedResult<>();
                 r.add(entity);
                 return r;
             }
-            return Collections.emptyList();
+            return new PaginatedResult<>();
         }
         if (name != null) {
             return this.findArtifactByNamePaging(name, paging);
         }
         Page<ArtifactEntity> l = artifactDAO.findAll(paging);
-        List<Identified<Artifact>> result = new LinkedList<>();
+        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(l.hasNext());
         for (ArtifactEntity entity : l.getContent()) {
-            result.add(new Identified<>(entity.getId(), new Artifact(entity.getCode(), entity.getName())));
+            result.add(new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId()));
         }
         return result;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Identified<Artifact> createArtifact(Artifact artifact) {
+    public ArtifactDTO createArtifact(Artifact artifact) {
         ArtifactEntity entity = new ArtifactEntity(artifact.getCode(), artifact.getName());
         entity = artifactDAO.saveAndFlush(entity);
-        return new Identified<Artifact>(entity.getId(), artifact);
+        return new ArtifactDTO(artifact.getCode(), artifact.getName(), entity.getId());
     }
 }
