@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/datafiles")
-@Api(tags = {"Datafiles service - CMPro", "CMPro"})
+@Api(tags = {"Datafiles service - CMPro"})
 public class DatafileCMProRest {
     @Autowired
     private CMProService cmProService;

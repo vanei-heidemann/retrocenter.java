@@ -18,7 +18,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/datafiles")
-@Api(tags = {"Datafiles service - Logiqx", "Logiqx"})
+@Api(tags = {"Datafiles service - Logiqx"})
 public class DatafileLogiqxRest {
     @Autowired
     private LogiqxService logiqxService;

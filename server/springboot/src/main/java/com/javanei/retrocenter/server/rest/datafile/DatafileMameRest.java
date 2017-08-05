@@ -1,9 +1,11 @@
 package com.javanei.retrocenter.server.rest.datafile;
 
+import com.javanei.retrocenter.mame.MameMachine;
 import com.javanei.retrocenter.mame.service.MameDTO;
 import com.javanei.retrocenter.mame.service.MameService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +14,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/datafiles")
-@Api(tags = {"Datafiles service - MAME", "MAME"})
+@Api(tags = {"Datafiles service - MAME"})
 public class DatafileMameRest {
     @Autowired
     private MameService mameService;
@@ -39,7 +42,7 @@ public class DatafileMameRest {
             @ApiResponse(code = 404, message = "Datafile not found")
     })
     public ResponseEntity<MameDTO> findById(@PathVariable Long id) {
-        MameDTO vo = mameService.findByIdFull(id);
+        MameDTO vo = mameService.findByIdFull(id, false);
         if (vo != null) {
             return ResponseEntity.ok(vo);
         }
@@ -53,10 +56,24 @@ public class DatafileMameRest {
             @ApiResponse(code = 404, message = "Datafile not found")
     })
     public ResponseEntity<String> download(@PathVariable Long id) {
-        MameDTO vo = mameService.findByIdFull(id);
+        MameDTO vo = mameService.findByIdFull(id, true);
         if (vo != null) {
             return ResponseEntity.ok(vo.toString());
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/mame/{id}/machines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return MAME Machines")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<List<MameMachine>> findMachinesByMameId(@PathVariable Long id,
+                                                                  @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                                  @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize,
+                                                                  @ApiParam(name = "fullDefails", required = true) @RequestParam(name = "fullDefails", defaultValue = "false") Boolean fullDefails) {
+        List<MameMachine> result = mameService.findMachinesByMameId(id, page, pageSize, fullDefails);
+        return ResponseEntity.ok(result);
     }
 }
