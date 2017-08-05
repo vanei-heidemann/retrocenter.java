@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.server.rest.datafile;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
@@ -27,30 +28,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/api/datafiles")
 @Api(tags = {"Datafiles service"})
 public class DatafileRest {
     private static final Logger LOG = LoggerFactory.getLogger(DatafileRest.class);
 
+    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a list of datafiles")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok", response = CollectionResult.class)
+    })
+    public ResponseEntity<PaginatedResult<DatafileDTO>> find(
+            @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize,
+            @ApiParam(name = "name", required = false) @RequestParam(name = "name", required = false) String name,
+            @ApiParam(name = "catalog", required = false) @RequestParam(name = "catalog", required = false) DatafileCatalogEnum catalog) {
+        return ResponseEntity.ok(service.find(name, catalog, page, pageSize));
+    }
+
     @Autowired
     public DatafileService service;
     @Autowired
     RetrocenterDatafileService retrocenterDatafileService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return a list of datafiles")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok")
-    })
-    public List<DatafileDTO> find(
-            @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-            @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize,
-            @ApiParam(name = "name", required = false) @RequestParam(name = "name", required = false) String name,
-            @ApiParam(name = "catalog", required = false) @RequestParam(name = "catalog", required = false) DatafileCatalogEnum catalog) {
-        return service.find(name, catalog, page, pageSize);
+    private class CollectionResult extends PaginatedResult<DatafileDTO> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

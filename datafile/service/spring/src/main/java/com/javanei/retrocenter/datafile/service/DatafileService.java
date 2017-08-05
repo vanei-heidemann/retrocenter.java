@@ -3,6 +3,7 @@ package com.javanei.retrocenter.datafile.service;
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.service.CMProService;
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;
@@ -138,7 +139,7 @@ public class DatafileService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public List<DatafileDTO> find(String name, DatafileCatalogEnum catalog, int page, int pageSize) {
+    public PaginatedResult<DatafileDTO> find(String name, DatafileCatalogEnum catalog, int page, int pageSize) {
         LOG.info("find(name=" + name + ", catalog=" + catalog + ", page=" + page + ", pageSize=" + pageSize + ")");
         PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<DatafileEntity> l;
@@ -153,7 +154,7 @@ public class DatafileService {
         } else {
             l = datafileDAO.findAll(paging);
         }
-        List<DatafileDTO> r = new ArrayList<>(l.getSize());
+        PaginatedResult<DatafileDTO> r = new PaginatedResult<>(l.hasNext());
         for (DatafileEntity entity : l.getContent()) {
             r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
