@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.server.rest.datafile;
 
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.mame.MameMachine;
 import com.javanei.retrocenter.mame.service.MameDTO;
 import com.javanei.retrocenter.mame.service.MameService;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/api/datafiles")
 @Api(tags = {"Datafiles service - MAME"})
@@ -29,16 +28,18 @@ public class DatafileMameRest {
     @RequestMapping(value = "/mame", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list MAME datafiles")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok")
+            @ApiResponse(code = 200, message = "Ok", response = MameCollectionResult.class)
     })
-    public List<MameDTO> findMame() {
-        return mameService.findAll();
+    public ResponseEntity<PaginatedResult<MameDTO>> findMame(
+            @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize) {
+        return ResponseEntity.ok(mameService.find(page, pageSize));
     }
 
     @RequestMapping(value = "/mame/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return MAME data file")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 200, message = "Ok", response = MameDTO.class),
             @ApiResponse(code = 404, message = "Datafile not found")
     })
     public ResponseEntity<MameDTO> findById(@PathVariable Long id) {
@@ -47,6 +48,23 @@ public class DatafileMameRest {
             return ResponseEntity.ok(vo);
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @RequestMapping(value = "/mame/{id}/machines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return MAME Machines")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok", response = MameMachineCollectionResult.class),
+            @ApiResponse(code = 404, message = "Datafile not found")
+    })
+    public ResponseEntity<PaginatedResult<MameMachine>> findMachinesByMameId(@PathVariable Long id,
+                                                                             @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+                                                                             @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize,
+                                                                             @ApiParam(name = "fullDefails", required = true) @RequestParam(name = "fullDefails", defaultValue = "false") Boolean fullDefails) {
+        PaginatedResult<MameMachine> result = mameService.findMachinesByMameId(id, page, pageSize, fullDefails);
+        return ResponseEntity.ok(result);
+    }
+
+    private class MameCollectionResult extends PaginatedResult<MameDTO> {
     }
 
     @RequestMapping(value = "/mame/{id}/xml", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
@@ -63,17 +81,6 @@ public class DatafileMameRest {
         return ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(value = "/mame/{id}/machines", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    @ApiOperation(value = "Return MAME Machines")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Datafile not found")
-    })
-    public ResponseEntity<List<MameMachine>> findMachinesByMameId(@PathVariable Long id,
-                                                                  @ApiParam(name = "page", required = false) @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                                  @ApiParam(name = "pageSize", defaultValue = "100", required = true) @RequestParam(name = "pageSize", defaultValue = "100") Integer pageSize,
-                                                                  @ApiParam(name = "fullDefails", required = true) @RequestParam(name = "fullDefails", defaultValue = "false") Boolean fullDefails) {
-        List<MameMachine> result = mameService.findMachinesByMameId(id, page, pageSize, fullDefails);
-        return ResponseEntity.ok(result);
+    private class MameMachineCollectionResult extends PaginatedResult<MameMachine> {
     }
 }

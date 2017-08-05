@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.mame.service;
 
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.mame.Mame;
 import com.javanei.retrocenter.mame.MameMachine;
 import com.javanei.retrocenter.mame.entity.MameAdjusterEntity;
@@ -31,7 +32,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -144,20 +144,31 @@ public class MameService {
         return result;
     }
 
+    public PaginatedResult<MameDTO> find(int page, int pageSize) {
+        LOG.info("find(page=" + page + ", pageSize=" + pageSize + ")");
+        PageRequest pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "build"));
+        Page<MameEntity> p = mameDAO.findAll(pageable);
+        PaginatedResult<MameDTO> result = new PaginatedResult<>(p.hasNext());
+        for (MameEntity entity : p.getContent()) {
+            result.add(entityToVO(entity, false, false));
+        }
+        return result;
+    }
+
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public List<MameMachine> findMachinesByMameId(Long mameId, int page, int pageSize, boolean full) {
+    public PaginatedResult<MameMachine> findMachinesByMameId(Long mameId, int page, int pageSize, boolean full) {
         LOG.info("findMachinesByMameId(" + mameId + ", " + page + ", " + pageSize + ", " + full + ")");
         MameEntity mame = mameDAO.findOne(mameId);
         if (mame != null) {
             PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "id"));
             Page<MameMachineEntity> l = machineDAO.findByMame_Id(mameId, paging);
-            List<MameMachine> result = new LinkedList<>();
+            PaginatedResult<MameMachine> result = new PaginatedResult<>(l.hasNext());
             for (MameMachineEntity entity : l.getContent()) {
                 result.add(entityToVO(entity, full));
             }
             return result;
         }
-        return Collections.emptyList();
+        return new PaginatedResult<>();
     }
 
     private MameDTO entityToVO(MameEntity entity, boolean full, boolean fullMachines) {
