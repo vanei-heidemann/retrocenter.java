@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx.service;
 
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.logiqx.LogiqxArchive;
 import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
@@ -22,6 +23,9 @@ import com.javanei.retrocenter.logiqx.persistence.LogiqxGameDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -162,6 +166,22 @@ public class LogiqxService {
         List<LogiqxDatafileEntity> l = datafileDAO.findAll();
         List<LogiqxDatafileDTO> result = new LinkedList<>();
         for (LogiqxDatafileEntity entity : l) {
+            result.add(entityToVo(entity, false));
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<LogiqxDatafileDTO> find(String name, int page, int pageSize) {
+        PageRequest pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<LogiqxDatafileEntity> p;
+        if (name != null) {
+            p = datafileDAO.findByNameLike("%" + name + "%", pageable);
+        } else {
+            p = datafileDAO.findAll(pageable);
+        }
+        PaginatedResult<LogiqxDatafileDTO> result = new PaginatedResult<>(p.hasNext());
+        for (LogiqxDatafileEntity entity : p.getContent()) {
             result.add(entityToVo(entity, false));
         }
         return result;

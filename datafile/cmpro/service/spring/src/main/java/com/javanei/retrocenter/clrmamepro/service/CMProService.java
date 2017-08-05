@@ -346,6 +346,7 @@ public class CMProService {
         return null;
     }
 
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public PaginatedResult<CMProDatafileDTO> find(String name, int page, int pageSize) {
         PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<CMProDatafileEntity> p;
