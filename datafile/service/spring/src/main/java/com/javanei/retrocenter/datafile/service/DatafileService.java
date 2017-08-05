@@ -2,6 +2,7 @@ package com.javanei.retrocenter.datafile.service;
 
 import com.javanei.retrocenter.clrmamepro.CMProDatafile;
 import com.javanei.retrocenter.clrmamepro.service.CMProService;
+import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;
@@ -21,6 +22,9 @@ import com.javanei.retrocenter.mame.service.MameService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,6 +130,31 @@ public class DatafileService {
         List<DatafileEntity> l = datafileDAO.findAll();
         List<DatafileDTO> r = new ArrayList<>(l.size());
         for (DatafileEntity entity : l) {
+            r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
+                    entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
+                    entity.getComment(), entity.getId()));
+        }
+        return r;
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public List<DatafileDTO> find(String name, DatafileCatalogEnum catalog, int page, int pageSize) {
+        LOG.info("find(name=" + name + ", catalog=" + catalog + ", page=" + page + ", pageSize=" + pageSize + ")");
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<DatafileEntity> l;
+        if (name != null) {
+            if (catalog != null) {
+                l = datafileDAO.findByCatalogAndNameLike(catalog.name(), "%" + name + "%", paging);
+            } else {
+                l = datafileDAO.findByNameLike("%" + name + "%", paging);
+            }
+        } else if (catalog != null) {
+            l = datafileDAO.findByCatalog(catalog.name(), paging);
+        } else {
+            l = datafileDAO.findAll(paging);
+        }
+        List<DatafileDTO> r = new ArrayList<>(l.getSize());
+        for (DatafileEntity entity : l.getContent()) {
             r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),
                     entity.getComment(), entity.getId()));
