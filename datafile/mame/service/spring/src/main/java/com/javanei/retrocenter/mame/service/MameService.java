@@ -13,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @Service
 @Transactional
 public class MameService {
@@ -80,16 +83,47 @@ public class MameService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Mame findByBuild(String build) {
+    public MameDTO findByBuild(String build) {
         LOG.info("findByBuild(" + build + ")");
         MameEntity entity = mameDAO.findByBuild(build);
-        return entity != null ? new Mame(entity.getBuild(), entity.getDebug(), entity.getMameconfig()) : null;
+        return entity != null ? entityToVO(entity, false) : null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Mame findByBuildFull(String build) {
+    public MameDTO findByBuildFull(String build) {
         LOG.info("findByBuildFull(" + build + ")");
         MameEntity entity = mameDAO.findByBuildFull(build);
-        return entity != null ? entity.toVO() : null;
+        return entity != null ? entityToVO(entity, true) : null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public MameDTO findByIdFull(Long id) {
+        LOG.info("findByIdFull(" + id + ")");
+        MameEntity entity = mameDAO.findOne(id);
+        return entity != null ? entityToVO(entity, true) : null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<MameDTO> findAll() {
+        List<MameEntity> l = mameDAO.findAll();
+        List<MameDTO> result = new LinkedList<>();
+        for (MameEntity entity : l) {
+            result.add(entityToVO(entity, false));
+        }
+        return result;
+    }
+
+    private MameDTO entityToVO(MameEntity entity, boolean full) {
+        MameDTO mame = new MameDTO(entity.getBuild(), entity.getDebug(), entity.getMameconfig(), entity.getId());
+        if (full) {
+            int count = 0;
+            for (MameMachineEntity machineEntity : entity.getMachines()) {
+                MameMachine machine = machineEntity.toVO();
+                mame.addMachine(machine);
+                count++;
+                System.out.println("--> " + count + " = " + machine.getName());
+            }
+        }
+        return mame;
     }
 }
