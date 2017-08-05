@@ -22,9 +22,13 @@ import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProResourceRomDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleDAO;
 import com.javanei.retrocenter.clrmamepro.persistence.CMProSampleofDAO;
+import com.javanei.retrocenter.common.PaginatedResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -123,18 +127,20 @@ public class CMProService {
                 rom.getRegion(), rom.getFlags());
     }
 
-    private static CMProDatafileDTO entityToDatafile(CMProDatafileEntity datafile) {
+    private static CMProDatafileDTO entityToDatafile(CMProDatafileEntity datafile, boolean details) {
         CMProDatafileDTO entity = new CMProDatafileDTO(new CMProHeader(datafile.getName(), datafile.getCatalog(),
                 datafile.getVersion(), datafile.getDescription(), datafile.getCategory(),
                 datafile.getAuthor(), datafile.getHomepage(), datafile.getUrl(),
                 datafile.getForcemerging(), datafile.getForcezipping()), datafile.getId());
-        for (CMProGameEntity game : datafile.getGames()) {
-            entity.addGame(entityToGame(game));
+        if (details) {
+            for (CMProGameEntity game : datafile.getGames()) {
+                entity.addGame(entityToGame(game));
+            }
+            for (CMProResourceEntity resource : datafile.getResources()) {
+                entity.addResource(entityToResource(resource));
+            }
+            entity.getHeader().setCustomFields(datafile.getCustomFields());
         }
-        for (CMProResourceEntity resource : datafile.getResources()) {
-            entity.addResource(entityToResource(resource));
-        }
-        entity.getHeader().setCustomFields(datafile.getCustomFields());
 
         return entity;
     }
@@ -294,7 +300,7 @@ public class CMProService {
             }
         }
 
-        return entityToDatafile(entity);
+        return entityToDatafile(entity, true);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -313,7 +319,7 @@ public class CMProService {
     public CMProDatafileDTO findByUniqueFull(String name, String catalog, String version) {
         CMProDatafileEntity entity = datafileDAO.findByUniqueFull(name, catalog, version);
         if (entity != null) {
-            return entityToDatafile(entity);
+            return entityToDatafile(entity, true);
         }
         return null;
     }
@@ -335,8 +341,23 @@ public class CMProService {
     public CMProDatafileDTO findByIdFull(Long id) {
         CMProDatafileEntity entity = datafileDAO.findOne(id);
         if (entity != null) {
-            return entityToDatafile(entity);
+            return entityToDatafile(entity, true);
         }
         return null;
+    }
+
+    public PaginatedResult<CMProDatafileDTO> find(String name, int page, int pageSize) {
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<CMProDatafileEntity> p;
+        if (name != null) {
+            p = datafileDAO.findByNameLike("%" + name + "%", paging);
+        } else {
+            p = datafileDAO.findAll(paging);
+        }
+        PaginatedResult<CMProDatafileDTO> result = new PaginatedResult<>(p.hasNext());
+        for (CMProDatafileEntity entity : p.getContent()) {
+            result.add(entityToDatafile(entity, false));
+        }
+        return result;
     }
 }

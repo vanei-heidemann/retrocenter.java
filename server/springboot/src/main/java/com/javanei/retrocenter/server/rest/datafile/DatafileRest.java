@@ -34,6 +34,14 @@ import org.springframework.web.multipart.MultipartFile;
 public class DatafileRest {
     private static final Logger LOG = LoggerFactory.getLogger(DatafileRest.class);
 
+    @Autowired
+    public DatafileService service;
+    @Autowired
+    RetrocenterDatafileService retrocenterDatafileService;
+
+    private class CollectionResult extends PaginatedResult<DatafileDTO> {
+    }
+
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of datafiles")
     @ApiResponses({
@@ -45,14 +53,6 @@ public class DatafileRest {
             @ApiParam(name = "name", required = false) @RequestParam(name = "name", required = false) String name,
             @ApiParam(name = "catalog", required = false) @RequestParam(name = "catalog", required = false) DatafileCatalogEnum catalog) {
         return ResponseEntity.ok(service.find(name, catalog, page, pageSize));
-    }
-
-    @Autowired
-    public DatafileService service;
-    @Autowired
-    RetrocenterDatafileService retrocenterDatafileService;
-
-    private class CollectionResult extends PaginatedResult<DatafileDTO> {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

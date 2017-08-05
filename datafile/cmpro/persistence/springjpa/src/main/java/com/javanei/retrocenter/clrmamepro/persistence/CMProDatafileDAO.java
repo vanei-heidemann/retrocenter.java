@@ -1,6 +1,8 @@
 package com.javanei.retrocenter.clrmamepro.persistence;
 
 import com.javanei.retrocenter.clrmamepro.entity.CMProDatafileEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 
@@ -8,4 +10,6 @@ public interface CMProDatafileDAO extends JpaRepository<CMProDatafileEntity, Lon
     CMProDatafileEntity findByUniqueFull(@Param("name") String name, @Param("catalog") String catalog, @Param("version") String version);
 
     CMProDatafileEntity findByUnique(@Param("name") String name, @Param("catalog") String catalog, @Param("version") String version);
+
+    Page<CMProDatafileEntity> findByNameLike(@Param("name") String name, Pageable pageable);
 }
