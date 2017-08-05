@@ -5,6 +5,7 @@ import com.javanei.retrocenter.logiqx.LogiqxBiosset;
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxDisk;
 import com.javanei.retrocenter.logiqx.LogiqxGame;
+import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
@@ -24,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 @Transactional
@@ -127,20 +131,57 @@ public class LogiqxService {
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LogiqxDatafile findByUnique(String name, String catalog, String version) {
+    public LogiqxDatafileDTO findByUnique(String name, String catalog, String version) {
         LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
-            return entity.toVO();
+            return this.entityToVo(entity, true);
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public LogiqxDatafile findByUniqueFull(String name, String catalog, String version) {
+    public LogiqxDatafileDTO findByUniqueFull(String name, String catalog, String version) {
         LogiqxDatafileEntity entity = datafileDAO.findByUnique(name, catalog, version);
         if (entity != null) {
-            return entity.toVO();
+            return this.entityToVo(entity, true);
         }
         return null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public LogiqxDatafileDTO findByIdFull(Long id) {
+        LogiqxDatafileEntity entity = datafileDAO.findOne(id);
+        if (entity != null) {
+            return this.entityToVo(entity, true);
+        }
+        return null;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<LogiqxDatafileDTO> findAll() {
+        List<LogiqxDatafileEntity> l = datafileDAO.findAll();
+        List<LogiqxDatafileDTO> result = new LinkedList<>();
+        for (LogiqxDatafileEntity entity : l) {
+            result.add(entityToVo(entity, false));
+        }
+        return result;
+    }
+
+    private LogiqxDatafileDTO entityToVo(LogiqxDatafileEntity entity, boolean full) {
+        LogiqxDatafileDTO datafile = new LogiqxDatafileDTO(entity.getBuild(), entity.getDebug(), entity.getId());
+        LogiqxHeader header = new LogiqxHeader(entity.getName(), entity.getCatalog(), entity.getVersion(),
+                entity.getDescription(), entity.getCategory(), entity.getDate(), entity.getAuthor(), entity.getEmail(),
+                entity.getHomepage(), entity.getUrl(), entity.getComment(), entity.getHeader(),
+                entity.getForcemerging(), entity.getForcenodump(), entity.getForcepacking(), entity.getPlugin(),
+                entity.getRommode(), entity.getBiosmode(), entity.getSamplemode(), entity.getLockrommode(),
+                entity.getLockbiosmode(), entity.getLocksamplemode());
+        datafile.setHeader(header);
+
+        if (full) {
+            for (LogiqxGameEntity game : entity.getGames()) {
+                datafile.addGame(game.toVO());
+            }
+        }
+        return datafile;
     }
 }
