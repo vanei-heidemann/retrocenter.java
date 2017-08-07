@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.hyperlist.service;
 
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.hyperlist.HyperListGame;
 import com.javanei.retrocenter.hyperlist.HyperListHeader;
 import com.javanei.retrocenter.hyperlist.HyperListMenu;
@@ -10,6 +11,9 @@ import com.javanei.retrocenter.hyperlist.persistence.HyperListGameDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,13 +30,16 @@ public class HyperListService {
     @Autowired
     private HyperListService hyperListService;
 
-    private static HyperListMenu toVO(HyperListEntity entity) {
-        HyperListMenu r = new HyperListMenu(
-                new HyperListHeader(entity.getName(), entity.getLastUpdate(), entity.getVersion(), entity.getExporterVersion()));
-        for (HyperListGameEntity gameEntity : entity.getGames()) {
-            r.addGame(new HyperListGame(gameEntity.getName(), gameEntity.getIndex(), gameEntity.getImage(),
-                    gameEntity.description, gameEntity.cloneof, gameEntity.getCrc(), gameEntity.getManufacturer(),
-                    gameEntity.getYear(), gameEntity.getGenre(), gameEntity.getRating()));
+    private static HyperListMenuDTO toVO(HyperListEntity entity, boolean detail) {
+        HyperListMenuDTO r = new HyperListMenuDTO(
+                new HyperListHeader(entity.getName(), entity.getLastUpdate(), entity.getVersion(),
+                        entity.getExporterVersion()), entity.getId());
+        if (detail) {
+            for (HyperListGameEntity gameEntity : entity.getGames()) {
+                r.addGame(new HyperListGame(gameEntity.getName(), gameEntity.getIndex(), gameEntity.getImage(),
+                        gameEntity.description, gameEntity.cloneof, gameEntity.getCrc(), gameEntity.getManufacturer(),
+                        gameEntity.getYear(), gameEntity.getGenre(), gameEntity.getRating()));
+            }
         }
         return r;
     }
@@ -65,7 +72,7 @@ public class HyperListService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public HyperListMenu create(HyperListMenu datafile) {
+    public HyperListMenuDTO create(HyperListMenu datafile) {
         LOG.info("create(name=" + datafile.getHeader().getListname()
                 + ", lastUpdate=" + datafile.getHeader().getLastlistupdate()
                 + ", version=" + datafile.getHeader().getListversion()
@@ -92,26 +99,52 @@ public class HyperListService {
             }
         }
 
-        return toVO(entity);
+        return toVO(entity, true);
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public HyperListMenu findByUnique(String name, String lastUpdate, String version) {
+    public HyperListMenuDTO findByUnique(String name, String lastUpdate, String version) {
         HyperListEntity entity = datafileDAO.findByUnique(name, lastUpdate, version);
         if (entity != null) {
-            return new HyperListMenu(
-                    new HyperListHeader(entity.getName(), entity.getLastUpdate(), entity.getVersion(), entity.getExporterVersion())
+            return new HyperListMenuDTO(
+                    new HyperListHeader(entity.getName(), entity.getLastUpdate(), entity.getVersion(),
+                            entity.getExporterVersion()), entity.getId()
             );
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public HyperListMenu findByUniqueFull(String name, String lastUpdate, String version) {
+    public HyperListMenuDTO findByUniqueFull(String name, String lastUpdate, String version) {
         HyperListEntity entity = datafileDAO.findByUnique(name, lastUpdate, version);
         if (entity != null) {
-            return toVO(entity);
+            return toVO(entity, true);
         }
         return null;
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public HyperListMenuDTO findByIdFull(Long id) {
+        HyperListEntity entity = datafileDAO.findOne(id);
+        if (entity != null) {
+            return toVO(entity, true);
+        }
+        return null;
+    }
+
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<HyperListMenuDTO> find(String name, int page, int pageSize) {
+        PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<HyperListEntity> l;
+        if (name != null) {
+            l = datafileDAO.findByNameLike("%" + name + "%", pr);
+        } else {
+            l = datafileDAO.findAll(pr);
+        }
+        PaginatedResult<HyperListMenuDTO> result = new PaginatedResult<>(l.hasNext());
+        for (HyperListEntity entity : l.getContent()) {
+            result.add(toVO(entity, false));
+        }
+        return result;
     }
 }
