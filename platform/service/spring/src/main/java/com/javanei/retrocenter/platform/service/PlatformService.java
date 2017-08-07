@@ -1,6 +1,6 @@
 package com.javanei.retrocenter.platform.service;
 
-import com.javanei.retrocenter.common.Identified;
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Platform;
 import com.javanei.retrocenter.platform.entity.PlatformAltNameEntity;
 import com.javanei.retrocenter.platform.entity.PlatformEntity;
@@ -9,14 +9,14 @@ import com.javanei.retrocenter.platform.persistence.PlatformDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Service
@@ -30,7 +30,7 @@ public class PlatformService {
     private PlatformAltNameDAO platformAltNameDAO;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Identified<Platform> createPlatform(Platform platform) {
+    public PlatformDTO createPlatform(Platform platform) {
         PlatformEntity entity = new PlatformEntity(platform.getName(), platform.getShortName(), platform.getStorageFolder());
         if (!platform.getAlternateNames().isEmpty()) {
             Set<PlatformAltNameEntity> alts = new HashSet<>();
@@ -42,43 +42,43 @@ public class PlatformService {
             entity.setAlternateNames(alts);
         }
         entity = platformDAO.saveAndFlush(entity);
-        return new Identified<Platform>(entity.getId(), platform);
+        return new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Identified<Platform> findPlatformByName(String name) {
+    public PlatformDTO findPlatformByName(String name) {
         PlatformEntity entity = platformDAO.findByName(name);
         if (entity != null) {
-            Platform p = new Platform(entity.getName(), entity.getShortName(), entity.getStorageFolder());
+            PlatformDTO p = new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
             Set<PlatformAltNameEntity> alts = entity.getAlternateNames();
             if (!alts.isEmpty()) {
                 for (PlatformAltNameEntity alt : alts) {
                     p.addAlternateName(alt.getAlternateName());
                 }
             }
-            return new Identified<>(entity.getId(), p);
+            return p;
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Identified<Platform> findPlatformByID(Long id) {
+    public PlatformDTO findPlatformByID(Long id) {
         PlatformEntity entity = platformDAO.findOne(id);
         if (entity != null) {
-            Platform p = new Platform(entity.getName(), entity.getShortName(), entity.getStorageFolder());
+            PlatformDTO p = new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
             Set<PlatformAltNameEntity> alts = entity.getAlternateNames();
             if (!alts.isEmpty()) {
                 for (PlatformAltNameEntity alt : alts) {
                     p.addAlternateName(alt.getAlternateName());
                 }
             }
-            return new Identified<>(entity.getId(), p);
+            return p;
         }
         return null;
     }
 
     @Transactional(propagation = Propagation.SUPPORTS)
-    public Identified<Platform> findPlatform(String name) {
+    public PlatformDTO findPlatform(String name) {
         PlatformEntity entity = platformDAO.findByName(name);
         if (entity == null) {
             PlatformAltNameEntity altEntity = platformAltNameDAO.findByAlternateName(name);
@@ -87,51 +87,55 @@ public class PlatformService {
             }
         }
         if (entity != null) {
-            Platform p = new Platform(entity.getName(), entity.getShortName(), entity.getStorageFolder());
+            PlatformDTO p = new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
             Set<PlatformAltNameEntity> alts = entity.getAlternateNames();
             if (!alts.isEmpty()) {
                 for (PlatformAltNameEntity alt : alts) {
                     p.addAlternateName(alt.getAlternateName());
                 }
             }
-            return new Identified<>(entity.getId(), p);
+            return p;
         }
         return null;
     }
 
-    public List<Identified<Platform>> findPlatform(String name, String alternateName) {
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<PlatformDTO> findPlatform(String name, String alternateName, int page, int pageSize) {
+        PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         if (alternateName != null) {
-            Identified<Platform> p = this.findPlatform(alternateName);
+            PlatformDTO p = this.findPlatform(alternateName);
             if (p != null) {
-                List<Identified<Platform>> r = new ArrayList<>();
+                PaginatedResult<PlatformDTO> r = new PaginatedResult<>();
                 r.add(p);
                 return r;
             }
-            return Collections.emptyList();
+            return new PaginatedResult<>();
         } else if (name != null) {
-            Identified<Platform> p = this.findPlatformByName(name);
+            PlatformDTO p = this.findPlatformByName(name);
             if (p != null) {
-                List<Identified<Platform>> r = new ArrayList<>();
+                PaginatedResult<PlatformDTO> r = new PaginatedResult<>();
                 r.add(p);
                 return r;
             }
-            return Collections.emptyList();
+            return new PaginatedResult<>();
         }
-        return findAllPlatforms();
+        return findAllPlatforms(page, pageSize);
     }
 
-    public List<Identified<Platform>> findAllPlatforms() {
-        List<PlatformEntity> entities = platformDAO.findAll();
-        List<Identified<Platform>> result = new ArrayList<>();
-        for (PlatformEntity entity : entities) {
-            Platform p = new Platform(entity.getName(), entity.getShortName(), entity.getStorageFolder());
+    @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
+    public PaginatedResult<PlatformDTO> findAllPlatforms(int page, int pageSize) {
+        PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<PlatformEntity> entities = platformDAO.findAll(pr);
+        PaginatedResult<PlatformDTO> result = new PaginatedResult<>(entities.hasNext());
+        for (PlatformEntity entity : entities.getContent()) {
+            PlatformDTO p = new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
             Set<PlatformAltNameEntity> alts = entity.getAlternateNames();
             if (!alts.isEmpty()) {
                 for (PlatformAltNameEntity alt : alts) {
                     p.addAlternateName(alt.getAlternateName());
                 }
             }
-            result.add(new Identified<>(entity.getId(), p));
+            result.add(p);
         }
         return result;
     }

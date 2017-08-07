@@ -1,7 +1,8 @@
 package com.javanei.retrocenter.server.rest.platform;
 
-import com.javanei.retrocenter.common.Identified;
+import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Platform;
+import com.javanei.retrocenter.platform.service.PlatformDTO;
 import com.javanei.retrocenter.platform.service.PlatformService;
 import com.javanei.retrocenter.server.ErrorResponse;
 import io.swagger.annotations.Api;
@@ -21,10 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
 @RestController
 @RequestMapping(value = "/api/platforms")
 @Api(tags = {"Platforms service"}, produces = "application/json")
@@ -36,15 +33,13 @@ public class PlatformRest {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find a platform by ID")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 200, message = "Ok", response = PlatformDTO.class),
             @ApiResponse(code = 400, message = "Platform Not Found")
     })
-    public ResponseEntity<PlatformVO> findByID(@PathVariable("id") Long id) throws Exception {
-        Identified<Platform> p = service.findPlatformByID(id);
+    public ResponseEntity<PlatformDTO> findByID(@PathVariable("id") Long id) throws Exception {
+        PlatformDTO p = service.findPlatformByID(id);
         if (p != null) {
-            PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
-                    p.get().getStorageFolder(), p.get().getAlternateNames());
-            return ResponseEntity.ok(vo);
+            return ResponseEntity.ok(p);
         }
         return ResponseEntity.notFound().build();
     }
@@ -52,20 +47,15 @@ public class PlatformRest {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of platforms")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok")
+            @ApiResponse(code = 200, message = "Ok", response = CollectionResult.class)
     })
-    public ResponseEntity<List<PlatformVO>> find(
+    public ResponseEntity<PaginatedResult<PlatformDTO>> find(
             @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "alternateName", required = false) String alternateName)
-            throws Exception {
-        List<Identified<Platform>> platforms = service.findPlatform(name, alternateName);
-        List<PlatformVO> result = new ArrayList<>();
-        for (Identified<Platform> p : platforms) {
-            PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
-                    p.get().getStorageFolder(), p.get().getAlternateNames());
-            result.add(vo);
-        }
-        return ResponseEntity.ok(result);
+            @RequestParam(value = "alternateName", required = false) String alternateName,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
+        PaginatedResult<PlatformDTO> platforms = service.findPlatform(name, alternateName, page, pageSize);
+        return ResponseEntity.ok(platforms);
     }
 
     @RequestMapping(value = "/", method = RequestMethod.POST,
@@ -73,33 +63,17 @@ public class PlatformRest {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Add a new platform")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Ok"),
+            @ApiResponse(code = 201, message = "Ok", response = PlatformDTO.class),
             @ApiResponse(code = 400, message = "Platform already exists")
     })
-    public ResponseEntity<PlatformVO> create(@RequestBody Platform platform) throws Exception {
+    public ResponseEntity<PlatformDTO> create(@RequestBody Platform platform) throws Exception {
         if (service.findPlatformByName(platform.getName()) != null) {
             return new ResponseEntity(new ErrorResponse("Platform already exists"), HttpStatus.BAD_REQUEST);
         }
-        Identified<Platform> p = service.createPlatform(platform);
-        PlatformVO vo = new PlatformVO(p.getId(), p.get().getName(), p.get().getShortName(),
-                p.get().getStorageFolder(), p.get().getAlternateNames());
+        PlatformDTO vo = service.createPlatform(platform);
         return new ResponseEntity(vo, HttpStatus.CREATED);
     }
 
-    private class PlatformVO extends Platform {
-        private Long id;
-
-        public PlatformVO(Long id, String name, String shortName, String storageFolder, Set<String> alternateNames) {
-            super(name, shortName, storageFolder, alternateNames);
-            this.id = id;
-        }
-
-        public Long getId() {
-            return id;
-        }
-
-        public void setId(Long id) {
-            this.id = id;
-        }
+    private class CollectionResult extends PaginatedResult<PlatformDTO> {
     }
 }
