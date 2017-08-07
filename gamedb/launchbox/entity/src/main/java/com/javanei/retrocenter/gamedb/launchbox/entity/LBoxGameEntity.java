@@ -35,7 +35,7 @@ public class LBoxGameEntity implements Serializable {
     private Integer releaseYear;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "PLATFORM_ID", nullable = false)
+    @JoinColumn(name = "LBOX_PLATFORM_ID", nullable = false)
     private LBoxPlatformEntity platform;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = true)

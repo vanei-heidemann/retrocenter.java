@@ -24,7 +24,7 @@ public class LBoxPlatformEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "PLATFORM_ID", nullable = false)
+    @Column(name = "LBOX_PLATFORM_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)
@@ -44,7 +44,7 @@ public class LBoxPlatformEntity implements Serializable {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "LBOX_PLATFORM_ALT_NAME",
-            joinColumns = @JoinColumn(name = "PLATFORM_ID",
+            joinColumns = @JoinColumn(name = "LBOX_PLATFORM_ID",
                     foreignKey = @ForeignKey(name = "FK_LBOX_PLAT_ALT_NAME"),
                     unique = false)
     )
