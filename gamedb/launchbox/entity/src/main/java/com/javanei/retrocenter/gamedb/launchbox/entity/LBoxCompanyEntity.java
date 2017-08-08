@@ -15,7 +15,7 @@ public class LBoxCompanyEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "COMPANY_ID", nullable = false)
+    @Column(name = "LBOX_COMPANY_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)
