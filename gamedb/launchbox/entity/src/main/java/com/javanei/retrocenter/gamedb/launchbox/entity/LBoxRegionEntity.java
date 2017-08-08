@@ -15,7 +15,7 @@ public class LBoxRegionEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "REGION_ID", nullable = false)
+    @Column(name = "LBOX_REGION_ID", nullable = false)
     private Long id;
 
     @Column(name = "NAME", length = 255, nullable = false, unique = true)
