@@ -16,7 +16,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "LBOX_GAME_IMAGE", uniqueConstraints =
         {@UniqueConstraint(columnNames =
-                {"GAME_ID", "IMAGE_TYPE", "FILE_NAME", "CRC32", "LBOX_REGION_ID"})
+                {"LBOX_GAME_ID", "IMAGE_TYPE", "FILE_NAME", "CRC32", "LBOX_REGION_ID"})
         })
 public class LBoxGameImageEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -40,7 +40,7 @@ public class LBoxGameImageEntity implements Serializable {
     private LBoxRegionEntity region;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "GAME_ID")
+    @JoinColumn(name = "LBOX_GAME_ID")
     private LBoxGameEntity game;
 
     public LBoxGameImageEntity() {

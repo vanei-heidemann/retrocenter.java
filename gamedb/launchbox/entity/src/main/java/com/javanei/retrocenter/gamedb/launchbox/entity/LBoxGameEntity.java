@@ -22,7 +22,7 @@ public class LBoxGameEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "GAME_ID", length = 32, nullable = false, unique = true)
+    @Column(name = "LBOX_GAME_ID", length = 32, nullable = false, unique = true)
     private String databaseID;
 
     @Column(name = "NAME", length = 255, nullable = false)
@@ -49,7 +49,7 @@ public class LBoxGameEntity implements Serializable {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
             name = "LBOX_GAME_FILE_NAME",
-            joinColumns = @JoinColumn(name = "GAME_ID",
+            joinColumns = @JoinColumn(name = "LBOX_GAME_ID",
                     foreignKey = @ForeignKey(name = "FK_LBOX_GAME_FILE_NAME"),
                     unique = false)
     )

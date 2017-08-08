@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "LBOX_GAME_REGION",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"GAME_ID", "LBOX_REGION_ID"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_GAME_ID", "LBOX_REGION_ID"}))
 public class LBoxGameRegionEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class LBoxGameRegionEntity implements Serializable {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "GAME_ID")
+    @JoinColumn(name = "LBOX_GAME_ID")
     private LBoxGameEntity game;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
