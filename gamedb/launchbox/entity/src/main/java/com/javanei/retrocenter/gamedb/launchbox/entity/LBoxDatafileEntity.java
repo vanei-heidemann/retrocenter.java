@@ -20,7 +20,7 @@ public class LBoxDatafileEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "DATAFILE_ID", nullable = false)
+    @Column(name = "LBOX_DATAFILE_ID", nullable = false)
     private Long id;
 
     @Column(name = "VERSION", length = 16, nullable = false, unique = true)

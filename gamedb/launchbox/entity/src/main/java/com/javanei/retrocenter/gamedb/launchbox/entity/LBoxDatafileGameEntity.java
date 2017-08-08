@@ -15,7 +15,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "LBOX_DATAFILE_GAME",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"DATAFILE_ID", "LBOX_GAME_ID"}))
+        uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_DATAFILE_ID", "LBOX_GAME_ID"}))
 public class LBoxDatafileGameEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public class LBoxDatafileGameEntity implements Serializable {
     private Long id;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "DATAFILE_ID")
+    @JoinColumn(name = "LBOX_DATAFILE_ID")
     private LBoxDatafileEntity datafile;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = false)
