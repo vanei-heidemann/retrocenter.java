@@ -379,10 +379,13 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public PaginatedResult<LBoxPlatformDTO> findPlatformsByVersion(String version, int page, int pageSize) {
-        LOG.debug("findPlatformsByVersion(version=" + version + ")");
+    public PaginatedResult<LBoxPlatformDTO> findPlatformsByVersion(String version, Long platformId,
+                                                                   int page, int pageSize) {
+        LOG.debug("findPlatformsByVersion(version=" + version + ", platformId=" + platformId + ")");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "platform.name"));
-        Page<LBoxDatafilePlatformEntity> l = datafilePlatformDAO.findByDatafile_Version(version, pr);
+        Page<LBoxDatafilePlatformEntity> l = platformId == null
+                ? datafilePlatformDAO.findByDatafile_Version(version, pr)
+                : datafilePlatformDAO.findByDatafile_VersionAndPlatform_PlatformId(version, platformId, pr);
         PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(l.hasNext());
         for (LBoxDatafilePlatformEntity p : l.getContent()) {
             result.add(entityToPlatformDTO(p.getPlatform()));
@@ -392,10 +395,10 @@ public class LBoxService {
     }
 
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-    public PaginatedResult<LBoxPlatformDTO> findPlatforms(int page, int pageSize) {
+    public PaginatedResult<LBoxPlatformDTO> findPlatforms(Long platformId, int page, int pageSize) {
         LOG.debug("findPlatforms()");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
-        Page<LBoxPlatformEntity> l = platformDAO.findAll(pr);
+        Page<LBoxPlatformEntity> l = platformId == null ? platformDAO.findAll(pr) : platformDAO.findByPlatformId(platformId, pr);
         PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(l.hasNext());
         for (LBoxPlatformEntity e : l) {
             result.add(entityToPlatformDTO(e));
@@ -432,7 +435,7 @@ public class LBoxService {
 
     private LBoxPlatformDTO entityToPlatformDTO(LBoxPlatformEntity entity) {
         if (entity != null) {
-            LBoxPlatformDTO p = new LBoxPlatformDTO(entity.getName(), entity.getId());
+            LBoxPlatformDTO p = new LBoxPlatformDTO(entity.getName(), entity.getId(), entity.getPlatformId());
             p.setManufacturer(entityToCompanyDTO(entity.getManufacturer()));
             p.setDeveloper(entityToCompanyDTO(entity.getDeveloper()));
             p.setAlternateNames(entity.getAlternateNames());
@@ -477,7 +480,8 @@ public class LBoxService {
         g.setReleaseDate(ge.getReleaseDate());
         g.setPublisher(entityToCompanyDTO(ge.getPublisher()));
         g.setDeveloper(entityToCompanyDTO(ge.getDeveloper()));
-        g.setPlatform(new LBoxPlatformDTO(ge.getPlatform().getName(), ge.getPlatform().getId()));
+        g.setPlatform(new LBoxPlatformDTO(ge.getPlatform().getName(), ge.getPlatform().getId(),
+                ge.getPlatform().getPlatformId()));
         //g.setPlatform(entityToPlatformDTO(ge.getPlatform()));
         g.setFileNames(ge.getFileNames());
         for (LBoxGameImageEntity gi : ge.getImages()) {

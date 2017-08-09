@@ -8,4 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface LBoxDatafilePlatformDAO extends JpaRepository<LBoxDatafilePlatformEntity, Long> {
     Page<LBoxDatafilePlatformEntity> findByDatafile_Version(@Param("version") String version, Pageable pageable);
+
+    Page<LBoxDatafilePlatformEntity> findByDatafile_VersionAndPlatform_PlatformId(@Param("version") String version,
+                                                                                  @Param("platformId") Long platformId,
+                                                                                  Pageable pageable);
 }

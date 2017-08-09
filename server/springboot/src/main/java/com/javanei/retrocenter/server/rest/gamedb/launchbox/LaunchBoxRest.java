@@ -89,10 +89,12 @@ public class LaunchBoxRest {
     @ApiResponses({
             @ApiResponse(code = 200, message = "Ok", response = PlatformCollectionResult.class)
     })
-    public ResponseEntity<PaginatedResult<LBoxPlatformDTO>> findPlatformsByVersion(@PathVariable(value = "version", required = true) String version,
-                                                                                   @RequestParam(value = "page", defaultValue = "0", required = true) int page,
-                                                                                   @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
-        return ResponseEntity.ok(service.findPlatformsByVersion(version, page, pageSize));
+    public ResponseEntity<PaginatedResult<LBoxPlatformDTO>> findPlatformsByVersion(
+            @PathVariable(value = "version", required = true) String version,
+            @ApiParam(name = "platformId") @RequestParam(value = "platformId", required = false) Long platformId,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
+        return ResponseEntity.ok(service.findPlatformsByVersion(version, platformId, page, pageSize));
     }
 
     @RequestMapping(value = "/platforms", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -101,9 +103,11 @@ public class LaunchBoxRest {
             @ApiResponse(code = 200, message = "Ok", response = PlatformCollectionResult.class)
     })
     public ResponseEntity<PaginatedResult<LBoxPlatformDTO>> findPlatforms(
+            @ApiParam(name = "platformId") @RequestParam(value = "platformId", required = false) Long platformId,
             @RequestParam(value = "page", defaultValue = "0", required = true) int page,
             @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize) {
-        return ResponseEntity.ok(service.findPlatforms(page, pageSize));
+        LOG.info("::::::::: findPlatforms(" + platformId + ", " + page + ", " + pageSize + ")");
+        return ResponseEntity.ok(service.findPlatforms(platformId, page, pageSize));
     }
 
     @RequestMapping(value = "/{version:.+}/regions", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)

@@ -57,6 +57,10 @@ public class LBoxPlatformEntity implements Serializable {
     private Set<String> alternateNames = new HashSet<>();
     //ALTER TABLE lbox_platform_alt_name CONVERT TO CHARACTER SET UTF8 COLLATE utf8_bin;
 
+    @Column(name = "PLATFORM_ID", nullable = false)
+    private Long platformId = -1l;
+    //UPDATE lbox_platform SET platform_id = -1;
+
     public LBoxPlatformEntity() {
     }
 
@@ -117,6 +121,14 @@ public class LBoxPlatformEntity implements Serializable {
         this.alternateNames = alternateNames;
     }
 
+    public Long getPlatformId() {
+        return platformId;
+    }
+
+    public void setPlatformId(Long platformId) {
+        this.platformId = platformId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -141,6 +153,7 @@ public class LBoxPlatformEntity implements Serializable {
                 ", developer=" + developer +
                 ", manufacturer=" + manufacturer +
                 ", alternateNames=" + alternateNames +
+                ", platformId=" + platformId +
                 '}';
     }
 }
