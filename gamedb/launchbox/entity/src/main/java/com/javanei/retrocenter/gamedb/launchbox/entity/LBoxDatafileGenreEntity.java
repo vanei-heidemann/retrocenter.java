@@ -13,6 +13,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_datafile_genre drop foreign key FKe5x1sx83h4nbjx24gsrxyensr;
+ * alter table lbox_datafile_genre drop foreign key FKj1tdul4vet3v7tj4busuw6tcr;
+ * alter table lbox_datafile_genre drop key UKt0wp0y85us2r8emav24l4xlls;
+ * alter table lbox_datafile_genre drop key FKe5x1sx83h4nbjx24gsrxyensr;
+ * alter table lbox_datafile_genre change datafile_id lbox_datafile_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_datafile_genre drop foreign key FKj1tdul4vet3v7tj4busuw6tcr;
+ * alter table lbox_datafile_genre drop foreign key FKrligatydn3c1ww0elaapdvl11;
+ * alter table lbox_datafile_genre drop key UK1ujqjdo53cf7daoprfloanis0;
+ * alter table lbox_datafile_genre drop key FKrligatydn3c1ww0elaapdvl11;
+ * alter table lbox_datafile_genre change genre_id lbox_genre_id bigint(20) NOT NULL;
+ */
 @Entity
 @Table(name = "LBOX_DATAFILE_GENRE",
         uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_DATAFILE_ID", "LBOX_GENRE_ID"}))

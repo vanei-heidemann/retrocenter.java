@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_region change region_id lbox_region_id bigint(20) NOT NULL AUTO_INCREMENT;
+ */
 @Entity
 @Table(name = "LBOX_REGION")
 public class LBoxRegionEntity implements Serializable {

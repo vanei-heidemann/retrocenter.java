@@ -13,6 +13,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_game_image drop foreign key FK19d4l74taesk6la9vxt9rj3k8;
+ * alter table lbox_game_image drop foreign key FKol9r11w1sytdc01seawkrr3sm;
+ * alter table lbox_game_image drop key UK6bvd6aimbv52dyt3atjlvfv24;
+ * alter table lbox_game_image drop key FKol9r11w1sytdc01seawkrr3sm;
+ * alter table lbox_game_image change game_id lbox_game_id varchar(32) NOT NULL;
+ * <p>
+ * alter table lbox_game_image drop foreign key FK19d4l74taesk6la9vxt9rj3k8;
+ * alter table lbox_game_image drop foreign key FK2ryjt6o067blm7mbo18v6gfax;
+ * alter table lbox_game_image drop key UKim7sun92mve9pbxspvp6c4y3s;
+ * alter table lbox_game_image drop key FK2ryjt6o067blm7mbo18v6gfax;
+ * alter table lbox_game_image change region_id lbox_region_id bigint(20) DEFAULT NULL;
+ */
 @Entity
 @Table(name = "LBOX_GAME_IMAGE", uniqueConstraints =
         {@UniqueConstraint(columnNames =

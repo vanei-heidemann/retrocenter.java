@@ -16,6 +16,17 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * alter table lbox_game change game_id lbox_game_id varchar(32) NOT NULL;
+ * <p>
+ * alter table lbox_game change platform_id lbox_platform_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_game_file_name drop foreign key FK6dnv6kskt65gbms72f1s0mngc;
+ * alter table lbox_game_file_name change game_id lbox_game_id varchar(32) NOT NULL;
+ * <p>
+ * alter table lbox_game drop foreign key FKf0phyyr3lvp5vju21gselia20;
+ * alter table lbox_game drop key FKf0phyyr3lvp5vju21gselia20;
+ */
 @Entity
 @Table(name = "LBOX_GAME")
 public class LBoxGameEntity implements Serializable {

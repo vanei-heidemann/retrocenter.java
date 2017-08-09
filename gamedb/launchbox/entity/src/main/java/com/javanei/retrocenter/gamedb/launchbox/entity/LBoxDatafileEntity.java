@@ -13,6 +13,9 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * alter table lbox_datafile change datafile_id lbox_datafile_id bigint(20) NOT NULL AUTO_INCREMENT;
+ */
 @Entity
 @Table(name = "LBOX_DATAFILE")
 public class LBoxDatafileEntity implements Serializable {

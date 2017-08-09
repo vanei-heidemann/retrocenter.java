@@ -13,6 +13,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_datafile_region drop foreign key FKmfjtb1i3scyfw0htyctcfn75i;
+ * alter table lbox_datafile_region drop foreign key FKs6c62mmi3erm8he0blt904ibx;
+ * alter table lbox_datafile_region drop key FKs6c62mmi3erm8he0blt904ibx;
+ * alter table lbox_datafile_region drop key FKmfjtb1i3scyfw0htyctcfn75i;
+ * alter table lbox_datafile_region change datafile_id lbox_datafile_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_datafile_region drop foreign key FKd6ifmlenn7lf9p98l7f5wwthc;
+ * alter table lbox_datafile_region drop foreign key FKs6c62mmi3erm8he0blt904ibx;
+ * alter table lbox_datafile_region drop key UKl39cvwserrxfuj54sue3gfq44;
+ * alter table lbox_datafile_region drop key FKd6ifmlenn7lf9p98l7f5wwthc;
+ * alter table lbox_datafile_region change region_id lbox_region_id bigint(20) NOT NULL;
+ */
 @Entity
 @Table(name = "LBOX_DATAFILE_REGION",
         uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_DATAFILE_ID", "LBOX_REGION_ID"}))

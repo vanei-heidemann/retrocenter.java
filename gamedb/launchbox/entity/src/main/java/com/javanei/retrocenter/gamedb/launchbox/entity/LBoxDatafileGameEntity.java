@@ -13,6 +13,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_datafile_game drop foreign key FKg9rayoxfwobyx05xlvcpyayxt;
+ * alter table lbox_datafile_game drop foreign key FKpxnlmardyd9kuin4aqbdalcer;
+ * alter table lbox_datafile_game drop key UKo8144p7k6r4e93xs3ml032tel;
+ * alter table lbox_datafile_game drop key FKg9rayoxfwobyx05xlvcpyayxt;
+ * alter table lbox_datafile_game change datafile_id lbox_datafile_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_datafile_game drop foreign key FK73skp62i81mxs4x55nrkgpyku;
+ * alter table lbox_datafile_game drop foreign key FKpxnlmardyd9kuin4aqbdalcer;
+ * alter table lbox_datafile_game drop key UKeue1iock9h43onf1han07jcpt;
+ * alter table lbox_datafile_game drop key FK73skp62i81mxs4x55nrkgpyku;
+ * alter table lbox_datafile_game change game_id lbox_game_id varchar(32) NOT NULL;
+ */
 @Entity
 @Table(name = "LBOX_DATAFILE_GAME",
         uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_DATAFILE_ID", "LBOX_GAME_ID"}))

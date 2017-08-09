@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_company change company_id lbox_company_id bigint(20) NOT NULL AUTO_INCREMENT;
+ */
 @Entity
 @Table(name = "LBOX_COMPANY")
 public class LBoxCompanyEntity implements Serializable {

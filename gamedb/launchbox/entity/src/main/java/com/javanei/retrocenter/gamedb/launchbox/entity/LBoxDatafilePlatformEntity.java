@@ -13,6 +13,20 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_datafile_platform drop foreign key FK1bc9blx1j1k6xywsson5ig5da;
+ * alter table lbox_datafile_platform drop foreign key FKomvprt73aq43qxx4i708513ql;
+ * alter table lbox_datafile_platform drop key UK98k6txy2ejuwbwegmih9c0gfu;
+ * alter table lbox_datafile_platform drop key FK1bc9blx1j1k6xywsson5ig5da;
+ * alter table lbox_datafile_platform change datafile_id lbox_datafile_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_datafile_platform change platform_id lbox_platform_id bigint(20) NOT NULL;
+ * <p>
+ * alter table lbox_datafile_platform drop foreign key FK4a2bq4kpilh0umgk6jbxce6o7;
+ * alter table lbox_datafile_platform drop key FK4a2bq4kpilh0umgk6jbxce6o7;
+ * alter table lbox_datafile_platform drop foreign key FKomvprt73aq43qxx4i708513ql;
+ * alter table lbox_datafile_platform drop index UK1b1fqmhhm9m7krsf80e9v8pv4;
+ */
 @Entity
 @Table(name = "LBOX_DATAFILE_PLATFORM",
         uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_DATAFILE_ID", "LBOX_PLATFORM_ID"}))

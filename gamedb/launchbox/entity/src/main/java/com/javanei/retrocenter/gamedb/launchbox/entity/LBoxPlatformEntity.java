@@ -17,6 +17,11 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * alter table lbox_platform change platform_id lbox_platform_id bigint(20) NOT NULL AUTO_INCREMENT;
+ * alter table lbox_platform_alt_name drop foreign key FK6ixar94uke2y1jmypiwdtip5l;
+ * alter table lbox_platform_alt_name change platform_id lbox_platform_id bigint(20) NOT NULL;
+ */
 @Entity
 @Table(name = "LBOX_PLATFORM")
 public class LBoxPlatformEntity implements Serializable {

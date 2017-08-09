@@ -13,6 +13,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_game_genre drop foreign key FK5udm1hke3i3t788llbx8wx1hj;
+ * alter table lbox_game_genre drop foreign key FKjxjoynlocljavwbo1n8jgrtyw;
+ * alter table lbox_game_genre drop key UK72a7uyqk5x7ms9nef7jficbjy;
+ * alter table lbox_game_genre drop key FKjxjoynlocljavwbo1n8jgrtyw;
+ * alter table lbox_game_genre change game_id lbox_game_id varchar(32) NOT NULL;
+ * <p>
+ * alter table lbox_game_genre drop foreign key FK5udm1hke3i3t788llbx8wx1hj;
+ * alter table lbox_game_genre drop foreign key FKqjskbaak7gymkioh9hwxgfj4h;
+ * alter table lbox_game_genre drop key UKp0yqwwhujh8it2o0prv0lahou;
+ * alter table lbox_game_genre drop key FKqjskbaak7gymkioh9hwxgfj4h;
+ * alter table lbox_game_genre change genre_id lbox_genre_id bigint(20) NOT NULL;
+ */
 @Entity
 @Table(name = "LBOX_GAME_GENRE",
         uniqueConstraints = @UniqueConstraint(columnNames = {"LBOX_GAME_ID", "LBOX_GENRE_ID"}))

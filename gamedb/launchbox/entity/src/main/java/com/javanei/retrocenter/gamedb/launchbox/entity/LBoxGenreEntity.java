@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
 
+/**
+ * alter table lbox_genre change genre_id lbox_genre_id bigint(20) NOT NULL AUTO_INCREMENT;
+ */
 @Entity
 @Table(name = "LBOX_GENRE")
 public class LBoxGenreEntity implements Serializable {
