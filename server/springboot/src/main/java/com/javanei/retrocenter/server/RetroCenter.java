@@ -27,7 +27,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAsync
 public class RetroCenter {
+    public static final String REPOSITORY_BASE_DIR = System.getProperty("retrocenter.repository.basedir", System.getenv("retrocenter.repository.basedir"));
+
     public static void main(String[] args) throws Exception {
+        if (REPOSITORY_BASE_DIR == null) {
+            throw new Exception("Property not found: retrocenter.repository.basedir");
+        }
+        
         SpringApplication.run(RetroCenter.class, args);
     }
 }

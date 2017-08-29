@@ -1,10 +1,14 @@
 package com.javanei.retrocenter.server.rest.platform;
 
+import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Platform;
+import com.javanei.retrocenter.platform.service.PlatformArtifactFileSavedDTO;
+import com.javanei.retrocenter.platform.service.PlatformArtifactFileService;
 import com.javanei.retrocenter.platform.service.PlatformDTO;
 import com.javanei.retrocenter.platform.service.PlatformService;
 import com.javanei.retrocenter.server.ErrorResponse;
+import com.javanei.retrocenter.server.RetroCenter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,14 +25,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/platforms")
 @Api(tags = {"Platforms service"}, produces = "application/json")
 public class PlatformRest {
     private static final Logger LOG = LoggerFactory.getLogger(PlatformRest.class);
+
     @Autowired
-    public PlatformService service;
+    private PlatformService service;
+    @Autowired
+    private PlatformArtifactFileService fileService;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Find a platform by ID")
@@ -72,6 +83,27 @@ public class PlatformRest {
         }
         PlatformDTO vo = service.createPlatform(platform);
         return new ResponseEntity(vo, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/{id}/files", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Upload a artifact")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Ok"),
+            @ApiResponse(code = 400, message = "File is empty")
+    })
+    public ResponseEntity<List<PlatformArtifactFileSavedDTO>> upload(
+            @PathVariable("id") Long id,
+            @RequestParam(value = "importInfo", required = true) @NotNull String importInfo,
+            @RequestParam("type") @NotNull ArtifactFileTypeEnum type,
+            @RequestParam("file") @NotNull MultipartFile uploadfile) throws Exception {
+        if (uploadfile.isEmpty()) {
+            LOG.info("File is empty");
+            return new ResponseEntity(new ErrorResponse("File is empty"), HttpStatus.BAD_REQUEST);
+        }
+        LOG.info("File uploaded: " + uploadfile.getOriginalFilename() + ", size=" + uploadfile.getSize());
+        List<PlatformArtifactFileSavedDTO> result = fileService.importFile(id, RetroCenter.REPOSITORY_BASE_DIR,
+                importInfo, uploadfile.getOriginalFilename(), type, uploadfile.getBytes());
+        return new ResponseEntity(result, HttpStatus.CREATED);
     }
 
     private class CollectionResult extends PaginatedResult<PlatformDTO> {

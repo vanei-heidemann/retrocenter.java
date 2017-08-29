@@ -1,4 +1,4 @@
-package com.javanei.retrocenter.datafile;
+package com.javanei.retrocenter.common;
 
 public enum ArtifactFileTypeEnum {
     ROM,

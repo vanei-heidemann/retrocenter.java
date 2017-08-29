@@ -1,9 +1,9 @@
 package com.javanei.retrocenter.mame;
 
+import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;

@@ -1,0 +1,18 @@
+package com.javanei.retrocenter.platform.persistence;
+
+import com.javanei.retrocenter.platform.entity.PlatformArtifactFileEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface PlatformArtifactFileDAO extends JpaRepository<PlatformArtifactFileEntity, Long> {
+    List<PlatformArtifactFileEntity> findByPlatform_id(Long platformId);
+
+    PlatformArtifactFileEntity findByPlatform_idAndName(Long platformId, String name);
+
+    List<PlatformArtifactFileEntity> findByPlatform_idAndSha1(Long platformId, String sha1);
+
+    List<PlatformArtifactFileEntity> findByPlatform_idAndMd5(Long platformId, String Md5);
+
+    List<PlatformArtifactFileEntity> findByPlatform_idAndCrc(Long platformId, String crc);
+}

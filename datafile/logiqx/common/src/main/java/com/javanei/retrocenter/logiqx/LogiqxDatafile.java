@@ -1,8 +1,8 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
-import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;

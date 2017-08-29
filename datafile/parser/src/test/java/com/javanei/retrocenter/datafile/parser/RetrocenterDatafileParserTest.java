@@ -1,7 +1,7 @@
 package com.javanei.retrocenter.datafile.parser;
 
+import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
-import com.javanei.retrocenter.datafile.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.datafile.Datafile;
 import com.javanei.retrocenter.datafile.DatafileArtifact;
 import com.javanei.retrocenter.datafile.DatafileArtifactFile;

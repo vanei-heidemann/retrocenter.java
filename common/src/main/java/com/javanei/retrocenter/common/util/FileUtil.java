@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.zip.CRC32;
@@ -56,6 +58,20 @@ public final class FileUtil {
         CRC32 crc = new CRC32();
         crc.update(b);
         return crc.getValue();
+    }
+
+    public static byte[] getMD5(byte[] b) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("MD5");
+        md5.reset();
+        md5.update(b);
+        return md5.digest();
+    }
+
+    public static byte[] getSHA1(byte[] b) throws NoSuchAlgorithmException {
+        MessageDigest md5 = MessageDigest.getInstance("SHA1");
+        md5.reset();
+        md5.update(b);
+        return md5.digest();
     }
 
     public static void moveFile(File srcFile, File dstFile) throws IOException {
