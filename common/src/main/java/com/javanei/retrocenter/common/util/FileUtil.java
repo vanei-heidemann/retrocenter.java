@@ -107,6 +107,9 @@ public final class FileUtil {
     }
 
     public static void writeFile(File destFile, byte[] bytes) throws IOException {
+        if (!destFile.getParentFile().exists()) {
+            destFile.getParentFile().mkdirs();
+        }
         try (FileOutputStream out = new FileOutputStream(destFile)) {
             out.write(bytes);
         }

@@ -155,6 +155,11 @@ public class ZipUtil {
         addFileToZip(zipFile, name, null, b);
     }
 
+    public static String getComment(File zipFile) throws IOException {
+        ZipFile zip = new ZipFile(zipFile);
+        return zip.getComment();
+    }
+
     public static void addFileToZip(File zipFile, String name, String comment, byte[] b) throws IOException {
         // Cria um arquivo temporário
         File outZip = new File(zipFile.getParentFile(), "___tmp.zip");
