@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileAlreadyExistsException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
@@ -146,6 +148,21 @@ public class ZipUtil {
             int count;
             while ((count = in.read(b)) > 0) {
                 out.write(b, 0, count);
+            }
+            out.closeEntry();
+        }
+    }
+
+    public static void createZipFile(File zipFile, File[] files) throws IOException {
+        createZipFile(zipFile, Arrays.asList(files));
+    }
+
+    public static void createZipFile(File zipFile, List<File> files) throws IOException {
+        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile))) {
+            for (File f : files) {
+                out.putNextEntry(new ZipEntry(f.getName()));
+                out.write(FileUtil.readFile(f));
+                out.flush();
             }
             out.closeEntry();
         }
