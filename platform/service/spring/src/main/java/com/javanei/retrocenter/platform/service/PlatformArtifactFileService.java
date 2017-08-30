@@ -100,7 +100,7 @@ public class PlatformArtifactFileService {
 
         File file = new File(repositoryBaseDir);
         file = new File(file, platform.getStorageFolder());
-        file = new File(file, entity.getType());
+        //file = new File(file, entity.getType());
         file = new File(file, entity.getName() + ".zip");
         LOG.info("  Salvando para arquivo: " + file.getAbsolutePath());
         if (!file.exists()) {
