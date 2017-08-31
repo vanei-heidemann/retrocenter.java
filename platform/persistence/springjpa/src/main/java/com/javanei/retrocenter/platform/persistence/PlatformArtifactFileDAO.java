@@ -1,12 +1,16 @@
 package com.javanei.retrocenter.platform.persistence;
 
 import com.javanei.retrocenter.platform.entity.PlatformArtifactFileEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
 public interface PlatformArtifactFileDAO extends JpaRepository<PlatformArtifactFileEntity, Long> {
     List<PlatformArtifactFileEntity> findByPlatform_id(Long platformId);
+
+    Page<PlatformArtifactFileEntity> findByPlatform_id(Long platformId, Pageable pageable);
 
     PlatformArtifactFileEntity findByPlatform_idAndName(Long platformId, String name);
 

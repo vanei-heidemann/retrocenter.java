@@ -3,6 +3,7 @@ package com.javanei.retrocenter.server.rest.platform;
 import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Platform;
+import com.javanei.retrocenter.platform.service.PlatformArtifactFileDTO;
 import com.javanei.retrocenter.platform.service.PlatformArtifactFileSavedDTO;
 import com.javanei.retrocenter.platform.service.PlatformArtifactFileService;
 import com.javanei.retrocenter.platform.service.PlatformDTO;
@@ -58,7 +59,7 @@ public class PlatformRest {
     @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Return a list of platforms")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Ok", response = CollectionResult.class)
+            @ApiResponse(code = 200, message = "Ok", response = PlatformCollectionResult.class)
     })
     public ResponseEntity<PaginatedResult<PlatformDTO>> find(
             @RequestParam(value = "name", required = false) String name,
@@ -89,7 +90,8 @@ public class PlatformRest {
     @ApiOperation(value = "Upload a artifact")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Ok"),
-            @ApiResponse(code = 400, message = "File is empty")
+            @ApiResponse(code = 400, message = "File is empty"),
+            @ApiResponse(code = 400, message = "Platform Not Found")
     })
     public ResponseEntity<List<PlatformArtifactFileSavedDTO>> upload(
             @PathVariable("id") Long id,
@@ -106,6 +108,25 @@ public class PlatformRest {
         return new ResponseEntity(result, HttpStatus.CREATED);
     }
 
-    private class CollectionResult extends PaginatedResult<PlatformDTO> {
+    @RequestMapping(value = "/{id}/files", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a list files of platforms")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok", response = PlatformArtifactFileCollectionResult.class),
+            @ApiResponse(code = 400, message = "Platform Not Found")
+    })
+    public ResponseEntity<PaginatedResult<PlatformArtifactFileDTO>> listFilesOfPlatform(
+            @PathVariable("id") Long id,
+            @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+            @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize,
+            @RequestParam(value = "showInfo", defaultValue = "false") Boolean showInfo
+    ) throws Exception {
+        PaginatedResult<PlatformArtifactFileDTO> result = fileService.findFilesByPlatform(id, page, pageSize, showInfo);
+        return ResponseEntity.ok(result);
+    }
+
+    private class PlatformCollectionResult extends PaginatedResult<PlatformDTO> {
+    }
+
+    private class PlatformArtifactFileCollectionResult extends PaginatedResult<PlatformArtifactFileDTO> {
     }
 }

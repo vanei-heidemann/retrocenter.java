@@ -1,6 +1,9 @@
 package com.javanei.retrocenter.platform.service;
 
 import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
+import com.javanei.retrocenter.common.PaginatedResult;
+import com.javanei.retrocenter.common.PlatformNotFoundException;
+import com.javanei.retrocenter.common.RetrocenterException;
 import com.javanei.retrocenter.common.util.FileUtil;
 import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ZipUtil;
@@ -15,6 +18,9 @@ import com.javanei.retrocenter.platform.persistence.PlatformDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -145,7 +151,8 @@ public class PlatformArtifactFileService {
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PlatformArtifactFileSavedDTO> importFile(Long platformId, String repositoryBaseDir, String importInfo,
                                                          String originalArtifactFileName, ArtifactFileTypeEnum type,
-                                                         byte[] fileContent) throws NoSuchAlgorithmException, IOException {
+                                                         byte[] fileContent)
+            throws NoSuchAlgorithmException, IOException, RetrocenterException {
         LOG.info("importFile(platformId=" + platformId + ", repositoryBaseDir=" + repositoryBaseDir
                 + ", importInfo=" + importInfo + ", originalArtifactFileName=" + originalArtifactFileName
                 + ", type=" + type + ", fileContent=" + fileContent.length + ")"
@@ -154,7 +161,7 @@ public class PlatformArtifactFileService {
 
         PlatformEntity platform = platformDAO.findOne(platformId);
         if (platform == null) {
-            throw new IllegalArgumentException("PlatformID: " + platformId);
+            throw new PlatformNotFoundException(platformId);
         }
         LOG.info("Platform: " + platform);
         if (ZipUtil.isZip(fileContent)) {
@@ -167,5 +174,31 @@ public class PlatformArtifactFileService {
             result.add(importFile(platform, repositoryBaseDir, importInfo, originalArtifactFileName, type, fileContent));
         }
         return result;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PaginatedResult<PlatformArtifactFileDTO> findFilesByPlatform(Long platformId,
+                                                                        int page,
+                                                                        int pageSize,
+                                                                        boolean showInfo) throws PlatformNotFoundException {
+        PlatformEntity platform = platformDAO.findOne(platformId);
+        if (platform == null) {
+            throw new PlatformNotFoundException(platformId);
+        }
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<PlatformArtifactFileEntity> l = fileDAO.findByPlatform_id(platformId, paging);
+        PaginatedResult<PlatformArtifactFileDTO> r = new PaginatedResult<>(l.hasNext());
+        for (PlatformArtifactFileEntity e : l) {
+            PlatformArtifactFileDTO vo = new PlatformArtifactFileDTO(e.getId(), e.getName(), e.getType(), e.getSize(),
+                    e.getCrc(), e.getMd5(), e.getSha1());
+            r.add(vo);
+            if (showInfo) {
+                List<PlatformArtifactFileInfoEntity> li = infoDAO.findByPlatformArtifactFile_id(e.getId());
+                for (PlatformArtifactFileInfoEntity ie : li) {
+                    vo.addInfo(ie.getInfo());
+                }
+            }
+        }
+        return r;
     }
 }
