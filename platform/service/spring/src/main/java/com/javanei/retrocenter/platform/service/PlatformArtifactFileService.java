@@ -49,10 +49,22 @@ public class PlatformArtifactFileService {
     @Autowired
     private PlatformArtifactFileImportHistoryDAO historyDAO;
 
-    private PlatformArtifactFileSavedDTO importFile(PlatformEntity platform, String repositoryBaseDir, String importInfo,
-                                                    String originalArtifactFileName, ArtifactFileTypeEnum type,
-                                                    byte[] fileContent) throws NoSuchAlgorithmException, IOException {
+    private List<PlatformArtifactFileSavedDTO> importFile(PlatformEntity platform, String repositoryBaseDir, String importInfo,
+                                                          String originalArtifactFileName, ArtifactFileTypeEnum type,
+                                                          boolean expandZipContent,
+                                                          byte[] fileContent) throws NoSuchAlgorithmException, IOException {
         LOG.info("  importFile(originalArtifactFileName=" + originalArtifactFileName + ")");
+        List<PlatformArtifactFileSavedDTO> lResult = new LinkedList<>();
+        if (expandZipContent && ZipUtil.isZip(fileContent)) {
+            LOG.info("    It's a zip, extract content");
+            Map<String, byte[]> files = ZipUtil.extractToByteArray(fileContent);
+            for (String name : files.keySet()) {
+                lResult.addAll(importFile(platform, repositoryBaseDir, importInfo, name, type,
+                        expandZipContent, files.get(name)));
+            }
+            return lResult;
+        }
+
         PlatformArtifactFileSavedDTO result = new PlatformArtifactFileSavedDTO();
         result.setPlatformId(platform.getId());
         result.setPlatformName(platform.getName());
@@ -67,14 +79,13 @@ public class PlatformArtifactFileService {
         entity.setName(entity.getSha1());
         entity.setSize(new Long(fileContent.length));
         entity.setPlatform(platform);
-
         List<PlatformArtifactFileEntity> l = fileDAO.findByPlatform_idAndSha1(platform.getId(),
                 entity.getSha1());
         for (PlatformArtifactFileEntity e : l) {
             if (entity.getCrc().equals(e.getCrc())
                     && entity.getMd5().equals(e.getMd5())
                     && entity.getSize().longValue() == e.getSize().longValue()) {
-                LOG.info("  Já existe (" + e.getId() + ")");
+                LOG.info("  Already existis (" + e.getId() + ")");
                 entity = e;
                 break;
             }
@@ -145,12 +156,14 @@ public class PlatformArtifactFileService {
             result.setFileName(info.getInfo());
         }
 
-        return result;
+        lResult.add(result);
+        return lResult;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PlatformArtifactFileSavedDTO> importFile(Long platformId, String repositoryBaseDir, String importInfo,
                                                          String originalArtifactFileName, ArtifactFileTypeEnum type,
+                                                         Boolean expandZip, Boolean expandInternalZip,
                                                          byte[] fileContent)
             throws NoSuchAlgorithmException, IOException, RetrocenterException {
         LOG.info("importFile(platformId=" + platformId + ", repositoryBaseDir=" + repositoryBaseDir
@@ -164,14 +177,16 @@ public class PlatformArtifactFileService {
             throw new PlatformNotFoundException(platformId);
         }
         LOG.info("Platform: " + platform);
-        if (ZipUtil.isZip(fileContent)) {
+        if (expandZip.booleanValue() && ZipUtil.isZip(fileContent)) {
             LOG.info("  Is zip file");
             Map<String, byte[]> files = ZipUtil.extractToByteArray(fileContent);
             for (String name : files.keySet()) {
-                result.add(importFile(platform, repositoryBaseDir, importInfo, name, type, files.get(name)));
+                result.addAll(importFile(platform, repositoryBaseDir, importInfo, name, type,
+                        expandInternalZip.booleanValue(), files.get(name)));
             }
         } else {
-            result.add(importFile(platform, repositoryBaseDir, importInfo, originalArtifactFileName, type, fileContent));
+            result.addAll(importFile(platform, repositoryBaseDir, importInfo, originalArtifactFileName, type,
+                    expandInternalZip.booleanValue(), fileContent));
         }
         return result;
     }

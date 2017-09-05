@@ -97,14 +97,17 @@ public class PlatformRest {
             @PathVariable("id") Long id,
             @RequestParam(value = "importInfo", required = true) @NotNull String importInfo,
             @RequestParam("type") @NotNull ArtifactFileTypeEnum type,
-            @RequestParam("file") @NotNull MultipartFile uploadfile) throws Exception {
+            @RequestParam("file") @NotNull MultipartFile uploadfile,
+            @RequestParam(value = "expandZip", defaultValue = "true") boolean expandZip,
+            @RequestParam(value = "expandInternalZip", defaultValue = "true") boolean expandInternalZip) throws Exception {
         if (uploadfile.isEmpty()) {
             LOG.info("File is empty");
             return new ResponseEntity(new ErrorResponse("File is empty"), HttpStatus.BAD_REQUEST);
         }
         LOG.info("File uploaded: " + uploadfile.getOriginalFilename() + ", size=" + uploadfile.getSize());
         List<PlatformArtifactFileSavedDTO> result = fileService.importFile(id, RetroCenter.REPOSITORY_BASE_DIR,
-                importInfo, uploadfile.getOriginalFilename(), type, uploadfile.getBytes());
+                importInfo, uploadfile.getOriginalFilename(), type, expandZip, expandInternalZip,
+                uploadfile.getBytes());
         return new ResponseEntity(result, HttpStatus.CREATED);
     }
 
