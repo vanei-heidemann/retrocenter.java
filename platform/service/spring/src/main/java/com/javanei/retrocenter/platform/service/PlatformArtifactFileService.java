@@ -49,6 +49,83 @@ public class PlatformArtifactFileService {
     @Autowired
     private PlatformArtifactFileImportHistoryDAO historyDAO;
 
+    private static File calculaDestFile(File baseDir, String fileName) {
+        File r = new File(
+                new File(
+                        new File(
+                                new File(
+                                        new File(
+                                                new File(
+                                                        new File(baseDir, "REPO"),
+                                                        fileName.substring(0, 1) + "0000000"),
+                                                fileName.substring(8, 9) + "0000000"),
+                                        fileName.substring(16, 17) + "0000000"),
+                                fileName.substring(24, 25) + "0000000"),
+                        fileName.substring(32, 33) + "0000000"),
+                fileName);
+        if (!r.getParentFile().exists()) {
+            r.getParentFile().mkdirs();
+        }
+        return r;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PlatformArtifactFileSavedDTO> importFile(Long platformId, String repositoryBaseDir, String importInfo,
+                                                         String originalArtifactFileName, ArtifactFileTypeEnum type,
+                                                         Boolean expandZip, Boolean expandInternalZip,
+                                                         byte[] fileContent)
+            throws NoSuchAlgorithmException, IOException, RetrocenterException {
+        LOG.info("importFile(platformId=" + platformId + ", repositoryBaseDir=" + repositoryBaseDir
+                + ", importInfo=" + importInfo + ", originalArtifactFileName=" + originalArtifactFileName
+                + ", type=" + type + ", fileContent=" + fileContent.length + ")"
+        );
+        List<PlatformArtifactFileSavedDTO> result = new LinkedList<>();
+
+        PlatformEntity platform = platformDAO.findOne(platformId);
+        if (platform == null) {
+            throw new PlatformNotFoundException(platformId);
+        }
+        LOG.info("Platform: " + platform);
+        if (expandZip.booleanValue() && ZipUtil.isZip(fileContent)) {
+            LOG.info("  Is zip file");
+            Map<String, byte[]> files = ZipUtil.extractToByteArray(fileContent);
+            for (String name : files.keySet()) {
+                result.addAll(importFile(platform, repositoryBaseDir, importInfo, name, type,
+                        expandInternalZip.booleanValue(), files.get(name)));
+            }
+        } else {
+            result.addAll(importFile(platform, repositoryBaseDir, importInfo, originalArtifactFileName, type,
+                    expandInternalZip.booleanValue(), fileContent));
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public PaginatedResult<PlatformArtifactFileDTO> findFilesByPlatform(Long platformId,
+                                                                        int page,
+                                                                        int pageSize,
+                                                                        boolean showInfo) throws PlatformNotFoundException {
+        PlatformEntity platform = platformDAO.findOne(platformId);
+        if (platform == null) {
+            throw new PlatformNotFoundException(platformId);
+        }
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
+        Page<PlatformArtifactFileEntity> l = fileDAO.findByPlatform_id(platformId, paging);
+        PaginatedResult<PlatformArtifactFileDTO> r = new PaginatedResult<>(l.hasNext());
+        for (PlatformArtifactFileEntity e : l) {
+            PlatformArtifactFileDTO vo = new PlatformArtifactFileDTO(e.getId(), e.getName(), e.getType(), e.getSize(),
+                    e.getCrc(), e.getMd5(), e.getSha1());
+            r.add(vo);
+            if (showInfo) {
+                List<PlatformArtifactFileInfoEntity> li = infoDAO.findByPlatformArtifactFile_id(e.getId());
+                for (PlatformArtifactFileInfoEntity ie : li) {
+                    vo.addInfo(ie.getInfo());
+                }
+            }
+        }
+        return r;
+    }
+
     private List<PlatformArtifactFileSavedDTO> importFile(PlatformEntity platform, String repositoryBaseDir, String importInfo,
                                                           String originalArtifactFileName, ArtifactFileTypeEnum type,
                                                           boolean expandZipContent,
@@ -116,13 +193,12 @@ public class PlatformArtifactFileService {
         }
 
         File file = new File(repositoryBaseDir);
-        file = new File(file, platform.getStorageFolder());
-        //file = new File(file, entity.getType());
-        file = new File(file, entity.getName() + ".zip");
-        LOG.info("  Salvando para arquivo: " + file.getAbsolutePath());
+        file = calculaDestFile(file, entity.getName() + ".zip");
         if (!file.exists()) {
-            file.getParentFile().mkdirs();
+            LOG.info("  Saving file: " + file.getAbsolutePath());
             ZipUtil.addFileToZip(file, entity.getName(), originalArtifactFileName, fileContent);
+        } else {
+            LOG.info("  File already exists: " + file.getAbsolutePath());
         }
 
         entity = fileDAO.save(entity);
@@ -144,13 +220,15 @@ public class PlatformArtifactFileService {
         history = historyDAO.save(history);
         result.setImportInfo(history.getDescription());
 
+        String artifactFileName = originalArtifactFileName.contains("/")
+                ? originalArtifactFileName.substring(originalArtifactFileName.lastIndexOf("/") + 1)
+                : originalArtifactFileName;
+
         PlatformArtifactFileInfoEntity info = infoDAO.findByPlatformArtifactFile_idAndInfo(entity.getId(),
-                originalArtifactFileName);
+                artifactFileName);
         if (info == null) {
             info = new PlatformArtifactFileInfoEntity();
-            info.setInfo(originalArtifactFileName.contains("/")
-                    ? originalArtifactFileName.substring(originalArtifactFileName.lastIndexOf("/") + 1)
-                    : originalArtifactFileName);
+            info.setInfo(artifactFileName);
             info.setPlatformArtifactFile(entity);
             info = infoDAO.save(info);
             result.setFileName(info.getInfo());
@@ -158,62 +236,5 @@ public class PlatformArtifactFileService {
 
         lResult.add(result);
         return lResult;
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<PlatformArtifactFileSavedDTO> importFile(Long platformId, String repositoryBaseDir, String importInfo,
-                                                         String originalArtifactFileName, ArtifactFileTypeEnum type,
-                                                         Boolean expandZip, Boolean expandInternalZip,
-                                                         byte[] fileContent)
-            throws NoSuchAlgorithmException, IOException, RetrocenterException {
-        LOG.info("importFile(platformId=" + platformId + ", repositoryBaseDir=" + repositoryBaseDir
-                + ", importInfo=" + importInfo + ", originalArtifactFileName=" + originalArtifactFileName
-                + ", type=" + type + ", fileContent=" + fileContent.length + ")"
-        );
-        List<PlatformArtifactFileSavedDTO> result = new LinkedList<>();
-
-        PlatformEntity platform = platformDAO.findOne(platformId);
-        if (platform == null) {
-            throw new PlatformNotFoundException(platformId);
-        }
-        LOG.info("Platform: " + platform);
-        if (expandZip.booleanValue() && ZipUtil.isZip(fileContent)) {
-            LOG.info("  Is zip file");
-            Map<String, byte[]> files = ZipUtil.extractToByteArray(fileContent);
-            for (String name : files.keySet()) {
-                result.addAll(importFile(platform, repositoryBaseDir, importInfo, name, type,
-                        expandInternalZip.booleanValue(), files.get(name)));
-            }
-        } else {
-            result.addAll(importFile(platform, repositoryBaseDir, importInfo, originalArtifactFileName, type,
-                    expandInternalZip.booleanValue(), fileContent));
-        }
-        return result;
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    public PaginatedResult<PlatformArtifactFileDTO> findFilesByPlatform(Long platformId,
-                                                                        int page,
-                                                                        int pageSize,
-                                                                        boolean showInfo) throws PlatformNotFoundException {
-        PlatformEntity platform = platformDAO.findOne(platformId);
-        if (platform == null) {
-            throw new PlatformNotFoundException(platformId);
-        }
-        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
-        Page<PlatformArtifactFileEntity> l = fileDAO.findByPlatform_id(platformId, paging);
-        PaginatedResult<PlatformArtifactFileDTO> r = new PaginatedResult<>(l.hasNext());
-        for (PlatformArtifactFileEntity e : l) {
-            PlatformArtifactFileDTO vo = new PlatformArtifactFileDTO(e.getId(), e.getName(), e.getType(), e.getSize(),
-                    e.getCrc(), e.getMd5(), e.getSha1());
-            r.add(vo);
-            if (showInfo) {
-                List<PlatformArtifactFileInfoEntity> li = infoDAO.findByPlatformArtifactFile_id(e.getId());
-                for (PlatformArtifactFileInfoEntity ie : li) {
-                    vo.addInfo(ie.getInfo());
-                }
-            }
-        }
-        return r;
     }
 }
