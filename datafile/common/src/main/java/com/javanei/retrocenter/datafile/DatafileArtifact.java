@@ -219,4 +219,14 @@ public class DatafileArtifact implements Serializable {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+    @Override
+    public String toString() {
+        return "DatafileArtifact{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", year='" + year + '\'' +
+                ", comment='" + comment + '\'' +
+                '}';
+    }
 }
