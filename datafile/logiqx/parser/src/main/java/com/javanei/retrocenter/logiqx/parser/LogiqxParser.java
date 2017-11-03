@@ -13,19 +13,20 @@ import com.javanei.retrocenter.logiqx.LogiqxHeader;
 import com.javanei.retrocenter.logiqx.LogiqxRelease;
 import com.javanei.retrocenter.logiqx.LogiqxRom;
 import com.javanei.retrocenter.logiqx.LogiqxSample;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 public class LogiqxParser implements Parser {
     private static final Logger LOG = LoggerFactory.getLogger(LogiqxParser.class);
@@ -132,7 +133,17 @@ public class LogiqxParser implements Parser {
                                         ReflectionUtil.setValueByNodeContent(game, n1);
                                 }
                             }
-                            r.addGame(game);
+                            if (r.getGames().contains(game)) {
+                                for (LogiqxGame lg : r.getGames()) {
+                                    if (lg.getName().equals(game.getName())) {
+                                        for (LogiqxRom lr : game.getRoms()) {
+                                            lg.addRom(lr);
+                                        }
+                                    }
+                                }
+                            } else {
+                                r.addGame(game);
+                            }
                             break;
                         default:
                             throw new UnknownTagException(n.getNodeName());

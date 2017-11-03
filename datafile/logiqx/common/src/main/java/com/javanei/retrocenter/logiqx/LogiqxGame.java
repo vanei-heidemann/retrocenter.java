@@ -1,6 +1,8 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.DuplicatedItemException;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Objects;
@@ -248,6 +250,9 @@ public class LogiqxGame implements Serializable {
     }
 
     public void addRom(LogiqxRom rom) {
+        if (this.roms.contains(rom)) {
+            throw new DuplicatedItemException("rom (" + rom.getName() + ")");
+        }
         this.roms.add(rom);
     }
 
