@@ -17,7 +17,7 @@ import java.io.File;
 public class UploadDirectoryDatafiles {
     private static final String SERVER_URL = "http://localhost:8080/retrocenter/api/";
     private static final String TARGET_URL = SERVER_URL + "datafiles/";
-    private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC-v2017-11-01/TOSEC-PIX";
+    private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC-v2017-11-01/TOSEC";
     //private static final String BASE_DIR = "F:/Desenv/Fontes/Java/retrocenter/resources/no-intro";
     //private static final String BASE_DIR = "F:/Downloads/Emulator/Hyperspin/Databases/";
     private static final boolean DELETE_FILE = true;
