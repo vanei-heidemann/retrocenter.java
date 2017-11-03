@@ -108,7 +108,7 @@ public class LogiqxDatafile implements DatafileObject, Serializable {
             sb.append(game.toString());
         }
 
-        sb.append("<datafile>\n");
+        sb.append("</datafile>\n");
         return sb.toString();
     }
 

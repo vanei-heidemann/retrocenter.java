@@ -47,7 +47,7 @@ public class LogiqxArchive implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\t\t<archive name=\"").append(this.name).append(" />\n");
+        sb.append("\t\t<archive name=\"").append(this.name.replace(" & ", " &amp; ")).append(" />\n");
         return sb.toString();
     }
 }

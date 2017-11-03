@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+
 import java.beans.Transient;
 import java.io.Serializable;
 import java.util.Objects;
@@ -77,7 +78,7 @@ public class LogiqxRom implements Serializable {
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+            sb.append(" ").append(name).append("=\"").append(value.toString().replace(" & ", " &amp; ")).append("\"");
     }
 
     public String getName() {

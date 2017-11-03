@@ -113,12 +113,12 @@ public class LogiqxGame implements Serializable {
 
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append("\t\t<").append(name).append(">").append(value).append("</").append(name).append(">\n");
+            sb.append("\t\t<").append(name).append(">").append(value.toString().replace(" & ", " &amp; ")).append("</").append(name).append(">\n");
     }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value).append("\"");
+            sb.append(" ").append(name).append("=\"").append(value.toString().replace(" & ", " &amp; ")).append("\"");
     }
 
     public String getName() {
