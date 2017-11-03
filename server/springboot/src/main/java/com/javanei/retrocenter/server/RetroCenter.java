@@ -14,7 +14,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.javanei.retrocenter.logiqx.entity",
         "com.javanei.retrocenter.hyperlist.entity",
         "com.javanei.retrocenter.platform.entity",
-        "com.javanei.retrocenter.gamedb.launchbox.entity"
+        "com.javanei.retrocenter.gamedb.launchbox.entity",
+        "com.javanei.retrocenter.goodtools.entity"
 })
 @EnableJpaRepositories(basePackages = {"com.javanei.retrocenter.mame.persistence",
         "com.javanei.retrocenter.clrmamepro.persistence",
@@ -22,7 +23,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         "com.javanei.retrocenter.logiqx.persistence",
         "com.javanei.retrocenter.hyperlist.persistence",
         "com.javanei.retrocenter.platform.persistence",
-        "com.javanei.retrocenter.gamedb.launchbox.persistence"
+        "com.javanei.retrocenter.gamedb.launchbox.persistence",
+        "com.javanei.retrocenter.goodtools.persistence"
 })
 @EnableTransactionManagement
 @EnableAsync

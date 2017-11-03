@@ -6,10 +6,10 @@
 
     <parent>
         <groupId>com.javanei.retrocenter</groupId>
-        <artifactId>retrocenter-datafile</artifactId>
+        <artifactId>retrocenter-datafile-goodtools</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>retrocenter-datafile-parser</artifactId>
+    <artifactId>retrocenter-datafile-goodtools-common</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -36,34 +36,13 @@
     <dependencies>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-logiqx-parser</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
+            <artifactId>retrocenter-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-cmpro-parser</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-mame-parser</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-hyperlist-parser</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-goodtools-parser</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <artifactId>retrocenter-datafile-common</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

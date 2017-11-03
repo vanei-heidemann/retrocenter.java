@@ -4,7 +4,8 @@ public enum DatafileCatalogEnum {
     NoIntro,
     TOSEC,
     MAME,
-    HyperList;
+    HyperList,
+    GoodSet;
 
     public static DatafileCatalogEnum fromName(String name) {
         if (name == null) {
@@ -17,6 +18,8 @@ public enum DatafileCatalogEnum {
             return MAME;
         } else if (name.toLowerCase().equalsIgnoreCase("hyperlist")) {
             return HyperList;
+        } else if (name.toLowerCase().equals("goodset")) {
+            return GoodSet;
         }
         throw new IllegalArgumentException(name);
     }
@@ -27,6 +30,7 @@ public enum DatafileCatalogEnum {
                         || name.toLowerCase().contains("nointro")
                         || name.toUpperCase().contains("TOSEC")
                         || name.toUpperCase().contains("MAME")
-                        || name.toLowerCase().contains("hyperlist"));
+                        || name.toLowerCase().contains("hyperlist")
+                        || name.toLowerCase().contains("goodset"));
     }
 }

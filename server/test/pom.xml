@@ -116,5 +116,11 @@
             <artifactId>retrocenter-gamedb-launchbox-parser</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.javanei.retrocenter</groupId>
+            <artifactId>retrocenter-datafile-goodtools-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

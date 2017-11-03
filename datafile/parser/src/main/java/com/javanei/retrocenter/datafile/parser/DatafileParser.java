@@ -4,9 +4,13 @@ import com.javanei.retrocenter.clrmamepro.parser.CMProParser;
 import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
+import com.javanei.retrocenter.goodtools.parser.GoodParser;
 import com.javanei.retrocenter.hyperlist.parser.HyperListParser;
 import com.javanei.retrocenter.logiqx.parser.LogiqxParser;
 import com.javanei.retrocenter.mame.parser.MameParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,8 +18,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DatafileParser implements Parser {
     private static final Logger LOG = LoggerFactory.getLogger(DatafileParser.class);
@@ -51,6 +53,9 @@ public class DatafileParser implements Parser {
                     LOG.info("parser class: " + parser.getClass());
                 } else if (s.contains("logiqx") || s.contains("<datafile")) {
                     parser = new LogiqxParser();
+                    LOG.info("parser class: " + parser.getClass());
+                } else if (s.contains("<GoodTools")) {
+                    parser = new GoodParser();
                     LOG.info("parser class: " + parser.getClass());
                 }
             }
