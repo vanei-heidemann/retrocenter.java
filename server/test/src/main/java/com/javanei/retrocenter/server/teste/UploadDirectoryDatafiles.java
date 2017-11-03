@@ -2,23 +2,24 @@ package com.javanei.retrocenter.server.teste;
 
 import com.google.gson.Gson;
 import com.javanei.retrocenter.datafile.Datafile;
-import java.io.File;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import java.io.File;
 
 public class UploadDirectoryDatafiles {
-    private static final String SERVER_URL = "http://localhost:8080/retrocenter/";
+    private static final String SERVER_URL = "http://localhost:8080/retrocenter/api/";
     private static final String TARGET_URL = SERVER_URL + "datafiles/";
-    //private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC/TOSEC";
+    private static final String BASE_DIR = "F:/Downloads/Emulator/TOSEC-v2017-11-01/TOSEC-PIX";
     //private static final String BASE_DIR = "F:/Desenv/Fontes/Java/retrocenter/resources/no-intro";
-    private static final String BASE_DIR = "F:/Downloads/Emulator/Hyperspin/Databases/";
+    //private static final String BASE_DIR = "F:/Downloads/Emulator/Hyperspin/Databases/";
     private static final boolean DELETE_FILE = true;
 
     public static void main(String[] args) {
@@ -45,7 +46,7 @@ public class UploadDirectoryDatafiles {
                 Response response = webTarget.request(MediaType.APPLICATION_JSON_TYPE)
                         .post(Entity.entity(multiPart, multiPart.getMediaType()));
                 int status = response.getStatus();
-                if (status == 200) {
+                if (status == 200 || status == 201) {
                     System.out.println("--- " + response.getStatus() + ": " + response.getStatusInfo());
                     Gson gson = new Gson();
                     Datafile d = gson.fromJson(response.readEntity(String.class), Datafile.class);
