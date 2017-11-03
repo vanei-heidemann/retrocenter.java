@@ -2,6 +2,7 @@ package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.DatafileCatalogEnum;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
+
 import java.beans.Transient;
 import java.io.Serializable;
 
@@ -206,7 +207,7 @@ public class LogiqxHeader implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
-        if (this.catalog == null && DatafileCatalogEnum.isValid(description)) {
+        if (this.catalog == null && DatafileCatalogEnum.isValid(category)) {
             this.setCatalog(DatafileCatalogEnum.fromName(category));
         }
     }
