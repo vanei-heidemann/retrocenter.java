@@ -28,6 +28,5 @@
         <module>mame</module>
         <module>parser</module>
         <module>hyperlist</module>
-        <module>goodtools</module>
     </modules>
 </project>

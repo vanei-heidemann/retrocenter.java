@@ -119,7 +119,7 @@
 
         <dependency>
             <groupId>com.javanei.retrocenter</groupId>
-            <artifactId>retrocenter-datafile-goodtools-common</artifactId>
+            <artifactId>retrocenter-datafile-logiqx-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

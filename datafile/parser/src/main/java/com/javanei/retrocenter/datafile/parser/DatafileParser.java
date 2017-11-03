@@ -4,7 +4,6 @@ import com.javanei.retrocenter.clrmamepro.parser.CMProParser;
 import com.javanei.retrocenter.common.UnknownDatafileFormatException;
 import com.javanei.retrocenter.datafile.DatafileObject;
 import com.javanei.retrocenter.datafile.Parser;
-import com.javanei.retrocenter.goodtools.parser.GoodParser;
 import com.javanei.retrocenter.hyperlist.parser.HyperListParser;
 import com.javanei.retrocenter.logiqx.parser.LogiqxParser;
 import com.javanei.retrocenter.mame.parser.MameParser;
@@ -53,9 +52,6 @@ public class DatafileParser implements Parser {
                     LOG.info("parser class: " + parser.getClass());
                 } else if (s.contains("logiqx") || s.contains("<datafile")) {
                     parser = new LogiqxParser();
-                    LOG.info("parser class: " + parser.getClass());
-                } else if (s.contains("<GoodTools")) {
-                    parser = new GoodParser();
                     LOG.info("parser class: " + parser.getClass());
                 }
             }
