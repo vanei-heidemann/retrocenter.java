@@ -1,5 +1,7 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.StringUtil;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -47,7 +49,7 @@ public class LogiqxArchive implements Serializable {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("\t\t<archive name=\"").append(this.name.replace(" & ", " &amp; ")).append(" />\n");
+        sb.append("\t\t<archive name=\"").append(StringUtil.escapeXMLEntities(this.name)).append(" />\n");
         return sb.toString();
     }
 }

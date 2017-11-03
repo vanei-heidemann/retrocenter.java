@@ -1,5 +1,6 @@
 package com.javanei.retrocenter.logiqx;
 
+import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
 
 import java.io.Serializable;
@@ -60,7 +61,7 @@ public class LogiqxDisk implements Serializable {
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value.toString().replace(" & ", " &amp; ")).append("\"");
+            sb.append(" ").append(name).append("=\"").append(StringUtil.escapeXMLEntities(value.toString())).append("\"");
     }
 
     public String getName() {

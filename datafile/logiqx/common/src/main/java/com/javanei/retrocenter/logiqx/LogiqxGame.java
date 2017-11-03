@@ -1,6 +1,7 @@
 package com.javanei.retrocenter.logiqx;
 
 import com.javanei.retrocenter.common.DuplicatedItemException;
+import com.javanei.retrocenter.common.util.StringUtil;
 import com.javanei.retrocenter.common.util.ValidValuesUtil;
 
 import java.io.Serializable;
@@ -113,12 +114,12 @@ public class LogiqxGame implements Serializable {
 
     private static void appendTagIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append("\t\t<").append(name).append(">").append(value.toString().replace(" & ", " &amp; ")).append("</").append(name).append(">\n");
+            sb.append("\t\t<").append(name).append(">").append(StringUtil.escapeXMLEntities(value.toString())).append("</").append(name).append(">\n");
     }
 
     private static void appendAttributeIfNotNull(StringBuilder sb, String name, Object value) {
         if (value != null)
-            sb.append(" ").append(name).append("=\"").append(value.toString().replace(" & ", " &amp; ")).append("\"");
+            sb.append(" ").append(name).append("=\"").append(StringUtil.escapeXMLEntities(value.toString())).append("\"");
     }
 
     public String getName() {
