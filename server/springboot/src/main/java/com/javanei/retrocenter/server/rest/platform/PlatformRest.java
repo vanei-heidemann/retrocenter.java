@@ -104,7 +104,9 @@ public class PlatformRest {
             LOG.info("File is empty");
             return new ResponseEntity(new ErrorResponse("File is empty"), HttpStatus.BAD_REQUEST);
         }
-        LOG.info("File uploaded: " + uploadfile.getOriginalFilename() + ", size=" + uploadfile.getSize());
+        LOG.info("File uploaded: " + uploadfile.getOriginalFilename()
+                + ", size=" + uploadfile.getSize()
+                + ", importInto=" + importInfo);
         List<PlatformArtifactFileSavedDTO> result = fileService.importFile(id, RetroCenter.REPOSITORY_BASE_DIR,
                 importInfo, uploadfile.getOriginalFilename(), type, expandZip, expandInternalZip,
                 uploadfile.getBytes());
