@@ -1,20 +1,21 @@
-package com.javanei.retrocenter.server.teste;
+package com.javanei.retrocenter.utility;
 
 import com.google.gson.Gson;
 import com.javanei.retrocenter.datafile.Datafile;
-import java.io.File;
+import org.glassfish.jersey.media.multipart.MultiPart;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.media.multipart.file.FileDataBodyPart;
+import java.io.File;
 
 public class UploadDatafile {
-    private static final String TARGET_URL = "http://localhost:8080/retrocenter/datafiles/";
+    private static final String TARGET_URL = "http://localhost:8080/retrocenter/api/datafiles/";
 
     public static void main(String[] args) {
         try {

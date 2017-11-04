@@ -23,5 +23,6 @@
         <module>catalog</module>
         <module>gamedb</module>
         <module>platform</module>
+        <module>utility</module>
     </modules>
 </project>
