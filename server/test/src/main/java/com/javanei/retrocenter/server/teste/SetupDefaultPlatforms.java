@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SetupDefaultPlatforms {
-    private static final String TARGET_URL = "http://localhost:8080/retrocenter";
+    private static final String TARGET_URL = "http://localhost:8080/retrocenter/api";
 
     public static void main(String[] args) {
         try {
@@ -118,24 +118,48 @@ public class SetupDefaultPlatforms {
         l.add(new Platform("Apple Lisa", "Lisa", "Lisa"));
         l.add(new Platform("Coleco Adam", "Adam", "Adam",
                 new String[]{"ADAM"}));
-        */
-
         l.add(new Platform("Sinclair ZX Spectrum", "ZX Spectrum", "ZXSpectrum",
                 new String[]{"ZX Spectrum", "Spectrum", "ZX"}));
         l.add(new Platform("Tandy TRS-80", "TRS-80", "TRS-80",
                 new String[]{"Tandy TRS-80 Color Computer", "Tandy TRS-80 Color", "TRS-80", "Tandy",
                         "Tandy Color Computer", "TandyCoCo", "Tandy CoCo", "CoCo"}));
+        l.add(new Platform("Amstrad CPC", "CPC", "CPC",
+                new String[]{"Amstrad", "CPC", "Amstrad Colour Personal Computer", "Amstrad Color Personal Computer",
+                        "Colour Personal Computer", "Color Personal Computer"}));
+        l.add(new Platform("Tiger Game.com", "Game.com", "Game.com",
+                new String[]{"Game.com", "Tiger Game com", "TGame com"}));
+        l.add(new Platform("Thomson MO5", "MO5", "MO5"));
+        l.add(new Platform("Oric Atmos", "Oric", "Oric",
+                new String[]{"Atmos", "Tangerine Oric", "TCS Oric", "Oric"}));
         l.add(new Platform("TurboGrafx-16", "TurboGrafx-16", "TurboGrafx16",
                 new String[]{"TurboGrafx-16 Entertainment SuperSystem", "TurboGrafx 16", "TurboGrafx", "TESS",
                         "NEC TurboGrafx-16", "NEC PC Engine", "PC Engine", "NEC TurboGrafx 16",
                         "TurboGrafx 16 Entertainment SuperSystem", "NEC TurboGrafx"}));
-        l.add(new Platform("Amstrad CPC", "CPC", "CPC",
-                new String[]{"Amstrad", "CPC", "Amstrad Colour Personal Computer", "Amstrad Color Personal Computer",
-                        "Colour Personal Computer", "Color Personal Computer"}));
-        l.add(new Platform("GCE Vectrex", "Vectrex", "Vectrex",
-                new String[]{"Vectrex"}));
         l.add(new Platform("SAM Coupé", "Coupé", "Coupe",
                 new String[]{"Coupé", "SAM Coupe", "Coupe", "MGT SAM Coupe"}));
+        l.add(new Platform("SAM Coupé", "Coupé", "Coupe",
+                new String[]{"SAM Coupe", "Coupe", "MGT SAM Coupe"}));
+        l.add(new Platform("GCE Vectrex", "Vectrex", "Vectrex",
+                new String[]{"Vectrex"}));
+        l.add(new Platform("Watara Supervision", "Supervision", "Supervision",
+                new String[]{"Supervision"}));
+        l.add(new Platform("Bandai WonderSwan", "WonderSwan", "WSx",
+                new String[]{"WonderSwan"}));
+        l.add(new Platform("Bandai WonderSwan Color", "WonderSwan Color", "WSx",
+                new String[]{"WonderSwan Color"}));
+        l.add(new Platform("CPS-1", "CPS-1", "CPS1",
+                new String[]{"CPS1", "CPS 1", "Capcom CPS1", "Capcom CPS-1", "Capcom Play System 1", "CP System 1"}));
+        l.add(new Platform("CPS-2", "CPS-2", "CPS2",
+                new String[]{"CPS2", "CPS 2", "Capcom CPS2", "Capcom CPS-2", "Capcom CPS-II", "Capcom Play System 2",
+                        "Capcom Play System II", "CP System 2", "CP System II"}));
+        l.add(new Platform("CPS-3", "CPS-3", "CPS3",
+                new String[]{"CPS3", "CPS 3", "Capcom CPS3", "Capcom CPS-3", "Capcom CPS-III", "Capcom Play System 3",
+                        "Capcom Play System III", "CP System 3", "CP System III"}));
+        l.add(new Platform("PC Engine SuperGrafx", "SuperGrafx", "SuperGrafx",
+                new String[]{"SuperGrafx", "NEC SuperGrafx", "NEC PC Engine SuperGrafx", "PC Engine SG", "NEC PC Engine SG"}));
+        */
+
+        /*
 
         l.add(new Platform("Neo-Geo", "Neo-Geo", "NeoGeo",
                 new String[]{"Neo Geo", "NeoGeo", "SNK NeoGeo", "SNK Neo Geo", "SNK Neo-Geo",
@@ -146,27 +170,13 @@ public class SetupDefaultPlatforms {
                         "Multi Video System", "NeoGeo Multi Video System"}));
         l.add(new Platform("SNK Neo Geo CD", "Neo Geo CD", "NeoGeoCD",
                 new String[]{"Neo-Geo CD", "NeoGeo CD", "Neo Geo CD", "SNK NeoGeo CD", "NGCD"}));
-        l.add(new Platform("CPS-1", "CPS-1", "CPS1",
-                new String[]{"CPS1", "CPS 1", "Capcom CPS1", "Capcom CPS-1", "Capcom Play System 1", "CP System 1"}));
-        l.add(new Platform("CPS-2", "CPS-2", "CPS2",
-                new String[]{"CPS2", "CPS 2", "Capcom CPS2", "Capcom CPS-2", "Capcom CPS-II", "Capcom Play System 2",
-                        "Capcom Play System II", "CP System 2", "CP System II"}));
-        l.add(new Platform("CPS-3", "CPS-3", "CPS3",
-                new String[]{"CPS3", "CPS 3", "Capcom CPS3", "Capcom CPS-3", "Capcom CPS-III", "Capcom Play System 3",
-                        "Capcom Play System III", "CP System 3", "CP System III"}));
 
-        l.add(new Platform("Oric Atmos", "Oric", "Oric",
-                new String[]{"Atmos", "Tangerine Oric", "TCS Oric", "Oric"}));
-        l.add(new Platform("Tiger Game.com", "Game.com", "Game.com",
-                new String[]{"Game.com", "Tiger Game com", "TGame com"}));
         l.add(new Platform("Gizmondo", "Gizmondo", "Gizmondo",
                 new String[]{"Tiger Gizmondo"}));
-        l.add(new Platform("Watara Supervision", "Supervision", "Supervision",
-                new String[]{"Supervision"}));
+        */
 
         /*
         l.add(new Platform("Nokia N-Gage", "N-Gage", "NGage"));
-        l.add(new Platform("Thomson MO5", "MO5", "MO5"));
         */
 
 
