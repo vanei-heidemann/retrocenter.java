@@ -10,10 +10,12 @@ import com.javanei.retrocenter.common.util.ZipUtil;
 import com.javanei.retrocenter.platform.entity.PlatformArtifactFileEntity;
 import com.javanei.retrocenter.platform.entity.PlatformArtifactFileImportHistoryEntity;
 import com.javanei.retrocenter.platform.entity.PlatformArtifactFileInfoEntity;
+import com.javanei.retrocenter.platform.entity.PlatformArtifactFileInfoHistoryEntity;
 import com.javanei.retrocenter.platform.entity.PlatformEntity;
 import com.javanei.retrocenter.platform.persistence.PlatformArtifactFileDAO;
 import com.javanei.retrocenter.platform.persistence.PlatformArtifactFileImportHistoryDAO;
 import com.javanei.retrocenter.platform.persistence.PlatformArtifactFileInfoDAO;
+import com.javanei.retrocenter.platform.persistence.PlatformArtifactFileInfoHistoryDAO;
 import com.javanei.retrocenter.platform.persistence.PlatformDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +50,8 @@ public class PlatformArtifactFileService {
     private PlatformArtifactFileInfoDAO infoDAO;
     @Autowired
     private PlatformArtifactFileImportHistoryDAO historyDAO;
+    @Autowired
+    private PlatformArtifactFileInfoHistoryDAO fileInfoHistoryDAO;
 
     private static File calculaDestFile(File baseDir, String fileName) {
         File r = new File(
@@ -233,6 +237,15 @@ public class PlatformArtifactFileService {
             info = infoDAO.save(info);
             result.setFileName(info.getInfo());
         }
+
+        PlatformArtifactFileInfoHistoryEntity fileInfoHistory = fileInfoHistoryDAO.findByPlatformArtifactFileInfo_idAndPlatformArtifactFileImportHistory_id(info.getId(), history.getId());
+        if (fileInfoHistory == null) {
+            fileInfoHistory = new PlatformArtifactFileInfoHistoryEntity();
+            fileInfoHistory.setPlatformArtifactFileImportHistory(history);
+            fileInfoHistory.setPlatformArtifactFileInfo(info);
+            fileInfoHistory = fileInfoHistoryDAO.save(fileInfoHistory);
+        }
+
 
         lResult.add(result);
         return lResult;
