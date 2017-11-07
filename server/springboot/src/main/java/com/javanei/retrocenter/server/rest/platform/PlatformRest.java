@@ -4,6 +4,7 @@ import com.javanei.retrocenter.common.ArtifactFileTypeEnum;
 import com.javanei.retrocenter.common.PaginatedResult;
 import com.javanei.retrocenter.platform.common.Platform;
 import com.javanei.retrocenter.platform.service.PlatformArtifactFileDTO;
+import com.javanei.retrocenter.platform.service.PlatformArtifactFileImportHistoryDTO;
 import com.javanei.retrocenter.platform.service.PlatformArtifactFileSavedDTO;
 import com.javanei.retrocenter.platform.service.PlatformArtifactFileService;
 import com.javanei.retrocenter.platform.service.PlatformDTO;
@@ -129,9 +130,27 @@ public class PlatformRest {
         return ResponseEntity.ok(result);
     }
 
+    @RequestMapping(value = "/{id}/import-history", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Return a list import history of platforms")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Ok", response = PlatformArtifactFileImportHistoryResult.class),
+            @ApiResponse(code = 400, message = "Platform Not Found")
+    })
+    public ResponseEntity<PaginatedResult<PlatformArtifactFileImportHistoryDTO>> listImportHistory(@PathVariable("id") Long id,
+                                                                                                   @RequestParam(value = "page", defaultValue = "0", required = true) int page,
+                                                                                                   @RequestParam(value = "pageSize", defaultValue = "100", required = true) int pageSize,
+                                                                                                   @RequestParam(value = "showFiles", defaultValue = "false") Boolean showFiles
+    ) throws Exception {
+        PaginatedResult<PlatformArtifactFileImportHistoryDTO> result = fileService.findImportHistory(id, showFiles, page, pageSize);
+        return ResponseEntity.ok(result);
+    }
+
     private class PlatformCollectionResult extends PaginatedResult<PlatformDTO> {
     }
 
     private class PlatformArtifactFileCollectionResult extends PaginatedResult<PlatformArtifactFileDTO> {
+    }
+
+    private class PlatformArtifactFileImportHistoryResult extends PaginatedResult<PlatformArtifactFileImportHistoryDTO> {
     }
 }

@@ -130,6 +130,41 @@ public class PlatformArtifactFileService {
         return r;
     }
 
+    public PaginatedResult<PlatformArtifactFileImportHistoryDTO> findImportHistory(Long platformId,
+                                                                                   boolean showFiles,
+                                                                                   int page,
+                                                                                   int pageSize) throws PlatformNotFoundException {
+        PlatformEntity platform = platformId != null ? platformDAO.findOne(platformId) : null;
+        if (platformId != null && platform == null) {
+            throw new PlatformNotFoundException(platformId);
+        }
+        PaginatedResult<PlatformArtifactFileImportHistoryDTO> result = new PaginatedResult<>();
+        Page<PlatformArtifactFileImportHistoryEntity> l;
+        PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "description"));
+        if (platform != null) {
+            l = historyDAO.findByPlatform_id(platformId, paging);
+        } else {
+            l = historyDAO.findAll(paging);
+        }
+        for (PlatformArtifactFileImportHistoryEntity e : l) {
+            PlatformArtifactFileImportHistoryDTO dto = new PlatformArtifactFileImportHistoryDTO(e.getId(),
+                    e.getDescription(), e.getPlatform().getId(), e.getPlatform().getName());
+            if (showFiles) {
+                List<PlatformArtifactFileInfoHistoryEntity> lfih = fileInfoHistoryDAO.findByPlatformArtifactFileImportHistory_id(e.getId());
+                for (PlatformArtifactFileInfoHistoryEntity efih : lfih) {
+                    PlatformArtifactFileInfoEntity efi = efih.getPlatformArtifactFileInfo();
+                    PlatformArtifactFileEntity ef = efi.getPlatformArtifactFile();
+                    PlatformArtifactFileHistoryDTO historyDTO = new PlatformArtifactFileHistoryDTO(efih.getId(),
+                            efi.getId(), ef.getId(), efi.getInfo(), ef.getName(), ef.getType(), ef.getSize(),
+                            ef.getCrc(), ef.getMd5(), ef.getSha1());
+                    dto.addFileHistory(historyDTO);
+                }
+            }
+            result.add(dto);
+        }
+        return result;
+    }
+
     private List<PlatformArtifactFileSavedDTO> importFile(PlatformEntity platform, String repositoryBaseDir, String importInfo,
                                                           String originalArtifactFileName, ArtifactFileTypeEnum type,
                                                           boolean expandZipContent,
