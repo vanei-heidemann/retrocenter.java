@@ -28,4 +28,11 @@ public class PlatformDTO extends Platform implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "PlatformDTO{" +
+                "id=" + id +
+                "} " + super.toString();
+    }
 }
