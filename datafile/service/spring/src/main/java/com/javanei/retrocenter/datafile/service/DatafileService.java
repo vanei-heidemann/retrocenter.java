@@ -154,7 +154,7 @@ public class DatafileService {
         } else {
             l = datafileDAO.findAll(paging);
         }
-        PaginatedResult<DatafileDTO> r = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<DatafileDTO> r = new PaginatedResult<>(page > 0, l.hasNext());
         for (DatafileEntity entity : l.getContent()) {
             r.add(new DatafileDTO(entity.getName(), entity.getCatalog(), entity.getVersion(), entity.getDescription(),
                     entity.getAuthor(), entity.getDate(), entity.getEmail(), entity.getHomepage(), entity.getUrl(),

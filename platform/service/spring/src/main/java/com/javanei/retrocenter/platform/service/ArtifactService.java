@@ -55,7 +55,7 @@ public class ArtifactService {
     @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
     public PaginatedResult<ArtifactDTO> findArtifactByNamePaging(String name, PageRequest paging) {
         Page<ArtifactEntity> l = artifactDAO.findByNameLike("%" + name + "%", paging);
-        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(paging.getPageNumber() > 0, l.hasNext());
         for (ArtifactEntity entity : l.getContent()) {
             result.add(new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId()));
         }
@@ -88,7 +88,7 @@ public class ArtifactService {
             return this.findArtifactByNamePaging(name, paging);
         }
         Page<ArtifactEntity> l = artifactDAO.findAll(paging);
-        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<ArtifactDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (ArtifactEntity entity : l.getContent()) {
             result.add(new ArtifactDTO(entity.getCode(), entity.getName(), entity.getId()));
         }

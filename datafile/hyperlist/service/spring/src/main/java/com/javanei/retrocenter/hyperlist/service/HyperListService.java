@@ -141,7 +141,7 @@ public class HyperListService {
         } else {
             l = datafileDAO.findAll(pr);
         }
-        PaginatedResult<HyperListMenuDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<HyperListMenuDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (HyperListEntity entity : l.getContent()) {
             result.add(toVO(entity, false));
         }

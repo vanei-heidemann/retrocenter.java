@@ -180,7 +180,7 @@ public class LogiqxService {
         } else {
             p = datafileDAO.findAll(pageable);
         }
-        PaginatedResult<LogiqxDatafileDTO> result = new PaginatedResult<>(p.hasNext());
+        PaginatedResult<LogiqxDatafileDTO> result = new PaginatedResult<>(page > 0, p.hasNext());
         for (LogiqxDatafileEntity entity : p.getContent()) {
             result.add(entityToVo(entity, false));
         }

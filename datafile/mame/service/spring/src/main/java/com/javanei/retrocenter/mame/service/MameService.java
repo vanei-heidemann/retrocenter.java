@@ -148,7 +148,7 @@ public class MameService {
         LOG.info("find(page=" + page + ", pageSize=" + pageSize + ")");
         PageRequest pageable = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "build"));
         Page<MameEntity> p = mameDAO.findAll(pageable);
-        PaginatedResult<MameDTO> result = new PaginatedResult<>(p.hasNext());
+        PaginatedResult<MameDTO> result = new PaginatedResult<>(page > 0, p.hasNext());
         for (MameEntity entity : p.getContent()) {
             result.add(entityToVO(entity, false, false));
         }
@@ -162,7 +162,7 @@ public class MameService {
         if (mame != null) {
             PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "id"));
             Page<MameMachineEntity> l = machineDAO.findByMame_Id(mameId, paging);
-            PaginatedResult<MameMachine> result = new PaginatedResult<>(l.hasNext());
+            PaginatedResult<MameMachine> result = new PaginatedResult<>(page > 0, l.hasNext());
             for (MameMachineEntity entity : l.getContent()) {
                 result.add(entityToVO(entity, full));
             }

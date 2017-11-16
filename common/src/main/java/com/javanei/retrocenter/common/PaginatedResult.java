@@ -8,12 +8,14 @@ public class PaginatedResult<T> implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private boolean hasNext = false;
+    private boolean hasPrev = false;
     private List<T> items = new LinkedList();
 
     public PaginatedResult() {
     }
 
-    public PaginatedResult(boolean hasNext) {
+    public PaginatedResult(boolean hasPrev, boolean hasNext) {
+        this.hasPrev = hasPrev;
         this.hasNext = hasNext;
     }
 
@@ -23,6 +25,14 @@ public class PaginatedResult<T> implements Serializable {
 
     public void setHasNext(Boolean hasNext) {
         this.hasNext = hasNext;
+    }
+
+    public Boolean isHasPrev() {
+        return hasPrev;
+    }
+
+    public void setHasPrev(Boolean hasPrev) {
+        this.hasPrev = hasPrev;
     }
 
     public List<T> getItems() {

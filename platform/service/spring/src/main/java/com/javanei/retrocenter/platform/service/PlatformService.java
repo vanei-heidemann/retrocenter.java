@@ -126,7 +126,7 @@ public class PlatformService {
     public PaginatedResult<PlatformDTO> findAllPlatforms(int page, int pageSize) {
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<PlatformEntity> entities = platformDAO.findAll(pr);
-        PaginatedResult<PlatformDTO> result = new PaginatedResult<>(entities.hasNext());
+        PaginatedResult<PlatformDTO> result = new PaginatedResult<>(page > 0, entities.hasNext());
         for (PlatformEntity entity : entities.getContent()) {
             PlatformDTO p = new PlatformDTO(entity.getName(), entity.getShortName(), entity.getStorageFolder(), entity.getId());
             Set<PlatformAltNameEntity> alts = entity.getAlternateNames();

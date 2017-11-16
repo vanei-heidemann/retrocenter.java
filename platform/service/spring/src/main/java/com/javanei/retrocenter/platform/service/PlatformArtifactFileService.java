@@ -115,7 +115,7 @@ public class PlatformArtifactFileService {
         }
         PageRequest paging = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<PlatformArtifactFileEntity> l = fileDAO.findByPlatform_id(platformId, paging);
-        PaginatedResult<PlatformArtifactFileDTO> r = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<PlatformArtifactFileDTO> r = new PaginatedResult<>(page > 0, l.hasNext());
         for (PlatformArtifactFileEntity e : l) {
             PlatformArtifactFileDTO vo = new PlatformArtifactFileDTO(e.getId(), e.getName(), e.getType(), e.getSize(),
                     e.getCrc(), e.getMd5(), e.getSha1());

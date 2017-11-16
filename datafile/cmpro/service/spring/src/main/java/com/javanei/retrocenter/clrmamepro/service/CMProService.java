@@ -355,7 +355,7 @@ public class CMProService {
         } else {
             p = datafileDAO.findAll(paging);
         }
-        PaginatedResult<CMProDatafileDTO> result = new PaginatedResult<>(p.hasNext());
+        PaginatedResult<CMProDatafileDTO> result = new PaginatedResult<>(page > 0, p.hasNext());
         for (CMProDatafileEntity entity : p.getContent()) {
             result.add(entityToDatafile(entity, false));
         }

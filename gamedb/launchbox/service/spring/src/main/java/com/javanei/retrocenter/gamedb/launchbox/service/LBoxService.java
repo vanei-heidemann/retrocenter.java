@@ -76,7 +76,7 @@ public class LBoxService {
     public PaginatedResult<LBoxDatafileDTO> findDatafiles(int page, int pageSize) {
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "version"));
         Page<LBoxDatafileEntity> l = datafileDAO.findAll(pr);
-        PaginatedResult<LBoxDatafileDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxDatafileDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxDatafileEntity e : l) {
             result.add(new LBoxDatafileDTO(e.getId(), e.getVersion()));
         }
@@ -325,7 +325,7 @@ public class LBoxService {
         } else {
             l = gameDAO.findAll(paging);
         }
-        PaginatedResult<LBoxGame> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxGame> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxGameEntity e : l) {
             result.add(entityToGameVO(e));
         }
@@ -344,7 +344,7 @@ public class LBoxService {
         } else {
             l = datafileGameDAO.findByDatafile_Version(version, paging);
         }
-        PaginatedResult<LBoxGame> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxGame> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxDatafileGameEntity game : l) {
             result.add(entityToGameVO(game.getGame()));
         }
@@ -357,7 +357,7 @@ public class LBoxService {
         LOG.debug("findRegionsByVersion(version=" + version + ")");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "region.name"));
         Page<LBoxDatafileRegionEntity> l = datafileRegionDAO.findByDatafile_Version(version, pr);
-        PaginatedResult<LBoxRegionDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxRegionDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxDatafileRegionEntity region : l.getContent()) {
             result.add(entityToRegionDTO(region.getRegion()));
         }
@@ -370,7 +370,7 @@ public class LBoxService {
         LOG.debug("findGenresByVersion(version=" + version + ", page=" + page + ", pageSize=" + pageSize + ")");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "genre.name"));
         Page<LBoxDatafileGenreEntity> genres = datafileGenreDAO.findByDatafile_Version(version, pr);
-        PaginatedResult<LBoxGenreDTO> result = new PaginatedResult<>(genres.hasNext());
+        PaginatedResult<LBoxGenreDTO> result = new PaginatedResult<>(page > 0, genres.hasNext());
         for (LBoxDatafileGenreEntity entity : genres) {
             result.add(entityToGenreDTO(entity.getGenre()));
         }
@@ -386,7 +386,7 @@ public class LBoxService {
         Page<LBoxDatafilePlatformEntity> l = platformId == null
                 ? datafilePlatformDAO.findByDatafile_Version(version, pr)
                 : datafilePlatformDAO.findByDatafile_VersionAndPlatform_PlatformId(version, platformId, pr);
-        PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxDatafilePlatformEntity p : l.getContent()) {
             result.add(entityToPlatformDTO(p.getPlatform()));
         }
@@ -399,7 +399,7 @@ public class LBoxService {
         LOG.debug("findPlatforms()");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<LBoxPlatformEntity> l = platformId == null ? platformDAO.findAll(pr) : platformDAO.findByPlatformId(platformId, pr);
-        PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxPlatformDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxPlatformEntity e : l) {
             result.add(entityToPlatformDTO(e));
         }
@@ -412,7 +412,7 @@ public class LBoxService {
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         LOG.debug("findGenres()");
         Page<LBoxGenreEntity> l = genreDAO.findAll(pr);
-        PaginatedResult<LBoxGenreDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxGenreDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxGenreEntity e : l) {
             result.add(entityToGenreDTO(e));
         }
@@ -425,7 +425,7 @@ public class LBoxService {
         LOG.debug("findRegions(page=" + page + ", pageSize=" + pageSize + ")");
         PageRequest pr = new PageRequest(page, pageSize, new Sort(Sort.Direction.ASC, "name"));
         Page<LBoxRegionEntity> l = regionDAO.findAll(pr);
-        PaginatedResult<LBoxRegionDTO> result = new PaginatedResult<>(l.hasNext());
+        PaginatedResult<LBoxRegionDTO> result = new PaginatedResult<>(page > 0, l.hasNext());
         for (LBoxRegionEntity e : l) {
             result.add(entityToRegionDTO(e));
         }
