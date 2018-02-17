@@ -5,6 +5,7 @@ import com.javanei.retrocenter.common.util.ReflectionUtil;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxCompany;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxDatafile;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGame;
+import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGameAlternateName;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGameImage;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxGenre;
 import com.javanei.retrocenter.gamedb.launchbox.common.LBoxPlatform;
@@ -14,6 +15,7 @@ import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataAlte
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataEmulator;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataEmulatorPlatform;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGame;
+import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGameAlternateName;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGameFileName;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataGameImage;
 import com.javanei.retrocenter.gamedb.launchbox.parser.metadata.LBoxMetadataPlatform;
@@ -182,6 +184,12 @@ public class LaunchBoxParser {
                         LBoxMetadataGameImage gameImage = parseGameImage(gameNode);
                         if (!metadata.addGameImage(gameImage)) {
                             System.err.println("EEEE: Game Image ja existe:\n" + gameImage);
+                        }
+                        break;
+                    case "GameAlternateName":
+                        LBoxMetadataGameAlternateName gameAlternateName = parseGameAlternateName(gameNode);
+                        if (!metadata.addGameAlternateName(gameAlternateName)) {
+                            System.err.println("EEEE: Game Alternate Name ja existe:\n" + gameAlternateName);
                         }
                         break;
                     default:
@@ -396,6 +404,31 @@ public class LaunchBoxParser {
         return result;
     }
 
+    private LBoxMetadataGameAlternateName parseGameAlternateName(Node pNode) {
+        LBoxMetadataGameAlternateName result = new LBoxMetadataGameAlternateName();
+        NodeList attrs = pNode.getChildNodes();
+        if (attrs != null && attrs.getLength() > 0) {
+            for (int i = 0; i < attrs.getLength(); i++) {
+                Node node = attrs.item(i);
+                if (node != null && node.getNodeName() != null) {
+                    switch (node.getNodeName()) {
+                        case "#text":
+                            // Ignora
+                            break;
+                        default:
+                            try {
+                                ReflectionUtil.setValueByNodeContent(result, node);
+                            } catch (UnknownTagException ex) {
+                                throw ex;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     private void mergeData(LBoxDatafile result, LBoxMetadata metadata) {
         // Prepara lista de alternate names
         Map<String, Set<LBoxMetadataAlternateName>> alternateNames = new HashMap<>();
@@ -417,6 +450,21 @@ public class LaunchBoxParser {
         Map<String, LBoxGame> gamesByDatabaseid = new HashMap<>();
         Map<String, LBoxGame> gamesByPlatformAndName = new HashMap<>();
         Map<String, LBoxMetadataGameFileName> gameFiles = new HashMap<>();
+        Map<String, List<LBoxMetadataGameAlternateName>> gameAlternateNames = new HashMap<>();
+
+        for (LBoxMetadataGameAlternateName gameAltName : metadata.getGameAlternateNames()) {
+            List<LBoxMetadataGameAlternateName> l = gameAlternateNames.get(gameAltName.getDatabaseID());
+            if (l == null) {
+                l = new ArrayList<>();
+                gameAlternateNames.put(gameAltName.getDatabaseID(), l);
+            }
+            l.add(gameAltName);
+            if (gameAltName.getRegion() != null && !gameAltName.getRegion().isEmpty()) {
+                LBoxRegion region = new LBoxRegion(gameAltName.getRegion());
+                result.addRegion(region);
+                regions.put(region.getName(), region);
+            }
+        }
 
         for (LBoxMetadataPlatform platform : metadata.getPlatforms()) {
             LBoxPlatform p = new LBoxPlatform(platform.getName());
@@ -476,6 +524,12 @@ public class LaunchBoxParser {
                     result.addGenre(genre);
                 }
                 g.addGenre(genre);
+            }
+            List<LBoxMetadataGameAlternateName> gameAlternateNameList = gameAlternateNames.get(game.getDatabaseID());
+            if (gameAlternateNameList != null) {
+                for (LBoxMetadataGameAlternateName gameAlternateName : gameAlternateNameList) {
+                    g.addAlternateName(new LBoxGameAlternateName(gameAlternateName.getAlternateName(), gameAlternateName.getRegion()));
+                }
             }
             gamesByDatabaseid.put(g.getDatabaseID(), g);
             gamesByPlatformAndName.put(g.getPlatform().getName().toLowerCase() + "|" + g.getName().toLowerCase(), g);

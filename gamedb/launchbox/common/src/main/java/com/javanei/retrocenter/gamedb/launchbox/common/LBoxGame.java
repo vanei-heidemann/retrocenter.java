@@ -18,6 +18,7 @@ public class LBoxGame implements Serializable {
     private Set<LBoxGenre> genres = new HashSet<>();
     private Set<LBoxGameImage> images = new HashSet<>();
     private Set<LBoxRegion> regions = new HashSet<>();
+    private Set<LBoxGameAlternateName> alternateNames = new HashSet<>();
 
     public LBoxGame() {
     }
@@ -135,6 +136,18 @@ public class LBoxGame implements Serializable {
         return this.regions.add(region);
     }
 
+    public Set<LBoxGameAlternateName> getAlternateNames() {
+        return alternateNames;
+    }
+
+    public void setAlternateNames(Set<LBoxGameAlternateName> alternateNames) {
+        this.alternateNames = alternateNames;
+    }
+
+    public boolean addAlternateName(LBoxGameAlternateName alternateName) {
+        return this.alternateNames.add(alternateName);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -164,6 +177,7 @@ public class LBoxGame implements Serializable {
                 ", genres=" + genres +
                 ", images=" + images +
                 ", regions=" + regions +
+                ", alternateNames=" + alternateNames +
                 '}';
     }
 }
