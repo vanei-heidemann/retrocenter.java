@@ -182,12 +182,18 @@ public class LaunchBoxParser {
                         break;
                     case "GameImage":
                         LBoxMetadataGameImage gameImage = parseGameImage(gameNode);
+                        if (gameImage.getRegion() != null && !gameImage.getRegion().isEmpty()) {
+                            metadata.addRegion(gameImage.getRegion());
+                        }
                         if (!metadata.addGameImage(gameImage)) {
                             System.err.println("EEEE: Game Image ja existe:\n" + gameImage);
                         }
                         break;
                     case "GameAlternateName":
                         LBoxMetadataGameAlternateName gameAlternateName = parseGameAlternateName(gameNode);
+                        if (gameAlternateName.getRegion() != null && !gameAlternateName.getRegion().isEmpty()) {
+                            metadata.addRegion(gameAlternateName.getRegion());
+                        }
                         if (!metadata.addGameAlternateName(gameAlternateName)) {
                             System.err.println("EEEE: Game Alternate Name ja existe:\n" + gameAlternateName);
                         }

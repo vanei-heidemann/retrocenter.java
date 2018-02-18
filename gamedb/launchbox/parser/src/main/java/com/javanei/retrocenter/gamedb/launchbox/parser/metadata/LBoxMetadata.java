@@ -13,6 +13,7 @@ public class LBoxMetadata implements Serializable {
     private Set<LBoxMetadataGame> games = new HashSet<>();
     private Set<LBoxMetadataGameFileName> gameFiles = new HashSet<>();
     private Set<LBoxMetadataGameAlternateName> gameAlternateNames = new HashSet<>();
+    private Set<String> regions = new HashSet<>();
 
     public Set<LBoxMetadataPlatform> getPlatforms() {
         return platforms;
@@ -108,5 +109,17 @@ public class LBoxMetadata implements Serializable {
 
     public boolean addGameAlternateName(LBoxMetadataGameAlternateName gameAlternateName) {
         return this.gameAlternateNames.add(gameAlternateName);
+    }
+
+    public Set<String> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(Set<String> regions) {
+        this.regions = regions;
+    }
+
+    public boolean addRegion(String region) {
+        return this.regions.add(region);
     }
 }
