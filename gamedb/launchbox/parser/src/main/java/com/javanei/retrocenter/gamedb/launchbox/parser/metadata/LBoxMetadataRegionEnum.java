@@ -1,5 +1,8 @@
 package com.javanei.retrocenter.gamedb.launchbox.parser.metadata;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum LBoxMetadataRegionEnum {
 
     SouthAmerica("South America"),
@@ -34,17 +37,19 @@ public enum LBoxMetadataRegionEnum {
         this.name = name;
     }
 
-    public static LBoxMetadataRegionEnum fromName(String name) {
-        if (name.equals("USA")) {
-            return UnitedStates;
-        }
-
-        for (LBoxMetadataRegionEnum r : LBoxMetadataRegionEnum.values()) {
-            if (r.name.equals(name)) {
-                return r;
+    public static LBoxMetadataRegionEnum[] fromName(String name) {
+        List<LBoxMetadataRegionEnum> l = new ArrayList<>();
+        for (String s : name.split(",")) {
+            if (s.trim().equals("USA")) {
+                l.add(UnitedStates);
+            }
+            for (LBoxMetadataRegionEnum r : LBoxMetadataRegionEnum.values()) {
+                if (r.name.equals(s.trim())) {
+                    l.add(r);
+                }
             }
         }
-        return null;
+        return !l.isEmpty() ? l.toArray(new LBoxMetadataRegionEnum[0]) : null;
     }
 
     public static boolean isRegion(String name) {
