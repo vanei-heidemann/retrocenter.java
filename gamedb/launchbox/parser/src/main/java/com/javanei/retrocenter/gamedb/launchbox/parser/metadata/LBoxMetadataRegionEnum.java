@@ -43,11 +43,14 @@ public enum LBoxMetadataRegionEnum {
             if (s.trim().equals("USA")) {
                 l.add(UnitedStates);
             }
+            boolean achou = false;
             for (LBoxMetadataRegionEnum r : LBoxMetadataRegionEnum.values()) {
                 if (r.name.equals(s.trim())) {
                     l.add(r);
+                    achou = true;
                 }
             }
+            if (!achou) return null;
         }
         return !l.isEmpty() ? l.toArray(new LBoxMetadataRegionEnum[0]) : null;
     }
