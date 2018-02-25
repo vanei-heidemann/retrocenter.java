@@ -2,10 +2,7 @@ package com.javanei.retrocenter.logiqx.entity;
 
 import com.javanei.retrocenter.logiqx.LogiqxDatafile;
 import com.javanei.retrocenter.logiqx.LogiqxHeader;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,6 +15,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "LOGIQX_DATAFILE", indexes = {
@@ -59,7 +60,7 @@ public class LogiqxDatafileEntity implements Serializable {
     @Column(name = "DATE", length = 32, nullable = true)
     private String date;
 
-    @Column(name = "AUTHOR", length = 128, nullable = true)
+    @Column(name = "AUTHOR", length = 400, nullable = true)
     private String author;
 
     @Column(name = "EMAIL", length = 255, nullable = true)
