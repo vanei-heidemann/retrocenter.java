@@ -45,7 +45,7 @@ public class LBoxGameImageEntity implements Serializable {
     @Column(name = "IMAGE_TYPE", length = 64, nullable = false)
     private String type;
 
-    @Column(name = "CRC32", length = 10, nullable = false)
+    @Column(name = "CRC32", length = 10, nullable = true)
     private String crc32;
 
     @ManyToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY, optional = true)
