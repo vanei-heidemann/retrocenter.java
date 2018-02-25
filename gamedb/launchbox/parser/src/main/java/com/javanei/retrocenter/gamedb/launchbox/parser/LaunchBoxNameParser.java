@@ -19,6 +19,14 @@ public final class LaunchBoxNameParser {
             , "Rev [A-Z]"
     };
 
+    private static final String[] dates = {
+            "\\d\\d\\d\\d"
+            , "\\d\\d\\d\\d-\\d\\d"
+            , "\\d\\d\\d\\d-\\d\\d-\\d\\d"
+            , "\\d\\d[xX][xX]"
+            , "\\d\\d\\d[xX]"
+    };
+
     public static String parseVersion(String tag) {
         for (String s : versions) {
             if (tag.matches(s)) return tag;
@@ -38,5 +46,24 @@ public final class LaunchBoxNameParser {
             if (tag.matches(s)) return tag;
         }
         return null;
+    }
+
+    public static String parseDate(String tag) {
+        for (String s : dates) {
+            if (tag.matches(s)) return tag;
+        }
+        return null;
+    }
+
+    public static boolean isDemo(String tag) {
+        return tag.equalsIgnoreCase("demo");
+    }
+
+    public static boolean isBeta(String tag) {
+        return tag.equalsIgnoreCase("beta");
+    }
+
+    public static boolean isPrototype(String tag) {
+        return tag.equalsIgnoreCase("proto") || tag.equalsIgnoreCase("prototype");
     }
 }
