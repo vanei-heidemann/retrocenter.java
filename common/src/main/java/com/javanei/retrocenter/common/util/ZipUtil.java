@@ -87,6 +87,9 @@ public class ZipUtil {
             ZipEntry ze = (ZipEntry) entries.nextElement();
             System.out.println(ze.getName() + " : " + ze.getCrc());
             File dest = new File(destDir, ze.getName());
+            if (!dest.toPath().normalize().startsWith(destDir.toPath().normalize())) {
+                throw new IOException("Bad zip entry");
+            }
             if (ze.isDirectory()) {
                 dest.mkdir();
             } else {
